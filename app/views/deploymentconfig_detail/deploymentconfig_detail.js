@@ -7,14 +7,14 @@ angular.module('console.deploymentconfig_detail', [
             'components/datepick/datepick.js',
             'components/checkbox/checkbox.js',
             'components/checkbox/checkbox_small.js',
-            'components/deploymentsevent/deploymentsevent.js',
+            'components/deploymentsevent/deploymentsevent.js'
         ]
     }
 ])
-    .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr','Service',
-        function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr,Service) {
+    .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 'Service',
+        function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr, Service) {
             $scope.dc = angular.copy(mydc);
-            for(var i = 0 ; i < $scope.dc.spec.template.spec.containers.length ; i++){
+            for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                 $scope.dc.spec.template.spec.containers[i].retract = true;
             }
             $scope.mytag = angular.copy(mytag)
@@ -40,7 +40,7 @@ angular.module('console.deploymentconfig_detail', [
                 "kind": "HorizontalPodAutoscaler",
                 "metadata": {
                     "name": $scope.dc.metadata.name,
-                    "labels": { "app": $scope.dc.metadata.name }
+                    "labels": {"app": $scope.dc.metadata.name}
                 },
                 "spec": {
                     "scaleTargetRef": {
@@ -93,7 +93,7 @@ angular.module('console.deploymentconfig_detail', [
             var creathor = function () {
                 $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || $scope.dc.spec.replicas;
                 $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
-                horizontalpodautoscalers.create({ namespace: $rootScope.namespace }, $scope.horiz, function (data) {
+                horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
 
 
                 })
@@ -101,7 +101,7 @@ angular.module('console.deploymentconfig_detail', [
             var puthor = function (horiz, name) {
                 horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || $scope.dc.spec.replicas;
                 horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
-                horizontalpodautoscalers.put({ namespace: $rootScope.namespace, name: name }, horiz, function (data) {
+                horizontalpodautoscalers.put({namespace: $rootScope.namespace, name: name}, horiz, function (data) {
                     // console.log('data', data);
                 })
             }
@@ -226,9 +226,9 @@ angular.module('console.deploymentconfig_detail', [
                                 if (volment.mountPath) {
                                     var vol = angular.copy(volment)
                                     //console.log(volment);
-                                    con.volumeMounts.push({ name: 'volumes' + cont, mountPath: vol.mountPath })
+                                    con.volumeMounts.push({name: 'volumes' + cont, mountPath: vol.mountPath})
                                     delete vol.mountPath
-                                    var volobj = { name: 'volumes' + cont }
+                                    var volobj = {name: 'volumes' + cont}
                                     volobj[i] = vol
                                     $scope.dc.spec.template.spec.volumes.push(volobj);
                                     cont = cont + 1;
@@ -276,7 +276,7 @@ angular.module('console.deploymentconfig_detail', [
             //
             //}
             $scope.updateDc = function () {
-                
+
                 $scope.dc.spec.template.spec.volumes = []
                 var cancreat = true
                 angular.forEach($scope.dc.spec.triggers, function (tri, i) {
@@ -403,13 +403,9 @@ angular.module('console.deploymentconfig_detail', [
                     namespace: $rootScope.namespace,
                     name: $stateParams.name
                 }, sendobj, function (obj) {
-                    toastr.success('操作成功', {
-                        timeOut: 2000,
-                        closeButton: true
-                    });
                     // console.log(obj);
                 })
-            }
+            };
             $scope.deleteDc = function (val) {
                 delTip.open("删除Deployment", val, true).then(function () {
                     DeploymentConfig.delete({
@@ -421,17 +417,20 @@ angular.module('console.deploymentconfig_detail', [
                             closeButton: true
                         });
                         Service.delete(
-                            {namespace: $rootScope.namespace,
-                                name: $stateParams.name}, function (data) {
+                            {
+                                namespace: $rootScope.namespace,
+                                name: $stateParams.name
+                            }, function (data) {
 
                             }
                         )
                         horizontalpodautoscalers.delete({
                             namespace: $rootScope.namespace,
-                            name: $stateParams.name}, function (data) {
+                            name: $stateParams.name
+                        }, function (data) {
 
                         })
-                        $state.go('console.deployments', { namespace: $rootScope.namespace });
+                        $state.go('console.deployments', {namespace: $rootScope.namespace});
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
                         toastr.error('删除失败,请重试', {
@@ -454,20 +453,20 @@ angular.module('console.deploymentconfig_detail', [
             controller: ['persistent', 'configmaps', 'Secret', '$scope', 'horizontalpodautoscalers', '$rootScope', 'GLOBAL', 'ImageStreamTag', 'ImageStream',
                 function (persistent, configmaps, Secret, $scope, horizontalpodautoscalers, $rootScope, GLOBAL, ImageStreamTag, ImageStream) {
                     var gethor = function (name) {
-                        horizontalpodautoscalers.get({ namespace: $rootScope.namespace, name: name }, function (hor) {
+                        horizontalpodautoscalers.get({namespace: $rootScope.namespace, name: name}, function (hor) {
                             $scope.quota.rubustCheck = true;
                             $scope.horiz = hor;
                         })
                     }
-                    Secret.get({ namespace: $rootScope.namespace }, function (secrts) {
+                    Secret.get({namespace: $rootScope.namespace}, function (secrts) {
                         //console.log('secrts', secrts);
                         $scope.SecretList = angular.copy(secrts.items)
                     })
-                    configmaps.get({ namespace: $rootScope.namespace }, function (configs) {
+                    configmaps.get({namespace: $rootScope.namespace}, function (configs) {
                         //console.log('configs', configs);
                         $scope.ConfigMapList = angular.copy(configs.items)
                     })
-                    persistent.get({ namespace: $rootScope.namespace }, function (persistents) {
+                    persistent.get({namespace: $rootScope.namespace}, function (persistents) {
                         //console.log('persistents', persistents);
                         $scope.PersistentVolumeClaimList = angular.copy(persistents.items)
                     })
@@ -498,9 +497,7 @@ angular.module('console.deploymentconfig_detail', [
                             delete $scope.dc.spec.template.spec.containers[idx].volments;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].volment = true;
-                            $scope.dc.spec.template.spec.containers[idx].volments = {
-
-                            }
+                            $scope.dc.spec.template.spec.containers[idx].volments = {}
                         }
                     }
                     $scope.mustnum = function (e, num, quate) {
@@ -543,11 +540,11 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.uex_down = false;
                     $scope.uex_up = true;
                     $scope.pickdown = function (idx) {
-                        if($scope.dc.spec.template.spec.containers[idx].retract){
+                        if ($scope.dc.spec.template.spec.containers[idx].retract) {
                             $scope.dc.spec.template.spec.containers[idx].retract = false;
                             $scope.uex_down = true;
                             $scope.uex_up = false;
-                        }else{
+                        } else {
                             $scope.dc.spec.template.spec.containers[idx].retract = true;
                             $scope.uex_down = false;
                             $scope.uex_up = true;
@@ -578,7 +575,7 @@ angular.module('console.deploymentconfig_detail', [
                                         $scope.dc.spec.template.spec.containers[i].readinessProbe = {
                                             "exec": {
                                                 "command": [
-                                                    { key: '' }
+                                                    {key: ''}
                                                 ]
                                             },
                                             "initialDelaySeconds": "",
@@ -620,9 +617,9 @@ angular.module('console.deploymentconfig_detail', [
                         } else {
                             $scope.dc.spec.template.spec.containers[outerIndex].env = []
                         }
-                        $scope.dc.spec.template.spec.containers[outerIndex].env.push({ name: '', value: '' });
+                        $scope.dc.spec.template.spec.containers[outerIndex].env.push({name: '', value: ''});
                     }
-            
+
                     $scope.addconvol = function (outerIndex, obj, key) {
                         console.log(outerIndex, obj, key)
 
@@ -635,7 +632,7 @@ angular.module('console.deploymentconfig_detail', [
                             var canadd = true
                             angular.forEach($scope.dc.spec.template.spec.containers[outerIndex].volments[obj], function (vol, i) {
                                 if (vol[key] && vol.mountPath) {
-                                   
+
                                 } else {
                                     canadd = false
                                 }
@@ -686,6 +683,7 @@ angular.module('console.deploymentconfig_detail', [
                         })
                         return newarr
                     }
+
                     $scope.checkoutreg = function (con, status) {
                         if (status === true && !con.annotate.image) {
                             //console.log($scope.mytag.items[0].metadata.name.split(':'));
@@ -733,7 +731,7 @@ angular.module('console.deploymentconfig_detail', [
                                     //console.log(con.readinessProbe.exec);
                                     var copyexec = angular.copy(con.readinessProbe.exec.command)
                                     angular.forEach(copyexec, function (exec, k) {
-                                        con.readinessProbe.exec.command[k] = { key: exec };
+                                        con.readinessProbe.exec.command[k] = {key: exec};
                                     })
                                     con.dosetcon = '命令'
 
@@ -747,7 +745,7 @@ angular.module('console.deploymentconfig_detail', [
                             angular.forEach($scope.dc.spec.template.spec.volumes, function (vol, i) {
                                 angular.forEach(vol, function (value, key) {
                                     if (key === 'emptyDir') {
-                                        con.emptyDir.push({ name: vol.name, volumes: vol })
+                                        con.emptyDir.push({name: vol.name, volumes: vol})
                                         $scope.dc.spec.template.spec.volumes.splice(i, 1, null)
                                     }
                                 })
@@ -830,8 +828,8 @@ angular.module('console.deploymentconfig_detail', [
             restrict: 'E',
             templateUrl: 'views/deploymentconfig_detail/tpl/history.html',
             scope: false,
-            controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', 'Sort',
-                function ($scope, ReplicationController, $rootScope, Ws, Sort) {
+            controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', 'Sort', 'toastr',
+                function ($scope, ReplicationController, $rootScope, Ws, Sort, toastr) {
                     var serviceState = function () {
                         if ($scope.dc.spec.replicas == 0) {
                             return 'ready'; //未启动
@@ -847,9 +845,8 @@ angular.module('console.deploymentconfig_detail', [
                         }
                         return 'warning';   //告警
                     };
-
+                    var vaildarr = [];
                     var loadRcs = function (name) {
-                        //console.log(name);
                         var labelSelector = 'openshift.io/deployment-config.name=' + name;
                         ReplicationController.get({
                             namespace: $rootScope.namespace,
@@ -868,11 +865,14 @@ angular.module('console.deploymentconfig_detail', [
                                 }
                             }
                             $scope.rcs = angular.copy(res);
-                            //console.log('$scope.rcs', $scope.rcs);
                             $scope.dc.state = serviceState();
 
                             $scope.resourceVersion = res.metadata.resourceVersion;
-
+                            angular.forEach(res.items, function (rc, i) {
+                                if (rc.metadata.annotations['openshift.io/deployment.phase'] === 'Complete') {
+                                    vaildarr.push(rc.metadata.name)
+                                }
+                            });
 
                             watchRcs(res.metadata.resourceVersion);
                         }, function (res) {
@@ -899,27 +899,54 @@ angular.module('console.deploymentconfig_detail', [
                             }
                         });
                     };
+
+                    var openToastr = function (data) {
+                        var repvaild = false;
+                        angular.forEach(vaildarr, function (name, i) {
+                            if (name === data.metadata.name) {
+                                repvaild = true
+                            }
+                        });
+                        if (repvaild) {
+                            return
+                        }
+                        var statusName = data.metadata.annotations['openshift.io/deployment.phase'];
+                        // console.log('0000', statusName);
+                        // console.log('0000', data);
+                        if (statusName === 'Complete') {
+                            toastr.success(data.metadata.name + '更新部署成功', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
+                            vaildarr.push(data.metadata.name)
+                        } else if (statusName === 'Running' || statusName === 'New' || statusName === 'Pending') {
+                            return
+                        } else {
+                            toastr.error(data.metadata.name + '更新部署失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
+                            vaildarr.push(data.metadata.name)
+                        }
+                    };
                     //执行log
                     var updateRcs = function (data) {
-
                         if (data.type == 'ADDED') {
-
                             if ($scope.rcs.items.length > 0) {
                                 $scope.rcs.items.unshift(data.object);
                             } else {
                                 $scope.rcs.items = [data.object];
                             }
                         } else if (data.type == "MODIFIED") {
-
                             $scope.baocuname = data.object.metadata.name;
                             angular.forEach($scope.rcs.items, function (item, i) {
                                 if (item.metadata.name == data.object.metadata.name) {
+                                    openToastr(data.object);
                                     $scope.rcs.items[i] = data.object;
                                     $scope.$apply();
                                 }
                             });
                         }
-
                     };
                     loadRcs($scope.dc.metadata.name);
                 }],

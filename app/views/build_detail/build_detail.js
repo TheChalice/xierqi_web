@@ -17,15 +17,16 @@ angular.module('console.build.detail', [
             $scope.grid.pedding = false;
 
             //$scope.buildnamespaces=cookie
-            $scope.buildnamespaces=Cookie.get('namespace')
+            $scope.buildnamespaces=Cookie.get('namespace');
             console.log('$scope.buildnamespaces', $scope.buildnamespaces);
             $scope.bcName = $stateParams.name;
-            $scope.websocklink=[]
+            $scope.websocklink=[];
             $scope.$on('image-enable', function (e, enable) {
                 $scope.imageEnable = enable;
             });
             $scope.showwebhook = false;
-            $scope.httpurl = GLOBAL.host_webhooks
+            $scope.httpurl = GLOBAL.host_webhooks;
+            var vaildarr = [];
             var loadBuildConfig = function () {
                 BuildConfig.get({
                     namespace: $rootScope.namespace,
@@ -34,7 +35,7 @@ angular.module('console.build.detail', [
                 }, function (data) {
                     //$log.info('data', data.spec.triggers[1].generic.secret);
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
-                    $scope.myurl = data.spec.source.git.uri
+                    $scope.myurl = data.spec.source.git.uri;
                     $scope.data = data;
                     var host = $scope.data.spec.source.git.uri;
                     if (data.metadata.annotations.user) {
@@ -95,17 +96,9 @@ angular.module('console.build.detail', [
                     $scope.$broadcast('timeline', 'add', res);
                     createWebhook();
                     //deleteWebhook();
-                    toastr.success('操作成功', {
-                        timeOut: 2000,
-                        closeButton: true
-                    });
 
                 }, function (res) {
                     //todo 错误处理
-                    toastr.error('删除失败,请重试', {
-                        timeOut: 2000,
-                        closeButton: true
-                    });
                 });
             };
 
@@ -370,7 +363,7 @@ angular.module('console.build.detail', [
                 var host = $scope.data.spec.source.git.uri;
                 var triggers = $scope.data.spec.triggers;
                 //console.log('triggers', triggers);
-                $scope.grid.pedding = true
+                $scope.grid.pedding = true;
                 // console.log('checked', $scope.grid.checked);
                 if (!$scope.grid.checked) {
                     var config = getConfig(triggers, 'github');
@@ -405,8 +398,8 @@ angular.module('console.build.detail', [
                                     repo: $scope.data.metadata.annotations.repo
                                 }
                         }, function (data) {
-                            $scope.webhookid=data.id
-                            $scope.grid.pedding = false
+                            $scope.webhookid=data.id;
+                            $scope.grid.pedding = false;
                             $scope.grid.checked = true
                         }, function (err) {
                             $scope.grid.pedding = false
@@ -423,9 +416,9 @@ angular.module('console.build.detail', [
                                 url:config
                             }
                         }, function (data) {
-                            $scope.webhookid=data.id
-                            $scope.grid.pedding = false
-                            $scope.grid.checked = true
+                            $scope.webhookid=data.id;
+                            $scope.grid.pedding = false;
+                            $scope.grid.checked = true;
                             //console.log("test repo", $scope.data.metadata.annotations.repo)
                         });
                     }
@@ -469,13 +462,12 @@ angular.module('console.build.detail', [
             }
             //获取build记录
             var loadBuildHistory = function (name) {
-                //console.log('name',name)
                 Build.get({
                     namespace: $rootScope.namespace,
                     labelSelector: 'buildconfig=' + name,
                     region: $rootScope.region
                 }, function (res) {
-                    var obj = angular.copy(res)
+                    var obj = angular.copy(res);
                     //console.log(obj);
                     //res.items = res.items.sort(res.items, -1); //排序
                     //console.log("history", res);
@@ -580,14 +572,14 @@ angular.module('console.build.detail', [
                 });
             };
             var watchBuildlog = function (name) {
-                var canlink= true
+                var canlink= true;
                 angular.forEach($scope.websocklink, function (namelinked) {
                     if (namelinked === name) {
                         canlink=false
                     }
                 })
                 if (canlink) {
-                    $scope.websocklink.push(name)
+                    $scope.websocklink.push(name);
                     Ws.watch({
                         namespace: $rootScope.namespace,
                         type: 'builds/'+name+'/log',
@@ -628,7 +620,35 @@ angular.module('console.build.detail', [
 
             };
 
-
+            var openToastr = function (data) {
+                var repvaild = false;
+                angular.forEach(vaildarr, function (name, i) {
+                    if (name === data.metadata.name) {
+                        repvaild = true
+                    }
+                });
+                if (repvaild) {
+                    return
+                }
+                var statusName = data.status.phase;
+                // console.log('0000', statusName);
+                // console.log('0000', data);
+                if (statusName === 'Complete') {
+                    toastr.success(data.metadata.name + '构建成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                    vaildarr.push(data.metadata.name)
+                } else if (statusName === 'Running' || statusName === 'New' || statusName === 'Pending') {
+                    return
+                } else {
+                    toastr.error(data.metadata.name + '构建失败', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                    vaildarr.push(data.metadata.name)
+                }
+            };
             var updateBuilds = function (data) {
                 //console.log('ws状态', data);
                 if (data.type == 'ERROR') {
@@ -656,18 +676,20 @@ angular.module('console.build.detail', [
                     }
 
                 } else if (data.type == "MODIFIED") {
+                    // console.log('build-data.type == "MODIFIED"', data);
                     angular.forEach($scope.databuild.items, function (build,i) {
                         if (build.metadata.name === data.object.metadata.name) {
                             // console.log('build.metadata.name', build.metadata.name);
-                            build.metadata.creationTimestamp=data.object.metadata.creationTimestamp
-                            build.status.phase=data.object.status.phase
-                            build.status.duration=data.object.status.duration
+                            openToastr(data.object);
+                            build.metadata.creationTimestamp=data.object.metadata.creationTimestamp;
+                            build.status.phase=data.object.status.phase;
+                            build.status.duration=data.object.status.duration;
                             if (data.object.spec.revision&&data.object.spec.revision.git) {
                                 build.spec.revision={
                                     git:{
                                         commit:data.object.spec.revision.git.commit
                                     }
-                                }
+                                };
                                 //build.spec.revision.git.commit=
                             }
 
