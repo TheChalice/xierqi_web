@@ -9,7 +9,10 @@ angular.module('home.uploadimage', [{
            var host = '';
             var tokens = Cookie.get('df_access_token');
             var tokenarr = tokens.split(',')
-            console.log('host', $location);
+            //console.log('host', $location);
+            $scope.file={
+                data:''
+            }
             $scope.handupload= {
                 addr :GLOBAL.common_url,
                 token:tokenarr[0],
@@ -46,7 +49,8 @@ angular.module('home.uploadimage', [{
                 }
             },true)
             $scope.submit = function (file) {
-                //console.log('file', file);
+                //console.log('file', $scope.form);
+                console.log('file', $scope.file.data);
                 $scope.grid.imagenamenull = false
                 if (!$scope.grid.name) {
                     $scope.grid.imagenamenull = true
@@ -57,13 +61,13 @@ angular.module('home.uploadimage', [{
                 }
 
                 $scope.grid.clickbtn = 'inhand'
-                browserMD5File(file, function (err, md5) {
+                browserMD5File($scope.file.data, function (err, md5) {
                     $scope.grid.clickbtn = 'dontclick';
                     $('#myModalBtn').click();
                     // progressBox.open($scope.grid.progress);
                     //console.log('md5',md5); // 97027eb624f85892c69c4bcec8ab0f11
 
-                    $scope.upload(file, $scope.grid.name, $scope.grid.tag, md5);
+                    $scope.upload($scope.file.data, $scope.grid.name, $scope.grid.tag, md5);
                 });
             };
             //$scope.changeupload = function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
@@ -92,8 +96,6 @@ angular.module('home.uploadimage', [{
             //}
             // upload on file select or drop
             $scope.upload = function (file, image, tag, md5) {
-                //console.log('files', file);
-
                 Upload.upload({
                     url: host+'/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
                     data: {file: file, 'total': file.size},
