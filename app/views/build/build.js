@@ -8,8 +8,8 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', 'Ws',
-        function ($rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort, Ws) {
+    .controller('BuildCtrl', ['toastr','$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', 'Ws',
+        function (toastr,$rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort, Ws) {
 
             //分页
             $scope.grid = {
@@ -72,11 +72,78 @@ angular.module('console.build', [
                 }
                 //}
             }
+            var loadbuildslist= function () {
+                Build.get({ namespace: $rootScope.namespace, region: $rootScope.region }, function (data) {
+                    $log.info("builds", data);
+                    watchBuilds(data.metadata.resourceVersion);
+                });
+            }
+            function watchBuilds(resourceVersion){
+                Ws.watch({
+                    resourceVersion: resourceVersion,
+                    namespace: $rootScope.namespace,
+                    type: 'builds',
+                    name: ''
+                }, function (res) {
+                    var data = JSON.parse(res.data);
+                    updateBuilds(data);
+                }, function () {
+                    $log.info("webSocket start");
+                }, function () {
+                    $log.info("webSocket stop");
+                    var key = Ws.key($rootScope.namespace, 'builds', '');
+                    if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                        return;
+                    }
+                    //watchBuilds($scope.resourceVersion);
+                });
+            }
+            var updateBuilds = function (data) {
+                //console.log('ws状态', data);
+                if (data.type == 'ERROR') {
+                    $log.info("err", data.object.message);
+                    Ws.clear();
+                    //TODO直接刷新bc会导致页面重新渲染
+                    //loadBuildHistory($state.params.name);
+                    return;
+                }
 
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
 
+                if (data.type == 'ADDED') {
+                    //data.object.showLog = true;
+                } else if (data.type == "MODIFIED") {
 
+                    angular.forEach($scope.items, function (item, i) {
+                        if (!item.build) {
+                            return;
+                        }
+                        var bcname= item.metadata.name+'-'+item.status.lastVersion
+                        if (bcname == data.object.metadata.name) {
+
+                            $scope.items[i].build = data.object;
+                            //loadBuilds([$scope.items[i]])
+                            //console.log('build-data.type == "MODIFIED"', data);
+                            if (data.object.status.phase === 'Complete') {
+                                toastr.success(data.object.metadata.name + '构建成功', {
+                                    timeOut: 2000,
+                                    closeButton: true
+                                });
+                            }else if(data.object.status.phase === 'Failed'){
+                                toastr.error(data.object.metadata.name + '构建失败', {
+                                    timeOut: 2000,
+                                    closeButton: true
+                                });
+                            }
+                        }
+                        $scope.$apply()
+                    });
+
+                }
+            };
+            loadbuildslist()
             //获取buildConfig列表
-            var loadBuildConfigs = function () {
+            var loadBuildConfigs = function ()  {
                 BuildConfig.get({ namespace: $rootScope.namespace, region: $rootScope.region }, function (data) {
                     $log.info('buildConfigs', data);
                     data.items = Sort.sort(data.items, -1); //排序
@@ -96,7 +163,7 @@ angular.module('console.build', [
                     refresh(1);
                     loadBuilds($scope.data);
                     $scope.resourceVersion = data.metadata.resourceVersion;
-                    watchBuilds(data.metadata.resourceVersion);
+                    watchBuildconfig(data.metadata.resourceVersion);
 
 
 
@@ -141,6 +208,7 @@ angular.module('console.build', [
 
             //根据buildConfig标签获取build列表
             var loadBuilds = function (items) {
+
                 var labelSelector = '';
                 if (items.length > 0) {
                     labelSelector = 'buildconfig in (';
@@ -158,7 +226,7 @@ angular.module('console.build', [
                 });
             };
 
-            var watchBuilds = function (resourceVersion) {
+            var watchBuildconfig = function (resourceVersion) {
                 Ws.watch({
                     resourceVersion: resourceVersion,
                     namespace: $rootScope.namespace,
@@ -195,9 +263,9 @@ angular.module('console.build', [
                         if (!item.build) {
                             return;
                         }
-                        if (item.build.metadata.name == data.object.metadata.name) {
-                            $scope.items[i].build = data.object;
-                        }
+                        //if (item.build.metadata.name == data.object.metadata.name) {
+                        //    $scope.items[i].build = data.object;
+                        //}
                     });
                     // console.log('$scope.items.build.status.phase',$scope.items);
                 } else if (data.type == "DELETED") {
