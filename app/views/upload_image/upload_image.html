@@ -1,7 +1,10 @@
 <div style="font-size: 12px;padding:20px; margin-top:50px;">
+    <form name="form">
+
+
     <div class="panel" style="padding:20px 10px 20px 20px" confull-height>
         <div class="create_deploy_nanji">
-            <uib-tabset class="tab-default" active="check">
+            <uib-tabset class="tab-default">
                 <uib-tab index="1" ng-click="selectImageUpload()">
                     <uib-tab-heading>
                         <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
@@ -13,7 +16,7 @@
                             tar文件上传
                         </div>
                         <div class="col-md-10">
-                            <input type="text" class="upload_input" ng-model="file.name" readonly=""
+                            <input type="text" class="upload_input" ng-model="file.data.name" readonly=""
                                    ng-disabled="disabled"
                                    style="width: 272px;height: 26px;line-height: 26px;border-radius: 4px;background: #ececec;cursor: no-drop;padding: 0px 12px;">
                             <a class="btn"
@@ -22,7 +25,7 @@
                                ngf-reset-model-on-click="false"
                                ngf-pattern="'.tar'"
                                ngf-accept="'.tar'"
-                               ng-model="file"
+                               ng-model="file.data"
                                ngf-model-options="{updateOn: 'change drop dropUrl paste', allowInvalid: false, debounce: 0}"
                                name="file"
                                ngf-max-total-size="10GB">选择tar文件
@@ -180,6 +183,7 @@
              ng-show="isHide">
             <a ng-click="submit(file)"
                class="btn"
+               type="submit"
                style="background: #47B2FB;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;">
                 <span style="color: white;">镜像上传</span>
             </a>
@@ -205,5 +209,5 @@
 
     <!--<small ng-show="grid.clickbtn==='dontclick'" class="fa fa-info-circle err-tip">镜像上传中，请勿刷新或跳转页面-->
     <!--</small>-->
-
+    </form>
 </div>
