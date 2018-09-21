@@ -172,7 +172,7 @@
                         <p style="font-size: 12px;color:#A2B0C4;">
                             给 docker daemon 添加启动参数 --insecure-registry {{manuallyupload.addr}} 并重新启动 docker 服务。
                         </p>
-                        <pre style="max-width: 900px;padding: 0;text-align:left;font-size:12px;color:#000;padding-top: 12px;padding-left: 5px;">$ sudo docker login -u {{manuallyupload.namespace}} -p {{manuallyupload.token}} {{manuallyupload.addr}}<br/>                  $ sudo docker tag <i style="color: red">&lt;MYIMAGE&gt;</i> {{manuallyupload.addr}}/{{manuallyupload.namespace}}/<i style="color:red">&lt;IMAGE&gt;:&lt;TAG&gt;</i><br/>$ sudo docker push {{manuallyupload.addr}}/{{manuallyupload.namespace}}/<i style="color:red">&lt;IMAGE&gt;:&lt;TAG&gt;</i><br/></pre>
+                        <pre style="max-width: 900px;padding: 0;text-align:left;font-size:12px;color:#000;padding-top: 12px;padding-left: 5px;">$ sudo docker login -u {{manuallyupload.namespace}} -p {{manuallyupload.token}} {{manuallyupload.addr}}<br/>$ sudo docker tag <i style="color: red">&lt;MYIMAGE&gt;</i> {{manuallyupload.addr}}/{{manuallyupload.namespace}}/<i style="color:red">&lt;IMAGE&gt;:&lt;TAG&gt;</i><br/>$ sudo docker push {{manuallyupload.addr}}/{{manuallyupload.namespace}}/<i style="color:red">&lt;IMAGE&gt;:&lt;TAG&gt;</i><br/></pre>
 
                     </div>
                 </uib-tab>
