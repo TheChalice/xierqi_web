@@ -13,8 +13,8 @@ angular.module('home.uploadimage', [{
             $scope.file={
                 data:''
             }
-            $scope.handupload= {
-                addr :GLOBAL.common_url,
+            $scope.manuallyupload= {
+                addr :GLOBAL.private_url,
                 token:tokenarr[0],
                 namespace:Cookie.get('namespace')
             }
