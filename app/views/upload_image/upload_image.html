@@ -170,9 +170,12 @@
                     <h3 class="df_tit" style="margin-bottom: 20px;">命令行上传</h3>
                     <div style="padding-left: 15px;color: #475669;">
                         <p style="font-size: 12px;color:#A2B0C4;">
-                            给 docker daemon 添加启动参数 --insecure-registry {{handupload.addr}}并重新启动 docker 服务。
+                            给 docker daemon 添加启动参数 --insecure-registry {{manuallyupload.addr}} 并重新启动 docker 服务。
                         </p>
-                        <pre style="max-width: 900px;padding: 0;text-align:left;font-size:12px;color:#000;padding-top: 12px;padding-left: 5px;">$ sudo docker login -u {{handupload.namespace}} -p {{handupload.token}} {{handupload.addr}}<br/>$ sudo docker tag &lt;MYIMAGE&gt; {{handupload.addr}}/{{handupload.namespace}}/&lt;IMAGE&gt;:&lt;TAG&gt;<br/>$ sudo docker push {{handupload.addr}}/{{handupload.namespace}}/&lt;IMAGE&gt;:&lt;TAG&gt;
+                        <pre style="max-width: 900px;padding: 0;text-align:left;font-size:12px;color:#000;padding-top: 12px;padding-left: 5px;">
+                            $ sudo docker login -u {{manuallyupload.namespace}} -p {{manuallyupload.token}} {{manuallyupload.addr}}<br/>
+                            $ sudo docker tag <i style="color: red">&lt;MYIMAGE&gt;</i> {{manuallyupload.addr}}/{{manuallyupload.namespace}}/<i style="color:red">&lt;IMAGE&gt;:&lt;TAG&gt;</i><br/>
+                            $ sudo docker push {{manuallyupload.addr}}/{{manuallyupload.namespace}}/<i style="color:red">&lt;IMAGE&gt;:&lt;TAG&gt;</i><br/>
                         </pre>
 
                     </div>
