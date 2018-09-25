@@ -5,7 +5,9 @@
     margin: 20px 20px 40px;
     padding: 20px;
 }
-
+#create_routes .routetype .bgc{
+    background-color: #eee;
+}
 .file-input {
     position: absolute;
     left: 0;

@@ -107,7 +107,7 @@ define([
 
             smallbell_url: '<SMALL_BELL_URL>',
 
-            //service_url: '<ROUTER_DOMAIN_SUFFIX>',
+            //service_url: '.lo.dataos.io',
             service_url: '<ROUTER_DOMAIN_SUFFIX>',
 
             //internal_registry:'docker-registry.default.svc:5000',
