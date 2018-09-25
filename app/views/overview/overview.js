@@ -17,6 +17,8 @@ angular.module('overview', [
             }
             var namespace = Cookie.get('namespace');
             var region = Cookie.get('region');
+            var tenantId = Cookie.get('tenantId');
+
             if (region) {
                 $rootScope.region = region;
             } else {
