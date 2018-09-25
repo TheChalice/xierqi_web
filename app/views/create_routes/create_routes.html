@@ -142,9 +142,9 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-sm-4 ">
+                    <div class="col-sm-4 routetype">
                         <div ng-show="HostNameListName=='平台子域名'" class="route-width-five">
-                            <div class="rout-hostName">
+                            <div class="rout-hostName" ng-class="{'bgc':routeName}">
                                 <input class="form-control route-line-height rout-hostName-ipt" ng-model="routeDetail.spec.host"
                                        ng-disabled="routeName" placeholder="域名前缀"
                                        ng-keyup="checkName(routeDetail.spec.host,'host')">
