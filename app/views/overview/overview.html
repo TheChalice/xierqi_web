@@ -80,7 +80,7 @@
                             <th class="table-name">限额</th>
                             <th class="table-name">访问</th>
                         </tr>
-                        <tr ng-repeat="service in serviceTenantList">
+                        <tr ng-repeat="service in ServiceTenant">
                             <td data-title="名称" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
                                 <div>{{service.instanceName}}</div>
                             </td>
@@ -94,7 +94,7 @@
                             </td>
                             <td data-title="限额">
                                 <div>
-                                    {{service.status}}
+                                    {{service.quota}}
                                 </div>
                             </td>
                             <td data-title="访问">

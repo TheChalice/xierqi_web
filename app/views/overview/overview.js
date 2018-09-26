@@ -40,6 +40,7 @@ angular.module('overview', [
             $scope.deploymentItem = Sort.sort($scope.deploymentItem, -1)
             ServiceTenant.query({tenantId: Cookie.get('namespace')}, function (data) {
                 console.log('ServiceTenant', data);
+                $scope.ServiceTenant = data;
             }, function (res) {
                 //todo 错误处理
             });
