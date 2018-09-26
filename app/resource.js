@@ -1045,7 +1045,7 @@ define([
             return allTenants;
         }])
         .factory('ServiceTenant', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var ServiceTenant = $resource(GLOBAL.ocmanager + '/instance/service/tenant/:tenantId', {
+            var ServiceTenant = $resource(GLOBAL.ocmanager + '/tenant/:tenantId/service/instance', {
                 tenantId: '@tenantId'
             }, {});
             return ServiceTenant;

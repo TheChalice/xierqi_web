@@ -745,6 +745,8 @@ angular.module("console.header", [{
                             cinf(tree);
                         });
                         $scope.selected = $scope.tenantsTree[0];
+                        console.log('$scope.tenantsTree[0]', $scope.tenantsTree[0]);
+                        Cookie.set('tenantId', $scope.tenantsTree[0].id, 10 * 365 * 24 * 3600 * 1000);
 
                     }
 

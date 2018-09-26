@@ -7,23 +7,27 @@
     </h5>
 </div>
 <div class="modal-body info-body">
-        <div style="width: 360px;line-height: 18px;">
-            <span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">HDFS_Path:</span>
-            <span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;">zhaoyim12345678900</span>
-        </div>
-        <div style="width: 360px;line-height: 18px;">
-            <span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">host:</span>
-            <span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;">10.1.236.61</span>
-        </div>
-        <div style="width: 360px;line-height: 18px;">
-            <span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">HDFS_Path:</span>
-            <span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;word-wrap:break-word;">zhaoyim12345678900zhaoyim12345678900zhaoyim12345678900zhaoyim12345678900</span>
-        </div>
-        <div style="width: 360px;line-height: 18px;">
-            <span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">host:</span>
-            <span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;">10.1.236.61</span>
-        </div>
-</div>
+    <div style="width: 360px;line-height: 18px;" ng-repeat="(k,v) in InfoMsg">
+        <span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">{{k}}</span>
+        <span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;">{{v}}</span>
+    </div>
+        <!--<div style="width: 360px;line-height: 18px;">-->
+            <!--<span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">HDFS_Path:</span>-->
+            <!--<span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;">zhaoyim12345678900</span>-->
+        <!--</div>-->
+        <!--<div style="width: 360px;line-height: 18px;">-->
+            <!--<span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">host:</span>-->
+            <!--<span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;">10.1.236.61</span>-->
+        <!--</div>-->
+        <!--<div style="width: 360px;line-height: 18px;">-->
+            <!--<span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">HDFS_Path:</span>-->
+            <!--<span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;word-wrap:break-word;">zhaoyim12345678900zhaoyim12345678900zhaoyim12345678900zhaoyim12345678900</span>-->
+        <!--</div>-->
+        <!--<div style="width: 360px;line-height: 18px;">-->
+            <!--<span style="display: inline-block;text-align:left;float:left;width: 100px;font-size: 12px;color: #1F2D3D;">host:</span>-->
+            <!--<span style="display: inline-block;text-align:left;width: 260px;font-size: 12px;color: #1F2D3D;">10.1.236.61</span>-->
+        <!--</div>-->
+<!--</div>-->
 <style>
     .modal-content{
         width:390px;

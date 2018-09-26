@@ -17,6 +17,8 @@ angular.module('overview', [
             }
             var namespace = Cookie.get('namespace');
             var region = Cookie.get('region');
+            var tenantId = Cookie.get('tenantId');
+
             if (region) {
                 $rootScope.region = region;
             } else {
@@ -38,6 +40,7 @@ angular.module('overview', [
             $scope.deploymentItem = Sort.sort($scope.deploymentItem, -1)
             ServiceTenant.query({tenantId: Cookie.get('namespace')}, function (data) {
                 console.log('ServiceTenant', data);
+                $scope.ServiceTenant = data;
             }, function (res) {
                 //todo 错误处理
             });
