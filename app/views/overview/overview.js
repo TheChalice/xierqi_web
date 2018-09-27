@@ -8,12 +8,20 @@ angular.module('overview', [
         ]
     }
 ])
-    .controller('overviewCtrl', ['$scope', '$rootScope', 'Cookie', 'user', 'dclist', 'ServiceTenant', 'ToolTenant', 'AcessInformation','Sort',
-        function ($scope, $rootScope, Cookie, user, dclist, ServiceTenant, ToolTenant, AcessInformation,Sort) {
+    .controller('overviewCtrl', ['GLOBAL','$scope', '$rootScope', 'Cookie', 'user', 'dclist', 'ServiceTenant', 'ToolTenant', 'AcessInformation','Sort',
+        function (GLOBAL,$scope, $rootScope, Cookie, user, dclist, ServiceTenant, ToolTenant, AcessInformation,Sort) {
             if ($rootScope.user) {
                 console.log('$rootScope.user', $rootScope.user.metadata.name);
             } else {
                 $rootScope.user = user;
+            }
+            $scope.urllist ={
+                operation_url:GLOBAL.operation_url,
+                dataassets_url:GLOBAL.dataassets_url,
+                center_url:GLOBAL.center_url,
+                application_url:GLOBAL.application_url,
+                usercenter_url:GLOBAL.usercenter_url,
+                smallbell_url:GLOBAL.smallbell_url,
             }
             var namespace = Cookie.get('namespace');
             var region = Cookie.get('region');
