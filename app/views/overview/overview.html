@@ -35,8 +35,8 @@
                                 {{deployments.rc | deploymentStatus}}
                                 <span ng-if="(deployments.rc | deploymentStatus) == 'Active' || (deployments.rc | deploymentStatus) == 'Running'">,
                                     <span ng-if="deployments.rc.spec.replicas !== deployments.rc.status.replicas">{{deployments.rc.status.replicas}}/</span> {{deployments.rc.spec.replicas}} replica
-                                    <span
-                                            ng-if="deployments.rc.spec.replicas != 1">s</span>
+                                    <!--<span-->
+                                            <!--ng-if="deployments.rc.spec.replicas != 1">s</span>-->
                             </span>
                             </span>
                                 </div>
