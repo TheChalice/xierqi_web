@@ -16,7 +16,7 @@
              <div class="col-md-6"><span style="word-break:break-all;word-wrap: break-word;">{{event.message}}<br><small style="color:#5a6378;font-size: 10px;">出现{{event.count}}次</small></span></div>-->
             <div class="col-md-3">{{event.metadata.creationTimestamp | timescon2}}</div>
             <div class="col-md-3">{{event.type}}</div>
-            <div class="col-md-6">{{event.message}}</div>
+            <div style="word-wrap:break-word" class="col-md-6">{{event.message}}</div>
         </div>
         <!--<div class="col-md-12 load7" ng-if="!eventsws.items.length&&hasevent" style="padding: 0;overflow: hidden;">-->
         <!--<div class="loader">加载中...</div>-->

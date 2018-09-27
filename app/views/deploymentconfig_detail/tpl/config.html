@@ -154,7 +154,7 @@
                 </div> -->
                         </div>
                         <div ng-show="container.display">
-                            <div class="dropdown dropdown-select" style="min-width:170px;height: 26px;">
+                            <div class="dropdown dropdown-select" style="min-width:170px;height: 26px;display: inline-block;float: none">
                                 <button class="btn dropdown-toggle" data-toggle="dropdown">
                                     <span>{{container.annotate.image}}</span>
                                     <span class="caret"></span>
@@ -165,10 +165,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <span class="biaodian">
+                            <span style="" class="biaodian">
                                 :
                             </span>
-                            <div class="dropdown dropdown-select" style="min-width:170px;height: 26px;">
+                            <div class="dropdown dropdown-select" style="min-width:170px;height: 26px;display: inline-block;float: none">
                                 <button class="btn dropdown-toggle" data-toggle="dropdown">
                                     <span>{{container.annotate.tag}}</span>
                                     <span class="caret"></span>
@@ -184,16 +184,18 @@
                                 <input style="width:360px;height:26px;margin-top:8px;" type="text" name="serviceName" ng-model="container.annotate.regimage" class="form-control input-block foucsinput"
                                     name="name" class="form-control">
                             </div>
-                            <div style="margin-top: 10px;" ng-show="container.display">
-                                <label ng-class="{'active': container.imageChange}" ng-click="container.imageChange=!container.imageChange" style="cursor: pointer;">
-                                    <i class="faa faa-check"></i>
-                                    &nbsp;&nbsp;镜像变化触发自动部署
-                                </label>
-                            </div>
+                        <div style="margin-top: 10px;" ng-show="container.display">
+                            <label ng-class="{'active': container.imageChange}" ng-click="container.imageChange=!container.imageChange" style="cursor: pointer;">
+                                <i class="faa faa-check"></i>
+                                &nbsp;&nbsp;镜像变化触发自动部署
+                            </label>
+                        </div>
+
                 </div>
                
               
                 </div>
+
                 <div class="clear"></div>
                 <div style="margin-top: 5px">
                     <div class="df_block_set">
