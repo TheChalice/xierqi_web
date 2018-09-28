@@ -194,7 +194,7 @@ define(['angular'], function (angular) {
 
                             //console.log('$location', $location);
                             //url='ws://localhost:8080/ws'+url;
-                            //console.log('url', url);
+                            console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),
                                 function resolved(socket) {
                                     ws = socket;
