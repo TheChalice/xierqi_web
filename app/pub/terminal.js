@@ -192,7 +192,7 @@ define(['angular'], function (angular) {
                                 scope.$apply(disconnect);
                             }
 
-                            //console.log('$location', $location);
+                            console.log('$location', $location);
                             //url='ws://localhost:8080/ws'+url;
                             console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),
