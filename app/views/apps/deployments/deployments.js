@@ -73,18 +73,23 @@ angular.module('console.deployments', [{
             })
 
             angular.forEach($scope.replicasets.items, function (rs,j) {
-                console.log('rs', rs);
-                if ($scope.deployment.length<1) {
+                //console.log('rs', rs);
+                //if ($scope.deployment.length<1) {
                     angular.forEach($scope.deployment.items, function (item,i) {
-
-                        //if (rc.spec.selector.deploymentconfig === item.metadata.name) {
-                        //    rc.hasdc = true
-                        //}
+                        console.log('rs.metadata.ownerReferences[0].name', rs.metadata.ownerReferences[0].name, item.metadata.name);
+                        if (rs.metadata.ownerReferences[0]&&rs.metadata.ownerReferences[0].name === item.metadata.name) {
+                            rs.hasdc = true
+                        }
                     })
-                }else{
-                    $scope.otherreplicasets.push(rs)
-                }
+                //}else{
+                //    $scope.otherreplicasets.push(rs)
+                //}
 
+            })
+            angular.forEach($scope.replicasets.items, function (rs,j) {
+                if (!rs.hasdc) {
+                    $scope.otherreplicas.push(rs);
+                }
             })
             console.log($scope.otherreplicasets);
             $scope.items = addrc($scope.dc.items);
