@@ -343,7 +343,8 @@ define([
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
-                patch: {method: "PATCH"}
+                patch: {method: "PATCH"},
+                delete: {method: "DELETE"}
             });
 
             return ReplicaSet;
@@ -355,7 +356,8 @@ define([
                 region: '@region'
             }, {
                 create: {method: 'POST'},
-                put: {method: 'PUT'}
+                put: {method: 'PUT'},
+                delete: {method: "DELETE"}
             });
             return ReplicationController;
         }])

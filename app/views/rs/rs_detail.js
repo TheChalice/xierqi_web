@@ -11,8 +11,8 @@ angular.module('console.rs', [
         ]
     }
 ])
-    .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', 'ScaleRs', '$interval', '$state', '$log', 'ReplicaSet','Ws','myrs',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, ScaleRs, $interval, $state, $log, ReplicaSet, Ws, myrs) {
+    .controller('rsCtrl', ['Confirm','toastr','delTip','$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', 'ScaleRs', '$interval', '$state', '$log', 'ReplicaSet','Ws','myrs',
+        function (Confirm,toastr,delTip,$rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, ScaleRs, $interval, $state, $log, ReplicaSet, Ws, myrs) {
 
 
             var getOwnerReferences = function (apiObject) {
@@ -80,5 +80,21 @@ angular.module('console.rs', [
                 }
             };
             getMyRs();
-
+            $scope.delete = function(name){
+                delTip.open("删除ReplicaSet", name, true).then(function () {
+                    ReplicaSet.delete({ namespace: $scope.namespace,name:name }, function (res) {
+                        $state.go('console.deployments',{namespace:$rootScope.namespace});
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    }, function () {
+                        Confirm.open("删除ReplicaSet", "删除" + name + "失败", null, null, true)
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    })
+                })
+            }
         }]);
