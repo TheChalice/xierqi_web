@@ -77,7 +77,7 @@ angular.module('console.deployments', [{
                 //if ($scope.deployment.length<1) {
                     angular.forEach($scope.deployment.items, function (item,i) {
                         //console.log('rs.metadata.ownerReferences[0].name', rs.metadata.ownerReferences[0].name, item.metadata.name);
-                        if (rs.metadata.ownerReferences&&rs.metadata.ownerReferences[0]&&rs.metadata.ownerReferences[0].name === item.metadata.name) {
+                        if (rs.metadata.ownerReferences&&rs.metadata.ownerReferences[0]&&rs.metadata.ownerReferences[0].kind==='Deployment'&&rs.metadata.ownerReferences[0].name === item.metadata.name) {
                             rs.hasdc = true
                         }
                     })
