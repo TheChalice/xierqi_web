@@ -11,8 +11,8 @@ angular.module('console.rc', [
         ]
     }
 ])
-    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc', '$filter', 'DeploymentConfigRollback', 'DeploymentConfig', 'toastr',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc, $filter, DeploymentConfigRollback, DeploymentConfig, toastr) {
+    .controller('rcCtrl', ['Confirm','delTip','$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc', '$filter', 'DeploymentConfigRollback', 'DeploymentConfig', 'toastr',
+        function (Confirm,delTip,$rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc, $filter, DeploymentConfigRollback, DeploymentConfig, toastr) {
 
             var getOwnerReferences = function (apiObject) {
                 return _.get(apiObject, 'metadata.ownerReferences');
@@ -107,6 +107,23 @@ angular.module('console.rc', [
                 };
             };
             getMyrc();
+            $scope.delete = function(name){
+                delTip.open("删除ReplicationController", name, true).then(function () {
+                    ReplicationController.delete({ namespace: $scope.namespace,name:name }, function (res) {
+                        $state.go('console.deployments',{namespace:$rootScope.namespace});
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    }, function () {
+                        Confirm.open("删除ReplicationController", "删除" + name + "失败", null, null, true)
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    })
+                })
+            }
         }]);
 
 
