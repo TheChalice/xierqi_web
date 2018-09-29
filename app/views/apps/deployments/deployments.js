@@ -88,7 +88,7 @@ angular.module('console.deployments', [{
             })
             angular.forEach($scope.replicasets.items, function (rs,j) {
                 if (!rs.hasdc) {
-                    $scope.otherreplicas.push(rs);
+                    $scope.otherreplicasets.push(rs);
                 }
             })
             console.log($scope.otherreplicasets);
