@@ -76,8 +76,8 @@ angular.module('console.deployments', [{
                 //console.log('rs', rs);
                 //if ($scope.deployment.length<1) {
                     angular.forEach($scope.deployment.items, function (item,i) {
-                        console.log('rs.metadata.ownerReferences[0].name', rs.metadata.ownerReferences[0].name, item.metadata.name);
-                        if (rs.metadata.ownerReferences[0]&&rs.metadata.ownerReferences[0].name === item.metadata.name) {
+                        //console.log('rs.metadata.ownerReferences[0].name', rs.metadata.ownerReferences[0].name, item.metadata.name);
+                        if (rs.metadata.ownerReferences&&rs.metadata.ownerReferences[0]&&rs.metadata.ownerReferences[0].kind==='Deployment'&&rs.metadata.ownerReferences[0].name === item.metadata.name) {
                             rs.hasdc = true
                         }
                     })
@@ -88,7 +88,7 @@ angular.module('console.deployments', [{
             })
             angular.forEach($scope.replicasets.items, function (rs,j) {
                 if (!rs.hasdc) {
-                    $scope.otherreplicas.push(rs);
+                    $scope.otherreplicasets.push(rs);
                 }
             })
             console.log($scope.otherreplicasets);
