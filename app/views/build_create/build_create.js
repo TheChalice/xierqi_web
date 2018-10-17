@@ -91,6 +91,9 @@ angular.module('console.build_create', [
                 name: null,
                 pwd: null
             };
+            $scope.privateErr = {
+                urlerr: false
+            };
             function clearselec() {
                 for (var k in $scope.gitdata) {
                     $scope.gitdata[k] = []
