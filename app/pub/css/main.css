@@ -23,25 +23,41 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
 :focus, :active, .active {
     outline: none !important;
 }
+
 /*去掉type=number的上下箭头*/
 /*input::-webkit-inner-spin-button {*/
-    /*-webkit-appearance: none;*/
+/*-webkit-appearance: none;*/
 /*}*/
 /*input::-webkit-outer-spin-button {*/
-    /*-webkit-appearance: none;*/
+/*-webkit-appearance: none;*/
 /*}*/
 /*input[type=number] {*/
-    /*-moz-appearance:textfield;*/
+/*-moz-appearance:textfield;*/
 /*}*/
 
 /*这就是省略号喽*/
-.in_nowrap{white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;}
+.in_nowrap {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.uex-icon-protocol-deafult:before{
+    content: "\e970";
+    color:#A2B0C4;
+}
+.uex-icon-refresh:before{
+    content: '\e954';
+    color:#A2B0C4;
+}
 /*a:focus, a:hover{color:#e5993a;}*/
 body {
-    padding-top:55px;/* jia 20161128 头部高度调整 padding-top:70px;*/
+    padding-top: 55px; /* jia 20161128 头部高度调整 padding-top:70px;*/
     font-family: -apple-system, BlinkMacSystemFont, Neue Haas Grotesk Text Pro, Arial Nova, Segoe UI, Helvetica Neue, \.PingFang SC, PingFang SC, Microsoft YaHei, Microsoft JhengHei, Source Han Sans SC, Noto Sans CJK SC, Source Han Sans CN, Noto Sans SC, Source Han Sans TC, Noto Sans CJK TC, Hiragino Sans GB, sans-serif
 }
 
@@ -60,6 +76,7 @@ hr {
 a {
     text-decoration: none !important;
 }
+
 #cnzz_stat_icon_1260628917 {
     display: none;
 }
@@ -77,7 +94,10 @@ a {
 .btn:hover {
     color: #fff;
 }
-.btn-orange-radius{border-radius:30px;}
+
+.btn-orange-radius {
+    border-radius: 30px;
+}
 
 .btn-disabled, .btn-disabled:hover {
     background: #e6e9f2;
@@ -85,65 +105,70 @@ a {
 }
 
 /*.btn-green {*/
-    /*!*background-color: #55c45f;*!*/
-    /*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
-    /*color:#fff;*/
-    /*-webkit-transition:all 1s;*/
-    /*-moz-transition:all 1s;*/
-    /*transition:all 1s;*/
+/*!*background-color: #55c45f;*!*/
+/*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
+/*color:#fff;*/
+/*-webkit-transition:all 1s;*/
+/*-moz-transition:all 1s;*/
+/*transition:all 1s;*/
 /*}*/
 
 /*.btn-green:hover {*/
-    /*!*background-color: #469450;*!color:#fff;*/
+/*!*background-color: #469450;*!color:#fff;*/
 
-    /*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
+/*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
 /*}*/
 .btn-green {
     background-color: #47B2FB;
     /*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
-    color:#fff;
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;
+    color: #fff;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;
 }
 
 .btn-green:hover {
     background-color: #98D4FD;
-    color:#fff;
+    color: #fff;
 
     /*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
 }
+
 .btn-green:active {
     background-color: #168DDE;
-    color:#fff;
+    color: #fff;
 }
-.btn-green.focus{color:#fff;}
+
+.btn-green.focus {
+    color: #fff;
+}
+
 .btn-gray {
     background-color: #fff;
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;
-    border:1px solid #47B2FB;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px;
-    color:#47B2FB;font-size:12px;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;
+    border: 1px solid #47B2FB;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    color: #47B2FB;
+    font-size: 12px;
 }
 
 .btn-gray:hover {
     background-color: #fff;
-    border:1px solid #98D4FD;
-    color:#82CAFB;
+    border: 1px solid #98D4FD;
+    color: #82CAFB;
 
 }
-
 
 .btn-skyblue {
     /*background-color: #5c72e9;*/
     background-color: #47B2FB;
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;
 }
 
 .btn-skyblue:hover {
@@ -154,21 +179,22 @@ a {
 .btn-orange {
     background-color: #47B2FB;
     /*background-color: #5b73eb;*/
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;font-size:12px;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;
+    font-size: 12px;
 }
 
 .btn-orange:hover {
-    background-color:#98D4FD;
+    background-color: #98D4FD;
     /*background-color:#4960e6;*/
 }
 
 .btn-Iknow {
     background-color: #f6a540;
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    transition: all 1s;
 }
 
 .btn-Iknow:hover {
@@ -190,8 +216,11 @@ a {
     padding-left: 20px;
     /* padding-top: 20px;
     padding-bottom: 20px; */
-    color: #5a6378;font-size:12px;padding:8px;padding-left:20px;
-    text-align:left;  /*列表数据 jiasx 20161209 */
+    color: #5a6378;
+    font-size: 12px;
+    padding: 8px;
+    padding-left: 20px;
+    text-align: left; /*列表数据 jiasx 20161209 */
 }
 
 .table-default.sub-table > tbody > tr > th,
@@ -232,6 +261,7 @@ a {
     font-weight: bold;
     color: #393f4f;
 }
+
 /*图标*/
 .icon25, .icon20, .icon12 {
     display: inline-block;
@@ -242,7 +272,8 @@ a {
 
 .icon25 {
     width: 21px;
-    height: 21px;margin-top:2px;
+    height: 21px;
+    margin-top: 2px;
 }
 
 .icon20 {
@@ -386,6 +417,21 @@ a {
     background: url("../../pub/img/starh.png") no-repeat;
 }
 
+.img-block {
+    position: relative
+}
+
+.svg_img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -24px;
+    margin-left: -24px;
+    fill: #475669;
+    width: 48px;
+    height: 48px;
+}
+
 /*输入框*/
 .form-control {
     border: 1px solid #c9c9c9;
@@ -394,13 +440,16 @@ a {
     color: #5a6378;
 }
 
-
 .form-control:focus {
     box-shadow: none;
     border: 1px solid #c9c9c9;
     border-radius: 2px 2px 0 0;
 }
-.form-control:hover{border:1px solid #47B2FB;}
+
+.form-control:hover {
+    border: 1px solid #47B2FB;
+}
+
 /*tab默认样式*/
 .tab-default .nav-tabs {
     border-bottom: 1px solid #c9c9c9;
@@ -409,15 +458,16 @@ a {
 .tab-default li .nav-link {
     border: none;
     color: #475669;
-    font-size:16px;padding:10px 23px;
+    font-size: 16px;
+    padding: 10px 23px;
 }
 
 .tab-default li .nav-link:hover {
     background: transparent;
     color: #5b73eb;
-    font-size:16px;
+    font-size: 16px;
     /*中信项目 jiasx*/
-    color:#333;
+    color: #333;
 }
 
 .tab-default li.active .nav-link,
@@ -427,7 +477,6 @@ a {
     border-bottom: none;
     border-radius: 2px 2px 0 0;
     color: #333;
-
 
 }
 
@@ -593,6 +642,7 @@ a {
     /*中信项目 jiasx*/
     /*color:#5c72e9;*/
 }
+
 /*loading效果 jiasx*/
 .fa-green {
     color: #47B2FB;
@@ -611,30 +661,34 @@ a {
 .pagination > .active > span,
 .pagination > .active > span:focus {
     background-color: #47B2FB;
-    border-color: #47B2FB;color:#fff;
+    border-color: #47B2FB;
+    color: #fff;
 }
-.pagination > .active > span:hover{
+
+.pagination > .active > span:hover {
     background-color: #fff;
-    border-color: #47B2FB;color:#47B2FB;
+    border-color: #47B2FB;
+    color: #47B2FB;
 }
 
-.pagination-sm > li > a,.pagination-sm > li > span{
-    margin-left:5px;
-    border:none;
-    background:#f7f7f7;
-    color:black;
-}
-.pagination-sm > li > a:hover{
-    color:black;
+.pagination-sm > li > a, .pagination-sm > li > span {
+    margin-left: 5px;
+    border: none;
+    background: #f7f7f7;
+    color: black;
 }
 
-.pagination-sm > .disabled > a{
-    background:#f7f7f7;
-}
-.pagination-sm > .disabled > a:hover{
-    background:#f7f7f7;
+.pagination-sm > li > a:hover {
+    color: black;
 }
 
+.pagination-sm > .disabled > a {
+    background: #f7f7f7;
+}
+
+.pagination-sm > .disabled > a:hover {
+    background: #f7f7f7;
+}
 
 /*service_create advantage_config.html tabandimage*/
 .tabandimage {
@@ -651,8 +705,8 @@ a {
 
 .tabandimage.selected {
     border: 1px solid #f6a540;
-    background-color:#f6a540;
-    color:#fff;
+    background-color: #f6a540;
+    color: #fff;
 }
 
 /*.tabandimage:active{*/
@@ -676,7 +730,8 @@ a {
 
 .timeline ul {
     list-style: none;
-    border-left: 2px solid #c9c9c9;padding-left:40px;
+    border-left: 2px solid #c9c9c9;
+    padding-left: 40px;
 }
 
 .timeline ul > li {
@@ -706,7 +761,10 @@ a {
     margin: 15px 0 0 30px;
     background: #000;
 }
-.testt:hover{border:1px solid #47B2FB}
+
+.testt:hover {
+    border: 1px solid #47B2FB
+}
 
 .well.well-log pre {
     font-size: 12px;
@@ -744,7 +802,10 @@ a {
     display: inline-block;
     vertical-align: bottom;
 }
-.dropdown-select > .btn:hover{border:1px solid #47B2FB}
+
+.dropdown-select > .btn:hover {
+    border: 1px solid #47B2FB
+}
 
 .dropdown-select > .btn {
     width: 100%;
@@ -797,8 +858,6 @@ a {
     height: 26px;
 }
 
-
-
 .faa-pod {
     background-position: -246px -738px;
     width: 25px;
@@ -825,8 +884,6 @@ a {
     background-position: -312px -123px;
 }
 
-
-
 .faa-back {
     background-position: -16px -317px;
     width: 25px;
@@ -837,13 +894,12 @@ a {
     background-position: -50px -317px;
 }
 
-
 .faa-image {
     /*background-position: -44px -789px;*/
-    background-image:url(../img/tg03.png);
+    background-image: url(../img/tg03.png);
     width: 60px;
     height: 60px;
-     background-size:contain;
+    background-size: contain;
 }
 
 .faa-image-mark {
@@ -864,7 +920,7 @@ a {
 
 .active > .faa-check {
     /*background-position: -41px -220px;*/
-    background-image:url(../img/tg06.png);
+    background-image: url(../img/tg06.png);
     background-position: 0 0; /*by zn for zhongxin*/
 }
 
@@ -896,7 +952,7 @@ a {
     content: '*';
     margin: 0 5px 0 3px;
     color: #ec6941;
-    vertical-align: sub;
+    /*vertical-align: sub;*/
 }
 
 /*font12*/
@@ -914,7 +970,10 @@ a {
     border: 1px solid #c9c9c9;
     border-radius: 2px;
 }
-.input-small:hover{border:1px solid #47B2FB}
+
+.input-small:hover {
+    border: 1px solid #47B2FB
+}
 
 .service-config {
     color: #393f4f;
@@ -934,7 +993,7 @@ a {
     font-size: 14px;
     font-weight: bold;
     margin: 0 0 20px 0;
-    color:black;
+    color: black;
 }
 
 .service-config h4 {
@@ -962,15 +1021,17 @@ a {
     color: #55c45f;
     text-decoration: none;
     /*中信项目 jiasx*/
-    color:#333;
+    color: #333;
 }
 
-.service-config .fa-lg{color:#47B2FB;}
+.service-config .fa-lg {
+    color: #47B2FB;
+}
 
 .service-config .href-add:hover {
     color: #469450;
     /*中信项目 jiasx*/
-    color:#333;
+    color: #333;
 }
 
 .service-config .container-box {
@@ -1009,22 +1070,36 @@ a {
     border: none;
     box-shadow: none;
     color: #A2B0C4;
-    z-index:999;
+    z-index: 999;
 }
 
 .searchbar .btn {
     height: 100%;
-    background: url(../img/search.png) no-repeat 0 0px!important;
-    box-shadow: none;display:block;width:15px;height:15px!important;
+    background: url(../img/search.png) no-repeat 0 0px !important;
+    box-shadow: none;
+    display: block;
+    width: 15px;
+    height: 15px !important;
 }
-.input-group-btn{padding:8px 0px;}
+
+.input-group-btn {
+    padding: 8px 0px;
+}
 
 .searchbar:hover .btn {
-    background: url(../img/search-focus.png) no-repeat!important;
+    background: url(../img/search-focus.png) no-repeat !important;
 }
 
-.search_btn .btn{background:url(../img/search.png) no-repeat 0 0px!important;display:block;width:15px;height:15px!important;}
-.search_btn .btn:hover{background:url(../img/search.png) no-repeat 0 0px!important;}
+.search_btn .btn {
+    background: url(../img/search.png) no-repeat 0 0px !important;
+    display: block;
+    width: 15px;
+    height: 15px !important;
+}
+
+.search_btn .btn:hover {
+    background: url(../img/search.png) no-repeat 0 0px !important;
+}
 
 .searchbar .tip-board {
     border: 1px solid #c9c9c9;
@@ -1156,12 +1231,15 @@ a {
     padding: 3px 7px;
     margin-left: 10px;
 }
-.fs-16{
-    font-size:16px;
+
+.fs-16 {
+    font-size: 16px;
 }
-.mr-10{
-    margin-right:2px;
+
+.mr-10 {
+    margin-right: 2px;
 }
+
 .fa2 {
     overflow: hidden;
     display: inline-block;
@@ -1237,7 +1315,7 @@ a {
 .panel-xxx.active {
     border-color: #f6a540;
     /*中信项目 jiasx*/
-    border-color:#e6e6e6;
+    border-color: #e6e6e6;
 }
 
 .icon20-144 {
@@ -1254,7 +1332,8 @@ a {
     vertical-align: middle;
     background: url(../img/secret.png) no-repeat;
     width: 25px;
-    height: 25px;background-size:25px 25px;
+    height: 25px;
+    background-size: 25px 25px;
 }
 
 .configicon {
@@ -1264,7 +1343,7 @@ a {
     background: url(../img/config_volume.png) no-repeat;
     width: 25px;
     height: 25px;
-    background-size:contain;
+    background-size: contain;
 }
 
 /*green adding button*/
@@ -1276,7 +1355,10 @@ a {
 .href-add:hover {
     color: #98D4FD;
 }
-.href-add:active{color:#168DDE;}
+
+.href-add:active {
+    color: #168DDE;
+}
 
 /*bootstorp五等份*/
 .col-xs-1-5,
@@ -1361,7 +1443,6 @@ a {
 .foucsinput:focus {
     /*-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;*/
 
-
 }
 
 @keyframes unspin {
@@ -1373,17 +1454,12 @@ a {
     }
 }
 
-
-
-
-
-
-
 .pic_jc {
     background: url(../../pub/img/pic_jc.png) no-repeat;
     background-size: contain;
 }
-.active .pic_jc{
+
+.active .pic_jc {
     background: url(../../pub/img/pic_jc_active.png) no-repeat;
     background-size: contain;
 }
@@ -1392,34 +1468,45 @@ a {
     background: url(../../pub/img/pic_jc_active.png) no-repeat;
     background-size: contain;
 
-
 }
+
 .fz12 {
     font-size: 12px;
 }
+
 .fz16 {
     font-size: 16px;
 }
+
 .fz28 {
     font-size: 28px;
 }
+
 .mb30 {
     margin-bottom: 30px;
 
 }
+
 .mt20 {
     margin-top: 20px;
 }
+
 .mt10 {
     margin-top: 10px;
-    margin:0 15px;
+    margin: 0 15px;
 }
 
-
-.footer_bt{width:100%;padding: 0px 30px;height: 300px;
-    padding-top: 40px; background: #5a6378;
+.footer_bt {
+    width: 100%;
+    padding: 0px 30px;
+    height: 300px;
+    padding-top: 40px;
+    background: #5a6378;
     margin-left: 0;
-    margin-right: 0;line-height: 50px;}
+    margin-right: 0;
+    line-height: 50px;
+}
+
 .footer {
     font-size: 14px;
     font-weight: bold;
@@ -1432,10 +1519,20 @@ a {
 .footer-td {
     padding-left: 0;
 }
-.footer-td{padding-left:0;}
+
+.footer-td {
+    padding-left: 0;
+}
+
 /*IE10 取消input框默认的叉叉和密码输入框的眼睛*/
-::-ms-clear { display: none; }
-::-ms-reveal { display: none; }
+::-ms-clear {
+    display: none;
+}
+
+::-ms-reveal {
+    display: none;
+}
+
 .view-frame.ng-enter,
 .view-frame.ng-leave {
     background: white;
@@ -1444,9 +1541,11 @@ a {
     left: 0;
     right: 0;
 }
+
 .tac {
     text-align: center;
 }
+
 .view-frame.ng-enter {
     -webkit-animation: 0.5s fade-in;
     -moz-animation: 0.5s fade-in;
@@ -1527,116 +1626,414 @@ a {
     /*align-items: center;*/
     /*justify-content: center;*/
 }
+
 /*微信红包弹出框*/
-.red_diag{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9999;display:none;}
-.red_diag_main{width:410px;height:470px;position:absolute;left:50%;top:50%;margin-left:-205px;margin-top:-235px;}
-.pic_red{position:relative;width:410px;}
-.pic_red p{position:absolute;bottom:26px;margin-bottom:0px;left:0;right:0;text-indent:116px;font-size:12px;color:#fff;}
-.complete_tit{text-align:center;font-size:14px;color:#fff;}
-.red_charge{background:#f6a540;-webkit-transition:all 1s;margin:0 auto;display:block;}
-.red_charge:hover{background-color:#e5993a;}
-.red_close{width:26px;height:26px;border:1px solid #ececec;display:block;color:#ececec;font-size:20px;text-align:center;line-height:100%;
-    border-radius:50%;-webkit-border-radius:50%;-moz-border-radius:50%;position:absolute;right:84px;top:27px;cursor:pointer;}
-.red_diag_pay{height:400px;margin-top:-200px;}
+.red_diag {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    display: none;
+}
+
+.red_diag_main {
+    width: 410px;
+    height: 470px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -205px;
+    margin-top: -235px;
+}
+
+.pic_red {
+    position: relative;
+    width: 410px;
+}
+
+.pic_red p {
+    position: absolute;
+    bottom: 26px;
+    margin-bottom: 0px;
+    left: 0;
+    right: 0;
+    text-indent: 116px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.complete_tit {
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}
+
+.red_charge {
+    background: #f6a540;
+    -webkit-transition: all 1s;
+    margin: 0 auto;
+    display: block;
+}
+
+.red_charge:hover {
+    background-color: #e5993a;
+}
+
+.red_close {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #ececec;
+    display: block;
+    color: #ececec;
+    font-size: 20px;
+    text-align: center;
+    line-height: 100%;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    position: absolute;
+    right: 84px;
+    top: 27px;
+    cursor: pointer;
+}
+
+.red_diag_pay {
+    height: 400px;
+    margin-top: -200px;
+}
+
 /*************************图标替换 20161123 jia begin***************/
 /*镜像仓库*/
-.nav-link i{display:inline-block;width:21px;height:21px;vertical-align:bottom;background-size:contain;}
-.myimage{width:20px;height:20px;background:url(../../pub/img/myimage.png) no-repeat;}
-.active .myimage,.nav-link:hover i.myimage{background:url(../../pub/img/myimageh.png) no-repeat;background-size:contain}
-.registimage{background:url(../../pub/img/registimage.png) no-repeat;}
-.active .registimage,.nav-link:hover i.registimage{background:url(../../pub/img/registimage.png) no-repeat;background-size:contain}
-.imagecenter{background:url(../../pub/img/imagecenter.png) no-repeat;}
-.active .imagecenter,.nav-link:hover i.imagecenter{background:url(../../pub/img/imagecenterh.png) no-repeat;background-size:contain}
+.nav-link i {
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    vertical-align: bottom;
+    background-size: contain;
+}
+
+.myimage {
+    width: 20px;
+    height: 20px;
+    background: url(../../pub/img/myimage.png) no-repeat;
+}
+
+.active .myimage, .nav-link:hover i.myimage {
+    background: url(../../pub/img/myimageh.png) no-repeat;
+    background-size: contain
+}
+
+.registimage {
+    background: url(../../pub/img/registimage.png) no-repeat;
+}
+
+.active .registimage, .nav-link:hover i.registimage {
+    background: url(../../pub/img/registimage.png) no-repeat;
+    background-size: contain
+}
+
+.imagecenter {
+    background: url(../../pub/img/imagecenter.png) no-repeat;
+}
+
+.active .imagecenter, .nav-link:hover i.imagecenter {
+    background: url(../../pub/img/imagecenterh.png) no-repeat;
+    background-size: contain
+}
+
 /*后端服务*/
-.fa2-bs{background-image:url(../img/fa2-bs.png)}
-.active .fa2-bs,.fa2-bs.active,.fa2-bs:hover,.nav-link:hover .fa2-bs{background-image:url(../img/fa2-bsh.png);background-size:contain}
-.fa2-bsi{background-image:url(../img/fa2-bsi.png)}
-.active .fa2-bsi,.fa2-bsi.active,.fa2-bsi:hover,.nav-link:hover .fa2-bsi{background-image:url(../img/fa2-bsih.png);background-size:contain}
-.diy_service{background-image:url(../img/diy_service.png)}
-.active .diy_service,.diy_service.active,.diy_service:hover,.nav-link:hover .diy_service{background-image:url(../img/diy_service_hover.png);background-size:contain}
-.data_service{background-image:url(../img/data_service.png);height:18px!important;}
-.active .data_service,.data_service.active,.data_service:hover,.nav-link:hover .data_service{background-image:url(../img/data_service_hover.png);background-size:contain}
+.fa2-bs {
+    background-image: url(../img/fa2-bs.png)
+}
+
+.active .fa2-bs, .fa2-bs.active, .fa2-bs:hover, .nav-link:hover .fa2-bs {
+    background-image: url(../img/fa2-bsh.png);
+    background-size: contain
+}
+
+.fa2-bsi {
+    background-image: url(../img/fa2-bsi.png)
+}
+
+.active .fa2-bsi, .fa2-bsi.active, .fa2-bsi:hover, .nav-link:hover .fa2-bsi {
+    background-image: url(../img/fa2-bsih.png);
+    background-size: contain
+}
+
+.diy_service {
+    background-image: url(../img/diy_service.png)
+}
+
+.active .diy_service, .diy_service.active, .diy_service:hover, .nav-link:hover .diy_service {
+    background-image: url(../img/diy_service_hover.png);
+    background-size: contain
+}
+
+.data_service {
+    background-image: url(../img/data_service.png);
+    height: 18px !important;
+}
+
+.active .data_service, .data_service.active, .data_service:hover, .nav-link:hover .data_service {
+    background-image: url(../img/data_service_hover.png);
+    background-size: contain
+}
+
 /*数据集成*/
-.fa2-public{background-image:url(../img/fa2-public.png);}
-.active .fa2-public,.fa2-public.active,.fa2-public:hover,.nav-link:hover .fa2-public{background-image:url(../img/fa2-public.png);background-size:contain;}
-.fa2-data{background-image:url(../img/fa2-data.png);}
-.active .fa2-data,.fa2-data.active,.fa2-data:hover,.nav-link:hover .fa2-data{background-image:url(../img/fa2-data.png);background-size:contain;}
-.fa2-dataHub{background-image:url(../img/fa2-dataHub.png);}
-.active .fa2-dataHub,.fa2-dataHub.active,.fa2-dataHub:hover,.nav-link:hover .fa2-dataHub{background-image:url(../img/fa2-dataHub.png);}
+.fa2-public {
+    background-image: url(../img/fa2-public.png);
+}
+
+.active .fa2-public, .fa2-public.active, .fa2-public:hover, .nav-link:hover .fa2-public {
+    background-image: url(../img/fa2-public.png);
+    background-size: contain;
+}
+
+.fa2-data {
+    background-image: url(../img/fa2-data.png);
+}
+
+.active .fa2-data, .fa2-data.active, .fa2-data:hover, .nav-link:hover .fa2-data {
+    background-image: url(../img/fa2-data.png);
+    background-size: contain;
+}
+
+.fa2-dataHub {
+    background-image: url(../img/fa2-dataHub.png);
+}
+
+.active .fa2-dataHub, .fa2-dataHub.active, .fa2-dataHub:hover, .nav-link:hover .fa2-dataHub {
+    background-image: url(../img/fa2-dataHub.png);
+}
+
 /*资源管理*/
-.constantlyvolume{background:url(../img/constantly_volume_small.png) no-repeat}
-.active .constantlyvolume,.constantlyvolume:active,.constantlyvolume:hover,.nav-link:hover .constantlyvolume{background:url(../img/constantly_volume_act.png) no-repeat;background-size:contain}
-.configvolume{background:url(../img/config_volume.png) no-repeat}
-.active .configvolume,.configvolume:active,.configvolume:hover,.nav-link:hover .configvolume{background:url(../img/config_volume_act.png) no-repeat;background-size:contain}
-.secret{background:url(../img/secret.png) no-repeat}
-.active .secret,.nav-link:hover .secret,.secret:active,.secret:hover{background:url(../img/secret_act.png) no-repeat;background-size:contain}
+.constantlyvolume {
+    background: url(../img/constantly_volume_small.png) no-repeat
+}
+
+.active .constantlyvolume, .constantlyvolume:active, .constantlyvolume:hover, .nav-link:hover .constantlyvolume {
+    background: url(../img/constantly_volume_act.png) no-repeat;
+    background-size: contain
+}
+
+.configvolume {
+    background: url(../img/config_volume.png) no-repeat
+}
+
+.active .configvolume, .configvolume:active, .configvolume:hover, .nav-link:hover .configvolume {
+    background: url(../img/config_volume_act.png) no-repeat;
+    background-size: contain
+}
+
+.secret {
+    background: url(../img/secret.png) no-repeat
+}
+
+.active .secret, .nav-link:hover .secret, .secret:active, .secret:hover {
+    background: url(../img/secret_act.png) no-repeat;
+    background-size: contain
+}
+
 /*代码构建*/
-.icon20{display:inline-block;width:21px;height:21px;vertical-align:bottom;background-size:contain}
-.icon20-log{background-image:url(../img/ser-markh.png)}
-.tab-default li .nav-link:hover .icon20-log,.uib-tab.active .icon20-log{background-image:url(../img/ser-markh-act.png);background-size:contain}
-.icon20-paper{background-image:url(../img/ser-text.png)}
-.tab-default li .nav-link:hover .icon20-paper,.uib-tab.active .icon20-paper{background-image:url(../img/ser-texth.png);background-size:contain}
+.icon20 {
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    vertical-align: bottom;
+    background-size: contain
+}
+
+.icon20-log {
+    background-image: url(../img/ser-markh.png)
+}
+
+.tab-default li .nav-link:hover .icon20-log, .uib-tab.active .icon20-log {
+    background-image: url(../img/ser-markh-act.png);
+    background-size: contain
+}
+
+.icon20-paper {
+    background-image: url(../img/ser-text.png)
+}
+
+.tab-default li .nav-link:hover .icon20-paper, .uib-tab.active .icon20-paper {
+    background-image: url(../img/ser-texth.png);
+    background-size: contain
+}
+
 /*服务部署*/
-.faa-edit{background:url(../img/ser-edit.png) no-repeat}
-.active .faa-edit,.faa-edit.active,.faa-edit:hover,.nav-link:hover .faa-edit{background-image:url(../img/ser-edith.png);background-size:contain}
-.ser-jia-edit{background:url(../img/ser-jia-edit.png) no-repeat}
-.active .ser-jia-edit,.ser-jia-edit.active,.ser-jia-edit:hover,.nav-link:hover .ser-jia-edit{background-image:url(../img/ser-jia-edith.png);background-size:contain}
-.faa-edited{background:url(../img/ser-edited.png) no-repeat}
-.active .faa-edited,.faa-edit.active,.faa-edited:hover,.nav-link:hover .faa-edited{background-image:url(../img/ser-editedh.png);background-size:contain}
-.faa-target{background:url(../img/ser-target.png) no-repeat}
-.active .faa-target,.faa-target.active,.faa-target:hover,.nav-link:hover .faa-target{background-image:url(../img/ser-targeth.png);background-size:contain}
-.faa-jia-target{background:url(../img/faa-jia-target.png) no-repeat}
-.active .faa-jia-target,.faa-jia-target.active,.faa-jia-target:hover,.nav-link:hover .faa-jia-target{background-image:url(../img/faa-jia-targeth.png);background-size:contain}
-.faa-jia-mark{background:url(../img/faa-jia-mark.png) no-repeat}
-.active .faa-jia-mark,.faa-jia-mark.active,.faa-jia-mark:hover,.nav-link:hover .faa-jia-mark{background-image:url(../img/faa-jia-markh.png);background-size:contain}
-.faa-jia-text{background:url(../img/faa-jia-text.png) no-repeat}
-.active .faa-jia-text,.faa-jia-text.active,.faa-jia-text:hover,.nav-link:hover .faa-jia-text{background-image:url(../img/faa-jia-texth.png);background-size:contain}
-.faa-text{background:url(../img/ser-text.png) no-repeat}
-.active .faa-text,.faa-text.active,.faa-text:hover,.nav-link:hover .faa-text{background-image:url(../img/ser-text.png);background-size:contain}
-.faa-mark{background-image:url(../img/ser-markh.png)}
-.active .faa-mark,.faa-mark.active,.faa-mark:hover,.nav-link:hover .faa-mark{background-image:url(../img/ser-markh.png);background-size:contain}
+.faa-edit {
+    background: url(../img/ser-edit.png) no-repeat
+}
+
+.active .faa-edit, .faa-edit.active, .faa-edit:hover, .nav-link:hover .faa-edit {
+    background-image: url(../img/ser-edith.png);
+    background-size: contain
+}
+
+.ser-jia-edit {
+    background: url(../img/ser-jia-edit.png) no-repeat
+}
+
+.active .ser-jia-edit, .ser-jia-edit.active, .ser-jia-edit:hover, .nav-link:hover .ser-jia-edit {
+    background-image: url(../img/ser-jia-edith.png);
+    background-size: contain
+}
+
+.faa-edited {
+    background: url(../img/ser-edited.png) no-repeat
+}
+
+.active .faa-edited, .faa-edit.active, .faa-edited:hover, .nav-link:hover .faa-edited {
+    background-image: url(../img/ser-editedh.png);
+    background-size: contain
+}
+
+.faa-target {
+    background: url(../img/ser-target.png) no-repeat
+}
+
+.active .faa-target, .faa-target.active, .faa-target:hover, .nav-link:hover .faa-target {
+    background-image: url(../img/ser-targeth.png);
+    background-size: contain
+}
+
+.faa-jia-target {
+    background: url(../img/faa-jia-target.png) no-repeat
+}
+
+.active .faa-jia-target, .faa-jia-target.active, .faa-jia-target:hover, .nav-link:hover .faa-jia-target {
+    background-image: url(../img/faa-jia-targeth.png);
+    background-size: contain
+}
+
+.faa-jia-mark {
+    background: url(../img/faa-jia-mark.png) no-repeat
+}
+
+.active .faa-jia-mark, .faa-jia-mark.active, .faa-jia-mark:hover, .nav-link:hover .faa-jia-mark {
+    background-image: url(../img/faa-jia-markh.png);
+    background-size: contain
+}
+
+.faa-jia-text {
+    background: url(../img/faa-jia-text.png) no-repeat
+}
+
+.active .faa-jia-text, .faa-jia-text.active, .faa-jia-text:hover, .nav-link:hover .faa-jia-text {
+    background-image: url(../img/faa-jia-texth.png);
+    background-size: contain
+}
+
+.faa-text {
+    background: url(../img/ser-text.png) no-repeat
+}
+
+.active .faa-text, .faa-text.active, .faa-text:hover, .nav-link:hover .faa-text {
+    background-image: url(../img/ser-text.png);
+    background-size: contain
+}
+
+.faa-mark {
+    background-image: url(../img/ser-markh.png)
+}
+
+.active .faa-mark, .faa-mark.active, .faa-mark:hover, .nav-link:hover .faa-mark {
+    background-image: url(../img/ser-markh.png);
+    background-size: contain
+}
+
 /*用户中心*/
-.usersbg{background:url(../../pub/img/usersbg.png) no-repeat}
-.active .usersbg,.nav-link:hover i.usersbg{background:url(../../pub/img/usersbg_hover.png) no-repeat;background-size:contain}
-.orgbg{background:url(../../pub/img/user_tu.png) no-repeat}
-.active .orgbg,.nav-link:hover i.orgbg{background:url(../../pub/img/user_tu.png) no-repeat;background-size:contain}
-.planbg{background:url(../../pub/img/user_money.png) no-repeat}
-.active .planbg,.nav-link:hover i.planbg{background:url(../../pub/img/user_money.png) no-repeat;background-size:contain}
-.accountbg{background:url(../../pub/img/user_mange.png) no-repeat}
-.active .accountbg,.nav-link:hover i.accountbg{background:url(../../pub/img/user_mange.png) no-repeat;background-size:contain}
+.usersbg {
+    background: url(../../pub/img/usersbg.png) no-repeat
+}
+
+.active .usersbg, .nav-link:hover i.usersbg {
+    background: url(../../pub/img/usersbg_hover.png) no-repeat;
+    background-size: contain
+}
+
+.orgbg {
+    background: url(../../pub/img/user_tu.png) no-repeat
+}
+
+.active .orgbg, .nav-link:hover i.orgbg {
+    background: url(../../pub/img/user_tu.png) no-repeat;
+    background-size: contain
+}
+
+.planbg {
+    background: url(../../pub/img/user_money.png) no-repeat
+}
+
+.active .planbg, .nav-link:hover i.planbg {
+    background: url(../../pub/img/user_money.png) no-repeat;
+    background-size: contain
+}
+
+.accountbg {
+    background: url(../../pub/img/user_mange.png) no-repeat
+}
+
+.active .accountbg, .nav-link:hover i.accountbg {
+    background: url(../../pub/img/user_mange.png) no-repeat;
+    background-size: contain
+}
+
 /*************************图标替换 20161123 jia end***************/
 /*输入框获取焦点*/
 /*input:focus{border-color: #c9c9c9!important;}*/
 /*20161214 jiasx add*/
-input{
-    color:#333;
-    border-radius:2px;
-    border:1px solid #DBDBDB ;
+input {
+    color: #333;
+    border-radius: 2px;
+    border: 1px solid #DBDBDB;
 }
-.dropdown>.btn {
+
+.dropdown > .btn {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+
 .fa-info-circle:before {
     margin-right: 3px;
 }
-.fa-info-circle:before{margin-right:3px;}
+
+.fa-info-circle:before {
+    margin-right: 3px;
+}
+
 /*按钮颜色设置*/
-.build-jia{background:#47B2FB;}
-.build-jia:hover{background-color: #98D4FD;color:#fff!important;}
-.build-jia:active{background-color: #168DDE;color:#fff!important;}
+.build-jia {
+    background: #47B2FB;
+}
 
+.build-jia:hover {
+    background-color: #98D4FD;
+    color: #fff !important;
+}
 
-.build_searchbar .btn{background:url(../img/search.png) no-repeat 0 -1px!important;}
+.build-jia:active {
+    background-color: #168DDE;
+    color: #fff !important;
+}
+
+.build_searchbar .btn {
+    background: url(../img/search.png) no-repeat 0 -1px !important;
+}
+
 .build_searchbar .btn:hover {
-    background: url(../img/search-focus.png) no-repeat 0 -1px!important; ;
+    background: url(../img/search-focus.png) no-repeat 0 -1px !important;;
 }
 
 .pr40 {
     padding-right: 40px;
 }
 
-td  a:hover, a:focus{
+td a:hover, a:focus {
     color: #47B2FB;
 }
 
@@ -1699,11 +2096,11 @@ td  a:hover, a:focus{
 
 .input-group .form-control:first-child,
 .input-group-addon:first-child,
-.input-group-btn:first-child>.btn,
-.input-group-btn:first-child>.btn-group>.btn,
-.input-group-btn:first-child>.dropdown-toggle,
-.input-group-btn:last-child>.btn-group:not(:last-child)>.btn,
-.input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle) {
+.input-group-btn:first-child > .btn,
+.input-group-btn:first-child > .btn-group > .btn,
+.input-group-btn:first-child > .dropdown-toggle,
+.input-group-btn:last-child > .btn-group:not(:last-child) > .btn,
+.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0
 }
@@ -1714,21 +2111,23 @@ td  a:hover, a:focus{
 
 .input-group .form-control:last-child,
 .input-group-addon:last-child,
-.input-group-btn:first-child>.btn-group:not(:first-child)>.btn,
-.input-group-btn:first-child>.btn:not(:first-child),
-.input-group-btn:last-child>.btn,
-.input-group-btn:last-child>.btn-group>.btn,
-.input-group-btn:last-child>.dropdown-toggle {
+.input-group-btn:first-child > .btn-group:not(:first-child) > .btn,
+.input-group-btn:first-child > .btn:not(:first-child),
+.input-group-btn:last-child > .btn,
+.input-group-btn:last-child > .btn-group > .btn,
+.input-group-btn:last-child > .dropdown-toggle {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0
 }
+
 .input-group-addon {
-    background-image:none;
+    background-image: none;
     background-color: #47B2FB;
 }
+
 .input-group-addon:last-child {
     border-left: 0
-    
+
 }
 
 .input-group-btn {
@@ -1737,27 +2136,27 @@ td  a:hover, a:focus{
     white-space: nowrap
 }
 
-.input-group-btn>.btn {
+.input-group-btn > .btn {
     position: relative
 }
 
-.input-group-btn>.btn+.btn {
+.input-group-btn > .btn + .btn {
     margin-left: -1px
 }
 
-.input-group-btn>.btn:active,
-.input-group-btn>.btn:focus,
-.input-group-btn>.btn:hover {
+.input-group-btn > .btn:active,
+.input-group-btn > .btn:focus,
+.input-group-btn > .btn:hover {
     z-index: 2
 }
 
-.input-group-btn:first-child>.btn,
-.input-group-btn:first-child>.btn-group {
+.input-group-btn:first-child > .btn,
+.input-group-btn:first-child > .btn-group {
     margin-right: -1px
 }
 
-.input-group-btn:last-child>.btn,
-.input-group-btn:last-child>.btn-group {
+.input-group-btn:last-child > .btn,
+.input-group-btn:last-child > .btn-group {
     z-index: 2;
     margin-left: -1px
 }
@@ -1815,8 +2214,43 @@ td  a:hover, a:focus{
     color: #0099d3
 }
 
-#build-detail .uex-icon-copy:before{
-    content:'\e922';
+#build-detail .uex-icon-copy:before {
+    content: '\e922';
     color: #475669;
 }
-#build-detail .uex-icon-copy:hover:before{color:#47B2FB;}
+
+#build-detail .uex-icon-copy:hover:before {
+    color: #47B2FB;
+}
+
+/* 公共框架 */
+.df_frame {
+    background: #fff;
+    margin: 62px 20px 0px !important;
+    padding: 20px;
+    padding-bottom: 50px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.04);
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.04);
+}
+
+/* 公共标题 */
+.df_tit {
+    font-size: 12px;
+    color: #1F2D3D;
+    font-weight: bold;
+    margin: 0px;
+    margin-bottom: 10px;
+    border-left: 3px solid #47B2FB;
+    padding-left: 10px;
+}
+
+.tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover {
+    border: 0;
+    border-bottom: 3px solid #47B2FB;
+    color: #47B2FB;
+}
+
+.tab-jia-default .tab-content {
+    border: 0;
+    padding: 20px 0px;
+}

@@ -1,312 +1,309 @@
-<div class="buildcreat" id="newbuildcreat">
-    <div>
-        <form class="form-horizontal" name="frm">
-            <div>
-                <div class="panel panel-default build-jia-default">
-                    <div class="panel-heading panel-jia-heading ">
-                        <span class="panel-title panel-jia-title">新建构建</span>
+<div class="buildcreat df_frame" id="newbuildcreat" confull-height>
+    <form class="form-horizontal" name="frm">
+        <div class="panel panel-default build-jia-default" style="margin-bottom: 0;">
+            <div class="panel-jia-heading">
+                <span class="panel-title panel-jia-title df_tit">构建设置</span>
+            </div>
+            <div class="panel-body panel-block-jia-body">
+                <div class="form-jia-line build-creat-top">
+                    <label class="col-sm-2 control-label text-left creat-name-lablel require"
+                           style="width: 120px;">构建名称</label>
+                    <div class="col-sm-10 pr40">
+                        <input ng-model="buildConfig.metadata.name" ng-blur="nameblur()"
+                               onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
+                               ng-focus="namefocus()" type="text" name="name"
+                               class="form-control creat-name-input build-ipt-name"
+                               required placeholder="名称只能包含小写字母">
+                        <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
+                        </small>
+                        <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">
+                            请输入4~30位名称,名称只能包含小写英文、数字以及“-”(不能以数字开头)
+                        </small>
+                        <small ng-if="namerr.repeated" class="fa fa-info-circle err-tip">输入的名称已重复
+                        </small>
                     </div>
-                    <div class="panel-body panel-block-jia-body">
-                        <div class="form-group form-jia-line build-creat-top">
-                            <label class="col-sm-2 control-label text-left creat-name-lablel">构建名称</label>
-                            <!-- <div class="col-sm-10 pr40">
-                                <input ng-model="buildConfig.metadata.name"
-                                       ng-blur="nameblur()"
-                                       onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
-                                       ng-focus="namefocus()"
-                                       type="text" name="name" class="form-control creat-name-input"
-                                       required
-                                       placeholder="例如：datafoundry">
+                </div>
+            </div>
+            <div class="panel-jia-heading" style="margin-top: 20px">
+                <span class="panel-title panel-jia-title df_tit">代码URL设置</span>
+            </div>
+            <div class="panel-body panel-block-jia-body">
+                <div class="form-jia-line build-creat-center">
+                    <label class="col-sm-2 control-label creat-tab-lablel" style="width: 120px;">URL类型</label>
+                    <div class="col-sm-10 bc creat-tab" id="bc">
+                        <uib-tabset class="tab-default tab-jia-default" active="buildcheck">
+                            <!--gitlab-->
+                            <uib-tab index="1" heading="GitLab" classes="GitLab">
+                                <div class="tabinfo tab-lab">
 
+                                    <div class="tab-lab-img img-block">
+                                        <svg t="1530156016674" class="icon svg_img" viewBox="0 0 1024 1024"
+                                             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2681"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
+                                            <defs>
+                                                <style type="text/css"></style>
+                                            </defs>
+                                            <path d="M1022.08 579.712l-57.28-176.384L851.2 53.888c-5.76-18.048-31.232-18.048-37.12 0L700.544 403.2H323.456L209.92 53.888C204.032 35.84 178.56 35.84 172.8 53.76L59.136 403.2 1.92 579.712a39.168 39.168 0 0 0 14.08 43.648L512 983.68l496-360.32a39.104 39.104 0 0 0 14.08-43.648"
+                                                  fill="" p-id="2682"></path>
+                                        </svg>
+                                    </div>
+                                    <!-- <img class="tab-lab-img" src="views/build_create/img/images02_178.png"> -->
+                                    <p class="tab-lab-text">DataFoundry 提供的代码仓库（
+                                        <a href="https://code.dataos.io" target="view_window" class="view-jia-tit">https://code.dataos.io</a>）
+                                    </p>
+                                    <p class="tab-lab-text" style="margin-top: 5px">是可靠的自托管的Git项目仓库，
+                                        可通过Web界面进行访问公开的或者私人项目。
+                                    </p>
+                                    <p style="height: 16px;margin-top: 14px">
+                                        <!--ng-show="needbind.gitlab"-->
+                                        <a class="view_tit_set" ng-class="{'greycolor':!needbind.gitlab}"
+                                           style="margin-right: 32px;" ng-click="needbind.gitlab&&bindhub('gitlab')">
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
+                                                <i class="uex-icon-protocol-deafult"></i>
+                                            </span>绑定&nbsp;Gitlab&nbsp;&nbsp;</a>
+                                        <a class="view_tit_set" ng-class="{'running':labrunning }" uib-tooltip="同步代码源"
+                                           ng-click="loadOwner('gitlab')">
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
+                                                <i class="uex-icon-refresh"></i>
+                                            </span>
+                                            同步代码源
+                                        </a>
+                                    </p>
 
-                            </div> -->
-
-                            <div class="col-sm-10 pr40">
-                                <input ng-model="buildConfig.metadata.name" ng-blur="nameblur()" onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
-                                    ng-focus="namefocus()" type="text" name="name" class="form-control creat-name-input build-ipt-name"
-                                    required placeholder="名称只能包含小写字母">
-                                <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
-                                </small>
-                                <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">
-                                    请输入4~30位名称,名称只能包含小写英文、数字以及“-”(不能以数字开头)
-                                </small>
-                                <small ng-if="namerr.repeated" class="fa fa-info-circle err-tip">输入的名称已重复
-                                </small>
-                            </div>
-        
-
-
-                        </div>
-                        <div class="form-group form-jia-line build-creat-center">
-                            <label class="col-sm-2 control-label creat-tab-lablel">代码URL</label>
-                            <div class="col-sm-10 bc creat-tab" id="bc">
-                                <uib-tabset class="tab-default tab-jia-default" active="buildcheck">
-                                    <!--gitlab-->
-                                    <uib-tab index="1" heading="GitLab">
-                                        <div class="tabinfo tab-lab">
-                                            <a class="btn pull-right tab-lab-reload" ng-class="{'running':labrunning}"
-                                               uib-tooltip="同步代码源"
-                                               ng-click="loadOwner('gitlab')">
-                                                <i class="fa fa-green fa-lg fa-refresh"></i>
-                                            </a>
-                                            <img class="tab-lab-img"
-                                                 src="views/build_create/img/images02_178.png">
-                                    <p class="tab-lab-text">DataFoundry 提供的代码仓库（<a href="https://code.dataos.io"
-                                                                                      target="view_window"
-                                                                                      class="view-jia-tit">https://code.dataos.io</a>）是可靠的自托管的 Git 项目仓库，
-                                    可通过Web 界面进行访问公开的或者私人项目。</p>
-                                            <p><a class="view_tit_set" ng-show="needbind.gitlab" ng-click="bindhub('gitlab')">绑定Gitlab</a></p>
-                                        </div>
-                                    </uib-tab>
-                                    <!--github-->
-                                    <uib-tab index="2" heading="GitHub">
-                                        <!--<uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">-->
-                                        <div class="tabinfo tab-lab">
-                                            <a class="btn pull-right tab-lab-reload"
-                                               uib-tooltip="同步代码源"
-                                               ng-click="loadOwner('github')">
-                                                <i class="fa fa-green fa-lg fa-refresh"></i>
-                                            </a>
-                                            <img class="tab-lab-img"
-                                                 src="views/build_create/img/github.png">
-                                            <p class="tab-lab-text">Github 于 2008 年上线，目前，除了 Git 代码仓库托管以及基本的 Web 管理界面以外 、 还提供了订阅 、讨论组 、文本渲染 、
-                                            在线文件编辑器 、协作图谱（报表） 、代码片段分享（Gist）等功能。</p>
-                                            <p><a class="view_tit_set"  ng-show="needbind.github" ng-click="bindhub('github')">绑定Github</a></p>
-                                        </div>
-
-                                    </uib-tab>
-
-                                    <!-- <uib-tab index="3" heading="Git仓库">
-                                        <form class="form-horizontal tab-reg">
-                                            <p class="tab-reg-tittle">如果是私有代码库，需要输入用户名口令。</p>
-                                            <div class="form-group">
-                                                <label for="address"
-                                                       class="col-md-3 control-label require tab-reg-label"
-                                                >仓库地址</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control tab-reg-input" id="address"
-                                                           ng-model="buildConfig.spec.source.git.uri">
-                                                </div>
-                                            </div>
-                                            <div class="form-group tab-reg-div">
-                                                <label for="ref" class="col-md-3 control-label tab-reg-label"
-                                                >分支/Tag/Commit</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" placeholder="" class="form-control tab-reg-input"
-                                                           id="ref"
-                                                           ng-model="buildConfig.spec.source.git.ref">
-                                                </div>
-                                            </div>
-                                            <div class="form-group tab-reg-div">
-                                                <label for="dockeraddress" class="col-md-3 control-label tab-reg-label"
-                                                >Dockerfile路径</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" placeholder="" class="form-control tab-reg-input"
-                                                           id="dockeraddress"
-                                                           ng-model="buildConfig.spec.source.contextDir">
-                                                </div>
-                                            </div>
-                                            <div class="form-group tab-reg-div">
-                                                <label for="susername" class="col-md-3 control-label tab-reg-label"
-                                                >用户名</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control tab-reg-input" id="susername"
-                                                           ng-model="sername.name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group tab-reg-div">
-                                                <label for="spwd" class="col-md-3 control-label text-left tab-reg-label"
-                                                >口令</label>
-                                                <div class="col-md-9">
-                                                    <input type="password" class="form-control tab-reg-input" id="spwd"
-                                                           ng-model="sername.pwd">
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </uib-tab> -->
-                                    <uib-tab index="3" heading="Git仓库" classes="Git" style="font-size: 12px;">
-                                        <div style="margin-left: 16px">
-                                            <p style="font-size: 12px;margin-left: -15px">
-                                                <label>
-                                                    <input type="radio" name="CodeBase" value=1 ng-model="selectCodeBase.status">
-                                                </label>
-                                                <span style="padding-left: 5px;">公有代码库</span>
-                                                <label style="margin-left: 22px;">
-                                                    <input type="radio" name="CodeBase" value=2 ng-model="selectCodeBase.status">
-                                                </label>
-                                                <span style="padding-left: 5px;">私有代码库</span>
-                                            </p>
-                                            <div ng-if="selectCodeBase.status==1">
-                                                <div class="form-group">
-                                                        <label for="address"
-                                                               class="control-label require tab-reg-label label-font">仓库地址</label>
-                                                        <div>
-                                                            <input type="text"
-                                                                   class="form-control tab-reg-input form-control-input-line"
-                                                                   ng-model="buildConfig.spec.source.git.uri">
-                                                            <small ng-show="privateErr.urlerr"
-                                                                   class="fa fa-info-circle err-tip">
-                                                                请输入正确仓库地址
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                <div class="form-group">
-                                                    <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
-                                                    <div>
-                                                        <input type="text" placeholder="" class="form-control tab-reg-input form-control-input-line" ng-model="buildConfig.spec.source.git.ref">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group tab-reg-div">
-                                                    <label for="dockeraddress" class="control-label tab-reg-label label-font">Dockerfile路径</label>
-                                                    <div class="">
-                                                        <input type="text" placeholder="/" class="form-control tab-reg-input form-control-input-line" ng-model="buildConfig.spec.source.contextDir">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div ng-if="selectCodeBase.status==2">
-                                                <div class="form-group">
-                                                    <label for="address" class="control-label tab-reg-label require label-font">仓库地址</label>
-                                                    <div>
-                                                        <input type="text" class="form-control tab-reg-input form-control-input-line" id="address" ng-model="buildConfig.spec.source.git.uri">
-                                                        <small ng-show="privateErr.urlerr" class="fa fa-info-circle err-tip">
-                                                            请输入正确仓库地址
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group tab-reg-div">
-                                                    <label for="susername" class="control-label require tab-reg-label label-font">用户名</label>
-                                                    <div class="">
-                                                        <input type="text" class="form-control tab-reg-input form-control-input-line" id="susername" ng-model="sername.name">
-                                                        <small ng-show="privateErr.usernameerr" class="fa fa-info-circle err-tip">
-                                                            请输入正确用户名,由26个英文字母组成的字符串
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group tab-reg-div">
-                                                    <label for="spwd" class="control-label text-left require tab-reg-label label-font">口令</label>
-                                                    <div class="">
-                                                        <input type="password" class="form-control tab-reg-input form-control-input-line" id="spwd" ng-model="sername.pwd">
-                                                        <small ng-show="privateErr.pwderr" class="fa fa-info-circle err-tip">
-                                                            请输入正确口令，以字母开头，长度在6~18之间，只能包含字母、数字和下划线
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
-                                                    <div>
-                                                        <input type="text" placeholder="" class="form-control tab-reg-input form-control-input-line" id="ref" ng-model="buildConfig.spec.source.git.ref">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group tab-reg-div">
-                                                    <label for="dockeraddress" class="control-label tab-reg-label label-font">Dockerfile路径</label>
-                                                    <div class="">
-                                                        <input type="text" placeholder="/" class="form-control tab-reg-input form-control-input-line" id="dockeraddress" ng-model="buildConfig.spec.source.contextDir">
-                                                    </div>
-                                                </div>
+                                </div>
+                            </uib-tab>
+                            <!--github-->
+                            <uib-tab index="2" heading="GitHub" classes="GitHub">
+                                <!--<uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">-->
+                                <div class="tabinfo tab-lab">
+                                    <div class="tab-lab-img img-block">
+                                        <svg t="1530155414728" class="icon svg_img" style="" viewBox="0 0 1024 1024"
+                                             version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2017"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
+                                            <defs>
+                                                <style type="text/css"></style>
+                                            </defs>
+                                            <path d="M950.857143 512q0 143.428571-83.714286 258T650.857143 928.571429q-15.428571 2.857143-22.571429-4t-7.142857-17.142858v-120.571428q0-55.428571-29.714286-81.142857 32.571429-3.428571 58.571429-10.285715t53.714286-22.285714 46.285714-38 30.285714-60T792 489.142857q0-69.142857-45.142857-117.714286 21.142857-52-4.571429-116.571428-16-5.142857-46.285714 6.285714t-52.571429 25.142857l-21.714285 13.714286q-53.142857-14.857143-109.714286-14.857143t-109.714286 14.857143q-9.142857-6.285714-24.285714-15.428571T330.285714 262.571429 281.142857 254.857143q-25.142857 64.571429-4 116.571428-45.142857 48.571429-45.142857 117.714286 0 48.571429 11.714286 85.714286t30 60 46 38.285714 53.714285 22.285714 58.571429 10.285715q-22.857143 20.571429-28 58.857143-12 5.714286-25.714286 8.571428t-32.571428 2.857143-37.428572-12.285714T276.571429 728q-10.857143-18.285714-27.714286-29.714286t-28.285714-13.714285l-11.428572-1.714286q-12 0-16.571428 2.571428t-2.857143 6.571429 5.142857 8 7.428571 6.857143l4 2.857143q12.571429 5.714286 24.857143 21.714285t18 29.142858l5.714286 13.142857q7.428571 21.714286 25.142857 35.142857t38.285714 17.142857 39.714286 4 31.714286-2l13.142857-2.285714q0 21.714286 0.285714 50.857143t0.285714 30.857142q0 10.285714-7.428571 17.142858t-22.857143 4q-132.571429-44-216.285714-158.571429T73.142857 512q0-119.428571 58.857143-220.285714T291.714286 132 512 73.142857t220.285714 58.857143T892 291.714286 950.857143 512z"
+                                                  p-id="2018"></path>
+                                        </svg>
+                                    </div>
+                                    <!-- <img class="tab-lab-img" src="views/build_create/img/github.png"> -->
+                                    <p class="tab-lab-text">Github于2008年上线目前，除了Git代码仓库托管以及基本的Web管理界面以外</p>
+                                    <p class="tab-lab-text" style="margin-top: 5px">还提供了订阅、讨论组 、文本渲染 、在线文件编辑器
+                                        、协作图谱（报表）、代码片段分享（Gist）等功能。
+                                    </p>
+                                    <p style="height: 16px;margin-top: 14px">
+                                        <a class="view_tit_set" style="margin-right: 32px;"
+                                           ng-class="{'greycolor':!needbind.github}"
+                                           ng-click="needbind.github&&bindhub('github')">
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
+                                                <i class="uex-icon-protocol-deafult"></i>
+                                            </span>绑定&nbsp;Github
+                                        </a>
+                                        <a class="view_tit_set" uib-tooltip="同步代码源" ng-click="loadOwner('github')">
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
+                                                <i class="uex-icon-refresh"></i>
+                                            </span>
+                                            同步代码源
+                                        </a>
+                                    </p>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="3" heading="Git仓库" classes="Git" style="font-size: 12px;">
+                                <div style="margin-left: 16px">
+                                    <p style="font-size: 12px;margin-left: -15px">
+                                        <label>
+                                            <input type="radio" name="CodeBase" value=1
+                                                   ng-model="selectCodeBase.status">
+                                        </label>
+                                        <span style="padding-left: 5px;">公有代码库</span>
+                                        <label style="margin-left: 22px;">
+                                            <input type="radio" name="CodeBase" value=2
+                                                   ng-model="selectCodeBase.status">
+                                        </label>
+                                        <span style="padding-left: 5px;">私有代码库</span>
+                                    </p>
+                                    <div ng-if="selectCodeBase.status==1">
+                                        <div class="form-group">
+                                            <label for="address"
+                                                   class="control-label require tab-reg-label label-font">仓库地址</label>
+                                            <div>
+                                                <input type="text"
+                                                       class="form-control tab-reg-input form-control-input-line"
+                                                       ng-model="buildConfig.spec.source.git.uri">
+                                                <small ng-show="privateErr.urlerr"
+                                                       class="fa fa-info-circle err-tip">
+                                                    请输入正确仓库地址
+                                                </small>
                                             </div>
                                         </div>
-        
-                                    </uib-tab>
-
-                                </uib-tabset>
-                                <div class="is-box creat-box" ng-hide=buildcheck==3>
-                                    <div class="panel panel-default first col-md-4 box-div" ng-show="buildcheck==1">
-                                        <div class="panel-heading">
-                                            <img src="views/build_create/img/user.png">
-                                            用户/组织
+                                        <div class="form-group">
+                                            <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
+                                            <div>
+                                                <input type="text" placeholder=""
+                                                       class="form-control tab-reg-input form-control-input-line"
+                                                       ng-model="buildConfig.spec.source.git.ref">
+                                            </div>
                                         </div>
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li class="labcon" ng-repeat="org in gitload.gitlab">
-                                                    <a href="javascript:;" uib-tooltip="{{org.namespace}}"
-                                                       ng-class="{'active': grid.org == $index}"
-                                                       ng-click="selectorg($index,org)">
-                                                        <i class="faa faa-check"></i>&nbsp;&nbsp;{{org.namespace}}
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                        <div class="form-group tab-reg-div">
+                                            <label for="dockeraddress" class="control-label tab-reg-label label-font">Dockerfile路径</label>
+                                            <div class="">
+                                                <input type="text" placeholder="/"
+                                                       class="form-control tab-reg-input form-control-input-line"
+                                                       ng-model="buildConfig.spec.source.contextDir">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-default first col-md-4 box-div" ng-show="buildcheck==2">
-                                        <div class="panel-heading">
-                                            <img src="views/build_create/img/user.png">
-                                            用户/组织
+                                    <div ng-if="selectCodeBase.status==2">
+                                        <div class="form-group">
+                                            <label for="address" class="control-label tab-reg-label require label-font">仓库地址</label>
+                                            <div>
+                                                <input type="text"
+                                                       class="form-control tab-reg-input form-control-input-line"
+                                                       id="address" ng-model="buildConfig.spec.source.git.uri">
+                                                <small ng-show="privateErr.urlerr" class="fa fa-info-circle err-tip">
+                                                    请输入正确仓库地址
+                                                </small>
+                                            </div>
                                         </div>
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li class="labcon" ng-repeat="org in gitload.github">
-                                                    <a href="javascript:;" uib-tooltip="{{org.namespace}}"
-                                                       ng-class="{'active': grid.org == $index}"
-                                                       ng-click="selectorg($index,org)">
-                                                        <i class="faa faa-check"></i>&nbsp;&nbsp;{{org.namespace}}
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                        <div class="form-group tab-reg-div">
+                                            <label for="susername"
+                                                   class="control-label require tab-reg-label label-font">用户名</label>
+                                            <div class="">
+                                                <input type="text"
+                                                       class="form-control tab-reg-input form-control-input-line"
+                                                       id="susername" ng-model="sername.name">
+                                                <small ng-show="privateErr.usernameerr"
+                                                       class="fa fa-info-circle err-tip">
+                                                    请输入正确用户名,由26个英文字母组成的字符串
+                                                </small>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="panel panel-default col-md-4 box-div">
-                                        <div class="panel-heading">
-                                            <img src="views/build_create/img/project.png">
-                                            项目
+                                        <div class="form-group tab-reg-div">
+                                            <label for="spwd"
+                                                   class="control-label text-left require tab-reg-label label-font">口令</label>
+                                            <div class="">
+                                                <input type="password"
+                                                       class="form-control tab-reg-input form-control-input-line"
+                                                       id="spwd" ng-model="sername.pwd">
+                                                <small ng-show="privateErr.pwderr" class="fa fa-info-circle err-tip">
+                                                    请输入正确口令，以字母开头，长度在6~18之间，只能包含字母、数字和下划线
+                                                </small>
+                                            </div>
                                         </div>
-                                        <div class="panel-body">
-
-                                            <ul style="">
-                                                <li class="labcon" ng-repeat="repo in gitdata.repos">
-                                                    <a href="javascript:;" uib-tooltip="{{repo.name}}"
-                                                       ng-class="{'active': grid.repo == $index}"
-                                                       ng-click="selectrepo($index,repo)">
-                                                        <i class="faa faa-check"></i>&nbsp;&nbsp;{{repo.name}}
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                        <div class="form-group">
+                                            <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
+                                            <div>
+                                                <input type="text" placeholder=""
+                                                       class="form-control tab-reg-input form-control-input-line"
+                                                       id="ref" ng-model="buildConfig.spec.source.git.ref">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="panel panel-default third col-md-4">
-                                        <div class="panel-heading">
-                                            <img src="views/build_create/img/branch.png">
-                                            代码分支
-                                        </div>
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li class="labcon" ng-repeat="branch in gitdata.branchs">
-                                                    <a href="javascript:;" uib-tooltip="{{branch.name}}"
-                                                       ng-class="{'active': grid.branch == $index}"
-                                                       ng-click="selectbranch($index,branch)">
-                                                        <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                        <div class="form-group tab-reg-div">
+                                            <label for="dockeraddress" class="control-label tab-reg-label label-font">Dockerfile路径</label>
+                                            <div class="">
+                                                <input type="text" placeholder="/"
+                                                       class="form-control tab-reg-input form-control-input-line"
+                                                       id="dockeraddress" ng-model="buildConfig.spec.source.contextDir">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
+                            </uib-tab>
+                        </uib-tabset>
+                        <div class="is-box creat-box" ng-show='buildcheck!==3&&showbox'>
+                            <div class="panel panel-default first col-md-4 box-div" ng-show="buildcheck==1">
+                                <div class="panel-heading">
+                                    <!--<img src="views/build_create/img/user.png">-->
+                                    用户/组织
+                                    <small ng-show="gitStatus.organization" class="fa fa-info-circle err-tip">
+                                        请选择用户/组织
+                                    </small>
+                                </div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li class="labcon" ng-repeat="org in gitload.gitlab">
+                                            <a href="javascript:;" uib-tooltip="{{org.namespace}}"
+                                               ng-class="{'active': grid.org == $index}"
+                                               ng-click="selectorg($index,org)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{org.namespace}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default first col-md-4 box-div" ng-show="buildcheck==2">
+                                <div class="panel-heading">
+                                    <!--<img src="views/build_create/img/user.png">-->
+                                    用户/组织
+                                    <small ng-show="gitStatus.organization" class="fa fa-info-circle err-tip">
+                                        请选择用户/组织
+                                    </small>
+                                </div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li class="labcon" ng-repeat="org in gitload.github">
+                                            <a href="javascript:;" uib-tooltip="{{org.namespace}}"
+                                               ng-class="{'active': grid.org == $index}"
+                                               ng-click="selectorg($index,org)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{org.namespace}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel panel-default col-md-4 box-div">
+                                <div class="panel-heading">
+                                    <!--<img src="views/build_create/img/project.png">-->
+                                    项目
+                                    <small ng-show="gitStatus.project" class="fa fa-info-circle err-tip">
+                                        请选择项目
+                                    </small>
+                                </div>
+                                <div class="panel-body">
+                                    <ul style="">
+                                        <li class="labcon" ng-repeat="repo in gitdata.repos">
+                                            <a href="javascript:;" uib-tooltip="{{repo.name}}"
+                                               ng-class="{'active': grid.repo == $index}"
+                                               ng-click="selectrepo($index,repo)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{repo.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel panel-default third col-md-4">
+                                <div class="panel-heading">
+                                    <!--<img src="views/build_create/img/branch.png">-->
+                                    代码分支
+                                    <small ng-show="gitStatus.codeBranch" class="fa fa-info-circle err-tip">
+                                        请选择代码分支
+                                    </small>
+                                </div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li class="labcon" ng-repeat="branch in gitdata.branchs">
+                                            <a href="javascript:;" uib-tooltip="{{branch.name}}"
+                                               ng-class="{'active': grid.branch == $index}"
+                                               ng-click="selectbranch($index,branch)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <!--<div class="form-group build-creat-foot">-->
-                            <!--<label class="col-sm-2 control-label text-left creat-foot-time"-->
-                                   <!--style="">构建超时时长</label>-->
-                            <!--<div class="col-sm-10">-->
-                                <!--<input onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)"-->
-                                       <!--onblur="this.v();" ng-model="completionDeadlineMinutes" name="cdm" min="1"-->
-                                       <!--max="60"-->
-                                       <!--style="" type="text" class="form-control creat-foot-input">-->
-                                <!--<span class="creat-foot-min" style="">分钟</span>-->
-                                <!--<span class="font12">&nbsp;&nbsp;请不要超过60分钟</span><br>-->
-                                <!--&lt;!&ndash;<small ng-if="timeouted" class="fa fa-exclamation-circle"&ndash;&gt;-->
-                                <!--&lt;!&ndash;style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;您设置的时长超过了限制，请重新设置&ndash;&gt;-->
-                                <!--&lt;!&ndash;</small>&ndash;&gt;-->
-                            <!--</div>-->
-                        <!--</div>-->
                     </div>
-                    <a class="btn btn-block"
-                       ng-class="{'btn-orange':true}"
-                       ng-click="create()"
-                       style="margin-bottom:30px;margin-left:52px;margin-right:52px;width:auto;border-radius:0;">开始构建</a>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
+    <!--<div style="position: absolute;width: 100%;height: 1px;bottom: 70px"></div>-->
+    <div class="creatfooter" style="margin-top: 20px;">
+
+        <a class="btn btn-resources" ng-class="{'btn-orange':true}" ng-click="create()"
+           style="margin-right:52px;width:auto;border-radius:4px;">开始构建</a>
     </div>
 </div>
-
-
