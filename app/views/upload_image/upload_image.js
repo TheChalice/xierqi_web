@@ -8,7 +8,7 @@ angular.module('home.uploadimage', [{
         function ($location, GLOBAL, Cookie, $rootScope, $state, ImageStream, $scope, toastr, $interval, uploadimageapi) {
             var host = '';
             var tokens = Cookie.get('df_access_token');
-            var tokenarr = tokens.split(',')
+            var tokenarr = tokens.split(',');
             $scope.file = {
                 data: ''
             };
