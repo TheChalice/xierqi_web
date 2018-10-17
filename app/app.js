@@ -62,6 +62,7 @@ define([
             size: 10,
             host: '/oapi/v1',
             host_k8s: '/api/v1',
+            uploadimage: '/uploadimage',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
