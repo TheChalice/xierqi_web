@@ -4,8 +4,8 @@ angular.module('home.uploadimage', [{
         'views/upload_image/upload_image.css'
     ]
 }])
-    .controller('uploadimageCtrl', ['$location', 'GLOBAL', 'Cookie', '$rootScope', '$state', 'ImageStream', '$scope','toastr', '$interval','uploadimageapi',
-        function ($location, GLOBAL, Cookie, $rootScope, $state, ImageStream, $scope, toastr, $interval, uploadimageapi) {
+    .controller('uploadimageCtrl', ['$location', 'GLOBAL', 'Cookie', '$rootScope', '$state', 'ImageStream', '$scope','toastr', '$interval', 'Upload','uploadimageapi',
+        function ($location, GLOBAL, Cookie, $rootScope, $state, ImageStream, $scope, toastr, $interval, Upload,uploadimageapi) {
             var host = '';
             var tokens = Cookie.get('df_access_token');
             var tokenarr = tokens.split(',');
@@ -59,7 +59,7 @@ angular.module('home.uploadimage', [{
                     $scope.grid.tag = 'latest'
                 }
 
-                $scope.grid.clickbtn = 'inhand'
+                $scope.grid.clickbtn = 'inhand';
                 browserMD5File($scope.file.data, function (err, md5) {
                     $scope.grid.clickbtn = 'dontclick';
                     $('#myModalBtn').click();
