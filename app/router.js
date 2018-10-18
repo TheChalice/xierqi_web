@@ -238,6 +238,16 @@ define([
                         }]
                     }
                 })//ok
+                .state('console.uploadimage', {
+                    url: '/:namespace/uploadimage',
+                    templateUrl: 'views/upload_image/upload_image.html',
+                    controller: 'uploadimageCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/upload_image/upload_image.js')
+                        }]
+                    }
+                })
                 //pipeline
                 .state('console.pipeline', {
                     url: '/:namespace/pipeline',

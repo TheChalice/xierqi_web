@@ -30,7 +30,9 @@ define([
     'ace',
     'ui_ace',
     'stateEvents',
-    'toastr'
+    'toastr',
+    'uploadShim',
+    'ngUpload'
 ], function(angular) {
 
     // 声明应用及其依赖
@@ -55,13 +57,15 @@ define([
         'myApp.fromFile',
         'myApp.modals',
         'ui.router.state.events',
-        'toastr'
+        'toastr',
+        'ngFileUpload'
     ]);
 
     DataFoundry.constant('GLOBAL', {
             size: 10,
             host: '/oapi/v1',
             host_k8s: '/api/v1',
+            uploadimage: '/uploadimage',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
