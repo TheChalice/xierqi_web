@@ -93,7 +93,7 @@ angular.module('home.uploadimage', [{
                                     closeButton: true
                                 });
 
-                                $state.go("console.private-image", {namespace: $rootScope.namespace});
+                                $state.go("console.image", {namespace: $rootScope.namespace});
                             }
 
                         }, function (err) {
@@ -115,8 +115,8 @@ angular.module('home.uploadimage', [{
                 });
             };
             $scope.changename = function (item) {
-                $scope.grid.name = item.metadata.name
-                $scope.myistag = item.status.tags
+                $scope.grid.name = item.metadata.name;
+                $scope.myistag = item.status.tags;
                 $scope.grid.tag = item.status.tags[0].tag
             };
             $scope.changetag = function (tag) {
