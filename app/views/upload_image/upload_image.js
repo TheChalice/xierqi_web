@@ -4,7 +4,7 @@ angular.module('home.uploadimage', [{
         'views/upload_image/upload_image.css'
     ]
 }])
-    .controller('uploadimageCtrl', ['$location', 'GLOBAL', 'Cookie', '$rootScope', '$state', 'ImageStream', '$scope', 'toastr', '$interval', 'uploadimageapi',
+    .controller('uploadimageCtrl', ['$location', 'GLOBAL', 'Cookie', '$rootScope', '$state', 'ImageStream', '$scope','toastr', '$interval', 'uploadimageapi',
         function ($location, GLOBAL, Cookie, $rootScope, $state, ImageStream, $scope, toastr, $interval, uploadimageapi) {
             var host = '';
             var tokens = Cookie.get('df_access_token');
