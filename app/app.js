@@ -30,7 +30,9 @@ define([
     'ace',
     'ui_ace',
     'stateEvents',
-    'toastr'
+    'toastr',
+    'uploadShim',
+    'ngUpload'
 ], function(angular) {
 
     // 声明应用及其依赖
@@ -55,7 +57,8 @@ define([
         'myApp.fromFile',
         'myApp.modals',
         'ui.router.state.events',
-        'toastr'
+        'toastr',
+        'ngFileUpload'
     ]);
 
     DataFoundry.constant('GLOBAL', {
