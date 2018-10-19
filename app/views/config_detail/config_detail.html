@@ -1,4 +1,4 @@
-<div id='config_d' class="config-detail" style="background:#fff;padding:20px 38px 38px;">
+<div id='config-detail' class="config-detail df_frame" confull-height>
     <div class="loader" ng-show="!volume">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -6,184 +6,94 @@
         </div>
     </div>
     <div ng-show="volume">
-        <div class="panel panel-default" style="margin-bottom: 50px">
-            <div class="panel-heading">
-            <span class="panel-title">
-                <span class="icon25 configicon"></span>&nbsp;&nbsp;{{volume.metadata.name}}
-            </span>
-                <a class="btn btn-gray pull-right"
-                   style=" padding: 6px 12px; margin-left: 15px;font-size:14px;"
+        <!-- module common 公共-->
+        <div class="module-heading">
+            <div class="module_block_l">
+                <div class="img-block">
+                    <svg class="icon svg_img" viewBox="0 0 64 64"><path d="M32,0A32,32,0,1,0,64,32,32,32,0,0,0,32,0ZM18.37,12.42a30.16,30.16,0,0,1,8.9-2.14,41.46,41.46,0,0,1,15,1c2.56.65,6.2,1.82,7.48,4.28s-1.28,4.54-3.37,5.58C41.42,23.52,35.49,24,30.1,23.78A35.85,35.85,0,0,1,21,22.42c-2.49-.71-5.59-1.88-6.81-4.22C12.77,15.54,16.35,13.33,18.37,12.42Zm-4.58,9.07c.13,0,.81,1.17,1,1.3a10.77,10.77,0,0,0,2.83,1.56,32.92,32.92,0,0,0,4.92,1.49,46.08,46.08,0,0,0,9.44,1,42.77,42.77,0,0,0,9.57-1,30.19,30.19,0,0,0,5.19-1.69,12.12,12.12,0,0,0,2-1.1A3.39,3.39,0,0,0,50,21.49a13.82,13.82,0,0,1,.07,2.6c.07,1.95,0,3.9,0,5.84,0,1.75.13,3.18-1.21,4.48a12.71,12.71,0,0,1-4,2.34,9.22,9.22,0,0,1-1.21.45,19.06,19.06,0,0,1-2.29.65,43.64,43.64,0,0,1-16.92.39c-1.15-.26-2.36-.45-3.44-.78l-1.21-.39c-2.22-.91-5.8-2.21-6-4.93C13.72,27.85,13.79,27.4,13.79,21.49ZM48.91,49.6a12.71,12.71,0,0,1-4,2.34,9.22,9.22,0,0,1-1.21.45,19.06,19.06,0,0,1-2.29.65,43.64,43.64,0,0,1-16.92.39c-1.15-.26-2.36-.45-3.44-.78l-1.21-.39c-2.22-.91-5.8-2.21-6-4.93-.07-4.28,0-4.74,0-10.65.13,0,.81,1.17,1,1.3a10.77,10.77,0,0,0,2.83,1.56A32.93,32.93,0,0,0,22.63,41a46.08,46.08,0,0,0,9.44,1,42.77,42.77,0,0,0,9.57-1,30.18,30.18,0,0,0,5.19-1.69,12.12,12.12,0,0,0,2-1.1,3.39,3.39,0,0,0,1.21-1.49,13.82,13.82,0,0,1,.07,2.6c.07,1.95,0,3.9,0,5.84C50.13,46.87,50.26,48.3,48.91,49.6Z"/></svg>
+                </div>
+                <div class="img-detail">
+                    <p class="img-tit">{{volume.metadata.name}}</p>
+                    <p class="img-time">
+                        <span classs="module_tit">创建时间：</span>
+                        <span class="module_time">
+                                    {{volume.metadata.creationTimestamp | timescon}}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="module_block_r">
+                <a class="btn btn-gray pull-right df_del"
                    ng-click="delete()">
-                   <!-- <i class="fa fa-trash-o fa-lg"></i> -->
-                   删除
+                    <i class="uex-icon-delete"></i>
                 </a>
             </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="media media-sm">
-                            <div class="media-left">
-                                <img class="media-object" src="views/build_detail/img/images_104.png">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">更新时间</h4>
-                                <small style="color: #5a6378;"
-                                       uib-tooltip="{{volume.metadata.creationTimestamp | timescon}}">
-                                    {{volume.metadata.creationTimestamp | dateRelative}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-        <uib-tabset class="tab-default" active="active">
+        <!-- module common 公共-->
+        <uib-tabset class="tab-default tab-jia-default" active="active">
             <uib-tab index="1">
                 <uib-tab-heading>
-                    <!-- <i class="icon20 icon20-paper"></i>  -->
                     配置卷信息
                 </uib-tab-heading>
-                <div class="row">
-                    <!--<label class="col-md-2 control-label tex-left" style="margin-top: 12px;color: #5a6378; font-size:14px; text-align: left; font-weight: normal">文件配置</label>-->
-                    <div class="col-md-2">
-                        <a href="javascript:;" ng-click="add()"
-                           style="line-height: 40px; margin-top: -20px;" class="ceaeter href-add">
-                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span
-                                style="font-size: 12px;">添加文件</span>
-                            <input type="file" id="file-input" value="选择"/>
-                        </a>
-                    </div>
-                    <div class="col-md-2">
-                        <a href="javascript:;" ng-click="addConfig($index)" class="ceaeter href-add"
-                           style="line-height: 40px; margin-top: -20px;">
-                            <i class="fa fa-plus-circle fa-lg"></i>
-                            <span class="font12">创建键值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <!--<small ng-if="grid.keynull" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值或value值为空</small>-->
-                            </span>
-                        </a>
-                    </div>
-                    <div class="col-md-8" style="line-height: 40px;font-size: 12px;">
-                        <small ng-if="grid.keybuhefa" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值不合法
-                        </small>
-                        <small ng-if="grid.keychongfu" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值重复
-                        </small>
-                    </div>
-                    <!--<div class="col-md-10" style="margin-left:17%;" ng-repeat="item in volume.configarr">-->
-                    <!--<div class="filelink">{{item.key}}</div>-->
-                    <!--<div style="line-height: 36px;" class="col-md-1">-->
-                    <!--<a href="javascript:;" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;"  ng-click="deletekv($index)" class="fa fa-times-circle "></a>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-2"></div>-->
-                    <div class="timeline col-md-12" style="margin-top: 20px;">
-                        <ul style="border: none;">
-                            <li ng-repeat="item in volume.configarr">
-                                <div class="container-fluid diantiao" style="margin-left: 0;">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <input style="width: 100%;" type="text" ng-model="item.key"
-                                                   placeholder="文件名称" style="background:none;border:1px solid #c9c9c9">
-                                            <!--{{item.key}}-->
-                                        </div>
-
-                                        <div class="col-sm-5">
-
-                                        </div>
-                                        <div class="col-sm-3 text-right">
-
-                                            <a class="icon25 icon25-collapse" uib-tooltip="查看内容"
-                                               ng-click="getLog($index)"
-                                               href="javascript:;"></a>
-
-                                            <a ng-click="deletekv($index)" class="icon25 icon25-delete" uib-tooltip="删除"
-                                               href="javascript:;"></a>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div uib-collapse="!item.showLog">
-                                    <div class="well well-log"
-                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;'>
-                                        <textarea ng-model="item.value" rows="8" class="testt" id='sa'></textarea>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="col-md-12" style="margin-bottom: 20px;padding: 0;"
-                             ng-repeat="item in volume.configitems">
-                            <input class="col-md-5 key config_border" type="text" placeholder="KEY" ng-model="item.key" style="background:none;">
-                            <div class="col-md-1"></div>
-                            <textarea class="col-md-5 key config_border" style="padding-left: 10px;"
-                                      type="text" placeholder="VALUE" ng-model="item.value"></textarea>
-                            <a class="fa fa-times-circle col-md-1" ng-click="rmovekv($index)"
-                               style="text-decoration: none;text-align: center;line-height: 34px; color: #9fa7b7;"
-                               href="javascript:;"></a>
+                <div style="border: solid 1px #E0E6ED;margin-bottom: 15px;" ng-repeat="item in volume.configitems">
+                    <div class="row" style="margin: 0;">
+                        <div style="padding: 15px;border-radius: 2px;">
+                            <p class="create_secret_key">
+                                <span>键</span>
+                                <span ng-click="deletekv($index)" class="create_secret_delete">
+                                    <i class="uex-icon-cross"></i>
+                                </span>
+                            </p>
+                            <p class="create_secret_content_p">
+                                <input class="create_secret_content_ipt"
+                                       ng-class="{'err':item.err.key.repeated||item.err.key.rexed||item.err.key.nil}"
+                                       type="text" placeholder="请输入键"
+                                       ng-model="item.key">
+                            </p>
+                            <small ng-if="item.err.key.nil" class="err-tip">
+                                <i
+                                        class="fa fa-info-circle"></i>&nbsp;key值为空
+                            </small>
+                            <small ng-if="item.err.key.rexed" class="err-tip">
+                                <i
+                                        class="fa fa-info-circle"></i>&nbsp;key值不合法
+                            </small>
+                            <small ng-if="item.err.key.repeated" class="err-tip">
+                                <i
+                                        class="fa fa-info-circle"></i>&nbsp;key值重复
+                            </small>
+                            <p class="create_secret_content_p create_secret_content_addfile">
+                                <span>值</span>
+                                <span class="create_secret_add" ng-click="addFile($index)">
+                                    <i class="uex-icon-add"></i>
+                                    添加文件
+                                    <input type="file" id="file-input" class="upload_addfile upLoadFile" value="选择"/>
+                                </span>
+                                <span class="create_secret_delete" ng-if="item.value"
+                                      ng-click="clearCode($index)">清空代码</span>
+                            </p>
+                            <p class="create_secret_content_p">
+                                <textarea ng-model="item.value" class="testt"></textarea>
+                            </p>
                         </div>
                     </div>
                 </div>
-
-                <!--<hr>-->
-                <!--<div class="row">-->
-                <!--&lt;!&ndash;<label class="col-sm-2 control-label text-left" style="margin-top: 12px; color: #5a6378; font-size:14px; text-align: left; font-weight: normal">手动配置</label>&ndash;&gt;-->
-                <!--<div class="col-md-12" style="margin-top: 10px">-->
-
-                <!--<div class="configitem col-md-12" style="margin-top: 20px; margin-bottom: 20px">-->
-                <!--<div class="col-md-12" style="margin-bottom: 20px" ng-repeat="item in volume.configitems">-->
-                <!--<input class="form-control col-md-5" type="text" placeholder="KEY" ng-model="item.key">-->
-                <!--<input class="form-control col-md-5" type="text" placeholder="VALUE" ng-model="item.value">-->
-                <!--<a class="fa fa-times-circle col-md-2" ng-click="rmovekv($index)" style="text-decoration: none; color: #9fa7b7;" href="javascript:;"></a>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
+                <div class="row" style="margin-left: 0;line-height: 12px;margin-bottom: 30px;">
+                    <div class="col-sm-12" style="padding-left: 0;" ng-click="AddConfigurationFile()">
+                        <span style="cursor:pointer;font-size: 12px;color: #47B2FB;">
+                            <i class="uex-icon-add" style="margin-right: 5px;"></i>添加配置文件</span>
+                    </div>
+                </div>
             </uib-tab>
         </uib-tabset>
-        <div class="row">
-            <div class="col-md-12">
-                <a href="javascript:;" ng-if="grid.configpost" class="btn btn-block create"
-                   style="background-color: #47B2FB;margin: 0 auto; margin-top: 35px; color: white; width: 80%;"
-                   ng-click="cearteconfig()">保存修改</a>
-                <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn btn-block create"
-                   style="background-color: #ccc; margin: 0 auto; margin-top: 35px; color: white; width: 80%;">保存修改</a>
-            </div>
+        <div class="creatfooter" style="">
+            <a href="javascript:;" class="btn create btn-resources"
+               style="background-color: #47B2FB;margin: 0 auto; color: white; "
+               ng-click="cearteconfig()">保存修改</a>
         </div>
     </div>
 </div>
 <style>
-    .test11 {
-        position: relative;
-    }
-
-    .config_border{border:1px solid #CCD5E0;}
-    .config_border:hover{border:1px solid #47B2FB;}
-    .config_border:active{border:1px solid #47B2FB;}
-
-
-
-    .testt {
-        font-size: 12px;
-        background: none;
-        border: none;
-        color: #333333;
-        height: 300px;
-        word-break: break-all;
-        word-wrap: break-word;
-        white-space: pre-wrap;
-        display: block;
-        max-height: 300px;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .key {
-        height: 34px;
-        /*line-height: 34px;*/
-        padding: 6px 12px;
-        font-size: 14px;
-    }
-
-    #config_d #file-input {
+    #config-detail #file-input {
         position: absolute;
         right: 0;
         top: 0;
@@ -193,26 +103,124 @@
         height: 24px
     }
 
+    #config-detail .err {
+        border: 1px solid red;
+    }
+
     .diantiao:hover {
         background-color: #f7f8fb;
     }
 
-   .diantiao input:hover{border:1px solid #47B2FB;}
-   .diantiao input:active{border:1px solid #47B2FB;}
+    .diantiao input:hover {
+        border: 1px solid #47B2FB;
+    }
 
-    #config_d .tab-default li.active .nav-link,
-        #config_d .tab-default li.active .nav-link:focus,
-        #config_d .tab-default li.active .nav-link:hover{
-            border:1px solid #c9c9c9;border-bottom:none;border-radius:2px 2px 0 0;
-        }
+    .diantiao input:active {
+        border: 1px solid #47B2FB;
+    }
 
-    .filelink {
-        width: 614px;
-        height: 36px;
-        line-height: 36px;
-        float: left;
-        border: 1px solid #ccc;
-        background: #EEE;
+    /*#config-detail .tab-default li.active .nav-link,*/
+    /*#config-detail .tab-default li.active .nav-link:focus,*/
+    /*#config-detail .tab-default li.active .nav-link:hover {*/
+    /*border: 1px solid #c9c9c9;*/
+    /*border-bottom: none;*/
+    /*border-radius: 2px 2px 0 0;*/
+    /*}*/
 
+    #file-input {
+        position: absolute;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        width: 250px;
+        height: 40px;
+        cursor: pointer;
+    }
+
+    #config-detail .tab-default li.active .nav-link,
+    #config-detail .tab-default li.active .nav-link:focus,
+    #config-detail .tab-default li.active .nav-link:hover {
+        height: 34px;
+        /*width: 78px;*/
+        padding: 10px 6px;
+        border: none;
+        border-bottom: 3px solid #47B2FB;
+        color: #47B2FB;
+    }
+    #config-detail .tab-default li a{
+        font-size: 12px;
+    }
+    /*------*/
+    #config-detail .create_secret_key {
+        width: 100%;
+        margin: 0;
+        font-size: 12px;
+    }
+
+    #config-detail .create_secret_delete {
+        cursor: pointer;
+        font-size: 12px;
+        float: right;
+        color: #47B2FB;
+    }
+
+    #config-detail .create_secret_add {
+        padding-left: 20px;
+        cursor: pointer;
+        font-size: 12px;
+        color: #47B2FB;
+    }
+
+    .create_secret_content_p {
+        width: 100%;
+        margin: 5px 0 0;
+        font-size: 12px;
+    }
+
+    .create_secret_content_addfile {
+        position: relative;
+        margin-top: 20px;
+    }
+
+    #config-detail .upload_addfile {
+        position: absolute;
+        left: 2%;
+        top: 0;
+        cursor: pointer;
+        opacity: 0;
+        z-index: 10;
+    }
+
+    .create_secret_content_ipt {
+        width: 358px;
+        height: 26px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #A2B0C4;
+        padding-left: 10px;
+    }
+
+    .create_secret_content_ipt:hover {
+        border: 1px solid #47B2FB;
+    }
+
+    .testt {
+        padding: 10px;
+        font-size: 12px;
+        line-height: 20px;
+        background: none;
+        color: #A2B0C4;
+        height: 300px;
+        word-break: break-all;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        display: block;
+        max-height: 100px;
+        width: 100%;
+        max-width: 100%;
+        border: solid 1px #e0e6ed;
+        border-radius: 2px;
+        resize: none;
     }
 </style>
