@@ -16,7 +16,6 @@ angular.module('console.create_constantly_persistentVolume', [
                 showTicksValues: 1,
                 translate: function (value, sliderId, label) {
                     switch (label) {
-
                         default:
                             return value + 'GB'
                     }
@@ -24,9 +23,9 @@ angular.module('console.create_constantly_persistentVolume', [
             }
         };
 
-
         $scope.danwei = 'GB';
         $scope.grid = {
+            configpost: false,
             inved: false,
             num: false,
             dianji: false
@@ -44,13 +43,6 @@ angular.module('console.create_constantly_persistentVolume', [
                 }
             }
         };
-        //type=persistent_volume
-        $scope.getPlan = true;
-        market.get({region: $rootScope.region, type: 'volume'}, function (data) {
-            console.log(data.plans);
-            $scope.plans = data.plans;
-            $scope.getPlan = false;
-        });
         $scope.$watch('slider.value', function (n, o) {
             if (n == o) {
                 return
@@ -65,127 +57,109 @@ angular.module('console.create_constantly_persistentVolume', [
             rexed: false,
             repeated: false
         };
-        $scope.nameblur = function () {
-            //console.log($scope.buildConfig.metadata.name);
-            if (!$scope.volume.name) {
-                $scope.namerr.nil = true
-            } else {
-                $scope.namerr.nil = false
-            }
-        };
+        // $scope.nameblur = function () {
+        //     if (!$scope.volume.name) {
+        //         $scope.namerr.nil = true
+        //     } else {
+        //         $scope.namerr.nil = false
+        //     }
+        // };
         $scope.namefocus = function () {
             $scope.namerr.nil = false
         };
-        //secretskey.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-        //    //console.log('-------loadsecrets', res);
-        //    $scope.secremnamearr=res.items;
-        //
-        //})
         persistent.get({
             namespace: $rootScope.namespace,
             region: $rootScope.region
         }, function (res) {
             $scope.persmnamearr = res.items;
-        })
+        });
 
-        var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
+        // var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+        // $scope.$watch('volume.name', function (n, o) {
+        //     if (n === o) {
+        //         return;
+        //     }
+        //     if (n && n.length > 0) {
+        //         $scope.grid.configpost = false;
+        //         if (rex.test(n)) {
+        //             $scope.namerr.rexed = false;
+        //             $scope.namerr.repeated = false;
+        //             $scope.grid.configpost = true;
+        //             if ($scope.persmnamearr) {
+        //                 //console.log($scope.buildConfiglist);
+        //                 angular.forEach($scope.persmnamearr, function (bsiname, i) {
+        //                     // console.log(bsiname);
+        //                     if (bsiname.metadata.name === n) {
+        //                         // console.log(bsiname,n);
+        //                         $scope.namerr.repeated = true;
+        //                         $scope.grid.configpost = false;
+        //                     }
+        //                     //console.log($scope.namerr.repeated);
+        //                 })
+        //             }
+        //         } else {
+        //             $scope.namerr.rexed = true;
+        //             $scope.grid.configpost = false;
+        //         }
+        //     } else {
+        //         $scope.namerr.rexed = false;
+        //     }
+        // });
+        // $scope.empty = function () {
+        //     if ($scope.volume.name === '') {
+        //         $scope.err.blank = false;
+        //         return
+        //     }
+        // };
+        // $scope.isEmpty = function () {
+        //     if ($scope.volume.name === '') {
+        //         //alert(1)
+        //         $scope.err.blank = true;
+        //         return
+        //     } else {
+        //         $scope.err.blank = false;
+        //     }
+        //
+        // };
         $scope.$watch('volume.name', function (n, o) {
             if (n === o) {
                 return;
             }
-            if (n && n.length > 0) {
-                if (rex.test(n)) {
-                    $scope.namerr.rexed = false;
-                    $scope.namerr.repeated = false;
-                    if ($scope.persmnamearr) {
-                        //console.log($scope.buildConfiglist);
-                        angular.forEach($scope.persmnamearr, function (bsiname, i) {
-                            //console.log(bsiname);
-                            if (bsiname.metadata.name === n) {
-                                //console.log(bsiname,n);
-                                $scope.namerr.repeated = true;
-
-                            }
-                            //console.log($scope.namerr.repeated);
-                        })
-                    }
-
-                } else {
-                    $scope.namerr.rexed = true;
-                }
-            } else {
-                $scope.namerr.rexed = false;
-            }
+            $scope.namerr = {
+                nil: false,
+                rexed: false,
+                repeated: false
+            };
         });
-        $scope.empty = function () {
+        $scope.create = function () {
+            var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             if ($scope.volume.name === '') {
-
-                //alert(1)
-                $scope.err.blank = false;
+                $scope.namerr.nil = true;
                 return
-            }
-        };
-        $scope.isEmpty = function () {
-            if ($scope.volume.name === '') {
-                //alert(1)
-                $scope.err.blank = true;
+            } else if (!rex.test($scope.volume.name)) {
+                $scope.namerr.rexed = true;
                 return
             } else {
-                $scope.err.blank = false;
+                for (var i = 0; i < $scope.persmnamearr.length; i++) {
+                    if ($scope.volume.name === $scope.persmnamearr[i].metadata.name) {
+                        $scope.namerr.repeated = true;
+                        return
+                    }
+                }
             }
-
-        };
-        $scope.creat = function () {
-            if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated && !$scope.timeouted) {
-
-            } else {
-                return
-            }
-            var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
-            if ($scope.volume.name === '') {
-                //alert(1)
-                $scope.err.blank = true;
-                return
-            } else if (!r.test($scope.volume.name)) {
-                //alert(2)
-                $scope.err.valid = true;
-                return
-            }
-
             if ($scope.slider.value === 0) {
                 $scope.grid.num = true;
                 return
             }
-            $scope.volume.size = $scope.slider.value
-
-            angular.forEach($scope.plans, function (plan, i) {
-                console.log($scope.slider.value, plan.plan_level * 10);
-                if ($scope.slider.value === plan.plan_level * 10) {
-                    $scope.plan_id = plan.plan_id;
-                }
-            });
-
+            $scope.volume.size = $scope.slider.value;
             $scope.loaded = true;
-            console.log($scope.plan_id);
-            //checkout.create({
-            //    drytry:0,
-            //    plan_id: $scope.plan_id,
-            //    namespace: $rootScope.namespace,
-            //    region:$rootScope.region,
-            //    parameters:{
-            //        resource_name:$scope.volume.name
-            //    }
-            //}, function (data) {
-            //console.log(data);
             volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
                 //alert(11111)
                 $scope.loaded = false;
                 toastr.success('创建成功', {
                     closeButton: true
                 });
-                $state.go('console.resource_persistentVolume', {namespace:$rootScope.namespace});
+                $state.go('console.resource_persistentVolume', {namespace: $rootScope.namespace});
             }, function (err) {
                 $scope.loaded = false;
                 // Toast.open('创建失败,请重试');
@@ -193,23 +167,5 @@ angular.module('console.create_constantly_persistentVolume', [
                     closeButton: true
                 });
             });
-
-            //}, function (err) {
-            //    $scope.loaded = false;
-            //    if (err.data.code === 3316) {
-            //        Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
-            //            $state.go('console.pay');
-            //        })
-            //    } else if(err.data.code === 3316) {
-            //        Tip.open('提示', '名称重复', '知道了', true).then(function () {
-            //
-            //        })
-            //    }else {
-            //        Tip.open('提示', '支付失败,请重试', '知道了', true).then(function () {
-            //
-            //        })
-            //    }
-            //
-            //})
         }
     }]);

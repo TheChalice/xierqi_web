@@ -385,7 +385,34 @@ a {
 .icon12-New {
     background-image: url(../img/refresh.png);
 }
+/* 成功 */
+.uex-icon-band:before {
+    content: "\e914";
+    color: #A2B0C4;
+}
 
+/* 成功 */
+.uex-icon-New:before {
+    content: "\e914";
+    color: #A2B0C4;
+}
+
+/* 终止 */
+.uex-icon-Cancelled:before {
+    content: "\e916";
+    color: #A2B0C4;
+}
+
+/* 失败/错误  未挂载 */
+.uex-icon-Bound:before {
+    content: "\e915";
+    color: #A2B0C4;
+}
+.fa-unspin {
+    -webkit-animation: unset !important;
+    -moz-animation: unset !important;
+    animation: unset !important;
+}
 .star-13 {
     display: inline-block;
     cursor: pointer;
@@ -434,22 +461,41 @@ a {
 
 /*输入框*/
 .form-control {
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
     box-shadow: none;
     color: #5a6378;
+    font-size: 12px;
+    height: 24px;
 }
 
 .form-control:focus {
     box-shadow: none;
     border: 1px solid #c9c9c9;
-    border-radius: 2px 2px 0 0;
+    border-radius: 4px;
 }
 
 .form-control:hover {
     border: 1px solid #47B2FB;
 }
 
+.form-control-ipt {
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
+    box-shadow: none;
+    color: #5a6378;
+    font-size: 12px;
+}
+
+.form-control-ipt:focus {
+    box-shadow: none;
+    /*border: 1px solid #c9c9c9;*/
+    border-radius: 2px 2px 0 0;
+}
+
+.form-control-ipt:hover {
+    border: none;
+}
 /*tab默认样式*/
 .tab-default .nav-tabs {
     border-bottom: 1px solid #c9c9c9;
@@ -541,9 +587,12 @@ a {
 }
 
 .modal-default .modal-content .modal-header {
-    background-color: #e6e9f2;
+    background-color: #fff;
     border: none;
     border-radius: 2px 2px 0 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E0E6ED;
 }
 
 .modal-default .modal-content .modal-body {
@@ -551,7 +600,8 @@ a {
 }
 
 .modal-default .modal-content .modal-body .modal-msg {
-    font-size: 16px;
+    font-size: 12px;
+    color: #000;
 }
 
 .modal-default .modal-content .modal-body .modal-tip {
@@ -568,12 +618,19 @@ a {
     border-top: none;
     text-align: center;
     padding-top: 0;
+    padding-right: 10px;
 }
 
+
 .modal-default .modal-content .modal-footer .btn {
-    padding-left: 30px;
-    padding-right: 30px;
-    margin: 0 30px;
+    /*padding-left: 30px;*/
+    /*padding-right: 30px;*/
+    /*margin: 0 30px;*/
+    float: right;
+    width: 68px;
+    height: 26px;
+    line-height: 26px;
+    padding: 0px;
 }
 
 .modal-default .modal-close {
@@ -585,7 +642,9 @@ a {
 }
 
 .modal-default .modal-title {
-    color: #5a6378;
+    /*color: #5a6378;*/
+    color: #1F2D3D;
+    font-size: 12px;
 }
 
 .modal-default.modal-lg {
@@ -2223,6 +2282,88 @@ td a:hover, a:focus {
     color: #47B2FB;
 }
 
+/* module  公共样式*/
+.module-heading {
+    color: #5a6378;
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.module_block_l {
+    float: left;
+}
+
+.module_block_l .img-block {
+    width: 68px;
+    height: 68px;
+    border: 1px solid #CCD5E0;
+    border-radius: 4px;
+    background: #EFF2F7;
+    float: left;
+}
+
+.module_block_l .img-detail {
+    float: left;
+    margin-left: 20px;
+}
+
+.module_block_l .img-detail p {
+    margin: 0px;
+}
+
+.module_block_l .img-detail .img-tit {
+    font-size: 14px;
+    color: #202D3C;
+    font-weight: bold;
+}
+
+.module_block_l .img-detail .img-time {
+    font-size: 12px;
+    margin-top: 6px;
+    margin-bottom: 0px;
+    color: #A2B0C4;
+}
+
+.module_block_l .img-detail .img-time .module_time {
+    color: #1F2D3D;
+}
+
+.module_block_l .img-detail .img-new {
+    font-size: 12px;
+    color: #1F2D3D;
+    margin-top: 6px;
+}
+
+.module_block_l .img-detail .img-new span {
+    color: #A2B0C4;
+    float: left;
+}
+
+.module_block_l .module_run {
+    font-size: 12px;
+    color: #47B2FB;
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+.module_block_l .img-detail .img-new .module_time {
+    color: #1F2D3D;
+}
+
+.module_block_l .module_tit {
+    font-size: 12px;
+    color: #A2B0C4;
+}
+
+.module_block_l .module_b_l {
+    width: 300px;
+    float: left;
+}
+
+.module_block_l .module_tit small {
+    color: #1F2D3D;
+}
 /* 公共框架 */
 .df_frame {
     background: #fff;
@@ -2254,3 +2395,211 @@ td a:hover, a:focus {
     border: 0;
     padding: 20px 0px;
 }
+
+/* 头像 */
+.uex-icon-user:before {
+    content: "\e937";
+    color: #475669;
+}
+
+/* 代码构建列表 */
+/* 成功 */
+.uex-icon-Complete:before {
+    content: "\e914";
+    color: #A2B0C4;
+}
+
+/* 终止 */
+.uex-icon-Cancelled:before {
+    content: "\e916";
+    color: #A2B0C4;
+}
+
+/* 失败/错误 */
+.uex-icon-Failed:before, .uex-icon-Error:before {
+    content: "\e915";
+    color: #A2B0C4;
+}
+
+/* 运行中/在等待 */
+.uex-icon-Running:before, .uex-icon-Pending:before {
+    content: "\e954";
+    color: #A2B0C4;
+}
+
+/* 搜索 */
+.uex-icon-search:before {
+    content: "\e91d";
+    color: #A2B0C4;
+}
+
+.fa-hourglass-2:before, .fa-hourglass-half:before {
+    position: relative;
+    top: -3px;
+}
+
+/*代码构建 绑定、刷新*/
+.uex-icon-protocol-deafult:before {
+    content: "\e970";
+    color: #A2B0C4;
+}
+
+.uex-icon-refresh:before {
+    content: '\e954';
+    color: #A2B0C4;
+}
+
+.uex-icon-closefullscreen {
+    transform: rotate(180deg);
+}
+
+.uex-icon-openfullscreen:before {
+    content: '\e9fc';
+    color: #ffffff;
+    opacity: 0.5;
+    font-size: 18px;
+}
+
+.uex-icon-closefullscreen:before {
+    content: '\e9fc';
+    color: #ffffff;
+    opacity: 0.5;
+    font-size: 18px;
+}
+
+.uex-icon-to-back:before {
+    content: '\e9fd';
+    color: #000;
+}
+
+.uex-icon-to-front:before {
+    content: '\e9ff';
+    color: #A2B0C4;
+}
+
+#build-detail .uex-icon-copy:before {
+    content: '\e922';
+    color: #475669;
+}
+
+#build-detail .uex-icon-copy:hover:before {
+    color: #47B2FB;
+}
+
+.uex-icon-openfullscreen:hover:before {
+    opacity: 1;
+}
+
+.uex-icon-closefullscreen:hover:before {
+    opacity: 1;
+}
+
+/* 关闭 */
+.uex-icon-cross:before {
+    content: '\e911';
+    color: #A2B0C4;
+    font-size: 14px;
+}
+
+/* 剪头向下 */
+.uex-icon-arrow-down:before {
+    content: "\e902";
+    font-size: 12px;
+    color: #A2B0C4;
+}
+
+/* 剪头向上 */
+.uex-icon-arrow-up:before {
+    content: "\e903";
+    font-size: 12px;
+    color: #A2B0C4;
+}
+
+.df_close {
+    color: #475669;
+    font-size: 12px;
+}
+
+.build_df_set {
+    margin: 0px !important;
+}
+
+/*删除*/
+.uex-icon-delete:before {
+    content: '\e925';
+    color: #47B2FB;
+}
+
+.df_del:hover {
+    border: 1px solid #98D4FD;
+}
+
+.df_del:hover .uex-icon-delete:before {
+    color: #82CAFB;
+}
+
+/*添加 + */
+.uex-icon-add:before {
+    content: '\e913';
+}
+
+/* 代码构建/查看代码源 */
+.uex-icon-binary-forecast:before {
+    content: '\e9e7';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+/* 代码构建/查看镜像 */
+.uex-icon-view-mapping:before {
+    content: '\e994';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+.uex-icon-view:before {
+    content: '\e931';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+/* 代码构建/构建 */
+.uex-icon-start-all:before {
+    content: '\e9e2';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+/* 代码构建/停止 */
+.uex-icon-stop-all:before {
+    content: '\e9e1';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+/* 镜像仓库/镜像详情 */
+.uex-icon-copy:before {
+    content: '\e922';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+.image-detail .uex-icon-delete:before {
+    content: '\e925';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+.build-detail .uex-icon-delete:before {
+    content: '\e925';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+.config-detail .uex-icon-delete:before {
+    content: '\e925';
+    color: #57B5F2;
+    font-size: 14px;
+}
+
+

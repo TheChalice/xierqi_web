@@ -7,7 +7,8 @@ angular.module('console.constantly_persistentVolume', [
     .controller('constDetailCtrl', ['delorders', 'orders', 'Confirm', 'delvolume', 'volume', 'DeploymentConfig', 'persistent', '$stateParams', '$state', '$http', '$scope', '$rootScope', 'toastr',
         function (delorders, orders, Confirm, delvolume, volume, DeploymentConfig, persistent, $stateParams, $state, $http, $scope, $rootScope, toastr) {
             //console.log($stateParams.name);
-            $scope.name = $stateParams.name
+            $scope.name = $stateParams.name;
+            $scope.guazai = '未挂载';
             persistent.get({
                 namespace: $rootScope.namespace,
                 name: $stateParams.name,
@@ -19,17 +20,27 @@ angular.module('console.constantly_persistentVolume', [
                     angular.forEach(dcres.items, function (dcitem, i) {
                         angular.forEach(dcitem.spec.template.spec.volumes, function (item, i) {
                             if (item.persistentVolumeClaim && res.metadata.name == item.persistentVolumeClaim.claimName) {
-                                res.arr.push(dcitem.metadata.name)
+                                $scope.guazai = '已挂载';
+                                var has = false;
+                                angular.forEach(res.arr, function (key, j) {
+                                    if (key === dcitem.metadata.name) {
+                                        has = true
+                                    }
+                                });
+                                if (!has) {
+                                    res.arr.push(dcitem.metadata.name)
+                                }
+
                             }
                         })
-                    })
+                    });
                     res.spec.resources.requests.storage = res.spec.resources.requests.storage.replace('i', 'B')
                     $scope.persistents = res;
                     //console.log('chijiu',res);
                 })
             }, function (err) {
-
-            })
+                $state.go('console.resource_persistentVolume', {namespace: $rootScope.namespace})
+            });
             $scope.delete = function () {
 
                 Confirm.open("删除存储卷", "您确定要删除存储卷吗？", "存储卷中的数据将被删除", "stop").then(function () {
@@ -53,7 +64,7 @@ angular.module('console.constantly_persistentVolume', [
                             toastr.success('删除成功', {
                                 closeButton: true
                             });
-                            $state.go('console.resource_persistentVolume', {namespace:$rootScope.namespace})
+                            $state.go('console.resource_persistentVolume', {namespace: $rootScope.namespace})
                         }, function (err) {
                             toastr.error('删除失败，请重试', {
                                 closeButton: true
