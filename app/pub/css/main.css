@@ -2527,7 +2527,7 @@ td a:hover, a:focus {
 /*删除*/
 .uex-icon-delete:before {
     content: '\e925';
-    color: #475669;
+    color: #47B2FB;
 }
 
 .df_del:hover {
