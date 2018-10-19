@@ -385,7 +385,34 @@ a {
 .icon12-New {
     background-image: url(../img/refresh.png);
 }
+/* 成功 */
+.uex-icon-band:before {
+    content: "\e914";
+    color: #A2B0C4;
+}
 
+/* 成功 */
+.uex-icon-New:before {
+    content: "\e914";
+    color: #A2B0C4;
+}
+
+/* 终止 */
+.uex-icon-Cancelled:before {
+    content: "\e916";
+    color: #A2B0C4;
+}
+
+/* 失败/错误  未挂载 */
+.uex-icon-Bound:before {
+    content: "\e915";
+    color: #A2B0C4;
+}
+.fa-unspin {
+    -webkit-animation: unset !important;
+    -moz-animation: unset !important;
+    animation: unset !important;
+}
 .star-13 {
     display: inline-block;
     cursor: pointer;
@@ -434,22 +461,41 @@ a {
 
 /*输入框*/
 .form-control {
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
     box-shadow: none;
     color: #5a6378;
+    font-size: 12px;
+    height: 24px;
 }
 
 .form-control:focus {
     box-shadow: none;
     border: 1px solid #c9c9c9;
-    border-radius: 2px 2px 0 0;
+    border-radius: 4px;
 }
 
 .form-control:hover {
     border: 1px solid #47B2FB;
 }
 
+.form-control-ipt {
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
+    box-shadow: none;
+    color: #5a6378;
+    font-size: 12px;
+}
+
+.form-control-ipt:focus {
+    box-shadow: none;
+    /*border: 1px solid #c9c9c9;*/
+    border-radius: 2px 2px 0 0;
+}
+
+.form-control-ipt:hover {
+    border: none;
+}
 /*tab默认样式*/
 .tab-default .nav-tabs {
     border-bottom: 1px solid #c9c9c9;
@@ -541,9 +587,12 @@ a {
 }
 
 .modal-default .modal-content .modal-header {
-    background-color: #e6e9f2;
+    background-color: #fff;
     border: none;
     border-radius: 2px 2px 0 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E0E6ED;
 }
 
 .modal-default .modal-content .modal-body {
@@ -551,7 +600,8 @@ a {
 }
 
 .modal-default .modal-content .modal-body .modal-msg {
-    font-size: 16px;
+    font-size: 12px;
+    color: #000;
 }
 
 .modal-default .modal-content .modal-body .modal-tip {
@@ -568,12 +618,19 @@ a {
     border-top: none;
     text-align: center;
     padding-top: 0;
+    padding-right: 10px;
 }
 
+
 .modal-default .modal-content .modal-footer .btn {
-    padding-left: 30px;
-    padding-right: 30px;
-    margin: 0 30px;
+    /*padding-left: 30px;*/
+    /*padding-right: 30px;*/
+    /*margin: 0 30px;*/
+    float: right;
+    width: 68px;
+    height: 26px;
+    line-height: 26px;
+    padding: 0px;
 }
 
 .modal-default .modal-close {
@@ -585,7 +642,9 @@ a {
 }
 
 .modal-default .modal-title {
-    color: #5a6378;
+    /*color: #5a6378;*/
+    color: #1F2D3D;
+    font-size: 12px;
 }
 
 .modal-default.modal-lg {
@@ -2223,6 +2282,88 @@ td a:hover, a:focus {
     color: #47B2FB;
 }
 
+/* module  公共样式*/
+.module-heading {
+    color: #5a6378;
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.module_block_l {
+    float: left;
+}
+
+.module_block_l .img-block {
+    width: 68px;
+    height: 68px;
+    border: 1px solid #CCD5E0;
+    border-radius: 4px;
+    background: #EFF2F7;
+    float: left;
+}
+
+.module_block_l .img-detail {
+    float: left;
+    margin-left: 20px;
+}
+
+.module_block_l .img-detail p {
+    margin: 0px;
+}
+
+.module_block_l .img-detail .img-tit {
+    font-size: 14px;
+    color: #202D3C;
+    font-weight: bold;
+}
+
+.module_block_l .img-detail .img-time {
+    font-size: 12px;
+    margin-top: 6px;
+    margin-bottom: 0px;
+    color: #A2B0C4;
+}
+
+.module_block_l .img-detail .img-time .module_time {
+    color: #1F2D3D;
+}
+
+.module_block_l .img-detail .img-new {
+    font-size: 12px;
+    color: #1F2D3D;
+    margin-top: 6px;
+}
+
+.module_block_l .img-detail .img-new span {
+    color: #A2B0C4;
+    float: left;
+}
+
+.module_block_l .module_run {
+    font-size: 12px;
+    color: #47B2FB;
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+.module_block_l .img-detail .img-new .module_time {
+    color: #1F2D3D;
+}
+
+.module_block_l .module_tit {
+    font-size: 12px;
+    color: #A2B0C4;
+}
+
+.module_block_l .module_b_l {
+    width: 300px;
+    float: left;
+}
+
+.module_block_l .module_tit small {
+    color: #1F2D3D;
+}
 /* 公共框架 */
 .df_frame {
     background: #fff;
