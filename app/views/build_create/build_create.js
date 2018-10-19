@@ -230,7 +230,7 @@ angular.module('console.build_create', [
                     $scope.secret.data.username = $base64.encode(name);
                 }
                 if (pwd) {
-                    $scope.secret.data.username = $base64.encode(pwd);
+                    $scope.secret.data.password = $base64.encode(pwd);
                 }
             }
 
@@ -376,10 +376,7 @@ angular.module('console.build_create', [
                             $scope.privateErr.usernameerr = true;
                             return;
                         }
-                        if (pwdRegExp.test($scope.sername.pwd) === false) {
-                            $scope.privateErr.pwderr = true;
-                            return;
-                        }
+
 
                     }
                     createBuildModel();
