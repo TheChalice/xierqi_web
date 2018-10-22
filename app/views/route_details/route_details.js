@@ -1,10 +1,10 @@
 'use strict';
 angular.module('console.routes', [{
-        files: [
-            'components/searchbar/searchbar.js',
-            'views/apps/apps.css'
-        ]
-    }])
+    files: [
+        'components/searchbar/searchbar.js',
+        'views/apps/apps.css'
+    ]
+}])
     .controller('RouteDetailCtrl', ['$rootScope','$state','$scope', 'Route', 'routeDetails', 'services', 'Cookie','Confirm','delTip','toastr',
         function($rootScope,$state,$scope, Route, routeDetails, services, Cookie,Confirm,delTip,toastr) {
             $scope.text = "无";
@@ -13,17 +13,16 @@ angular.module('console.routes', [{
                 $scope.route = routeDetails;
                 $scope.services = {};
 
-               var getService =  function getService(routeToNm, serviceList) {
+                var getService =  function getService(routeToNm, serviceList) {
                     for (var i = 0; i < serviceList.length; i++) {
                         if (routeToNm === serviceList[i].metadata.name) {
                             return serviceList[i];
                         }
                     }
-                }
+                };
                 if (services && services.items && routeDetails.spec.to.kind === 'Service') {
                     $scope.services = getService(routeDetails.spec.to.name, services.items);
                 }
-
             }
 
             var deleteRoute = function (val)  {
@@ -41,7 +40,7 @@ angular.module('console.routes', [{
                         closeButton: true
                     });
                 } )
-            }
+            };
             $scope.delete =function (val) {
                 if ($scope.route) {
                     delTip.open("删除Route", val, true).then(function(){
