@@ -145,15 +145,13 @@ a {
 
 .btn-gray {
     background-color: #fff;
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    transition: all 1s;
-    border: 1px solid #47B2FB;
+    border: 1px solid #CCD5E0;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    color: #47B2FB;
+    color: #475669;
     font-size: 12px;
+    margin-left: 10px;
 }
 
 .btn-gray:hover {
@@ -204,23 +202,26 @@ a {
 /*表格*/
 .table-default {
     overflow: hidden;
-    border: 1px solid #c9c9c9;
+    border: 1px solid #CCD5E0;
     border-top: none;
     border-radius: 2px;
     border-collapse: separate;
     margin-bottom: 0;
+    background: #fff;
 }
 
 .table-default > tbody > tr > th,
 .table-default > tbody > tr > td {
     padding-left: 20px;
-    /* padding-top: 20px;
-    padding-bottom: 20px; */
+    padding-top: 8px;
+    padding-bottom: 4px;
     color: #5a6378;
     font-size: 12px;
-    padding: 8px;
-    padding-left: 20px;
     text-align: left; /*列表数据 jiasx 20161209 */
+}
+
+.table-hover > tbody > tr:hover {
+    background: #E0E6ED;
 }
 
 .table-default.sub-table > tbody > tr > th,
@@ -231,9 +232,28 @@ a {
 
 .table-default > tbody > tr > th {
     padding-left: 20px;
-    background: #e6e9f2;
+    background: #E5E9F2;
     color: #393f4f;
-    border-top: 1px solid #c9c9c9;
+    border-top: 1px solid #CCD5E0;
+    font-weight: normal;
+}
+
+.overview-table > thead > tr > th,
+.overview-table > thead > tr > td {
+    padding: 0;
+    width: 120px;
+}
+
+.overview-table > tbody > tr > th,
+.overview-table > tbody > tr > td {
+    /*padding-left: 20px;*/
+    /*padding-top: 8px;*/
+    /*padding-bottom: 7px;*/
+    width: 120px;
+    height: 33px;
+    color: #5a6378;
+    font-size: 12px;
+    text-align: left;
 }
 
 /*面板默认*/
@@ -2529,7 +2549,45 @@ td a:hover, a:focus {
     content: '\e925';
     color: #47B2FB;
 }
+.df_build {
+    font-size: 12px;
+    width: 68px;
+    height: 26px;
+    line-height: 26px;
+    padding: 0px;
+}
+.df_build_btn {
+    font-size: 12px;
+    width: 68px;
+    height: 26px;
+    line-height: 26px;
+    padding: 0px;
+    background: #fff;
+    border: 1px solid #47B2FB;
+    color: #47B2FB;
+}
 
+.df_build_btn:hover {
+    color: #47B2FB;
+}
+
+.df_del {
+    width: 32px;
+    height: 26px;
+    padding: 0px;
+    line-height: 26px;
+    border: 1px solid #CCD5E0;
+}
+
+.creatfooter {
+    border-top: 1px solid #E0E6ED;
+    position: absolute;
+    background-color: #fff;
+    padding-top: 20px;
+    width: 100%;
+    height: 70px;
+    bottom: 0;
+}
 .df_del:hover {
     border: 1px solid #98D4FD;
 }

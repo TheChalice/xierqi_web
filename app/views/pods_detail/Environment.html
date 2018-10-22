@@ -1,16 +1,26 @@
 <!-- detail -->
 <div id="Environment">
     <div ng-repeat="container in containers">
-        <h2>容器 {{container.name}} 的环境变量</h2>
+        <h3 class="df_tit" style="margin-bottom:20px;">容器 {{container.name}} 的环境变量</h3>
         <div class='envi_main' ng-repeat="env in container.env">
-          <div class="form_block">
-            <input type="text" class="form-control" readonly="readonly" value="{{env.name}}">
-        </div>
+            <!-- <div class="form_block">
+              <input type="text" class="form-control" readonly="readonly" value="{{env.name}}">
+          </div>
 
-        <div class="form_block">
-            <input type="text" class="form-control" readonly="readonly" value="{{env.value}}">
+          <div class="form_block">
+              <input type="text" class="form-control" readonly="readonly" value="{{env.value}}">
+          </div> -->
+
+
+            <div class="col-md-6" style="padding-left:0px;padding-right:0px;">
+                <input class="col-md-11 input-key" type="text" class="envir_input" ng-disabled="true" ng-model="env.name"
+                       style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;">
+            </div>
+            <div class="col-md-6" style="padding-left:0px;padding-right:0px;">
+                <input class="col-md-11 input-key" ng-disabled="true" class="envir_input"  type="text" ng-model="env.value"
+                       style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;">
+            </div>
         </div>
+        <em ng-if="!container.env.length" class="df_left_set" style="font-size:12px;font-style:normal;">此容器没有设置环境变量.</em>
     </div>
-        <em ng-if="!container.env.length">此容器没有设置环境变量.</em>
-      </div>
 </div>

@@ -50,7 +50,7 @@
       <dd>
         host path
         <span class="small text-muted">(bare host directory volume)</span>
-       </dd>
+      </dd>
       <dt>Path:</dt>
       <dd>{{volume.hostPath.path}}</dd>
     </div>
@@ -58,8 +58,8 @@
       <dt>Type:</dt>
       <dd>
         empty dir
-       <span class="small text-muted">(temporary directory destroyed with the pod)</span>
-       </dd>
+        <span class="small text-muted">(temporary directory destroyed with the pod)</span>
+      </dd>
       <dt>Medium:</dt>
       <dd>
         <span ng-if="!volume.emptyDir.medium">node's default</span>
@@ -70,7 +70,7 @@
       <dt>Type:</dt>
       <dd>
         git repo
-       <span class="small text-muted">(pulled from git when the pod is created)</span>
+        <span class="small text-muted">(pulled from git when the pod is created)</span>
       </dd>
       <dt>Repository:</dt>
       <dd>{{volume.gitRepo.repository}}</dd>
@@ -82,7 +82,7 @@
       <dd>
         downward API
         <span class="small text-muted">(populated with information about the pod)</span>
-       </dd>
+      </dd>
       <div ng-repeat="item in volume.downwardAPI.items">
         <dt>Volume File:</dt>
         <dd>{{item.fieldRef.fieldPath}}&#8201;&#8594;&#8201;{{item.path}}</dd>
@@ -93,7 +93,7 @@
       <dd>
         config map
         <span class="small text-muted">(populated by a config map)</span>
-       </dd>
+      </dd>
       <dt>Config Map:</dt>
       <dd><a ng-href="{{volume.configMap.name}}">{{volume.configMap.name}}</a></dd>
       <div ng-repeat="item in volume.configMap.items">

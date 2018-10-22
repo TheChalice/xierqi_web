@@ -103,6 +103,7 @@ define([
             loginSuccess: 'auth-login-success',
             httpForbidden: 'auth-http-forbidden'
         })
+        .constant('IS_SAFARI', /Version\/[\d\.]+.*Safari/.test(navigator.userAgent))
 
     .config(['$httpProvider', 'GLOBAL', function($httpProvider) {
         $httpProvider.interceptors.push([

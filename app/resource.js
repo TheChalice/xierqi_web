@@ -235,6 +235,17 @@ define([
             //暂未使用
             return statefulsets;
         }])
+        .factory('statefulsetsdele', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var statefulsetsdele = $resource(GLOBAL.host_newk8s1 + '/namespaces/:namespace/statefulsets/:name', {
+                namespace: '@namespace',
+                name: '@name'
+            }, {
+                create: {method: 'POST'},
+                get: {method: 'GET'},
+                delete: {method: "DELETE"}
+            });
+            return statefulsetsdele;
+        }])
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name?region=:region', {
                 name: '@name',

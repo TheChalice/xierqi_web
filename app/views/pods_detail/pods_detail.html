@@ -1,61 +1,93 @@
 <!-- pods详情页 -->
-<div id="pods_detail">
-    <p>
-        <span class="pd_name">{{pod.metadata.name}}</span>
-        &nbsp;&nbsp;
-        <span class="pd_dt">创建于&nbsp;{{pod.metadata.creationTimestamp | dateRelative}}</span>
-        <a class="btn btn-gray pull-right" style="height:34px; width:36px;padding:6px;" ng-click="delete(pod.metadata.name)">
-            <i class="fa fa-trash-o fa-lg"></i>
-        </a>
-    </p>
+<div id="pods_detail" class="df_frame" confull-height>
+    <!-- module common 公共-->
+    <div class="module-heading">
+        <div class="module_block_l">
+            <div class="img-block">
+                <svg class="icon svg_img" viewBox="0 0 64 64"><path d="M32-.08a32,32,0,1,0,32,32A32,32,0,0,0,32-.08ZM30.23,52.16,11.72,42.39v-22l18.51,6.67ZM13.56,17.44,32,11.69l18.63,6L32.07,24.22ZM52.19,42.39,33.68,52.16V27.21l18.51-6.67Z"/></svg>
+            </div>
+            <div class="img-detail">
+                <p class="img-tit">{{pod.metadata.name}}</p>
+                <p class="img-time">
+                    <span classs="module_tit">创建时间：</span>
+                    <span class="module_time">{{pod.metadata.creationTimestamp | timescon}}</span>
+                </p>
+            </div>
+
+        </div>
+        <div class="module_block_r">
+            <a class="btn btn-gray pull-right df_del" ng-click="delete(pod.metadata.name)">
+                <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                <span class="df_close"><i class="uex-icon-delete"></i></span>
+            </a>
+        </div>
+    </div>
+    <!-- module common 公共-->
     <uib-tabset class="tab-default tab-pods">
-            <uib-tab index="1">
-                <uib-tab-heading>
-                    详情
-                </uib-tab-heading>
-                <div ng-include="'views/pods_detail/details.html'"></div>
-            </uib-tab>
-            <uib-tab index="2">
-                <uib-tab-heading>
-                    环境变量
-                </uib-tab-heading>
-                <div ng-include="'views/pods_detail/Environment.html'"></div>
-            </uib-tab>
-            <uib-tab index="3">
-                <uib-tab-heading>
-                    指标
-                </uib-tab-heading>
-                <public-metrics conname="pod.spec.containers[0].name"
-                                podid="pod.metadata.uid"
-                                podname="pod.metadata.name">
+        <uib-tab index="1">
+            <uib-tab-heading>
+                详情
+            </uib-tab-heading>
+            <div ng-include="'views/pods_detail/details.html'"></div>
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
+                环境变量
+            </uib-tab-heading>
+            <div ng-include="'views/pods_detail/Environment.html'"></div>
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                指标
+            </uib-tab-heading>
+            <public-metrics conname="pod.spec.containers[0].name"
+                            podid="pod.metadata.uid"
+                            podname="pod.metadata.name">
 
-                </public-metrics>
-            </uib-tab>
-            <uib-tab index="4">
-                <uib-tab-heading>
-                    日志
-                </uib-tab-heading>
-                <pod-logs  pod-name="{{pod.metadata.name}}"
-                           pod-container="pod.spec.containers"
-                           pod-resource-version="{{pod.metadata.resourceVersion}}"
-                           type="pods"
-                           api="k8s"
-                ></pod-logs>
-            </uib-tab>
-            <uib-tab index="5">
-                <uib-tab-heading>
-                    终端
-                </uib-tab-heading>
-                <kubernetes-container-terminal pod-container="pod.spec.containers" pod="pod" container="pod.spec.containers[0].name" class="pod_term">
+            </public-metrics>
+        </uib-tab>
+
+        <uib-tab index="4">
+            <uib-tab-heading>
+                日志
+            </uib-tab-heading>
+            <pod-logs  pod-name="{{pod.metadata.name}}"
+                       pod-container="pod.spec.containers"
+                       pod-resource-version="{{pod.metadata.resourceVersion}}"
+                       type="pods"
+                       api="k8s"
+            ></pod-logs>
+        </uib-tab>
+        <uib-tab index="5">
+            <uib-tab-heading>
+                终端
+            </uib-tab-heading>
+
+            <div id="container-terminal-wrapper" style="background-color: #000000;"
+                 class="container-terminal-wrapper">
+                    <span class="fullscreenbutton" ng-click="changesize()"
+                          ng-class="{
+                            'uex-icon-closefullscreen':terminalsize.become==='close',
+                            'uex-icon-openfullscreen':terminalsize.become==='open'}"
+                    ></span>
+                <kubernetes-container-terminal
+                        pod-container="pod.spec.containers"
+                        pod="pod"
+                        container="pod.spec.containers[0].name"
+                        cols="cols"
+                        rows="rows"
+                        class="pod_term">
                 </kubernetes-container-terminal>
-            </uib-tab>
-            <uib-tab index="6">
-                <uib-tab-heading>
-                    事件
-                </uib-tab-heading>
-                <deployments-event dcname="pod.metadata.name" dcfit="Pod"></deployments-event>
-            </uib-tab>
+            </div>
 
-        </uib-tabset>
-        
+        </uib-tab>
+        <uib-tab index="6">
+            <uib-tab-heading>
+                事件
+            </uib-tab-heading>
+            <deployments-event dcname="pod.metadata.name" dcfit="Pod"></deployments-event>
+        </uib-tab>
+
+    </uib-tabset>
+
 </div>
