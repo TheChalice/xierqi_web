@@ -1000,6 +1000,16 @@ define([
                             function (ReplicaSet, Cookie) {
                                 return ReplicaSet.get({namespace: Cookie.get('namespace')}).$promise
                             }
+                        ],
+                        monitoringStatefulSets: ['statefulsets', 'Cookie',
+                            function (statefulsets, Cookie) {
+                                return statefulsets.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        monitoringBuild: ['Build', 'Cookie','Build',
+                            function (Build, Cookie) {
+                                return Build.get({namespace: Cookie.get('namespace')}).$promise
+                            }
                         ]
                     }
                 })
