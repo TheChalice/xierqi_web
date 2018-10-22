@@ -1,18 +1,18 @@
 'use strict';
 angular.module('console.services', [
-        'kubernetesUI',
-        {
-            files: [
-                'views/service_details/service_details.css',
-                'components/datepick/datepick.js',
-                'components/checkbox/checkbox.js'
-            ]
-        }
-    ])
+    'kubernetesUI',
+    {
+        files: [
+            'views/service_details/service_details.css',
+            'components/datepick/datepick.js',
+            'components/checkbox/checkbox.js'
+        ]
+    }
+])
     .controller('ServicesDetailCtrl', ['$scope', 'serviceDetails', 'Service', 'routes', 'pods', 'endpoints', 'Cookie',
-        function($scope, serviceDetails, Service, routes, pods, endpoints, Cookie) {
+        function ($scope, serviceDetails, Service, routes, pods, endpoints, Cookie) {
             $scope.text = "无";
-
+            $scope.routenamespace = Cookie.get('namespace')
             if (serviceDetails) {
                 $scope.service = serviceDetails;
                 $scope.routesForService = {};
@@ -23,19 +23,22 @@ angular.module('console.services', [
                     "Pending": "This pod will not receive traffic until all of its containers have been created."
                 };
 
-               var getPodsForService = function (podsList) {
+                var getPodsForService = function (podsList) {
                     if (!$scope.service.spec.selector) return;
 
                     _.each(podsList, function (pod) {
                         var podForService = _.filter([pod.metadata.labels], _.matches($scope.service.spec.selector)) || [];
                         if (podForService.length !== 0) {
                             $scope.podsForService[pod.metadata.name] = pod;
+                            // console.log("12312",$scope.podsForService)
+                            var podsnum = Object.keys($scope.podsForService);
+                            $scope.podsnum = podsnum.length
                         }
-                    }  )
+                    })
 
                 }
 
-               var getRoutesForService =  function (routesList) {
+                var getRoutesForService = function (routesList) {
                     angular.forEach(routesList, function (route) {
                         if (route.spec.to.kind === "Service" &&
                             route.spec.to.name === $scope.service.metadata.name) {
@@ -44,7 +47,7 @@ angular.module('console.services', [
                     });
                 };
 
-               var getPortsByRoute =  function () {
+                var getPortsByRoute = function () {
                     _.each($scope.service.spec.ports, function (port) {
                         {
                             var reachedByRoute = false;
@@ -82,20 +85,23 @@ angular.module('console.services', [
                                             $scope.podsWithEndpoints[address.targetRef.name] = true;
                                         }
                                     });
-                                } );
+                                });
                             }
                         });
                     }
                 }
                 var deleteService = function () {
-                    Service.delete({ namespace: $scope.service.metadata.namespace, name: $scope.service.metadata.name, region: Cookie.get('region') })
-                }
-                $scope.delete= function () {
+                    Service.delete({
+                        namespace: $scope.service.metadata.namespace,
+                        name: $scope.service.metadata.name,
+                        region: Cookie.get('region')
+                    })
+                };
+                $scope.delete = function () {
                     if ($scope.service) {
                         deleteService();
                     }
                 }
-
 
             }
         }
