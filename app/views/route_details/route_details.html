@@ -8,6 +8,7 @@
     <div ng-show="route" ng-repeat="ingress in route.status.ingress"
          ng-init="admittedCondition = (ingress | routeIngressCondition : 'Admitted')"
          class="route-status">
+
         <!-- module common 公共-->
         <div class="module-heading">
             <div class="module_block_l">
@@ -63,7 +64,10 @@
             </div>
         </div>
         <!-- module common 公共-->
+
+
     </div>
+
     <uib-tabset class="tab-default tab-jia-default" active="active">
         <uib-tab index="1">
             <uib-tab-heading>

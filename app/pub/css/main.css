@@ -145,15 +145,13 @@ a {
 
 .btn-gray {
     background-color: #fff;
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    transition: all 1s;
-    border: 1px solid #47B2FB;
+    border: 1px solid #CCD5E0;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    color: #47B2FB;
+    color: #475669;
     font-size: 12px;
+    margin-left: 10px;
 }
 
 .btn-gray:hover {
@@ -2528,6 +2526,13 @@ td a:hover, a:focus {
 .uex-icon-delete:before {
     content: '\e925';
     color: #47B2FB;
+}
+.df_build {
+    font-size: 12px;
+    width: 68px;
+    height: 26px;
+    line-height: 26px;
+    padding: 0px;
 }
 .df_build_btn {
     font-size: 12px;
