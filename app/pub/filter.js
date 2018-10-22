@@ -3,6 +3,16 @@
 define(['angular', 'moment'], function(angular, moment) {
     moment.locale('zh-cn');
     return angular.module('myApp.filter', [])
+        .filter('imageSHA', function() {
+            // Returns the trailing @sha:`...` if present from an image name.
+            return function(imageName) {
+                if (!imageName) {
+                    return imageName;
+                }
+                var parts = imageName.split('@');
+                return parts.length > 1 ? parts[1] : '';
+            };
+        })
         .filter('dateRelative', [function() {
             // dropSuffix will tell moment whether to include the "ago" text
             console.log('timestamp', 1);
@@ -410,6 +420,33 @@ define(['angular', 'moment'], function(angular, moment) {
                 return "";
             }
         }])
+        .filter('imageStreamNameOne', function() {
+            return function(image) {
+                if (!image) {
+                    return "";
+                }
+                // TODO move this parsing method into a utility method
+
+                // remove @sha256:....
+                var imageWithoutID = image.split("@")[0];
+
+                var slashSplit = imageWithoutID.split("/");
+                var semiColonSplit;
+                if (slashSplit.length === 3) {
+                    semiColonSplit = slashSplit[2].split(":");
+                    return slashSplit[1] + '/' + semiColonSplit[0];
+                }
+                else if (slashSplit.length === 2) {
+                    // TODO umm tough... this could be registry/imageName or imageRepo/imageName
+                    // have to check if the first bit matches a registry pattern, will handle this later...
+                    return imageWithoutID;
+                }
+                else if (slashSplit.length === 1) {
+                    semiColonSplit = imageWithoutID.split(":");
+                    return semiColonSplit[0];
+                }
+            };
+        })
         .filter('imageStreamName', function() {
             return function(image) {
                 if (!image) {
@@ -423,6 +460,7 @@ define(['angular', 'moment'], function(angular, moment) {
                     console.log('image11', imagename);
                     return imagename;
                 }
+                console.log(match)
                 return match[1];
             };
         })
@@ -433,6 +471,15 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
                 var images = image.split("@");
                 return images[0]
+            };
+        })
+        .filter("stripSHAPrefixOne", function() {
+            return function(id) {
+                if (!id) {
+                    return id;
+                }
+
+                return id.replace(/^sha256:/, "");
             };
         })
         .filter("stripSHAPrefix", function() {
