@@ -142,3 +142,17 @@
     display: block;
 }
 /*new code end*/
+#build-detail .detail_tit{font-size:12px;color:#A2B0C4;}
+#build-detail .build_name{color:#000;font-weight: normal;}
+
+#build-detail .pip_block{overflow:hidden;margin-bottom:14px;}
+#build-detail .pit_left{float:left;width:160px;margin:0px;font-size:12px;line-height:26px;color: #475669;}
+#build-detail .pip_btn{border-radius:4px;cursor:pointer;width:32px;height:26px;display:block;border:1px solid #CCD5E0;margin-left:10px;float:left;line-height:26px;text-align:center;}
+#build-detail .pip_btn:hover{color:#47B2FB;border:1px solid #47B2FB;}
+
+#build-detail .set_tit{width:40px;height:40px;border:1px solid #000;}
+#build-detail .set_tit:before{content:"\f0ea"}
+
+#build-detail .trig_tp{margin-top:16px;}
+#build-detail .pip_tit{width: 320px;display:block;float:left;height:26px;line-height:26px;border:1px solid #CCD5E0;overflow:hidden;
+    padding-left:10px;padding-right:4px;white-space:nowrap;font-size:12px;color: #A2B0C4;border-radius: 4px;}

@@ -238,6 +238,16 @@ define([
                         }]
                     }
                 })//ok
+                .state('console.uploadimage', {
+                    url: '/:namespace/uploadimage',
+                    templateUrl: 'views/upload_image/upload_image.html',
+                    controller: 'uploadimageCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/upload_image/upload_image.js')
+                        }]
+                    }
+                })
                 //pipeline
                 .state('console.pipeline', {
                     url: '/:namespace/pipeline',
@@ -1001,6 +1011,16 @@ define([
                                 return Build.get({namespace: Cookie.get('namespace')}).$promise
                             }
                         ]
+                    }
+                })
+                .state('console.events', {
+                    url: '/:namespace/events',
+                    templateUrl: 'views/events/events.html',
+                    controller: 'EventsCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/events/events.js')
+                        }]
                     }
                 })
                 //pods详情

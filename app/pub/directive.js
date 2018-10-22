@@ -152,6 +152,16 @@ define(['angular'], function (angular) {
                 });
             }
         }])
+        .directive('confullHeight', [function () {
+            return function (scope, element, attr) {
+                var height = document.documentElement.clientHeight - 150 + 'px';
+                element.css({
+                    'min-height': height,
+                    'position':'relative',
+                    'overflow': 'hidden'
+                });
+            }
+        }])
         .directive('onFinishRender', function ($timeout) {
             return {
                 restrict: 'A',
