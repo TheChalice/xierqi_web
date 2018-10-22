@@ -86,12 +86,6 @@
 #build .buld_jia_btn{padding:6px 12px!important;}
 
 
-#build .pagination > li > a,.pagination-sm > li > span{
-    margin-left:5px;
-    border:none;
-    background:#f7f7f7;
-    color:black;
-}
 #build .pagination > li > a:hover{
     color:black;
 }

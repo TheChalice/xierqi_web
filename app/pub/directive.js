@@ -206,6 +206,7 @@ define(['angular'], function (angular) {
                 restrict: 'E',
                 scope: {
                     pods: '=',
+                    namespace: '=',
                     // Optional active pods map to display whether or not pods have endpoints
                     activePods: '=?',
                     // Optional empty message to display when there are no pods.
@@ -217,6 +218,8 @@ define(['angular'], function (angular) {
                 },
                 templateUrl: 'views/directives/pods-table.html',
                 link: function ($scope) {
+                    //$scope.namespace=$rootScope.namespace
+                    console.log('$scope.namespace', $scope.namespace);
                     var orderObjectsByDate = $filter('orderObjectsByDate');
                     var sortPods = _.debounce(function (pods) {
                         $scope.$evalAsync(function () {

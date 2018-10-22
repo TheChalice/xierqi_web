@@ -1,12 +1,12 @@
 'use strict';
 angular.module('console.resource_management', [
-        {
-            files: [
-                'components/searchbar/searchbar.js',
-                'views/resource_management/resource_management.css'
-            ]
-        }
-    ])
+    {
+        files: [
+            'components/searchbar/searchbar.js',
+            'views/resource_management/resource_management.css'
+        ]
+    }
+])
     .controller('resmanageCtrl', ['$log', 'Ws', 'DeploymentConfig', 'persistent', '$state', '$rootScope', '$scope', 'configmaps', 'secretskey',
         function ($log, Ws, DeploymentConfig, persistent, $state, $rootScope, $scope, configmaps, secretskey) {
             $scope.grid = {
@@ -36,22 +36,20 @@ angular.module('console.resource_management', [
                     rmrefresh(newVal);
                 }
             });
-
+            $scope.constantlyvolume = function () {
+                $scope.grid.constantlyvolume = true;
+                persistentlist('nows');
+                $state.reload();
+            };
             var rmrefresh = function (page) {
                 $(document.body).animate({
                     scrollTop: 0
                 }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 //console.log($scope.persistentdata);
-                $scope.persistents = $scope.persistentdata.slice(skip, skip + $scope.grid.size)||[];
+                $scope.persistents = $scope.persistentdata.slice(skip, skip + $scope.grid.size) || [];
 
             };
-
-            $scope.constantlyvolume = function () {
-                $scope.grid.constantlyvolume = true;
-                persistentlist('nows');
-                $state.reload();
-            }
 
             function persistentlist(nows) {
                 persistent.get({
@@ -60,23 +58,23 @@ angular.module('console.resource_management', [
                 }, function (res) {
                     angular.forEach(res.items, function (item, i) {
                         //console.log(item.spec.resources.requests.storage);
-                        res.items[i].spec.resources.requests.storage=item.spec.resources.requests.storage.replace('i','B')
-                    })
+                        res.items[i].spec.resources.requests.storage = item.spec.resources.requests.storage.replace('i', 'B')
+                    });
                     DeploymentConfig.get({
                         namespace: $rootScope.namespace,
                         region: $rootScope.region
                     }, function (resdc) {
-                        console.log('dc',resdc);
+                        console.log('dc', resdc);
                         $scope.grid.constantlyvolume = false;
                         console.log(res.items, 1);
                         angular.forEach(res.items, function (volitem, i) {
-                            res.items[i].arr = []
+                            res.items[i].arr = [];
                             angular.forEach(resdc.items, function (dcitem, k) {
                                 angular.forEach(dcitem.spec.template.spec.volumes, function (dcvolitem, j) {
                                     if (dcvolitem.persistentVolumeClaim && volitem.metadata.name == dcvolitem.persistentVolumeClaim.claimName) {
                                         res.items[i].arr.push(dcitem.metadata.name)
                                     }
-                                })
+                                });
                                 //volitem.metadata.name==dcitem.spec.template.spec.volumes
                             })
                         });
@@ -87,7 +85,7 @@ angular.module('console.resource_management', [
                                     res.items[i].status.phase = 'band'
                                 }
                                 res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
-                            })
+                            });
                             //console.log($scope.items);
 
                             res.items.sort(function (x, y) {
@@ -103,8 +101,8 @@ angular.module('console.resource_management', [
                             $scope.persistentdata = res.items;
 
                             //console.log('chijiu', res);
-                        }else {
-                            $scope.persistentdata=[];
+                        } else {
+                            $scope.persistentdata = [];
 
                         }
                         $scope.grid.rmtotal = $scope.persistentdata.length;
@@ -112,7 +110,6 @@ angular.module('console.resource_management', [
                         $scope.grid.rmpage = 1;
                         $scope.grid.rmtxt = '';
                         rmrefresh(1);
-
                     })
 
 
@@ -121,7 +118,7 @@ angular.module('console.resource_management', [
                 });
             }
 
-            persistentlist()
+            persistentlist();
 
             var watchPc = function (resourceVersion) {
                 Ws.watch({
@@ -163,7 +160,7 @@ angular.module('console.resource_management', [
                     //$scope.rcs.items.push(data.object);
                 } else if (data.type == "MODIFIED") {
                     //console.log(data);
-                    data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
+                    data.object.spec.resources.requests.storage = data.object.spec.resources.requests.storage.replace('i', 'B')
 
                     angular.forEach($scope.persistentdata, function (item, i) {
 
@@ -175,7 +172,7 @@ angular.module('console.resource_management', [
                             rmrefresh(1);
                             $scope.$apply();
                         }
-                    })
+                    });
                     //console.log('ws',$scope.persistents.items);
                     //angular.forEach($scope.items, function(item, i){
                     //    if (item.rc.metadata.name == data.object.metadata.name) {
@@ -189,43 +186,41 @@ angular.module('console.resource_management', [
 
 
                 }
-            }
-            $scope.text='您还没有创建存储卷';
+            };
+            $scope.text = '您还没有创建存储卷';
             $scope.rmsearch = function (event) {
-                if (true) {
-                    if (!$scope.grid.rmtxt) {
-                        $scope.persistentdata = angular.copy($scope.cpoypersistents)
-                        rmrefresh(1);
-                        $scope.grid.rmtotal = $scope.cpoypersistents.length;
-                        return;
-                    }
-                    $scope.persistentdata = [];
-
-                    var iarr = [];
-                    var str = $scope.grid.rmtxt;
-                    str = str.toLocaleLowerCase();
-                    //console.log('$scope.copydata', $scope.copydata);
-                    angular.forEach($scope.cpoypersistents, function (item, i) {
-                        //console.log(item.build);
-                        var nstr = item.metadata.name;
-                        nstr = nstr.toLocaleLowerCase();
-                        if (nstr.indexOf(str) !== -1) {
-                            iarr.push(item)
-                        }
-                        //console.log(repo.instance_data, $scope.grid.txt);
-                    })
-                    if(iarr.length===0){
-                        $scope.isQuery=true;
-                        $scope.text='没有查询到相关数据';
-                    }
-                    else{
-                        $scope.text='您还没有创建存储卷';
-                    }
-                    $scope.persistentdata=angular.copy(iarr);
+                if (!$scope.grid.rmtxt) {
+                    $scope.persistentdata = angular.copy($scope.cpoypersistents)
                     rmrefresh(1);
-                    //console.log('$scope.data', $scope.configdata);
-                    $scope.grid.rmtotal = $scope.persistentdata.length;
+                    $scope.grid.rmtotal = $scope.cpoypersistents.length;
+                    return;
                 }
+                $scope.persistentdata = [];
+
+                var iarr = [];
+                var str = $scope.grid.rmtxt;
+                str = str.toLocaleLowerCase();
+                //console.log('$scope.copydata', $scope.copydata);
+                angular.forEach($scope.cpoypersistents, function (item, i) {
+                    //console.log(item.build);
+                    var nstr = item.metadata.name;
+                    nstr = nstr.toLocaleLowerCase();
+                    if (nstr.indexOf(str) !== -1) {
+                        iarr.push(item)
+                    }
+                    //console.log(repo.instance_data, $scope.grid.txt);
+                });
+                if (iarr.length === 0) {
+                    $scope.isQuery = true;
+                    $scope.text = '没有查询到相关数据';
+                }
+                else {
+                    $scope.text = '您还没有创建存储卷';
+                }
+                $scope.persistentdata = angular.copy(iarr);
+                rmrefresh(1);
+                //console.log('$scope.data', $scope.configdata);
+                $scope.grid.rmtotal = $scope.persistentdata.length;
 
             };
 
@@ -242,7 +237,7 @@ angular.module('console.resource_management', [
                     scrollTop: 0
                 }, 200);
                 var skip = (page - 1) * $scope.grid.size;
-                $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size)||[];
+                $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size) || [];
 
             };
 
@@ -256,7 +251,7 @@ angular.module('console.resource_management', [
                     if (res.items && res.items.length > 0) {
                         angular.forEach(res.items, function (item, i) {
                             res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
-                        })
+                        });
                         //console.log($scope.items);
                         res.items.sort(function (x, y) {
                             return x.sorttime > y.sorttime ? -1 : 1;
@@ -276,49 +271,47 @@ angular.module('console.resource_management', [
 
                 })
 
-            }
+            };
 
-            $scope.newreload=function(){
-                $state.go('console.resource_management',{index:2},{reload:true});
-               // console.log('nima');
-            }
-            $scope.text2='您还没有创建配置卷';
+            $scope.newreload = function () {
+                $state.go('console.resource_management', {index: 2}, {reload: true});
+                // console.log('nima');
+            };
+            $scope.text2 = '您还没有创建配置卷';
             $scope.search = function (event) {
-                if (true) {
-                    if (!$scope.grid.txt) {
-                        $scope.configdata = angular.copy($scope.copyconfigdata)
-                        refresh(1);
-                        $scope.grid.total = $scope.configdata.length;
-                        return;
-                    }
-                    $scope.configdata = [];
-
-                    var iarr = [];
-                    var str = $scope.grid.txt;
-                    str = str.toLocaleLowerCase();
-                    //console.log('$scope.copydata', $scope.copydata);
-                    angular.forEach($scope.copyconfigdata, function (item, i) {
-                        //console.log(item.build);
-                        var nstr = item.metadata.name;
-                        nstr = nstr.toLocaleLowerCase();
-                        if (nstr.indexOf(str) !== -1) {
-                            iarr.push(item)
-                        }
-                        //console.log(repo.instance_data, $scope.grid.txt);
-                    })
-                    if(iarr.length===0){
-                        $scope.isQuery=true;
-                        $scope.text2='没有查询到相关数据';
-
-                    }
-                    else{
-                        $scope.text2='您还没有创建配置卷';
-                    }
-                    $scope.configdata=angular.copy(iarr);
+                if (!$scope.grid.txt) {
+                    $scope.configdata = angular.copy($scope.copyconfigdata)
                     refresh(1);
-                    //console.log('$scope.data', $scope.configdata);
                     $scope.grid.total = $scope.configdata.length;
+                    return;
                 }
+                $scope.configdata = [];
+
+                var iarr = [];
+                var str = $scope.grid.txt;
+                str = str.toLocaleLowerCase();
+                //console.log('$scope.copydata', $scope.copydata);
+                angular.forEach($scope.copyconfigdata, function (item, i) {
+                    //console.log(item.build);
+                    var nstr = item.metadata.name;
+                    nstr = nstr.toLocaleLowerCase();
+                    if (nstr.indexOf(str) !== -1) {
+                        iarr.push(item)
+                    }
+                    //console.log(repo.instance_data, $scope.grid.txt);
+                });
+                if (iarr.length === 0) {
+                    $scope.isQuery = true;
+                    $scope.text2 = '没有查询到相关数据';
+
+                }
+                else {
+                    $scope.text2 = '您还没有创建配置卷';
+                }
+                $scope.configdata = angular.copy(iarr);
+                refresh(1);
+                //console.log('$scope.data', $scope.configdata);
+                $scope.grid.total = $scope.configdata.length;
             };
 
             $scope.loadconfigmaps();
@@ -331,7 +324,7 @@ angular.module('console.resource_management', [
                     if (res.items && res.items.length > 0) {
                         angular.forEach(res.items, function (item, i) {
                             res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
-                        })
+                        });
                         //console.log(res.items);
                         //console.log($scope.items);
                         res.items.sort(function (x, y) {
@@ -350,10 +343,10 @@ angular.module('console.resource_management', [
                     }
 
                 })
-            }
-            $scope.secretReload=function(){
-                $state.go('console.resource_management',{'index':3},{reload:true})
-            }
+            };
+            $scope.secretReload = function () {
+                $state.go('console.resource_management', {'index': 3}, {reload: true})
+            };
             $scope.loadsecrets();
 
             $scope.$watch('secrets.page', function (newVal, oldVal) {
@@ -367,44 +360,42 @@ angular.module('console.resource_management', [
                     scrollTop: 0
                 }, 200);
                 var skip = (page - 1) * $scope.grid.size;
-                $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size)||[];
+                $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size) || [];
                 //$scope.secrets.total = $scope.secretitems.length;
             };
-            $scope.text3=' 您还没有创建密钥卷';
+            $scope.text3 = ' 您还没有创建密钥卷';
             $scope.scretssearch = function (event) {
-                if (true) {
-                    if (!$scope.secrets.txt) {
-                        $scope.secretdata = angular.copy($scope.copysecretdata);
-                        secretrefresh(1);
-                        $scope.secrets.total = $scope.secretdata.length;
-                        return;
-                    }
-                    $scope.secretdata = [];
-
-                    var iarr = [];
-                    var str = $scope.secrets.txt;
-                    str = str.toLocaleLowerCase();
-                    //console.log('$scope.copydata', $scope.copydata);
-                    angular.forEach($scope.copysecretdata, function (item, i) {
-                        //console.log(item.build);
-                        var nstr = item.metadata.name;
-                        nstr = nstr.toLocaleLowerCase();
-                        if (nstr.indexOf(str) !== -1) {
-                            iarr.push(item)
-                        }
-                        //console.log(repo.instance_data, $scope.grid.txt);
-                    })
-                    if(iarr.length===0){
-                        $scope.text3='没有查询到相关数据';
-                    }
-                    else{
-                        $scope.text3='您还没有创建密钥卷';
-                    }
-                    $scope.secretdata=angular.copy(iarr);
+                if (!$scope.secrets.txt) {
+                    $scope.secretdata = angular.copy($scope.copysecretdata);
                     secretrefresh(1);
-                    console.log('$scope.data', $scope.secretdata);
                     $scope.secrets.total = $scope.secretdata.length;
+                    return;
                 }
+                $scope.secretdata = [];
+
+                var iarr = [];
+                var str = $scope.secrets.txt;
+                str = str.toLocaleLowerCase();
+                //console.log('$scope.copydata', $scope.copydata);
+                angular.forEach($scope.copysecretdata, function (item, i) {
+                    //console.log(item.build);
+                    var nstr = item.metadata.name;
+                    nstr = nstr.toLocaleLowerCase();
+                    if (nstr.indexOf(str) !== -1) {
+                        iarr.push(item)
+                    }
+                    //console.log(repo.instance_data, $scope.grid.txt);
+                });
+                if (iarr.length === 0) {
+                    $scope.text3 = '没有查询到相关数据';
+                }
+                else {
+                    $scope.text3 = '您还没有创建密钥卷';
+                }
+                $scope.secretdata = angular.copy(iarr);
+                secretrefresh(1);
+                console.log('$scope.data', $scope.secretdata);
+                $scope.secrets.total = $scope.secretdata.length;
 
             };
-        }])
+        }]);

@@ -25,6 +25,7 @@ angular.module('console.pipeline.detail', [
             //获取pipline记录
             var loadPiplineHistory = function (name) {
                 //console.log('name',name)
+
                 Build.get({
                     namespace: $rootScope.namespace,
                     labelSelector: 'buildconfig=' + name,
@@ -158,6 +159,7 @@ angular.module('console.pipeline.detail', [
                 //        name: name
                 //    }
                 //};
+
                 BuildConfig.get({namespace: $rootScope.namespace,
                     name: $scope.BuildConfig.metadata.name}, function (getbc) {
                     if ($scope.BuildConfig.spec.strategy.jenkinsPipelineStrategy&&$scope.BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile) {
@@ -211,26 +213,38 @@ angular.module('console.pipeline.detail', [
                 });
             };
 
+            function deletebc(){
+                BuildConfig.remove({
+                    namespace: $rootScope.namespace,
+                    name: $scope.BuildConfig.metadata.name
+                }, {}, function () {
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                    $state.go("console.pipeline",{namespace:$rootScope.namespace});
+                }, function (res) {
+                    //todo 错误处理
+                    toastr.error('删除失败,请重试', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                });
+            }
             //删除方法
             $scope.deletes = function () {
                 var name = $scope.BuildConfig.metadata.name;
                 delTip.open("删除", $scope.BuildConfig.metadata.name, true).then(function () {
-                    BuildConfig.remove({
+                    Build.delete({
                         namespace: $rootScope.namespace,
-                        name: $scope.BuildConfig.metadata.name
-                    }, {}, function () {
-                        toastr.success('操作成功', {
-                            timeOut: 2000,
-                            closeButton: true
-                        });
-                        $state.go("console.pipeline",{namespace:$rootScope.namespace});
-                    }, function (res) {
-                        //todo 错误处理
-                        toastr.error('删除失败,请重试', {
-                            timeOut: 2000,
-                            closeButton: true
-                        });
-                    });
+                        labelSelector: 'buildconfig=' + name
+                    },function(data){
+
+                        deletebc()
+                    }, function (err) {
+                        deletebc()
+                    })
+
                 });
 
 

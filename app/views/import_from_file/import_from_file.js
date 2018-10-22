@@ -16,7 +16,7 @@
                 console.log('project', project)
                 $scope.project = project;
                 ctrl.$onInit = function() {
-                    console.log('ctrl.$onInit')
+                    //console.log('ctrl.$onInit')
                     ctrl.alerts = {};
                     ctrl.loginBaseUrl = 'https://new.dataos.io:8443'; //DataService.openshiftAPIBaseUrl();
                     // if on the landing page, show the project name in next-steps

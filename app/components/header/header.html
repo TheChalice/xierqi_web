@@ -84,9 +84,9 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a href="javascript:;" ng-click="createOrg()"><i class="df_h_com df_q_active"></i>创建项目</a>
-                    </li>
+                    <!--<li>-->
+                        <!--&lt;!&ndash;<a href="javascript:;" ng-click="createOrg()"><i class="df_h_com df_q_active"></i>创建项目</a>&ndash;&gt;-->
+                    <!--</li>-->
                     <!--<li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef; cursor: no-drop">-->
 
                     <!--<a style="cursor: default;color: azure " href="javascript:;"><i class="df_h_com df_q_active"></i>创建组织</a>-->
@@ -111,7 +111,7 @@
                     </li>
 
                     <!--<li role="separator" class="divider"></li>-->
-                    <li style="border-bottom: none;">
+                    <li ng-show="!nolohout" style="border-bottom: none;">
                         <a href="javascript:;" ng-click="logout()"><i class="df_h_com df_quit"></i>退出登录</a>
                     </li>
                 </ul>

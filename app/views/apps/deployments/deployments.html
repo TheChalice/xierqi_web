@@ -32,16 +32,13 @@
 
                 </div>
 
-                <a class="btn build-jia" ng-click="reload()" style="display:inline-block;">
-                    <!-- height: 34px;width: 36px;padding: 5px 5px; jias 20161027 change-->
-                    <i class="fa fa-refresh fa-lg"></i>
-                </a>
+                <!--<a class="btn build-jia" ng-click="reload()" style="display:inline-block;">-->
+                    <!--&lt;!&ndash; height: 34px;width: 36px;padding: 5px 5px; jias 20161027 change&ndash;&gt;-->
+                    <!--<i class="fa fa-refresh fa-lg"></i>-->
+                <!--</a>-->
             </div>
             <div class="col-sm-4">
-                <!--<a class="btn btn-green" ui-sref="console.quick_deploy" style="margin-right:20px;">-->
-                <!--<i class="fa fa-plus fa-lg"></i>-->
-                <!--<span class="hidden-xs"> 快速部署</span>-->
-                <!--</a>-->
+
             </div>
 
             <div class="input-group col-sm-4 searchbar">
@@ -114,7 +111,15 @@
                 </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
+                <uib-pagination class="pagination pagination-sm"
+                                ng-model="grid.page"
+                                total-items="grid.total"
+                                items-per-page="grid.size"
+                                boundary-links="false"
+                                max-size="12"
+                                rotate="true"
+                                previous-text="<"
+                                next-text=">">
                 </uib-pagination>
 
             </div>
@@ -138,7 +143,7 @@
                     </td>
                     <td data-title="Last Version">
                         <span>
-                          <a class="href-orange" ui-sref="console.rs({namespace:namespace,name:deployment.rs.metadata.name})" style="color: #f6a540;cursor: pointer;">{{deployment | lastDeploymentRevision}}</a>
+                          <a class="href-orange" ui-sref="console.rs({namespace:namespace,name:deployment.rs.metadata.name})" style="cursor: pointer;">{{deployment | lastDeploymentRevision}}</a>
                         </span>
                     </td>
                     <td data-title="Replicas">
@@ -164,7 +169,8 @@
             </table>
 
             <div class="text-center" ng-if="gridTwo.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination pagination-sm" ng-model="gridTwo.page" total-items="gridTwo.total" items-per-page="gridTwo.size" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
+                <uib-pagination
+                        class="pagination pagination-sm" ng-model="gridTwo.page" total-items="gridTwo.total" items-per-page="gridTwo.size" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
                 </uib-pagination>
 
             </div>

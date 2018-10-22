@@ -63,6 +63,7 @@
                 <div class="podlist" ng-show="quota.rubustCheck">
                     CPU阀值
                     <input class="podnum" ng-model="horiz.spec.targetCPUUtilizationPercentage"
+                           ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
                            type="text"
                            placeholder="80"
                            style=""> <span class="baifen">%</span>

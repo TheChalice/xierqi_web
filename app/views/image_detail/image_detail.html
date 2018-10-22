@@ -1,4 +1,4 @@
-<div class="image-detail">
+<div class="image-detail" id="myimage">
     <div class="loader" ng-if="!date">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -109,23 +109,30 @@
 
 </div>
 <style>
+    #myimage .nav-item .nav-link{
+        border: none;
+        border-bottom: 2px solid #47B2FB;
+        color: #47B2FB;
+    }
     .creattime {
         width: 26px;
         height: 26px;
         display: inline-block;
-        background: url("pub/img/clock.png")no-repeat;
+        background: url("pub/img/clock.png") no-repeat;
     }
+
     .shoucang {
         width: 26px;
         height: 26px;
         display: inline-block;
-        background: url("pub/img/shoucang.png")no-repeat;
+        background: url("pub/img/shoucang.png") no-repeat;
     }
+
     .pulls {
         width: 26px;
         height: 26px;
         display: inline-block;
-        background: url("pub/img/pull.png")no-repeat;
+        background: url("pub/img/pull.png") no-repeat;
     }
 
     .star {
@@ -133,15 +140,15 @@
         cursor: pointer;
         width: 13px;
         height: 13px;
-        background:url("pub/img/star.png");
+        background: url("pub/img/star.png");
     }
 
-    .star:hover{
-        background:url("pub/img/starh.png");
+    .star:hover {
+        background: url("pub/img/starh.png");
     }
 
     .star.active {
-        background:url("pub/img/starh.png");
+        background: url("pub/img/starh.png");
     }
 </style>
 

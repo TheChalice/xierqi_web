@@ -10,16 +10,24 @@
             <img class="plan_pic_bt" src="views/home/recharge/image/plan_pic_bt.png">
             <p class="h_tit">为您提供简单 高性价比的套餐方案</p>
             <div class="tab_area">
-                <li class="active">铸造一区</li>
-                <li>铸造二区</li>
+                <ul>
+                    <li class="active">铸造一区</li>
+                    <li>铸造二区</li>
+                </ul>
             </div>
             <div class="list">
                 <ul class="list_one">
                     <li ng-repeat="plan in firplan">
                         <div class="p_block trans_all">
                             <div class="p_tp">
-                                <p class="name_tit name_basic"><img src="views/home/recharge/image/{{plan.plan_name}}.png"></p>
-                                <p class="mon_tit"><span class="money">￥</span><span class="num">{{plan.price}}</span><span class="every_money">&nbsp;元/月</span></p>
+                                <p class="name_tit name_basic">
+                                    <img src="views/home/recharge/image/{{plan.plan_name}}.png">
+                                </p>
+                                <p class="mon_tit">
+                                    <span class="money">￥</span>
+                                    <span class="num">{{plan.price}}</span>
+                                    <span class="every_money">&nbsp;元/月</span>
+                                </p>
                                 <p class="hour_tit">≈ {{plan.hour}}元/小时</p>
                             </div>
                             <div class="p_md">
@@ -104,8 +112,14 @@
                     <li ng-repeat="plan in seaplan">
                         <div class="p_block trans_all">
                             <div class="p_tp">
-                                <p class="name_tit name_basic"><img src="views/home/recharge/image/{{plan.plan_name}}.png"></p>
-                                <p class="mon_tit"><span class="money">￥</span><span class="num">{{plan.price}}</span><span class="every_money">&nbsp;元/月</span></p>
+                                <p class="name_tit name_basic">
+                                    <img src="views/home/recharge/image/{{plan.plan_name}}.png">
+                                </p>
+                                <p class="mon_tit">
+                                    <span class="money">￥</span>
+                                    <span class="num">{{plan.price}}</span>
+                                    <span class="every_money">&nbsp;元/月</span>
+                                </p>
                                 <p class="hour_tit">≈ {{plan.hour}}元/小时</p>
                             </div>
                             <div class="p_md">

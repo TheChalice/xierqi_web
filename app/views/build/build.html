@@ -16,9 +16,9 @@
 
 
 
-                <a class="btn build-jia" ng-click="refresh()">
-                    <i class="fa fa-refresh fa-lg"></i><!-- 20160921 jia 代码构建 loading处理按钮向下问题-->
-                </a>
+                <!--<a class="btn build-jia" ng-click="reload()">-->
+                    <!--<i class="fa fa-refresh fa-lg"></i>&lt;!&ndash; 20160921 jia 代码构建 loading处理按钮向下问题&ndash;&gt;-->
+                <!--</a>-->
             </div>
             <!--<div class="col-sm-8 col-xs-8" style="padding-left: 0; ">-->
             <!--<div class="pull-right" style="width:100%;">-->
@@ -42,7 +42,7 @@
                     <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
                         <th class='col-lg-3 col-md-3 col-sm-3'>构建名称</th>
                         <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
+                        <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                         <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
                         <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
                         <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
@@ -59,11 +59,11 @@
                     </td>
                     <td>
                     <span class="icon12 icon12-{{bc.build.status.phase}}"
-                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending'}"></span>
+                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending','icon12-Cancelled': bc.build.status.phase == 'Cancelled'}"></span>
 
                         {{bc.build.status.phase | phaseFilter}}
                     </td>
-                    <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
+                    <td><span uib-tooltip="{{bc.metadata.creationTimestamp | timescon}}">{{bc.metadata.creationTimestamp | dateRelative}}</span>
                     </td>
                     <td>{{bc.build.status.duration | duration}}</td>
                     <!--<td>-->
@@ -84,24 +84,23 @@
                                ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"
                                uib-tooltip="构建"></a>
                             <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4" href="javascript:;"
-                               ng-click="stop($index)"
+                               ng-click="stop($index,bc)"
                                ng-show="bc.build.status.phase == 'Pendding' || bc.build.status.phase == 'Running' || bc.build.status.phase == 'New'"
                                uib-tooltip="停止"></a>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="td_colspan_li" style="" ng-if="items.length===0"><p class="blank_block">  <span class="blank_tit">{{text}}</span></p></td>
+                    <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="items.length===0"><p class="blank_block">  <span class="blank_tit">{{text}}</span></p></td>
                 </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10">
-                <uib-pagination class="pagination"
+                <uib-pagination class="pagination pagination-sm"
                                 ng-model="grid.page"
                                 total-items="grid.total"
                                 items-per-page="grid.size"
-                                class="pagination-sm"
                                 boundary-links="false"
-                                max-size="12"
+                                max-size="10"
                                 rotate="true"
                                 previous-text="<"
                                 next-text=">"

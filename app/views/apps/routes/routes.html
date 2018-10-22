@@ -7,6 +7,10 @@
         #creatbtn:hover {
             z-index: 0;
         }
+        #routes .creatbtn {
+            margin-right:0;
+            margin-left:-15px;
+        }
     </style>
     <div class="loader" ng-if="!items">
         <div class="loader-inner ball-clip-rotate-multiple">
@@ -16,7 +20,7 @@
         </div>
     </div>
     <div ng-if="items">
-        <div style="margin-right:0;margin-left:-15px;">
+        <div class="creatbtn" style="">
             <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
                 <div class="btn-group" role="group">
                     <a id="creatbtn" class="btn btn-green" ui-sref="console.create_routes({namespace:namespace})">
@@ -32,15 +36,13 @@
                     <!--</ul>-->
                 </div>
 
-                <a class="btn build-jia" ng-click="reload()" style="display:inline-block;">
-                    <i class="fa fa-refresh fa-lg"></i>
-                </a>
+
             </div>
             <div class="col-sm-4">
             </div>
 
             <div class="input-group col-sm-4 searchbar">
-                <input type="text" class="form-control" placeholder="搜索Route名称" ng-keyup=search($event) ng-model="grid.txt">
+                <input type="text" class="form-control" placeholder="搜索域名路由名称" ng-keyup=search($event) ng-model="grid.txt">
                 <span class="input-group-btn">
                     <a class="btn" ng-click="scretssearch('search')"></a>
                 </span>

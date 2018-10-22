@@ -1,7 +1,7 @@
 'use strict';
 angular.module('home.login', [])
-    .controller('loginCtrl', ['regions', 'ModalRegist', '$interval', '$state', '$rootScope', 'AuthService', '$scope', '$log', '$stateParams',
-        function (regions, ModalRegist, $interval, $state, $rootScope, AuthService, $scope, $log, $stateParams) {
+    .controller('loginCtrl', ['User','Cookie','sessiontoken','$base64','Project','$q','regions', 'ModalRegist', '$interval', '$state', '$rootScope', 'AuthService', '$scope', '$log', '$stateParams','GLOBAL',
+        function (User,Cookie,sessiontoken,$base64,Project,$q,regions, ModalRegist, $interval, $state, $rootScope, AuthService, $scope, $log, $stateParams,GLOBAL) {
             //console.log("+_+_+_+_+_+_+_+", $stateParams);
             $rootScope.credentials={};
             //regions.query({}, function (data) {
@@ -122,6 +122,22 @@ angular.module('home.login', [])
                 }
             })
             $log.info('login');
+            //newjs
+
+            //credentials.region = 'cn-north-1'
+            //localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
+            //$rootScope.loding = true;
+            //var deferred = $q.defer();
+            //var req = {
+            //    method: 'GET',
+            //    timeout: deferred.promise,
+            //    url: GLOBAL.signin_uri,
+            //    headers: {
+            //        'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
+            //    }
+            //};
+
+            //localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
 
             $scope.login = function () {
                 if ($stateParams.type) {
@@ -135,7 +151,7 @@ angular.module('home.login', [])
                 //ModalRegist.open();
                 $state.go('regist');
             };
-            // $scope.cancel = function () {
-            //   $uibModalInstance.dismiss();
-            // };
+             $scope.cancel = function () {
+               $uibModalInstance.dismiss();
+             };
         }]);

@@ -310,7 +310,9 @@ angular.module('console.deploymentconfig_detail', [
                         con.volumeMounts = []
                         if (volerr(con.volments)) {
                             cancreat = false
+
                             toastr.error('操作失败,请重试', {
+
                                 timeOut: 2000,
                                 closeButton: true
                             });
@@ -325,7 +327,8 @@ angular.module('console.deploymentconfig_detail', [
                         delete con.volumeMounts
                         delete con.volments
                     }
-                    //
+
+                    
                     if (!con.display) {
                         con.image=con.annotate.regimage
                     }
@@ -371,10 +374,6 @@ angular.module('console.deploymentconfig_detail', [
 
                         }, function (err) {
                             creathor()
-                            toastr.error('删除失败,请重试', {
-                                timeOut: 2000,
-                                closeButton: true
-                            });
                         })
 
                     } else {
@@ -486,7 +485,26 @@ angular.module('console.deploymentconfig_detail', [
                             }
                         }
                     }
+                    $scope.mustnum = function (e, num, quate) {
 
+                        if (quate === 10) {
+                            var patrn = /^([1-9]||10)$/ig;
+                        } else if (quate === 100) {
+                            var patrn = /^(\d|[1-9]\d|100)$/;
+                        } else {
+                            var patrn = /^\d+$/;
+                        }
+                        //
+
+                        if (patrn.test(num)) {
+                            console.log('t', e.currentTarget.value);
+                        } else {
+                            //console.log('f',num);
+                            e.currentTarget.value = null
+                        }
+
+
+                    }
                     $scope.addcon = function () {
                         var tmp = angular.copy($scope.dc.spec.template.spec.containers[$scope.dc.spec.template.spec.containers.length - 1]);
                         //console.log(tmp);
@@ -857,12 +875,6 @@ angular.module('console.deploymentconfig_detail', [
                         } else if (data.type == "MODIFIED") {
 
                             $scope.baocuname = data.object.metadata.name;
-
-                            //if (data.object.spec.selector.deploymentconfig === $scope.dc.metadata.name) {
-                            //    //$scope.dc.spec.replicas = data.object.spec.replicas;
-                            //    $scope.dc.status.replicas = data.object.status.replicas;
-                            //    $scope.$apply();
-                            //}
                             angular.forEach($scope.rcs.items, function (item, i) {
                                 if (item.metadata.name == data.object.metadata.name) {
                                     $scope.rcs.items[i] = data.object;

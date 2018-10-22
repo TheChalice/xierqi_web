@@ -5,8 +5,8 @@ angular.module('console.routes', [{
             'views/apps/apps.css'
         ]
     }])
-    .controller('RoutesCtrl', ['$scope', 'routes','Route',
-        function($scope, routes,Route) {
+    .controller('RoutesCtrl', ['$scope', 'routes','Route','Sort',
+        function($scope, routes,Route,Sort) {
             $scope.text = "无";
             //$scope.text = "No routes have been added to project " + $scope.namespace + ".";
             $scope.grid = {
@@ -52,6 +52,7 @@ angular.module('console.routes', [{
             };
             if (routes) {
                 $scope.items = routes.items;
+                $scope.items=Sort.sort(routes.items, -1)
                 $scope.copyRoute = angular.copy($scope.items);
                 $scope.grid.total = $scope.items.length;
                 $scope.grid.page = 1;
