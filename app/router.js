@@ -10,7 +10,7 @@ define([
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
             //$urlRouterProvider.otherwise("/console/build/create");
-            $urlRouterProvider.otherwise("/signin");
+            $urlRouterProvider.otherwise("/login");
 
 
             $stateProvider
@@ -114,26 +114,6 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/login/login.js')
-                        }]
-                    }
-                })
-                .state('blank', {
-                    url: '/signin',
-                    templateUrl: 'views/blank/blank.html',
-                    controller: 'blankCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/blank/blank.js')
-                        }]
-                    }
-                })
-                .state('console.uploadimage', {
-                    url: '/:namespace/uploadimage',
-                    templateUrl: 'views/upload_image/upload_image.html',
-                    controller: 'uploadimageCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/upload_image/upload_image.js')
                         }]
                     }
                 })
@@ -258,25 +238,17 @@ define([
                         }]
                     }
                 })//ok
-                //pipeline
-                .state('console.create_pipeline', {
-                    url: '/:namespace/create-pipeline',
-                    templateUrl: 'views/create_pipeline/create_pipeline.html',
-                    params: {
-                        name: null
-                    },
-                    controller: 'CreatePiplineCtrl',
+                .state('console.uploadimage', {
+                    url: '/:namespace/uploadimage',
+                    templateUrl: 'views/upload_image/upload_image.html',
+                    controller: 'uploadimageCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_pipeline/create_pipeline.js')
-                        }],
-                        createPipline: ['tempipline', 'Cookie', '$stateParams',
-                            function (tempipline, Cookie, $stateParams) {
-                                return tempipline.get({namespace: 'openshift'}).$promise
-                            }
-                        ]
+                            return $ocLazyLoad.load('views/upload_image/upload_image.js')
+                        }]
                     }
-                })//ok
+                })
+                //pipeline
                 .state('console.pipeline', {
                     url: '/:namespace/pipeline',
                     templateUrl: 'views/pipeline/pipeline.html',
@@ -333,8 +305,6 @@ define([
                     }
                 })//ok
                 //app
-
-                //新建deployment
                 .state('console.deployments', {
                     url: '/:namespace/deployments',
                     templateUrl: 'views/apps/deployments/deployments.html',
@@ -538,10 +508,10 @@ define([
                                     name: $stateParams.name
                                 }).$promise
                             }
-                        ]
+                        ],
                     }
                 })//ok
-                //pods详情
+
                 .state('console.pods', {
                     url: '/:namespace/pods',
                     templateUrl: 'views/apps/pods/pods.html',
@@ -658,14 +628,14 @@ define([
                 })//ok
                 .state('console.create_routes', {
                     url: '/:namespace/create-route/:name',
-                    templateUrl: 'views/create_routes/create_routes.html',
+                    templateUrl: 'views/create_file/create_routes/create_routes.html',
                     params: {
                         name: null
                     },
                     controller: 'CreateRoutesCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_routes/create_routes.js')
+                            return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
                         }],
                         createRoutes: ['Route', 'Cookie', '$stateParams',
                             function (Route, Cookie, $stateParams) {
@@ -880,6 +850,9 @@ define([
                 })//ok
 
 
+
+
+
                 //resource management
 
 
@@ -1004,11 +977,59 @@ define([
                         }]
                     }
                 })
+                //Monitoring
+                .state('console.monitoring', {
+                    url: '/:namespace/monitoring',
+                    templateUrl: 'views/monitoring/monitoring.html',
+                    controller: 'MonitoringCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/monitoring/monitoring.js')
+                        }],
+                        monitoringPods: ['Pod', 'Cookie',
+                            function (Pod, Cookie) {
+                                return Pod.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        monitoringReplicas: ['ReplicationController', 'Cookie',
+                            function (ReplicationController, Cookie) {
+                                return ReplicationController.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        monitoringReplicaSet: ['ReplicaSet', 'Cookie',
+                            function (ReplicaSet, Cookie) {
+                                return ReplicaSet.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        monitoringStatefulSets: ['statefulsets', 'Cookie',
+                            function (statefulsets, Cookie) {
+                                return statefulsets.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        monitoringBuild: ['Build', 'Cookie','Build',
+                            function (Build, Cookie) {
+                                return Build.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })
+                .state('console.events', {
+                    url: '/:namespace/events',
+                    templateUrl: 'views/events/events.html',
+                    controller: 'EventsCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/events/events.js')
+                        }]
+                    }
+                })
+                //pods详情
+
+                //新建routes
+
+                //新建deployment
 
 
-            //新建routes
-
-            //新建deployment
 
 
             //过期route

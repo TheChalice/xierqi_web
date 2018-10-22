@@ -1,0 +1,123 @@
+.uex-icon-swap-left:before{
+    content: '\e90c';
+}
+.uex-icon-caret-bottom:before{
+    content: '\e906';
+}
+.uex-icon-arrow-right:before{
+    content: '\e901';
+}
+.uex-icon-arrow-down:before{
+    content: '\e902';
+}
+.uex-icon-document:before{
+    content: '\e940';
+}
+.list-btn {
+    padding: 5px 5px;
+    border:1px solid #CCD5E0;
+    border-radius: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+}
+.uex-btn-bottom {
+    font-size: 14px;
+    position: absolute;
+    right: 5px;
+    top:5px;
+}
+.list-view-pf{
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.list-view-pf .list-group-item:first-child{
+    border-top: 1px solid #eaeaea;
+}
+.list-view-pf .list-group-item-expandable{
+    cursor: pointer;
+    border:1px solid #eaeaea;
+}
+.list-view-pf-checkbox{
+    font-size: 22px;
+    margin-bottom: 10px;
+    width: 25px;
+    border-right: 1px solid #d1d1d1;
+    float: left;
+    margin-right: 15px;
+    padding: 3px 10px 3px 0;
+}
+.sr-only{
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+.list-view-pf-main-info{
+    overflow: hidden;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.list-view-pf-body{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-width: 0;
+    vertical-align: top;
+    width: 100%;
+}
+.list-view-pf-description{
+    width:60%;
+}
+.list-group-item-heading{
+    float: left;
+    white-space: normal;
+    flex: 1 0 auto;
+    margin: 0;
+    padding: 0 20px 0 0;
+    width: 50%;
+    font-size: 13px;
+}
+.list-group-item-text{
+    float: left;
+    flex: 1 0 auto;
+    margin: 0;
+    padding: 0 20px 0 0;
+    width: 50%;
+}
+.list-view-pf-additional-info{
+    width:40%;
+}
+.list-view-pf-additional-info-item:last-child{
+    margin-right: 0;
+}
+.list-view-pf-additional-info-item{
+    display: inline-block;
+    text-align: left;
+}
+[class^="pficon-"],
+[class*=" pficon-"] {
+    display: inline-block;
+    font-family: "PatternFlyIcons-webfont";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    /* Better Font Rendering =========== */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    border:none;
+}
+
+
+
+.fa-refresh:before{content:"\f021";}
+.pficon-image:before{content:"\e61f";}

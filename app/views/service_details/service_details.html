@@ -1,4 +1,4 @@
-<div id="services_detail">
+<div id="services_detail" class="df_frame" confull-height>
     <div class="loader" ng-show="!service">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -6,141 +6,115 @@
         </div>
     </div>
     <div ng-show="service">
-        <div class="panel panel-default" style="margin-bottom: 50px">
-            <div class="panel-heading">
-                <span class="panel-title">
-                <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{service.metadata.name}}&nbsp;&nbsp;
-                    <!-- <span ng-if="dc.state == 'normal'" style="color: #47B2FB;">运行中</span>
-                    </span>
-                    <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
-                    <a class="btn pull-right" ng-show="dc.state != 'normal'" ng-class="{'btn-green':startBtn.dianl, 'btn-orange': startBtn.dianlz}" ng-disabled=startBtn.dianlz ng-click="startDc()">{{startBtn.name}}</a>
-                    <a class="btn pull-right" ng-show="dc.state == 'normal'" ng-class="{'btn-green':stopBtn.dianl, 'btn-orange': stopBtn.dianlz}" ng-disabled=stopBtn.dianlz ng-click="stopDc()">{{stopBtn.name}}</a> -->
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="media media-sm">
-                            <div class="media-left">
-                                <i class="faa faa-clock"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">创建时间</h4>
-                                <small style="color: #5a6378;">{{service.metadata.creationTimestamp | dateRelative}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <!--<div class="media media-sm">-->
-                            <!--<div class="media-left">-->
-                                <!--<i class="faa faa-pod"></i>-->
-                            <!--</div>-->
-                            <!--<div class="media-body">-->
-                                <!--<h4 class="media-heading">pod个数</h4>-->
-                                <!--<small>-->
-                                    <!--<span>-->
-                                       <!--{{podsForService}}-->
-                                    <!--</span>-->
-                                <!--</small>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    </div>
+        <!-- module common 公共-->
+        <div class="module-heading">
+            <div class="module_block_l">
+                <div class="img-block">
+                    <svg class="icon svg_img" viewBox="0 0 64 64">
+                        <path d="M32-.08a32,32,0,1,0,32,32A32,32,0,0,0,32-.08ZM30.23,52.16,11.72,42.39v-22l18.51,6.67ZM13.56,17.44,32,11.69l18.63,6L32.07,24.22ZM52.19,42.39,33.68,52.16V27.21l18.51-6.67Z"/>
+                    </svg>
                 </div>
+                <div class="img-detail">
+                    <p class="img-tit">{{service.metadata.name}}</p>
+                    <p class="img-time">
+                        <span classs="module_tit">创建时间：</span>
+                        <span class="module_time">{{service.metadata.creationTimestamp | timescon}}</span>
+                    </p>
+                    <p class="img-new">
+                        <span class="module_tit">容器个数：</span>
+                        <small>
+                            <span>{{podsnum}}</span>
+                            <span ng-if="!podsnum">-</span>
+                            <!-- <span ng-repeat="pod in podsForService">
+                                <a class="href-orange"
+                                   ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">{{sortedPods.length}}&nbsp;</a>
+                            </span> -->
+                        </small>
+                    </p>
+                </div>
+
+
+            </div>
+            <div class="module_block_r">
             </div>
         </div>
+        <!-- module common 公共-->
 
-        <!-- /middle-header-->
-        <div class="middle-content" persist-tab-state>
-            <div class="container-fluid" style="padding-right:0;padding-left:0">
-                <div class="row" ng-if="service">
-                    <div class="col-md-12">
-                        <!-- <uib-tabset>
-                            <uib-tab active="selectedTab.details">
-                                <uib-tab-heading>Details</uib-tab-heading> -->
-                        <div class="resource-details">
-                            <dl class="dl-horizontal left">
-                                <dt style="margin-bottom:2px;text-align:left">选择器:</dt>
-                                <!--<dt style="margin-bottom:2px;text-align:left">Selectors:</dt>-->
-                                <dd>
-                                    <span ng-if="!service.spec.selector"><em>none</em></span>
-                                    <span ng-repeat="(selectorLabel, selectorValue) in service.spec.selector"> {{selectorLabel}}={{selectorValue}}<span
-                                            ng-show="!$last">, </span></span>
-                                </dd>
-                                <dt style="margin-bottom:2px;text-align:left;">类型:</dt>
-                                <dd>{{service.spec.type}}</dd>
-                                <dt style="margin-bottom:2px;text-align:left">IP:</dt>
-                                <dd>{{service.spec.clusterIP}}</dd>
-                                <dt style="margin-bottom:2px;text-align:left">主机名:</dt>
-                                <!--<dt style="margin-bottom:2px;text-align:left">Hostname:</dt>-->
-                                <dd>
-                                    {{service.metadata.name}}.{{service.metadata.namespace}}.svc
-                                    <span data-toggle="popover" data-trigger="hover"
-                                          data-content="{{'This address is only resolvable from within the cluster.'}}"
-                                          style="cursor: help; padding-left: 5px;">
+        <uib-tabset class="tab-default tab-jia-default" active="active">
+            <uib-tab index="1">
+                <uib-tab-heading>
+                    地址信息
+                </uib-tab-heading>
+                <!-- /middle-header-->
+                <div class="middle-content" persist-tab-state>
+                    <div class="container-fluid" style="padding-right:0;padding-left:0">
+                        <div class="row" ng-if="service">
+                            <div class="col-md-12">
+                                <!-- <uib-tabset>
+                                    <uib-tab active="selectedTab.details">
+                                        <uib-tab-heading>Details</uib-tab-heading> -->
+                                <div class="resource-details">
+                                    <h4 class="df_tit">概况</h4>
+                                    <dl class="dl-horizontal left df_left_set">
+                                        <dt>选择器:</dt>
+                                        <dd>
+                                            <span ng-if="!service.spec.selector"><em>none</em></span>
+                                            <span ng-repeat="(selectorLabel, selectorValue) in service.spec.selector"> {{selectorLabel}}={{selectorValue}}<span
+                                                    ng-show="!$last">, </span></span>
+                                        </dd>
+                                        <dt>类型:</dt>
+                                        <dd>{{service.spec.type}}</dd>
+                                        <dt>IP:</dt>
+                                        <dd>{{service.spec.clusterIP}}</dd>
+                                        <dt>主机名:</dt>
+                                        <dd>
+                                            {{service.metadata.name}}.{{service.metadata.namespace}}.svc
+                                            <span data-toggle="popover" data-trigger="hover"
+                                                  data-content="{{'This address is only resolvable from within the cluster.'}}"
+                                                  style="cursor: help; padding-left: 5px;">
                           <span class="pficon pficon-info" aria-hidden="true" data-toggle="tooltip"
                                 style="cursor: help;"></span>
                                     </span>
-                                </dd>
-                                <dt style="margin-bottom:2px;text-align:left" ng-if-start="service.spec.externalName">
-                                    外部主机名:
-                                </dt>
-                                <!--<dt style="margin-bottom:2px;text-align:left" ng-if-start="service.spec.externalName">External Hostname:</dt>-->
-                                <dd ng-if-end>{{service.spec.externalName}}</dd>
-                                <dt style="margin-bottom:2px;text-align:left">会话亲和性:</dt>
-                                <!--<dt style="margin-bottom:2px;text-align:left">Session affinity:</dt>-->
-                                <dd>{{service.spec.sessionAffinity}}</dd>
-                                <!--<dt style="margin-bottom:2px;text-align:left" ng-if-start="service.status.loadBalancer.ingress.length">Ingress Points:</dt>-->
-                                <!--&lt;!&ndash;<dt style="margin-bottom:2px;text-align:left" ng-if-start="service.status.loadBalancer.ingress.length">Ingress Points:</dt>&ndash;&gt;-->
-                                <!--<dd ng-if-end>-->
-                                <!--<span ng-repeat="ingress in service.status.loadBalancer.ingress">{{ingress.ip}}<span ng-if="!$last">, </span></span>-->
-                                <!--</dd>-->
-                                <dt style="margin-bottom:2px;text-align:left"
-                                    ng-if-start="service.spec.externalIPs.length">外部 IPs:
-                                </dt>
-                                <!--<dt style="margin-bottom:2px;text-align:left" ng-if-start="service.spec.externalIPs.length">External IPs:</dt>-->
-                                <dd ng-if-end>
+                                        </dd>
+                                        <dt ng-if-start="service.spec.externalName">
+                                            外部主机名:
+                                        </dt>
+
+                                        <dd ng-if-end>{{service.spec.externalName}}</dd>
+                                        <dt style="margin-bottom:2px;text-align:left">会话亲和性:</dt>
+
+                                        <dd>{{service.spec.sessionAffinity}}</dd>
+
+                                        <dt style="margin-bottom:2px;text-align:left"
+                                            ng-if-start="service.spec.externalIPs.length">外部 IPs:
+                                        </dt>
+
+                                        <dd ng-if-end>
                                     <span ng-repeat="externalIP in service.spec.externalIPs">{{externalIP}}<span
                                             ng-if="!$last">, </span></span>
-                                </dd>
-                                <!--<dt style="margin-bottom:2px;text-align:left" ng-if-start="routesForService">路由:</dt>-->
-                                <!--<dd ng-if-end>-->
-                                <!--&lt;!&ndash; <span>-->
-                                <!--<a ng-href="project/{{project.metadata.name}}/create-route?service={{service.metadata.name}}"  ng-if="'routes' | canI : 'create'">Create route</a>-->
-                                <!--<span ng-if="!('routes' | canI : 'create')"><em>None</em></span>-->
-                                <!--</span> &ndash;&gt;-->
-                                <!--</dd>-->
-                            </dl>
-                            <!--<div style="font-size: 14px;color: #333;-->
-                            <!--font-weight: bold;-->
-                            <!--margin: 0px;-->
-                            <!--margin-bottom: 10px;">-->
-                                <!--路由:-->
-                            <!--</div>-->
-                            <h4 style="color:#666;">流量</h4>
-                            <!--<h4 style="color:#666;">Traffic</h4>-->
-                            <div>
-                                <traffic-table ports-by-route="portsByRoute" routes="routesForService"
-                                               services="services" show-node-ports="showNodePorts"
-                                               custom-name-header="'路由'"></traffic-table>
-                            </div>
-                            <h4 style="color:#666;">容器组</h4>
-                            <div>
-                                <pods-table pods="podsForService"
-                                            namespace="namespace"
-                                            active-pods="podsWithEndpoints"
-                                            custom-name-header="'容器组'"
-                                            pod-failure-reasons="podFailureReasons"></pods-table>
+                                        </dd>
+                                    </dl>
+
+                                    <h4 class="df_tit">流量</h4>
+                                    <div>
+                                        <traffic-table routenamespace="routenamespace" ports-by-route="portsByRoute"
+                                                       routes="routesForService"
+                                                       services="services" show-node-ports="showNodePorts"
+                                                       custom-name-header="'路由'"></traffic-table>
+                                    </div>
+                                    <h4 class="df_tit">容器组</h4>
+                                    <div>
+                                        <pods-table routenamespace="routenamespace" pods="podsForService"
+                                                    active-pods="podsWithEndpoints"
+                                                    custom-name-header="'容器组'"
+                                                    pod-failure-reasons="podFailureReasons"></pods-table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!-- </uib-tab>
-                            <uib-tab active="selectedTab.events" ng-if="'events' | canI : 'watch'">
-                                <uib-tab-heading>Events</uib-tab-heading>
-                                <events api-objects="[ service ]" project-context="projectContext" ng-if="selectedTab.events"></events>
-                            </uib-tab>
-                        </uib-tabset> -->
                     </div>
                 </div>
-            </div>
-        </div>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>

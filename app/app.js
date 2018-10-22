@@ -65,6 +65,7 @@ define([
             size: 10,
             host: '/oapi/v1',
             host_k8s: '/api/v1',
+            uploadimage: '/uploadimage',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
@@ -87,10 +88,7 @@ define([
             signin_uri: '/signin',
             //host_webhooks: 'https://lab.new.dataos.io',
             host_webhooks: '<WEBHOOK_PREFIX>',
-
-            sso_switch: '<SSO_SWITCH>',
-            //sso_switch: 'true',
-            //service_url: '.prd.dataos.io',
+            // service_url: '.new.dataos.io',
             service_url: '<ROUTER_DOMAIN_SUFFIX>',
             //internal_registry:'docker-registry.default.svc:5000',
             internal_registry: '<INTERNAL_REGISTRY_ADDR>',
@@ -105,6 +103,7 @@ define([
             loginSuccess: 'auth-login-success',
             httpForbidden: 'auth-http-forbidden'
         })
+        .constant('IS_SAFARI', /Version\/[\d\.]+.*Safari/.test(navigator.userAgent))
 
     .config(['$httpProvider', 'GLOBAL', function($httpProvider) {
         $httpProvider.interceptors.push([
@@ -3105,40 +3104,50 @@ define([
                     { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard@'+namespace, stateUrl: null, children: [] },
                     { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build@'+namespace, stateUrl: null, children: [] },
                     { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image@'+namespace, stateUrl: null, children: [] },
-                    { name: '流水线', img: 'icon25 icon25-pipeline', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
+                    { name: '流水线', img: 'icon25 icon25-repository', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
                     { name: '容器应用', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
                     //{ name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
-                    { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
+                    { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources },
+                    { name: '监视', img: 'icon25 icon25-repository', url: 'console.monitoring@'+namespace, stateUrl: null, children: [] }
+
                 ];
                 if (toState && toState.name) {
                     $rootScope.console.state = toState.name;
-                    if (toState.name.indexOf('dashboard') !== -1) {
+                    if (toState.name.indexOf('dashboard') != -1) {
                         $rootScope.dataForTheTree[0].stateUrl = toState.name
-                    } else if (toState.name.indexOf('build') !== -1) {
+                    } else if (toState.name.indexOf('build') != -1) {
                         $rootScope.dataForTheTree[1].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('image') !== -1) {
+                    } else if (toState.name.indexOf('image') != -1) {
                         $rootScope.dataForTheTree[2].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('pipeline') !== -1) {
+
+                    } else if (toState.name.indexOf('pipeline') != -1) {
                         $rootScope.dataForTheTree[3].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('deployment') !== -1 || toState.name.indexOf('quick_deploy') !== -1 || toState.name.indexOf('service_create') !== -1) {
+
+
+                    } 
+                    else if (toState.name.indexOf('monitoring') != -1) {
+                        $rootScope.dataForTheTree[6].stateUrl = toState.name; }
+                    
+                    else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1) {
                         $rootScope.app[0].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('stateful-sets') !== -1) {
+                    } else if (toState.name.indexOf('stateful-sets') != -1) {
                         $rootScope.app[4].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('pods') !== -1) {
+                    } else if (toState.name.indexOf('pods') != -1) {
                         $rootScope.app[1].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('services') !== -1 || toState.name.indexOf('service_details') !== -1) {
+                    } else if (toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1) {
                         $rootScope.app[2].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('route') !== -1) {
+                    } 
+                    else if (toState.name.indexOf('route') != -1) {
                         $rootScope.app[3].stateUrl = toState.name;
                     }
                     // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
                     //     $rootScope.dataForTheTree[4].stateUrl = toState.name;
                     // }
-                    else if (toState.name.indexOf('_persistentVolume') !== -1) {
+                    else if (toState.name.indexOf('_persistentVolume') != -1) {
                         $rootScope.resources[0].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('_configMap') !== -1) {
+                    } else if (toState.name.indexOf('_configMap') != -1) {
                         $rootScope.resources[1].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('_secret') !== -1) {
+                    } else if (toState.name.indexOf('_secret') != -1) {
                         $rootScope.resources[2].stateUrl = toState.name;
                     }
 
@@ -3149,7 +3158,7 @@ define([
 
             });
         }
-    ]);//api分类
+    ]);
 
     return DataFoundry;
 });

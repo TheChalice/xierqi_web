@@ -21,6 +21,7 @@ require.config({
     paths: {
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
+        // qrcode: '../bower_components/jquery-qrcode/jquery.qrcode.min',
         moment: '../bower_components/moment/min/moment-with-locales.min',
         angular: '../bower_components/angular/angular.min',
         ngResource: '../bower_components/angular-resource/angular-resource.min',
@@ -49,13 +50,15 @@ require.config({
         toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
         uploadShim: '../bower_components/ng-file-upload-shim/ng-file-upload-shim.min',
         ngUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
-
     },
     shim: {
         'angular': {
             deps: ['jquery'],
             exports: 'angular'
         },
+        // 'qrcode': {
+        //     deps: ['angular','jquery']
+        // },
         'angularMd': {
             deps: ['angular']
         },
@@ -130,8 +133,6 @@ require.config({
         'ngUpload': {
             deps: ['angular','uploadShim']
         }
-
-
     },
     priority: [
         "angular"

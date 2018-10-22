@@ -4,20 +4,28 @@
     border-bottom: 2px solid #47B2FB;
     color: #47B2FB;
 }
+.tab-default li a{
+    font-size: 12px;
+}
 .tab-default .tab-content {
-    border:none;
+    border: none;
     border-radius: 0 0 2px 2px;
     padding: 30px 14px;
 }
-.matgin-bt{
-    margin-bottom:0px;
+
+.matgin-bt {
+    margin-bottom: 0px;
+    font-size: 12px;
+    color: #475669;
 }
+
 .input-key {
     height: 34px;
     line-height: 34px;
     padding: 6px 12px;
     font-size: 14px;
 }
+
 .load7 .loader:before,
 .load7 .loader:after,
 .load7 .loader {
@@ -30,6 +38,7 @@
     -webkit-animation: load 1.8s infinite ease-in-out;
     animation: load 1.8s infinite ease-in-out;
 }
+
 .load7 .loader {
     margin: 8em auto;
     font-size: 10px;
@@ -38,20 +47,24 @@
     -webkit-animation-delay: 0.16s;
     animation-delay: 0.16s;
 }
+
 .load7 .loader:before {
     left: -3.5em;
 }
+
 .load7 .loader:after {
     left: 3.5em;
     -webkit-animation-delay: 0.32s;
     animation-delay: 0.32s;
 }
+
 .load7 .loader:before,
 .loader:after {
     content: '';
     position: absolute;
     top: 0;
 }
+
 @-webkit-keyframes load {
     0%,
     80%,
@@ -62,6 +75,7 @@
         box-shadow: 0 2.5em 0 0 #f8b551;
     }
 }
+
 @keyframes load {
     0%,
     80%,
@@ -76,38 +90,48 @@
 .biaotou {
     text-align: center;
 }
+
 .event .paddingeve {
     padding: 1% 0;
 }
+
 .event .paddingeventz {
     padding: 3% 0;
 }
+
 .event .paddingevent {
     padding: 5% 0;
 }
 
-.rongqi >div {
+.rongqi > div {
     /*text-align: center;*/
     border-bottom: 1px solid #e6e9f2;
 }
+
 .table-default.sub-table > tbody > tr {
     display: table-row;
     vertical-align: inherit;
     vertical-align: middle;
 }
+
 .table-default.sub-table > tbody > tr > td {
     padding: 12px 10px;
 }
 
 .poda > a:focus {
-   color:#47B2FB;
+    color: #47B2FB;
 }
-.width150{
+
+.width150 {
     width: 150px;
 }
-.color333{
+
+.color333 {
     color: #333;
 }
-.color666{
-    color: #666;
+
+.color666 {
+    color: #475669;
+    font-size: 12px;
+    margin-bottom: 4px;
 }

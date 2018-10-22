@@ -11,9 +11,7 @@ angular.module('console.create_config_configMap', [
             "name": ""
         },
         "data": {},
-        "configitems": [],
-        "configarr": []
-
+        "configitems": []
     };
     $scope.grid = {
         configpost: false,
@@ -40,8 +38,7 @@ angular.module('console.create_config_configMap', [
             }
         }
     };
-
-
+    //readFile
     function readSingleFile(e) {
         var thisfilename = this.value;
         if (thisfilename.indexOf('\\')) {
@@ -55,165 +52,132 @@ angular.module('console.create_config_configMap', [
         var reader = new FileReader();
         reader.onload = function (e) {
             var content = e.target.result;
-            $scope.volume.configarr.push({key: thisfilename, value: content, showLog: false})
-
+            $scope.volume.configitems[$scope.check].value = content;
+            $scope.volume.configitems[$scope.check].isClearCode = true;
             $scope.$apply();
         };
         reader.readAsText(file);
 
     };
 
-    $scope.getLog = function (idx) {
-        $scope.volume.configarr[idx].showLog = !$scope.volume.configarr[idx].showLog
-    };
-
+    //delete key value
     $scope.deletekv = function (idx) {
-        $scope.volume.configarr.splice(idx, 1);
-    };
-
-    $scope.$watch('volume', function (n, o) {
-        if (n == o) {
-            return
-        }
-        //console.log(n);
-        $scope.grid.keychongfu = false;
-        $scope.grid.keynull = false;
-        $scope.grid.keybuhefa = false;
-        if (n.metadata.name && n.configitems) {
-
-            var arr = n.configitems.concat(n.configarr);
-            arr.sort(by("key"));
-
-            if (arr && arr.length > 0) {
-                var kong = false;
-                // var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-                var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-                angular.forEach(arr, function (item, i) {
-
-                    if (!item.key || !item.value) {
-                        $scope.grid.keynull = true;
-                        kong = true;
-                    } else {
-                        if (arr[i] && arr[i + 1]) {
-                            if (arr[i].key == arr[i + 1].key) {
-                                $scope.grid.keychongfu = true;
-                                kong = true;
-                            }
-                        }
-                        if (!r.test(arr[i].key)) {
-                            $scope.grid.keybuhefa = true;
-                            kong = true;
-                        }
-                    }
-                });
-                if (!kong) {
-                    // alert("111")
-                    $scope.grid.configpost = true
-                } else {
-                    // alert("222")
-                    $scope.grid.configpost = false
-                }
-            } else {
-                // alert("333");
-                $scope.grid.configpost = false
-            }
-        } else {
-            $scope.grid.configpost = false
-        }
-    }, true);
-
-    $scope.rmovekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     };
-    //添加文件
-    $scope.add = function () {
-        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+    //添加配置文件
+    $scope.AddConfigurationFile = function () {
+        $scope.volume.configitems.push({key: '', value: '', isClearCode: false});
     };
-
-
-    $scope.delvolume = function (v, idx) {
-        $scope.volume.data.length--
-        delete $scope.volume.data[v];
-        $scope.configarr.splice(idx, 1);
-
+    // clear code
+    $scope.clearCode = function (index) {
+        $scope.volume.configitems[index].value = '';
+        $scope.volume.configitems[index].isClearCode = false;
+    };
+    // add file
+    $scope.addFile = function (i) {
+        $scope.check = i;
+        // console.log('addFile',i,$scope.check);
+        // document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+        document.getElementsByClassName('upLoadFile')[$scope.check].addEventListener('change', readSingleFile, false);
     };
 
     /////手动配置
     configmaps.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-
         $scope.cfmnamearr = res.items;
-
-
     });
-    $scope.addConfig = function () {
-        $scope.volume.configitems.push({key: '', value: ''});
-
-    };
-
     $scope.namerr = {
         nil: false,
         rexed: false,
         repeated: false
     };
-    $scope.nameblur = function () {
-        //console.log($scope.buildConfig.metadata.name);
-        if (!$scope.volume.metadata.name) {
-            $scope.namerr.nil = true
-        } else {
-            $scope.namerr.nil = false
-        }
-    };
-    $scope.namefocus = function () {
-        $scope.namerr.nil = false
-    };
-
-
-    var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
     $scope.$watch('volume.metadata.name', function (n, o) {
         if (n === o) {
             return;
         }
-        if (n && n.length > 0) {
-            if (rex.test(n)) {
-                $scope.namerr.rexed = false;
-                $scope.namerr.repeated = false;
-                if ($scope.cfmnamearr) {
-                    //console.log($scope.buildConfiglist);
-                    angular.forEach($scope.cfmnamearr, function (bsiname, i) {
-                        // console.log(bsiname);
-                        if (bsiname.metadata.name === n) {
-                            // console.log(bsiname,n);
-                            $scope.namerr.repeated = true;
-
-                        }
-                        //console.log($scope.namerr.repeated);
-                    })
-                }
-
-            } else {
-                $scope.namerr.rexed = true;
-            }
-        } else {
-            $scope.namerr.rexed = false;
-        }
+        $scope.namerr = {
+            nil: false,
+            rexed: false,
+            repeated: false
+        };
     });
-
-    $scope.cearteconfig = function () {
-        if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated && !$scope.timeouted) {
-            // alert("000");
+    function nameerr(name, arr) {
+        var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+        if (name === '') {
+            return 'nil'
+        } else if (!rex.test(name)) {
+            return 'rexed'
         } else {
+            var iserpeat = false;
+            angular.forEach(arr, function (item, i) {
+                if (name === item.metadata.name) {
+                    iserpeat = true
+                }
+            });
+            if (iserpeat) {
+                return 'repeated'
+            }
+        }
+        return 'allmight'
+    }
+
+    function keyerr(arr) {
+        var rex = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+        var cancreat = true
+        angular.forEach(arr, function (item, i) {
+            if (item.key === '') {
+                cancreat = false;
+                item.err.key.nil = true
+            } else if (!rex.test(item.key)) {
+                cancreat = false;
+                item.err.key.rexed = true
+            } else {
+                angular.forEach(arr, function (initem, k) {
+                    if (i !== k) {
+                        if (item.key === initem.key) {
+                            cancreat = false;
+                            item.err.key.repeated = true;
+                            initem.err.key.repeated = true;
+                        }
+                    }
+                })
+            }
+        });
+        if (cancreat) {
+            return 'cancreat'
+        } else {
+            return 'dontcreat'
+        }
+    }
+    $scope.cearteconfig = function () {
+        if (nameerr($scope.volume.metadata.name, $scope.cfmnamearr) !== 'allmight') {
+            //console.log('nameerr($scope.volume.metadata.name, $scope.cfmnamearr)', nameerr($scope.volume.metadata.name, $scope.cfmnamearr));
+            $scope.namerr[nameerr($scope.volume.metadata.name, $scope.cfmnamearr)] = true;
             return
         }
+
+        angular.forEach($scope.volume.configitems, function (item, i) {
+            $scope.volume.configitems[i].err = {
+                key: {
+                    nil: false,
+                    rexed: false,
+                    repeated: false
+                }
+            }
+
+        });
+        if (keyerr($scope.volume.configitems) !== 'cancreat') {
+
+            return
+        }
+
+        var arr = $scope.volume.configitems;
+
         $scope.loaded = true;
-        var arr = $scope.volume.configitems.concat($scope.volume.configarr);
         angular.forEach(arr, function (item, i) {
             $scope.volume.data[item.key] = item.value;
         });
 
-
         delete $scope.volume.configitems;
-        delete $scope.volume.configarr;
         configmaps.create({namespace: $rootScope.namespace, region: $rootScope.region}, $scope.volume, function (res) {
             //console.log('createconfig----', res);
             $scope.loaded = false;

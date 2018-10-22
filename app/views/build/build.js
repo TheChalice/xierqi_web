@@ -14,7 +14,7 @@ angular.module('console.build', [
         //分页
         $scope.grid = {
             page: 1,
-            size: 10,
+            size: GLOBAL.size,
             txt: ''
         };
 
@@ -34,7 +34,7 @@ angular.module('console.build', [
         $scope.text='您还没有构建代码';
         $scope.buildsearch = function (event) {
             //if (event.keyCode === 13 || event === 'search') {
-            //console.log($scope.grid.txt);
+            console.log($scope.grid.txt);
             if (!$scope.grid.txt) {
                     $scope.data = angular.copy($scope.copydata)
                     refresh(1);
@@ -76,23 +76,14 @@ angular.module('console.build', [
         //获取buildConfig列表
         var loadBuildConfigs = function() {
             BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
-                $log.info('buildConfigs', data);
+                //$log.info('buildConfigs', data);
                 data.items = Sort.sort(data.items, -1); //排序
-                console.log('data.items', data.items);
                 //$scope.copydata = angular.copy(data.items);
-                $scope.data = [];
-                angular.forEach(data.items, function (item,i) {
-                    if (item.spec.strategy.type!=="JenkinsPipeline"&&item.spec.source.type!=="Binary") {
-                        $scope.data.push(item)
-                    }
-                })
-
-                $scope.grid.total = $scope.data.length;
+                $scope.data = data.items;
+                $scope.grid.total = data.items.length;
                 //console.log('$scope.data', $scope.data);
                 refresh(1);
                 loadBuilds($scope.data);
-                $scope.resourceVersion = data.metadata.resourceVersion;
-                watchBuilds(data.metadata.resourceVersion);
             }, function(res) {
                 //todo 错误处理
             });
@@ -111,7 +102,8 @@ angular.module('console.build', [
             Build.get({namespace: $rootScope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (data) {
                 //$log.info("builds", data);
 
-
+                $scope.resourceVersion = data.metadata.resourceVersion;
+                watchBuilds(data.metadata.resourceVersion);
 
                 fillBuildConfigs(data.items);
             });
@@ -201,7 +193,7 @@ angular.module('console.build', [
 
         loadBuildConfigs();
 
-        $scope.reload = function(){
+        $scope.refresh = function(){
             loadBuildConfigs();
             $scope.grid.page = 1;
             $state.reload();
@@ -218,24 +210,21 @@ angular.module('console.build', [
             };
             BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, buildRequest, function(){
                 $log.info("build instantiate success");
-                $state.go('console.build_detail', {namespace:$rootScope.namespace,name: name, from: 'create'})
+                $state.go('console.build_detail', {namespace: $rootScope.namespace,name: name, from: 'create'})
             }, function(res){
                 //todo 错误处理
             });
         };
 
-        $scope.stop = function(idx,bc){
+        $scope.stop = function(idx){
             Confirm.open("提示信息","您确定要终止本次构建吗？").then(function(){
                 var build = $scope.items[idx].build;
                 build.status.cancelled = true;
                 //build.region=$rootScope.region
                 Build.put({namespace: $rootScope.namespace, name: build.metadata.name,region:$rootScope.region}, build, function(res){
-                    bc.build.status.phase ='Cancelled'
                     $log.info("stop build success");
-                    //$scope.$apply()
-                    //$scope.items[idx].build = res;
+                    $scope.items[idx].build = res;
                 }, function(res){
-
                     if(res.data.code== 409){
                         Confirm.open("提示信息","当数据正在New的时候，构建不能停止，请等到正在构建时，再请求停止。");
                     }

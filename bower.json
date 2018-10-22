@@ -36,6 +36,7 @@
     "ng-jsyaml": "^0.0.2",
     "js-yaml": "^3.10.0",
     "angular-ui-ace": "^0.2.3",
+    "angular-pageslide-directive": "^2.2.0",
     "browser-md5-file": "^1.0.0"
   },
   "description": "angular seed",
@@ -51,8 +52,5 @@
   "homepage": "https://github.com/lanyuechen/angular-seed",
   "moduleType": [
     "amd"
-  ],
-  "devDependencies": {
-    "angular-file-upload": "^2.5.0"
-  }
+  ]
 }

@@ -16,12 +16,15 @@ angular.module('console.build.detail', [
             $scope.grid.checked = false;
             $scope.grid.pedding = false
 
+            // $scope.buildnamespaces=Cookie.get('namespace')
+            // console.log('$scope.buildnamespaces', $scope.buildnamespaces);
             $scope.bcName = $stateParams.name;
             $scope.websocklink=[]
             $scope.$on('image-enable', function (e, enable) {
                 $scope.imageEnable = enable;
             });
             $scope.showwebhook = false
+            $scope.httpurl = GLOBAL.host_webhooks
             var loadBuildConfig = function () {
                 BuildConfig.get({
                     namespace: $rootScope.namespace,
@@ -30,6 +33,7 @@ angular.module('console.build.detail', [
                 }, function (data) {
                     $log.info('data', data);
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
+                    $scope.myurl = data.spec.source.git.uri
                     $scope.data = data;
                     var host = $scope.data.spec.source.git.uri;
                     if (data.metadata.annotations.user) {
@@ -54,8 +58,21 @@ angular.module('console.build.detail', [
                         //console.log(parser.href);
                         //console.log(parser.hostname);
                         //console.log(parser.pathname);
-                        data.spec.source.git.uri = 'https://' + parser.hostname + parser.pathname
+                        $scope.myurl = 'https://' + parser.hostname + parser.pathname
+                        // data.spec.source.git.uri = 'https://' + parser.hostname + parser.pathname
                     }
+
+                    //var parser = document.createElement('a');
+                    //
+                    //parser.href = host;
+                    //
+                    //console.log(parser.protocol); // => "http:"
+                    //console.log(parser.hostname); // => "example.com"
+                    //console.log(parser.port);     // => "3000"
+                    //console.log(parser.pathname); // => "/pathname/"
+                    //console.log(parser.hash);     // => "#hash"
+                    //console.log(parser.host);     // => "example.com:3000"
+                    //$log.info("printhost%%%%", host);
 
                     if (data.spec && data.spec.completionDeadlineSeconds) {
                         $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
@@ -103,6 +120,24 @@ angular.module('console.build.detail', [
                     });
                 });
             };
+
+            //复制方法
+            $scope.gcopy = function (event) {
+                var e = event.target.previousElementSibling;
+                var textInput = document.createElement('input');
+                textInput.setAttribute('value', e.textContent)
+                textInput.style.cssText = "position: absolute; top:0; left: -9999px";
+                document.body.appendChild(textInput);
+                textInput.select();
+                var success = document.execCommand('copy');
+                if (success) {
+                    if (event.target.innerText == "复制") {
+                        event.target.innerText = '已复制'
+                    }
+
+                }
+            }
+
 
             $scope.deletes = function () {
                 var name = $scope.data.metadata.name;
@@ -215,15 +250,16 @@ angular.module('console.build.detail', [
                 if ($scope.grid.pedding) {
                     return
                 }
-                BuildConfig.put({
-                    namespace: $rootScope.namespace,
-                    name: name,
-                    region: $rootScope.region
-                }, $scope.data, function (res) {
-                    $log.info("put success", res);
-                    $scope.data = res;
-                    $scope.deadlineMinutesEnable = false;
-                    $scope.grid.checkedLocal = $scope.grid.checked;
+                // BuildConfig.put({
+                //     namespace: $rootScope.namespace,
+                //     name: name,
+                //     region: $rootScope.region
+                // }, $scope.data, function (res) {
+                //     $log.info("put success", res);
+                //     $scope.data = res;
+                //     $scope.deadlineMinutesEnable = false;
+                //     $scope.grid.checkedLocal = $scope.grid.checked;
+
                     if (!checked) {
                         createWebhook();
                     } else {
@@ -233,10 +269,10 @@ angular.module('console.build.detail', [
                     //deleteWebhook();
                     //createWebhook();
 
-                }, function (res) {
-                    //todo 错误处理
-                    $log.info("put failed");
-                });
+                // }, function (res) {
+                //     //todo 错误处理
+                //     $log.info("put failed");
+                // });
             };
 
             $scope.save = function () {
@@ -701,7 +737,7 @@ angular.module('console.build.detail', [
             $scope.delete = function (idx) {
                 var title = "删除构建";
                 var msg = "您确定要删除构建记录吗？";
-                //var tip = "删除构建将清除构建的所有历史数据以及相关的镜像，该操作不能被恢复";
+                // var tip = "删除构建将清除构建的所有历史数据以及相关的镜像，该操作不能被恢复";
 
                 var name = $scope.databuild.items[idx].metadata.name;
                 if (!name) {

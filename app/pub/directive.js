@@ -2,11 +2,163 @@
 
 define(['angular'], function (angular) {
     return angular.module('myApp.directive', [])
+        .factory("OwnerReferencesService", function() {
+            var getOwnerReferences = function(apiObject) {
+                return _.get(apiObject, 'metadata.ownerReferences');
+            };
+
+            // Find the owners of an API object.
+            var getControllerReferences = function(apiObject) {
+                var ownerReferences = getOwnerReferences(apiObject);
+                return _.filter(ownerReferences, 'controller');
+            };
+
+            return {
+                getOwnerReferences: getOwnerReferences,
+                getControllerReferences: getControllerReferences,
+
+                groupByControllerUID: function(apiObjects) {
+                    var objectsByControllerUID = {};
+                    _.each(apiObjects, function(apiObject) {
+                        var hasController = false;
+                        _.each(getOwnerReferences(apiObject), function(ownerRef) {
+                            if (ownerRef.controller) {
+                                hasController = true;
+                                objectsByControllerUID[ownerRef.uid] = objectsByControllerUID[ownerRef.uid] || [];
+                                objectsByControllerUID[ownerRef.uid].push(apiObject);
+                            }
+                        });
+
+                        if (!hasController) {
+                            objectsByControllerUID[''] = objectsByControllerUID[''] || [];
+                            objectsByControllerUID[''].push(apiObject);
+                        }
+                    });
+
+                    return objectsByControllerUID;
+                },
+
+                filterForController: function(apiObjects, controller) {
+                    var controllerUID = _.get(controller, 'metadata.uid');
+                    return _.filter(apiObjects, function(apiObject) {
+                        return _.some(getOwnerReferences(apiObject), {
+                            uid: controllerUID,
+                            controller: true
+                        });
+                    });
+                }
+            };
+        })
+        .directive('imageNames', function($filter, PodsService) {
+            return {
+                restrict: 'E',
+                scope: {
+                    podTemplate: '=',
+                    pods: '='
+                },
+                templateUrl: 'views/directives/_image-names.html',
+                link: function($scope) {
+                    var imageSHA = $filter('imageSHA');
+                    var updateImageDetails = function() {
+                        var firstContainer = _.get($scope, 'podTemplate.spec.containers[0]');
+                        if (!firstContainer) {
+                            return;
+                        }
+
+                        var sha = imageSHA(firstContainer.image);
+                        if (sha) {
+                            $scope.imageIDs = [ sha ];
+                            return;
+                        }
+
+                        $scope.imageIDs = PodsService.getImageIDs($scope.pods, firstContainer.name);
+                    };
+
+                    $scope.$watchGroup(['podTemplate', 'pods'], updateImageDetails);
+                }
+            };
+        })
+        .factory("PodsService", function(OwnerReferencesService) {
+            return {
+                getImageIDs: function(pods, containerName) {
+                    // Use a map so we only ever add the same SHA once.
+                    var imageIDs = {};
+                    var shaPrefixPattern = /^.*sha256:/;
+                    _.each(pods, function(pod) {
+                        var sha;
+                        var containerStatuses = _.get(pod, 'status.containerStatuses', []);
+                        var containerStatus = _.find(containerStatuses, { name: containerName });
+                        var id = _.get(containerStatus, 'imageID', '');
+                        if (shaPrefixPattern.test(id)) {
+                            sha = id.replace(shaPrefixPattern, '');
+                            imageIDs[sha] = true;
+                        }
+                    });
+
+                    return _.keys(imageIDs);
+                },
+
+                // Generates a copy of pod for debugging crash loops.
+                generateDebugPod: function(pod, containerName) {
+                    // Copy the pod and make some changes for debugging.
+                    var debugPod = angular.copy(pod);
+                    var container = _.find(debugPod.spec.containers, { name: containerName });
+                    if (!container) {
+                        return null;
+                    }
+
+                    // Use the same metadata as `oc debug`.
+                    debugPod.metadata = {
+                        name: pod.metadata.name + "-debug",
+                        annotations: {
+                            "debug.openshift.io/source-container": containerName,
+                            "debug.openshift.io/source-resource": "pods/" + pod.metadata.name
+                        },
+                        labels: {}
+                    };
+
+                    // Never restart.
+                    debugPod.spec.restartPolicy = "Never";
+                    delete debugPod.spec.host;
+                    delete debugPod.spec.nodeName;
+                    debugPod.status = {};
+                    delete container.readinessProbe;
+                    delete container.livenessProbe;
+
+                    // Prevent container from stopping immediately.
+                    container.command = ['sleep'];
+                    // Sleep for one hour. This will cause the container to stop after one
+                    // hour if for some reason the pod is not deleted.
+                    container.args = ['' + (60 * 60)];
+                    debugPod.spec.containers = [container];
+
+                    return debugPod;
+                },
+
+                groupByOwnerUID: function(pods) {
+                    return OwnerReferencesService.groupByControllerUID(pods);
+                },
+
+                filterForOwner: function(pods, owner) {
+                    return OwnerReferencesService.filterForController(pods, owner);
+                }
+            };
+        })
         .directive('fullHeight', [function () {
             return function (scope, element, attr) {
                 var height = document.documentElement.clientHeight - 70 + 'px';
                 element.css({
                     'min-height': height
+                });
+            }
+        }])
+        .directive('confullHeight', [function () {
+            return function (scope, element, attr) {
+                var height = document.documentElement.clientHeight - 150 + 'px';
+                element.css({
+                    'min-height': height,
+                    'position':'relative',
+                    'overflow': 'hidden'
                 });
             }
         }])
@@ -518,5 +670,23 @@ define(['angular'], function (angular) {
                 }
             };
         })
-
+        .directive('monitoringSlide', function () {
+            return {
+                restrict: 'E',
+                templateUrl: 'pub/tpl/monitoringSlide.html',
+                scope: false,
+                controller: ['$scope', function ($scope) {
+                    $scope.editEvent = function () {
+                        console.log('aaa');
+                        $scope.open = true
+                    };
+                    $scope.closesider = function () {
+                        console.log('111');
+                    };
+                    $scope.closepageside = function () {
+                        $scope.open = false
+                    }
+                }]
+            };
+        })
 });

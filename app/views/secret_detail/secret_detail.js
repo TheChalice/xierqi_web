@@ -1,9 +1,9 @@
 'use strict';
 angular.module('console.secret_secret', [
-        {
-            files: []
-        }
-    ])
+    {
+        files: []
+    }
+])
     .controller('secretDetailCtrl', ['Confirm','Toast','by', '$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret', '$stateParams', 'toastr',
         function (Confirm,Toast,by, $state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret, $stateParams, toastr) {
             $scope.grid = {
@@ -82,6 +82,7 @@ angular.module('console.secret_secret', [
                     var c2 = 0;
                     var c1=0;
                     var r =0;
+                    var c3 =0;
                     while (n < e.length) {
                         r = e.charCodeAt(n);
                         if (r < 128) {
@@ -105,13 +106,9 @@ angular.module('console.secret_secret', [
             listSecret.get({namespace: $rootScope.namespace, name: $stateParams.name,region:$rootScope.region}, function (res) {
                 $scope.item = res;
                 $scope.item.secretarr = [];
-                $scope.item.newarr = [];
-
-                //$scope.item.change = false;
                 $scope.change = false;
                 angular.forEach(res.data, function (res, i) {
-
-                    $scope.item.secretarr.push({key: i, value:Base64.decode(res),showLog:false});
+                    $scope.item.secretarr.push({key: i, value:Base64.decode(res)});
                 });
                 //console.log($scope.item.secretarr);
             },function (err) {
@@ -132,125 +129,81 @@ angular.module('console.secret_secret', [
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var content = e.target.result;
-                    $scope.item.secretarr.push({key: thisfilename, value: content,showLog:false})
-                    //console.log($scope.volume.configarr);
+                    // $scope.item.newarr.push({key: thisfilename, value: content,showLog:false});
+                    $scope.item.secretarr[$scope.check].value = content;
                     $scope.$apply();
                 };
                 reader.readAsText(file);
             };
-            $scope.getLog= function (idx) {
-                $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog;
-            };
-            $scope.addSecret = function () {
-                $scope.item.newarr.push({key: '', value: ''});
-                //$scope.item.newarr.push({key: '', value: ''});
+
+            $scope.AddConfigurationFile = function () {
+                $scope.item.secretarr.push({key: '', value: ''});
             };
 
-            $scope.$watch('item', function (n, o) {
-                if (n == o) {
-                    //$scope.gird.status = false;
-                    return
-                }
-                var kong = false;
+            $scope.addFile= function (i) {
+                $scope.check = i;
+                // document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+                document.getElementsByClassName('upLoadFile')[$scope.check].addEventListener('change', readSingleFile, false);
+            };
 
-                var r = /^[a-z0-9.]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+            $scope.deleteOriginkv = function (idx) {
+                $scope.item.secretarr.splice(idx, 1);
+            };
 
-                if (!$scope.change) {
-                    $scope.change = true;
-                    return
-                } else {
-                    $scope.grid.keychongfu = false;
-                    $scope.grid.keynull = false;
-                    $scope.grid.keybuhefa = false;
-                    if (n.secretarr||n.newarr) {
-                        if (n.secretarr.length>0||n.newarr.length>0) {
-                            var arr = n.secretarr.concat(n.newarr);
-                            //var arr = angular.copy(n.secretarr);
-                            //console.log(arr);
-                            arr.sort(by.open("key"));
-                            angular.forEach(arr, function (item, i) {
-                                if (!item.key || !item.value) {
-                                    kong = true
-                                }else {
-                                    if (arr[i] && arr[i + 1]) {
-                                        if (arr[i].key == arr[i + 1].key) {
-                                            $scope.grid.keychongfu = true;
-                                            kong = true;
-                                        }
-                                    }
-                                    if (!r.test(arr[i].key)) {
-                                        $scope.grid.keybuhefa = true;
-                                        kong = true;
-                                    }
+            $scope.clearOriginCode = function (item) {
+                $scope.check = item;
+                $scope.item.secretarr[$scope.check].value = '';
+            };
+            function keyerr(arr) {
+                console.log('arr,', arr);
+                var rex = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+                var cancreat = true
+                angular.forEach(arr, function (item, i) {
+                    if (item.key === '') {
+                        cancreat = false;
+                        item.err.key.nil = true
+                    } else if (!rex.test(item.key)) {
+                        cancreat = false;
+                        item.err.key.rexed = true
+                    } else {
+                        angular.forEach(arr, function (initem, k) {
+                            if (i !== k) {
+                                if (item.key === initem.key) {
+                                    cancreat = false;
+                                    item.err.key.repeated = true;
+                                    initem.err.key.repeated = true;
                                 }
-                            });
-
-                            if (!kong) {
-                                $scope.grid.status = true
-                            } else {
-                                $scope.grid.status = false
                             }
-                        }else {
-                            $scope.grid.status = false
+                        })
+                    }
+                });
+                if (cancreat) {
+                    return 'cancreat'
+                } else {
+                    return 'dontcreat'
+                }
+            }
+            $scope.updateSecret = function () {
+                $scope.item.data={};
+                angular.forEach($scope.item.secretarr, function (item, i) {
+                    $scope.item.secretarr[i].err = {
+                        key: {
+                            nil: false,
+                            rexed: false,
+                            repeated: false
                         }
                     }
 
+                });
+                if (keyerr($scope.item.secretarr) !== 'cancreat') {
 
+                    return
                 }
 
-            }, true);
-            $scope.getLog= function (idx) {
-                console.log($scope.item.secretarr[idx].showLog);
-                $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog
-            };
-
-            $scope.add= function () {
-                document.getElementById('file-input').addEventListener('change', readSingleFile, false);
-            };
-
-            $scope.deletekv = function (idx) {
-                $scope.item.secretarr.splice(idx, 1);
-            };
-            $scope.rmsecret = function (idx) {
-                $scope.item.newarr.splice(idx, 1);
-                //deleteSecret.delete({namespace: $rootScope.namespace, name:$stateParams.name},function(){
-                //    $scope.secretarr.splice(idx,1);
-                //    //if($scope.secretarr.length <= 0){
-                //    //    $scope.grid.status = false;
-                //    //}
-                //})
-            };
-            $scope.updateSecret = function () {
-                //console.log('---',$scope.secretarr);
-                //for(var i = 0; i < $scope.secretarr.length; i++ ){
-                //    for( var j= i+1; j < $scope.secretarr.length; j++ ){
-                //        if($scope.secretarr[i].k == $scope.secretarr[j].k){
-                //            console.log('key值重了!!!');
-                //            $scope.grid.status = false;
-                //            return;
-                //        }
-                //    }
-                //    if(!$scope.secretarr[i].k || !$scope.secretarr[i].v){
-                //        console.log('err!!!!!!!!!!!!');
-                //        $scope.grid.status = false;
-                //        return;
-                //    }
-                //    var k = $scope.secretarr[i].k;
-                //    var v = $scope.secretarr[i].v;
-                //    $scope.item.data[k] = Base64.encode(v);
-                //}
-                $scope.item.data={};
-                if ($scope.item.secretarr) {
-                    var arr = $scope.item.secretarr.concat($scope.item.newarr);
-                }else {
-                    var arr = $scope.item.newarr.concat($scope.item.secretarr);
-                }
-                //var arr = $scope.item.secretarr.concat($scope.item.newarr);
-                angular.forEach(arr, function (item,i) {
+                angular.forEach($scope.item.secretarr, function (item,i) {
                     $scope.item.data[item.key] = Base64.encode(item.value);
                 });
                 delete $scope.item.secretarr;
-                delete $scope.item.newarr;
                 modifySecret.update({
                     namespace: $rootScope.namespace,
                     name: $stateParams.name,
@@ -278,7 +231,7 @@ angular.module('console.secret_secret', [
                         toastr.error('删除失败，请重试', {
                             closeButton: true
                         });
-                        Confirm.open("删除密钥卷", "删除密钥卷失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null,true)
+                        Confirm.open("删除密钥卷", "删除密钥卷失败", "密钥卷已经挂载在容器中，您需要先停止服务，卸载密钥卷后，才能删除。", null,true)
                     })
 
 

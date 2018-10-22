@@ -1,6 +1,7 @@
-dt{
+dt {
     font-weight: normal;
 }
+
 .pod-config {
     margin-left: 30px;
     font-size: 12px;
@@ -93,4 +94,31 @@ dt{
 .tab-jia-default li .nav-link:hover {
     color: #333;
 }
-#services_detail .resource-details .dl-horizontal dd{margin-left:0px;}
+
+#services_detail .resource-details .dl-horizontal dd {
+    margin-left: 0px;
+    color: #475669;
+    font-size: 12px;
+}
+
+.resource-details dt {
+    margin-bottom: 4px;
+    text-align: left;
+    color: #475669;
+    font-size: 12px;
+}
+
+.services_detail .ser_dt_tit {
+    font-size: 12px;
+    color: #1F2D3D;
+    border-left: 3px solid
+}
+#services_detail .table-mobile > tbody > tr > th,
+#services_detail .table-mobile > tbody > tr > td {
+    padding-left: 20px;
+    padding-top: 8px;
+    padding-bottom: 4px;
+    color: #5a6378;
+    font-size: 12px;
+    text-align: left; /*列表数据 jiasx 20161209 */
+}
