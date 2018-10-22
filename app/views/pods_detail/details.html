@@ -1,7 +1,7 @@
 <div class="resource-details" id="detail">
   <div class="row">
     <div class="col-lg-12">
-      <h3 class="tit">
+      <h3 class="df_tit">
         概况
         <!--Status-->
         <small ng-if="pod | isDebugPod">
@@ -9,7 +9,7 @@
           <a ng-href="{{pod | debugPodSourceName | navigateResourceURL : 'Pod' : pod.metadata.namespace}}">{{pod | debugPodSourceName}}</a>
         </small>
       </h3>
-      <dl class="dl-horizontal left">
+      <dl class="dl-horizontal left df_left_set">
         <dt>状态:</dt>
         <dd class="dl_right_tit">
           <status-icon status="pod | podStatus"></status-icon>
@@ -25,7 +25,7 @@
         </dt>
         <dd ng-if-end>
           <span id="dt_set" ui-sref="console.deploymentconfig_detail({namespace:namespace,name:pod.metadata.labels.deploymentconfig})">
-            {{pod.metadata.labels.deploymentconfig}}</span>, 
+            {{pod.metadata.labels.deploymentconfig}}</span>,
           <span id="dt_set" ui-sref="console.rc({namespace:namespace,name:pod.metadata.labels.deployment})">
             #{{pod.metadata.annotations["openshift.io/deployment-config.latest-version"]}}
           </span>
@@ -37,23 +37,23 @@
           <!--Replica Set:-->
           副本:
         </dt>
-       
+
         <dd ng-if-end>
             <span id="dt_set" ui-sref="console.rs({namespace:namespace,name:pod.metadata.ownerReferences[0].name})">
-            {{pod.metadata.ownerReferences[0].name}} 
+            {{pod.metadata.ownerReferences[0].name}}
             </span>
         </dd>
         <!--<dt ng-if-start="pod.metadata.deletionTimestamp && pod.spec.terminationGracePeriodSeconds">-->
-          <!--Grace Period:-->
+        <!--Grace Period:-->
         <!--</dt>-->
         <!--<dd ng-if-end>-->
 
-          <!--<span ng-if="pod.spec.terminationGracePeriodSeconds < 60">-->
-            <!--{{pod.spec.terminationGracePeriodSeconds}} seconds-->
-          <!--</span>-->
-          <!--<span ng-if="pod.spec.terminationGracePeriodSeconds >= 60">-->
-            <!--{{pod.spec.terminationGracePeriodSeconds | humanizeDurationValue : 'seconds'}}-->
-          <!--</span>-->
+        <!--<span ng-if="pod.spec.terminationGracePeriodSeconds < 60">-->
+        <!--{{pod.spec.terminationGracePeriodSeconds}} seconds-->
+        <!--</span>-->
+        <!--<span ng-if="pod.spec.terminationGracePeriodSeconds >= 60">-->
+        <!--{{pod.spec.terminationGracePeriodSeconds | humanizeDurationValue : 'seconds'}}-->
+        <!--</span>-->
         <!--</dd>-->
         <dt>IP:</dt>
         <dd class="dl_right_tit">{{pod.status.podIP || 'unknown'}}</dd>
@@ -72,15 +72,15 @@
         <!--<dt ng-if-start="pod.spec.activeDeadlineSeconds">Active Deadline:</dt>-->
         <!--<dd ng-if-end>-->
 
-          <!--<span ng-if="pod.spec.activeDeadlineSeconds < 60">-->
-            <!--{{pod.spec.activeDeadlineSeconds}} seconds-->
-          <!--</span>-->
-          <!--<span ng-if="pod.spec.activeDeadlineSeconds >= 60">-->
-            <!--{{pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}-->
-          <!--</span>-->
-          <!--&lt;!&ndash; <span >-->
-                  <!--(<duration-until-now timestamp="Pod.status.startTime"></duration-until-now> elapsed)-->
-                <!--</span> &ndash;&gt;-->
+        <!--<span ng-if="pod.spec.activeDeadlineSeconds < 60">-->
+        <!--{{pod.spec.activeDeadlineSeconds}} seconds-->
+        <!--</span>-->
+        <!--<span ng-if="pod.spec.activeDeadlineSeconds >= 60">-->
+        <!--{{pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}-->
+        <!--</span>-->
+        <!--&lt;!&ndash; <span >-->
+        <!--(<duration-until-now timestamp="Pod.status.startTime"></duration-until-now> elapsed)-->
+        <!--</span> &ndash;&gt;-->
         <!--</dd>-->
       </dl>
       <div>
@@ -89,11 +89,11 @@
     </div>
     <div class="col-lg-12">
 
-      <h3 class="tit">模版</h3>
+      <h3 class="df_tit">模版</h3>
       <pod-template pod-template="pod" images-by-docker-reference="imagesByDockerReference" builds="builds" detailed="true">
       </pod-template>
 
-      <h4 class="tit tit_vol">
+      <h4 class="df_tit tit_vol">
         卷
         <!--Volumes-->
       </h4>
