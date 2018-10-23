@@ -32,7 +32,7 @@
     padding-left: 0;
 }
 #resource_management .input_placeholder{
-    height: 34px;
+    /*height: 34px;*/
 }
 #resource_management .table_mar_top{
     margin-top: 30px;

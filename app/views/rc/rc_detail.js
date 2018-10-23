@@ -1,6 +1,3 @@
-/**
- * Created by niuniu on 2018/1/5.
- */
 'use strict';
 angular.module('console.rc', [
     {
@@ -11,8 +8,8 @@ angular.module('console.rc', [
         ]
     }
 ])
-    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc', '$filter', 'DeploymentConfigRollback', 'DeploymentConfig', 'toastr',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc, $filter, DeploymentConfigRollback, DeploymentConfig, toastr) {
+    .controller('rcCtrl', ['Confirm', 'delTip', '$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc', '$filter', 'DeploymentConfigRollback', 'DeploymentConfig', 'toastr',
+        function (Confirm, delTip, $rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc, $filter, DeploymentConfigRollback, DeploymentConfig, toastr) {
 
             var getOwnerReferences = function (apiObject) {
                 return _.get(apiObject, 'metadata.ownerReferences');
@@ -27,7 +24,12 @@ angular.module('console.rc', [
                     });
                 });
             };
-
+            $scope.changeScale = function () {
+                $scope.isShow = !$scope.isShow;
+            };
+            $scope.cancel = function () {
+                $scope.isShow = !$scope.isShow;
+            };
             var getMyrc = function () {
                 $scope.replicaSet = angular.copy(myrc);
                 // console.log('$scope.replicaSet', $scope.replicaSet);
@@ -64,28 +66,21 @@ angular.module('console.rc', [
                         $scope.replicaSet.spec.replicas = res.spec.replicas;
                     })
                 };
-                $scope.changeScale = function () {
-                    $scope.isShow = !$scope.isShow;
-                };
-                $scope.cancel = function () {
-                    $scope.isShow = !$scope.isShow;
-                };
+
                 var deploymentStatus = $filter('deploymentStatus');
                 var deploymentIsLatest = $filter('deploymentIsLatest');
-                $scope.showRollbackAction = function() {
-                    return deploymentStatus($scope.replicaSet) === 'Complete' &&
-                        !deploymentIsLatest($scope.replicaSet, $scope.deploymentConfig) &&
-                        !$scope.replicaSet.metadata.deletionTimestamp ;
+                $scope.showRollbackAction = function () {
+                    return deploymentStatus($scope.replicaSet) === 'Complete' && !deploymentIsLatest($scope.replicaSet, $scope.deploymentConfig) && !$scope.replicaSet.metadata.deletionTimestamp;
                 };
                 $scope.flag = false;
-                $scope.rollbackToDeployment = function(changeScaleSettings, changeStrategy, changeTriggers) {
+                $scope.rollbackToDeployment = function (changeScaleSettings, changeStrategy, changeTriggers) {
                     $scope.flag = true;
                     var rollbackdata = {
                         kind: "DeploymentConfigRollback",
-                        apiVersion:"v1",
-                        spec:{
-                            from:{name:$scope.replicaSet.metadata.name},
-                            includeTemplate:true,
+                        apiVersion: "v1",
+                        spec: {
+                            from: {name: $scope.replicaSet.metadata.name},
+                            includeTemplate: true,
                             includeReplicationMeta: changeScaleSettings,
                             includeStrategy: changeStrategy,
                             includeTriggers: changeTriggers
@@ -93,7 +88,10 @@ angular.module('console.rc', [
                     };
                     DeploymentConfigRollback.create({namespace: $rootScope.namespace}, rollbackdata, function (data) {
                         console.log('DeploymentConfigRollback is ok');
-                        DeploymentConfig.put({namespace: $rootScope.namespace,name:data.metadata.name}, data, function (res) {
+                        DeploymentConfig.put({
+                            namespace: $rootScope.namespace,
+                            name: data.metadata.name
+                        }, data, function (res) {
                             console.log('DeploymentConfig put is ok');
                             toastr.success('roll back 成功', {
                                 timeOut: 2000,
@@ -107,6 +105,23 @@ angular.module('console.rc', [
                 };
             };
             getMyrc();
+            $scope.delete = function (name) {
+                delTip.open("删除ReplicationController", name, true).then(function () {
+                    ReplicationController.delete({namespace: $scope.namespace, name: name}, function (res) {
+                        $state.go('console.deployments', {namespace: $rootScope.namespace});
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    }, function () {
+                        Confirm.open("删除ReplicationController", "删除" + name + "失败", null, null, true)
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    })
+                })
+            }
         }]);
 
 

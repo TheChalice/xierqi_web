@@ -1,25 +1,39 @@
-<div id="rc">
-    <p>
-        <span class="pd_name">{{replicaSet.metadata.name}}</span>
-        &nbsp;&nbsp;
-        <span class="pd_dt">created&nbsp;{{replicaSet.metadata.creationTimestamp | dateRelative}}</span>
-    </p>
+<div id="rc" class="df_frame">
+    <!-- module common 公共-->
+    <div class="module-heading">
+        <div class="module_block_l">
+            <div class="img-block"><svg class="icon svg_img" viewBox="0 0 64 64"><path d="M32-.08a32,32,0,1,0,32,32A32,32,0,0,0,32-.08ZM30.23,52.16,11.72,42.39v-22l18.51,6.67ZM13.56,17.44,32,11.69l18.63,6L32.07,24.22ZM52.19,42.39,33.68,52.16V27.21l18.51-6.67Z"/></svg></div>
+            <div class="img-detail">
+                <p class="img-tit">{{replicaSet.metadata.name}}</p>
+                <p class="img-time">
+                    <span classs="module_tit">创建时间：</span><span class="module_time">{{replicaSet.metadata.creationTimestamp | timescon}}</span>
+                </p>
+            </div>
+        </div>
+        <div class="module_block_r">
+            <a class="btn btn-gray pull-right df_del" ng-click="delete(replicaSet.metadata.name)">
+                <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                <span class="df_close"><i class="uex-icon-delete"></i></span>
+            </a>
+        </div>
+    </div>
+    <!-- module common 公共-->
     <uib-tabset class="tab-default tab-pods">
         <uib-tab index="1">
             <uib-tab-heading>
-                Details
+                详情
             </uib-tab-heading>
             <div ng-include="'views/rc/tpl/details.html'"></div>
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                Environment
+                环境变量
             </uib-tab-heading>
             <div ng-include="'views/rc/tpl/environment.html'"></div>
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
-                Metrics
+                指标
             </uib-tab-heading>
             <public-metrics conname="conname"
                             podid="poduid"
@@ -28,16 +42,16 @@
         </uib-tab>
         <uib-tab index="4">
             <uib-tab-heading>
-                Logs
+                日志
             </uib-tab-heading>
             <pod-logs pod-name="{{replicaSet.metadata.annotations['openshift.io/deployment-config.name']}}"
                       type="deploymentconfigs"></pod-logs>
         </uib-tab>
         <uib-tab index="5">
             <uib-tab-heading>
-                Events
+                事件
             </uib-tab-heading>
-            <deployments-event dcname="replicaSet.metadata.name" dcfit="ReplicationController"></deployments-event>
+            <deployments-event type="replicaSet" dcname="replicaSet.metadata.name" dcfit="ReplicationController"></deployments-event>
         </uib-tab>
     </uib-tabset>
 

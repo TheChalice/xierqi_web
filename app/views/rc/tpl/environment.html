@@ -1,37 +1,36 @@
 <div id="Environment">
     <div class="detail_set">
         <div ng-if="envOrigin.name">
-            <div class='subtit'>容器 {{envOrigin.name}} 的环境变量</div>
+            <h3 class="df_tit" style="margin-bottom:20px;">容器 {{envOrigin.name}} 的环境变量</h3>
             <div ng-if="envOrigin.env">
-                <div class="form_block">Name</div>
-                <div class="form_block">Value</div>
+                <!-- <div class="form_block">Name</div>
+                <div class="form_block">Value</div> -->
                 <div class="envi_main"  ng-repeat="env in envOrigin.env">
                     <div class="form_block">
-                        <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
+                        <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" value={{env.name}} type="text" ng-disabled="true" style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;" disabled="disabled">
                     </div>
-
                     <div class="form_block">
-                        <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                        <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" value={{env.value}} type="text" ng-disabled="true" style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;" disabled="disabled">
                     </div>
                 </div>
             </div>
-            <div ng-if="!envOrigin.env" class="envi_main"><div class="col-md-10 tit">此容器没有设置环境变量.</div></div>
+            <div ng-if="!envOrigin.env" class="envi_main"><div class="col-md-10 tit df_left_set">此容器没有设置环境变量.</div></div>
         </div>
         <div ng-if="envProxy.name">
-            <div class='subtit'>容器 {{envProxy.name}} 的环境变量</div>
+            <h3 class="df_tit" style="margin-bottom:20px;">容器 {{envProxy.name}} 的环境变量</h3>
             <div ng-if="envProxy.env">
-                <div class="form_block">Name</div>
-                <div class="form_block">Value</div>
+                <!-- <div class="form_block">Name</div>
+                <div class="form_block">Value</div> -->
                 <div class="envi_main" ng-repeat="envv in envProxy.env">
                     <div class="form_block">
-                        <input type="text" class="form-control" readonly="readonly" value={{envv.name}}>
+                        <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" value={{envv.name}} type="text" ng-disabled="true" style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;" disabled="disabled">
                     </div>
                     <div class="form_block">
-                        <input type="text" class="form-control" readonly="readonly" value={{envv.value}}>
+                        <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" value={{envv.value}} type="text" ng-disabled="true" style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;" disabled="disabled">
                     </div>
                 </div>
             </div>
-            <div ng-if="!envProxy.env" class="envi_main"><div class="col-md-10 tit">此容器没有设置环境变量.</div></div>
+            <div ng-if="!envProxy.env" class="envi_main"><div class="col-md-10 tit df_left_set">此容器没有设置环境变量.</div></div>
         </div>
     </div>
 </div>
