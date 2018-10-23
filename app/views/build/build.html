@@ -1,37 +1,46 @@
-<div id="build">
-    <div class="nav_top_li">
-        <div class="input-group col-sm-3 searchbar">
-            <input type="text"
-                   class="form-control"
-                   placeholder="搜索构建名称"
-                   ng-model="grid.txt"
-                   ng-keyup=buildsearch(grid.txt)>
-            <span class="input-group-btn">
-                                <span class="df_search uex-icon-search" ng-click="buildsearch('search')">
-                                </span>
-                            </span>
-        </div>
-        <div class="builder_create_btn">
-            <a class="btn btn-green btn-green_li" ui-sref="console.build_create({namespace:namespace})" style="">
-                <i class="fa fa-plus fa-lg"></i>
-                <span class="hidden-xs">新建构建</span>
-            </a>
-        </div>
-    </div>
+<div id="build_list" style="">
+
     <div class="loader" ng-show="!items">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
             <div></div>
         </div>
     </div>
-    <div ng-show="items">
-        <div class="table-responsive table_topMargin" style="">
-            <table class="table table-hover table-default table-buju" style="">
+    <div  ng-show="items">
+        <div class="nav_top_li" add-classes-top  style="margin-left: 15px;margin-top: 10px;">
+            <div class="input-group col-sm-3 searchbar">
+                <input type="text"
+                       class="form-control"
+                       placeholder="搜索构建名称"
+                       ng-model="grid.txt"
+                       ng-keyup=buildsearch(grid.txt)>
+                <span class="input-group-btn">
+                                <span class="df_search uex-icon-search" ng-click="buildsearch('search')">
+                                </span>
+                            </span>
+            </div>
+            <div class="builder_create_btn">
+                <a class="btn btn-green btn-green_li" ui-sref="console.build_create({namespace:namespace})" style="">
+                    <i class="fa fa-plus fa-lg"></i>
+                    <span class="hidden-xs">新建构建</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive table_topMargin df_top_set" style="">
+            <table class="table table-hover table-default table-buju df_table" style="">
                 <tr>
                     <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
-                        <th class='col-lg-3 col-md-3 col-sm-3'>构建名称</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
+                        <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
+                        <th class='col-lg-3 col-md-2 col-sm-2'>最近构建状态</th>
+                        <th class='col-lg-3 col-md-2 col-sm-2'>创建时间
+                            <span class="sort_btn">
+                                        <i class="uex-icon-to-back"></i>
+                                    </span>
+                            <!-- <span class="sort_btn" ng-click="sortDetail()">
+                            <i class="uex-icon-to-back" ng-if="uex_back"></i>
+                            <i class="uex-icon-to-front" ng-if="uex_front"></i>
+                        </span> -->
+                        </th>
                         <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
                         <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
                         <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
@@ -47,12 +56,13 @@
                            tooltip-placement="top">{{bc.metadata.name}}</a>
                     </td>
                     <td>
-                    <span class="icon12 icon12-{{bc.build.status.phase}}"
-                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending'}"></span>
+
+                    <span class="icon12 uex-icon-{{bc.build.status.phase}}"
+                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending','uex-icon-Cancelled': bc.build.status.phase == 'Cancelled'}"></span>
 
                         {{bc.build.status.phase | phaseFilter}}
                     </td>
-                    <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
+                    <td><span>{{bc.metadata.creationTimestamp | timescon}}</span>
                     </td>
                     <td>{{bc.build.status.duration | duration}}</td>
                     <!--<td>-->
@@ -62,25 +72,39 @@
                     <td class="text-center threec OperatingContent" style="">
                         <div class="row Operating"
                              style=''>
-                            <a class="icon25 icon25-source col-lg-4 col-md-4 col-sm-4" href="{{bc.spec.source.git.uri}}"
+                            <a class="icon25 icon25-source col-lg-4 col-md-4 col-sm-4 uex-icon-binary-forecast build_df_set" href="{{bc.spec.source.git.uri}}"
                                uib-tooltip="查看代码源" target="_blank"></a>
-                            <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
+                            <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4 build_df_set"
                                ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name"
                                ng-show="bc.build.status.phase !== 'Failed'"
                                ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.spec.output.to.name})"
-                               uib-tooltip="查看镜像"></a>
-                            <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4" href="javascript:;"
+                               uib-tooltip="查看镜像">
+                                <svg viewBox="0 0 64 64" style="width:18px;height:18px;fill:#57B5F2;"><path d="M26.49,15.76l.1,0-16.13-5a2.77,2.77,0,0,0-.56-.05,2.7,2.7,0,0,0-2.7,2.7V52a2.7,2.7,0,0,0,2.7,2.71,3.36,3.36,0,0,0,.56-.05L27,49.5a3.37,3.37,0,0,0,1.83-3V19A3.39,3.39,0,0,0,26.49,15.76ZM24.77,45.32l-13.51,3.6V16.49l13.51,3.6ZM53.14,10.69a3.36,3.36,0,0,0-.56.05l-15.94,5h.05A3.38,3.38,0,0,0,34.21,19V46.49a3.38,3.38,0,0,0,1.83,3l16.52,5.16a2.83,2.83,0,0,0,.57.05A2.7,2.7,0,0,0,55.83,52V13.4a2.69,2.69,0,0,0-2.69-2.7Z"/></svg>
+                            </a>
+                            <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4 uex-icon-start-all build_df_set" href="javascript:;"
                                ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"
                                uib-tooltip="构建"></a>
-                            <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4" href="javascript:;"
-                               ng-click="stop($index)"
+                            <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4 uex-icon-stop-all build_df_set" href="javascript:;"
+                               ng-click="stop($index,bc)"
                                ng-show="bc.build.status.phase == 'Pendding' || bc.build.status.phase == 'Running' || bc.build.status.phase == 'New'"
                                uib-tooltip="停止"></a>
+                            <!-- <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4 uex-icon-stop-all build_df_set" href="javascript:;"
++
++                               uib-tooltip="停止"></a> -->
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="5" class="td_colspan_li" style="" ng-if="items.length===0"><p class="blank_block">  <span class="blank_tit">{{text}}</span></p></td>
+                <tr class="df_blank">
+                    <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="items.length===0">
+                        <div class="blank_block"> <span class="blank_pic"></span> <span class="blank_tit">{{text}} </span>
+                            <div class="blank_create_tit" ng-if="begin_blank">
+                                <span class="blank_des">，点击</span>
+                                <a class="df_go_create" ui-sref="console.build_create({namespace:namespace})">
+                                    <span class="hidden-xs">去创建</span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10">
@@ -88,13 +112,12 @@
                                 ng-model="grid.page"
                                 total-items="grid.total"
                                 items-per-page="grid.size"
-                                class="pagination-sm"
                                 boundary-links="false"
-                                max-size="12"
+                                max-size="10"
                                 rotate="true"
                                 previous-text="<"
                                 next-text=">"
-                                >
+                >
                 </uib-pagination>
             </div>
 
