@@ -118,7 +118,7 @@ angular.module('console.deploymentconfig_detail', [
                 angular.forEach($scope.mytag.items, function (tag, i) {
                     $scope.imagedockermap[tag.image.dockerImageReference] = {
                         image: tag.metadata.name.split(':')[0],
-                        tag: tag.metadata.name.split(':')[1],
+                        tag: tag.metadata.name.split(':')[1]
                     }
                 });
                 angular.forEach($scope.imagedockermap, function (image, i) {

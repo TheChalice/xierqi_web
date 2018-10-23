@@ -2,18 +2,17 @@
     <div>
         <div class="deploy_block">
             <div class="input-group col-sm-3 searchbar">
-                <input type="text" class="form-control" placeholder="搜索服务名称" ng-keyup=search($event)
-                       ng-model="grid.txt">
+                <input type="text" class="form-control" placeholder="搜索服务名称" ng-keyup=search($event) ng-model="grid.txt">
                 <span class="input-group-btn">
                         <span class="df_search uex-icon-search" ng-click="search('search')">
                         </span>
                     </span>
             </div>
-            <div class="new_deploycol">
-                <div class="btn-group" role="group">
+            <div class="new_deploycol" style="" role="group" aria-label="">
+                <div class="btn-group " role="group">
                     <a id="creatbtn" class="btn btn-green " ui-sref="console.service_create({namespace:namespace})">
                         <i class="fa fa-plus fa-lg"></i>
-                        <span> 新建部署</span>
+                        <span class=""> 新建部署</span>
                     </a>
                 </div>
             </div>
@@ -194,11 +193,6 @@
                         <a class="href-orange" ui-sref="console.rc({namespace:namespace,name: replicas.metadata.name})">{{replicas.metadata.name}}</a>
 
                     </td>
-                    <!--<td data-title="Last Version">-->
-                    <!--<span>-->
-                    <!--<a class="href-orange" ui-sref="console.rs({namespace:namespace,name:deployment.rs.metadata.name})" style="cursor: pointer;">{{deployment | lastDeploymentRevision}}</a>-->
-                    <!--</span>-->
-                    <!--</td>-->
                     <td data-title="Replicas">
                         {{replicas.spec.replicas}} replica
                         <span ng-if="replicas.spec.replicas != 1">s</span>
@@ -208,20 +202,7 @@
                             {{replicas.metadata.creationTimestamp | timescon}}
                         </span>
                     </td>
-                    <!--<td data-title="Strategy">-->
-                    <!--{{deployment.spec.strategy.type | sentenceCase}}-->
-                    <!--</td>-->
                 </tr>
-                <!--<tr>-->
-                <!--<td data-title="Trigger">{{deployments.status.details.message}}</td> -->
-                <!--</tr>-->
-                <!--<tr>-->
-                <!--<td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="deploymentTwoItem.length===0">-->
-                <!--<p class="blank_block">-->
-                <!--<span class="blank_tit"> {{text}}</span>-->
-                <!--</p>-->
-                <!--</td>-->
-                <!--</tr>-->
             </table>
 
             <div class="text-center" ng-if="gridThree.total > 10" class="table_mar_top" style="">
@@ -269,20 +250,7 @@
                             {{replicaset.metadata.creationTimestamp | timescon}}
                         </span>
                     </td>
-                    <!--<td data-title="Strategy">-->
-                    <!--{{deployment.spec.strategy.type | sentenceCase}}-->
-                    <!--</td>-->
                 </tr>
-                <!--<tr>-->
-                <!--<td data-title="Trigger">{{deployments.status.details.message}}</td> -->
-                <!--</tr>-->
-                <!--<tr>-->
-                <!--<td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="deploymentTwoItem.length===0">-->
-                <!--<p class="blank_block">-->
-                <!--<span class="blank_tit"> {{text}}</span>-->
-                <!--</p>-->
-                <!--</td>-->
-                <!--</tr>-->
             </table>
 
             <div class="text-center" ng-if="gridThree.total > 10" class="table_mar_top" style="">
