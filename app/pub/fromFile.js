@@ -1,8 +1,8 @@
 'use strict';
 define(['angular'], function (angular) {
     return angular.module('myApp.fromFile', [])
-        .directive("fromFile", ['$filter', '$location', '$q', '$state', '$uibModal', 'APIService', '$rootScope', 'DataService', 'QuotaService', 'SecurityCheckService', 'TaskList',
-                function ($filter, $location, $q, $state, $uibModal, APIService, $rootScope, DataService, QuotaService, SecurityCheckService, TaskList) {
+        .directive("fromFile", ['$filter', '$location', '$q', '$state', '$uibModal', 'APIService', '$rootScope', 'DataService', 'QuotaService', 'SecurityCheckService', 'TaskList','Toast',
+                function ($filter, $location, $q, $state, $uibModal, APIService, $rootScope, DataService, QuotaService, SecurityCheckService, TaskList,Toast) {
                 return {
                     restrict: "E",
                     scope: {
@@ -117,8 +117,9 @@ define(['angular'], function (angular) {
                             // is JSON related the printed reason will be "Reason: Unable to parse", in case of YAML related
                             // reason the true reason will be printed, since YAML parser throws an error object with needed
                             // data.
-
+                            //console.log('$scope.resource', $scope.resource);
                             if (!isKindValid($scope.resource)) {
+                                Toast.open('kind不合法。');
                                 return;
                             }
 
@@ -126,6 +127,7 @@ define(['angular'], function (angular) {
                             $scope.resourceKind.endsWith("List") ? $scope.isList = true : $scope.isList = false;
 
                             if (!isMetadataValid($scope.resource)) {
+                                Toast.open('数据格式不合法。');
                                 return;
                             }
                             if ($scope.isList) {
@@ -159,10 +161,9 @@ define(['angular'], function (angular) {
                                 $scope.input.selectedProject = project;
                                 $q.all(resourceCheckPromises).then(function () {
                                     if ($scope.errorOccurred) {
+                                        Toast.open('参数不正确。');
                                         return;
                                     }
-                                    //console.log("=====>000000   $scope.createResources", $scope.createResources)
-                                    // If resource is Template and it doesn't exist in the project
                                     if ($scope.createResources.length === 1 && $scope.resourceList[0].kind === "Template") {
                                         openTemplateProcessModal();
                                         // Else if any resources already exist

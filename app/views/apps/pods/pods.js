@@ -1,21 +1,21 @@
 'use strict';
 angular.module('console.pods', [{
-    files: [
-        'components/searchbar/searchbar.js',
-        'views/apps/apps.css'
-    ]
-}])
-    .controller('PodsCtrl', ['$scope', 'Pod', 'Ws', '$rootScope', '$log', 'Sort',
-        function ($scope, Pod, Ws, $rootScope, $log, Sort) {
-            $scope.text = "当前列表暂时没有数据";
+        files: [
+            'components/searchbar/searchbar.js',
+            'views/apps/apps.css'
+        ]
+    }])
+    .controller('PodsCtrl', ['$scope', 'Pod','Ws','$rootScope','$log','Sort',
+        function($scope, Pod,Ws,$rootScope,$log,Sort) {
+            $scope.text = "无";
             $scope.grid = {
                 page: 1,
                 size: 10,
                 txt: ''
             };
-            Pod.get({ namespace: $scope.namespace }, function (res) {
+            Pod.get({ namespace: $scope.namespace }, function(res) {
                 $scope.items = res.items;
-                $scope.items = Sort.sort(res.items, -1)
+                $scope.items=Sort.sort(res.items, -1)
                 $scope.copyPod = angular.copy($scope.items);
                 $scope.grid.total = $scope.items.length;
                 watchpod(res.metadata.resourceVersion);
@@ -56,8 +56,8 @@ angular.module('console.pods', [{
                 $scope.resourceVersion = data.object.metadata.resourceVersion;
                 if (data.type == 'ADDED') {
                     $scope.items.unshift(data.object)
-                    refresh(1);
-                    $scope.$apply();
+                            refresh(1);
+                            $scope.$apply();
 
                 } else if (data.type == "MODIFIED") {
                     angular.forEach($scope.items, function (item, i) {
@@ -68,10 +68,10 @@ angular.module('console.pods', [{
                         }
                     })
 
-                } else if (data.type == "DELETED") {
+                }else if (data.type == "DELETED") {
                     angular.forEach($scope.items, function (item, i) {
                         if (item.metadata.name == data.object.metadata.name) {
-                            $scope.items.splice(i, 1)
+                            $scope.items.splice(i,1)
                             refresh(1);
                             $scope.$apply();
                         }
@@ -79,7 +79,7 @@ angular.module('console.pods', [{
                 }
             }
 
-
+            
 
 
             $scope.$watch('grid.page', function (newVal, oldVal) {
@@ -92,7 +92,7 @@ angular.module('console.pods', [{
                     scrollTop: 0
                 }, 200);
                 var skip = (page - 1) * $scope.grid.size;
-                $scope.podItem = $scope.items.slice(skip, skip + $scope.grid.size) || [];
+                $scope.podItem = $scope.items.slice(skip, skip + $scope.grid.size)||[];
             };
             $scope.search = function (event) {
                 $scope.grid.page = 1;
@@ -113,16 +113,13 @@ angular.module('console.pods', [{
                         iarr.push(item)
                     }
                 })
-                $scope.isQuery = false;
-                if (iarr.length === 0) {
-                    $scope.isQuery = true;
-                    $scope.text = '没有查询到符合条件的数据';
-                    // console.log($scope.items.length);
+                if(iarr.length===0){
+                    $scope.text3='没有查询到相关数据';
                 }
-                else {
-                    $scope.text = '您还没有任何创建密钥卷数据';
+                else{
+                    $scope.text3='您还没有创建密钥卷';
                 }
-                $scope.items = angular.copy(iarr);
+                $scope.items=angular.copy(iarr);
                 refresh(1);
                 $scope.grid.total = $scope.items.length;
 

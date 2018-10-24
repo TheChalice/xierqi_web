@@ -1,8 +1,8 @@
 'use strict';
 
-define(['angular', 'jsyaml'], function(angular, jsyaml) {
+define(['angular', 'jsyaml'], function (angular, jsyaml) {
     return angular.module('myApp.service', ['angular-clipboard', 'base64'])
-        .factory('yaml', [function() {
+        .factory('yaml', [function () {
             return jsyaml;
         }])
         .factory("FullscreenService",['IS_SAFARI',function(IS_SAFARI) {
@@ -76,30 +76,30 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             },
             templateUrl: 'views/directives/ui-ace-yaml.html'
         })
-        .service('Confirm', ['$uibModal', function($uibModal) {
-            this.open = function(title, txt, tip, tp, iscf, nonstop) {
+        .service('Confirm', ['$uibModal', function ($uibModal) {
+            this.open = function (title, txt, tip, tp, iscf, nonstop) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/confirm.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.tip = tip;
                         $scope.tp = tp;
                         $scope.iscf = iscf;
                         //$scope.nonstop = nonstop;
-                        $scope.ok = function() {
+                        $scope.ok = function () {
                             $uibModalInstance.close(true);
                         };
-                        $scope.cancel = function() {
+                        $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                     }]
                 }).result;
             };
         }])
-        .service('errcode', ['$uibModal', function($uibModal) {
-            this.open = function(code) {
+        .service('errcode', ['$uibModal', function ($uibModal) {
+            this.open = function (code) {
                 var errcode = {
                     '1400': '请求错误',
                     '14000': '组织名称太短',
@@ -128,14 +128,14 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     '14092': '该用户在LDAP已存在',
                     '1409': '重复条目',
                     '2049': '原密码错误'
-                }
+                };
                 return errcode[code] || '内部错误，请通过DaoVoice联系管理员'
             }
         }])
-        .service('by', ['$uibModal', function($uibModal) {
-            this.open = function(name, daoxu) {
+        .service('by', ['$uibModal', function ($uibModal) {
+            this.open = function (name, daoxu) {
                 //daoxu参数倒序排列
-                return function(o, p) {
+                return function (o, p) {
                     var a, b;
                     if (typeof o === "object" && typeof p === "object" && o && p) {
                         a = o[name];
@@ -163,7 +163,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }
             }
         }])
-        .service('ansi_ups', ['$uibModal', function($uibModal) {
+        .service('ansi_ups', ['$uibModal', function ($uibModal) {
             //this.open = function (Date) {
             var ansi_up,
                 VERSION = "1.3.0",
@@ -174,24 +174,24 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 // Normal and then Bright
                 ANSI_COLORS = [
                     [
-                        { color: "0, 0, 0", 'class': "ansi-black" },
-                        { color: "187, 0, 0", 'class': "ansi-red" },
-                        { color: "0, 187, 0", 'class': "ansi-green" },
-                        { color: "187, 187, 0", 'class': "ansi-yellow" },
-                        { color: "0, 0, 187", 'class': "ansi-blue" },
-                        { color: "187, 0, 187", 'class': "ansi-magenta" },
-                        { color: "0, 187, 187", 'class': "ansi-cyan" },
-                        { color: "255,255,255", 'class': "ansi-white" }
+                        {color: "0, 0, 0", 'class': "ansi-black"},
+                        {color: "187, 0, 0", 'class': "ansi-red"},
+                        {color: "0, 187, 0", 'class': "ansi-green"},
+                        {color: "187, 187, 0", 'class': "ansi-yellow"},
+                        {color: "0, 0, 187", 'class': "ansi-blue"},
+                        {color: "187, 0, 187", 'class': "ansi-magenta"},
+                        {color: "0, 187, 187", 'class': "ansi-cyan"},
+                        {color: "255,255,255", 'class': "ansi-white"}
                     ],
                     [
-                        { color: "85, 85, 85", 'class': "ansi-bright-black" },
-                        { color: "255, 85, 85", 'class': "ansi-bright-red" },
-                        { color: "0, 255, 0", 'class': "ansi-bright-green" },
-                        { color: "255, 255, 85", 'class': "ansi-bright-yellow" },
-                        { color: "85, 85, 255", 'class': "ansi-bright-blue" },
-                        { color: "255, 85, 255", 'class': "ansi-bright-magenta" },
-                        { color: "85, 255, 255", 'class': "ansi-bright-cyan" },
-                        { color: "255, 255, 255", 'class': "ansi-bright-white" }
+                        {color: "85, 85, 85", 'class': "ansi-bright-black"},
+                        {color: "255, 85, 85", 'class': "ansi-bright-red"},
+                        {color: "0, 255, 0", 'class': "ansi-bright-green"},
+                        {color: "255, 255, 85", 'class': "ansi-bright-yellow"},
+                        {color: "85, 85, 255", 'class': "ansi-bright-blue"},
+                        {color: "255, 85, 255", 'class': "ansi-bright-magenta"},
+                        {color: "85, 255, 255", 'class': "ansi-bright-cyan"},
+                        {color: "255, 255, 255", 'class': "ansi-bright-white"}
                     ]
                 ],
 
@@ -203,10 +203,10 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 this.bright = 0;
             }
 
-            Ansi_Up.prototype.setup_palette = function() {
+            Ansi_Up.prototype.setup_palette = function () {
                 PALETTE_COLORS = [];
                 // Index 0..15 : System color
-                (function() {
+                (function () {
                     var i, j;
                     for (i = 0; i < 2; ++i) {
                         for (j = 0; j < 8; ++j) {
@@ -217,9 +217,9 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
 
                 // Index 16..231 : RGB 6x6x6
                 // https://gist.github.com/jasonm23/2868981#file-xterm-256color-yaml
-                (function() {
+                (function () {
                     var levels = [0, 95, 135, 175, 215, 255];
-                    var format = function(r, g, b) {
+                    var format = function (r, g, b) {
                         return levels[r] + ', ' + levels[g] + ', ' + levels[b]
                     };
                     var r, g, b;
@@ -233,9 +233,9 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 })();
 
                 // Index 232..255 : Grayscale
-                (function() {
+                (function () {
                     var level = 8;
-                    var format = function(level) {
+                    var format = function (level) {
                         return level + ', ' + level + ', ' + level
                     };
                     var i;
@@ -245,36 +245,36 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 })();
             };
 
-            Ansi_Up.prototype.escape_for_html = function(txt) {
-                return txt.replace(/[&<>]/gm, function(str) {
+            Ansi_Up.prototype.escape_for_html = function (txt) {
+                return txt.replace(/[&<>]/gm, function (str) {
                     if (str == "&") return "&amp;";
                     if (str == "<") return "&lt;";
                     if (str == ">") return "&gt;";
                 });
             };
 
-            Ansi_Up.prototype.linkify = function(txt) {
-                return txt.replace(/(https?:\/\/[^\s]+)/gm, function(str) {
+            Ansi_Up.prototype.linkify = function (txt) {
+                return txt.replace(/(https?:\/\/[^\s]+)/gm, function (str) {
                     return "<a href=\"" + str + "\">" + str + "</a>";
                 });
             };
 
-            Ansi_Up.prototype.ansi_to_html = function(txt, options) {
+            Ansi_Up.prototype.ansi_to_html = function (txt, options) {
                 return this.process(txt, options, true);
             };
 
-            Ansi_Up.prototype.ansi_to_text = function(txt) {
+            Ansi_Up.prototype.ansi_to_text = function (txt) {
                 var options = {};
                 return this.process(txt, options, false);
             };
 
-            Ansi_Up.prototype.process = function(txt, options, markup) {
+            Ansi_Up.prototype.process = function (txt, options, markup) {
                 var self = this;
                 if (txt) {
                     var raw_text_chunks = txt.split(/\033\[/);
                     var first_chunk = raw_text_chunks.shift(); // the first chunk is not the result of the split
 
-                    var color_chunks = raw_text_chunks.map(function(chunk) {
+                    var color_chunks = raw_text_chunks.map(function (chunk) {
                         return self.process_chunk(chunk, options, markup);
                     });
 
@@ -286,7 +286,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
 
             };
 
-            Ansi_Up.prototype.process_chunk = function(text, options, markup) {
+            Ansi_Up.prototype.process_chunk = function (text, options, markup) {
 
                 // Are we using classes or styles?
                 options = typeof options == 'undefined' ? {} : options;
@@ -347,7 +347,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     } else if ((num >= 100) && (num < 108)) {
                         self.bg = ANSI_COLORS[1][(num % 10)][key];
                     } else if (num === 38 || num === 48) { // extend color (38=fg, 48=bg)
-                        (function() {
+                        (function () {
                             var is_foreground = (num === 38);
                             if (nums.length >= 1) {
                                 var mode = nums.shift();
@@ -408,7 +408,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     var styles = [];
                     var classes = [];
                     var data = {};
-                    var render_data = function(data) {
+                    var render_data = function (data) {
                         var fragments = [];
                         var key;
                         for (key in data) {
@@ -452,30 +452,30 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             // Module exports
             //ansi_up = {
 
-            this.escape_for_html = function(txt) {
+            this.escape_for_html = function (txt) {
                 var a2h = new Ansi_Up();
                 return a2h.escape_for_html(txt);
             };
 
-            this.linkify = function(txt) {
+            this.linkify = function (txt) {
                 var a2h = new Ansi_Up();
                 return a2h.linkify(txt);
             };
 
-            this.ansi_to_html = function(txt, options) {
+            this.ansi_to_html = function (txt, options) {
                 var a2h = new Ansi_Up();
                 return a2h.ansi_to_html(txt, options);
             };
 
-            this.ansi_to_text = function(txt) {
+            this.ansi_to_text = function (txt) {
                 var a2h = new Ansi_Up();
                 return a2h.ansi_to_text(txt);
             };
 
-            this.ansi_to_html_obj = function() {
-                    return new Ansi_Up();
-                }
-                //};
+            this.ansi_to_html_obj = function () {
+                return new Ansi_Up();
+            };
+            //};
 
             // CommonJS module is defined
             if (hasModule) {
@@ -487,20 +487,20 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             }
             /*global define:false */
             if (typeof define === "function" && define.amd) {
-                define("ansi_up", [], function() {
+                define("ansi_up", [], function () {
                     return ansi_up;
                 });
             }
 
             //}
         }])
-        .service('Addmodal', ['errcode', '$uibModal', function(errcode, $uibModal) {
-            this.open = function(title, txt, tip, orgId, isaddpeople) {
+        .service('Addmodal', ['errcode', '$uibModal', function (errcode, $uibModal) {
+            this.open = function (title, txt, tip, orgId, isaddpeople) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/addmodal.html',
                     size: 'default',
                     controller: ['addperpleOrg', 'createOrg', '$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
-                        function(addperpleOrg, createOrg, $state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+                        function (addperpleOrg, createOrg, $state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
                             $scope.isaddpeople = isaddpeople;
                             $scope.level = false;
                             $scope.title = title;
@@ -508,7 +508,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                             $scope.tip = tip;
                             $scope.orgName = null;
                             var canok = true;
-                            $scope.ok = function() {
+                            $scope.ok = function () {
                                 if (canok) {
                                     canok = false;
                                     if (isaddpeople == 'people') {
@@ -522,9 +522,9 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                             }, {
                                                 member_name: $scope.orgName,
                                                 admin: $scope.level
-                                            }, function(item) {
+                                            }, function (item) {
                                                 $uibModalInstance.close(item);
-                                            }, function(err) {
+                                            }, function (err) {
                                                 //console.log('err.code', err);
                                                 $scope.tip = errcode.open(err.data.code)
                                             })
@@ -537,39 +537,39 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                         } else {
 
                                             createOrg.create({
-                                                    region: $rootScope.region,
-                                                    name: $scope.orgName
-                                                }, function(item) {
-                                                    //$state.go('console.org', {useorg: item.id})
-                                                    $uibModalInstance.close(item);
-                                                    //$rootScope.delOrgs = true;
-                                                }, function(err) {
-                                                    //console.log(err);
+                                                region: $rootScope.region,
+                                                name: $scope.orgName
+                                            }, function (item) {
+                                                //$state.go('console.org', {useorg: item.id})
+                                                $uibModalInstance.close(item);
+                                                //$rootScope.delOrgs = true;
+                                            }, function (err) {
+                                                //console.log(err);
 
-                                                    if (err.data.code === 400) {
-                                                        $scope.tip = '同一账号只可创建一个组织'
-                                                    } else {
-                                                        $scope.tip = errcode.open(err.code)
-                                                    }
+                                                if (err.data.code === 400) {
+                                                    $scope.tip = '同一账号只可创建一个组织'
+                                                } else {
+                                                    $scope.tip = errcode.open(err.code)
+                                                }
 
-                                                })
-                                                //$http.post('/lapi/orgs', {
-                                                //    name: $scope.orgName
-                                                //}).success(function (item) {
-                                                //    //$state.go()
-                                                //    $state.go('console.org', {useorg: item.id})
-                                                //    $uibModalInstance.close(item);
-                                                //
-                                                //    $rootScope.delOrgs = true;
-                                                //}).error(function (res) {
-                                                //    //console.log(res);
-                                                //    $scope.tip = errcode.open(res.code)
-                                                //    //if(res.code >= 500){
-                                                //    //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                                                //    //}else{
-                                                //    //  $scope.tip = res.message;
-                                                //    //}
-                                                //})
+                                            });
+                                            //$http.post('/lapi/orgs', {
+                                            //    name: $scope.orgName
+                                            //}).success(function (item) {
+                                            //    //$state.go()
+                                            //    $state.go('console.org', {useorg: item.id})
+                                            //    $uibModalInstance.close(item);
+                                            //
+                                            //    $rootScope.delOrgs = true;
+                                            //}).error(function (res) {
+                                            //    //console.log(res);
+                                            //    $scope.tip = errcode.open(res.code)
+                                            //    //if(res.code >= 500){
+                                            //    //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                                            //    //}else{
+                                            //    //  $scope.tip = res.message;
+                                            //    //}
+                                            //})
                                         }
                                     } else {
                                         $uibModalInstance.close($scope.orgName);
@@ -578,7 +578,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
 
 
                             };
-                            $scope.cancel = function() {
+                            $scope.cancel = function () {
                                 $uibModalInstance.dismiss();
                             };
                         }
@@ -586,33 +586,33 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result;
             };
         }])
-        .service('Alert', ['$uibModal', function($uibModal) {
-            this.open = function(title, txt, err, regist, active) {
+        .service('Alert', ['$uibModal', function ($uibModal) {
+            this.open = function (title, txt, err, regist, active) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/alert.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.err = err;
                         $scope.classify = regist;
                         $scope.activation = active;
-                        $scope.ok = function() {
+                        $scope.ok = function () {
                             $uibModalInstance.close();
                         };
-                        $scope.cancel = function() {
+                        $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                     }]
                 }).result;
             };
         }])
-        .service('Tip', ['$uibModal', function($uibModal) {
-            this.open = function(title, txt, tip, iscf, colse, isorg, ispay) {
+        .service('Tip', ['$uibModal', function ($uibModal) {
+            this.open = function (title, txt, tip, iscf, colse, isorg, ispay) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/tip.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.tip = tip;
@@ -622,23 +622,23 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                         $scope.isorg = isorg;
                         $scope.ispay = ispay;
                         //$scope.nonstop = nonstop;
-                        $scope.ok = function() {
+                        $scope.ok = function () {
                             $uibModalInstance.close(true);
                         };
-                        $scope.cancel = function() {
+                        $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                     }]
                 }).result;
             };
         }])
-        .service('delTip', ['$uibModal', function($uibModal) {
-            this.open = function(title, txt, tip, colse) {
+        .service('delTip', ['$uibModal', function ($uibModal) {
+            this.open = function (title, txt, tip, colse) {
                 return $uibModal.open({
                     backdrop: 'static',
                     templateUrl: 'pub/tpl/deltip.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.tip = tip;
@@ -646,96 +646,97 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                         //$scope.tp = tp;
 
                         //$scope.nonstop = nonstop;
-                        $scope.ok = function() {
+                        $scope.ok = function () {
                             $uibModalInstance.close();
                         };
-                        $scope.cancel = function() {
+                        $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                     }]
                 }).result;
             };
         }])
-        .service('simpleAlert', ['$uibModal', function($uibModal) {
-            this.open = function(title, txt) {
+        .service('simpleAlert', ['$uibModal', function ($uibModal) {
+            this.open = function (title, txt) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/simpleAlert.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', '$sce', function($scope, $uibModalInstance, $sce) {
+                    controller: ['$scope', '$uibModalInstance', '$sce', function ($scope, $uibModalInstance, $sce) {
                         $scope.title = title;
                         $scope.txt = $sce.trustAsHtml(txt);
-                        $scope.ok = function() {
+                        $scope.ok = function () {
                             $uibModalInstance.close();
                         };
-                        $scope.cancel = function() {
+                        $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                     }]
                 }).result;
             };
         }])
-        .service('diploma', ['$uibModal', function($uibModal) {
-            this.open = function(obj) {
+        .service('diploma', ['$uibModal', function ($uibModal) {
+            this.open = function (obj) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/diploma.html',
                     size: 'default modal-lg',
-                    controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.diploma = obj;
                         //console.log($scope.diploma, obj);
                         //$scope.err = err;
                         //$scope.classify = regist;
                         //$scope.activation = active;
-                        $scope.ok = function() {
+                        $scope.ok = function () {
                             $uibModalInstance.close();
                         };
-                        $scope.cancel = function() {
+                        $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                     }]
                 }).result;
             };
         }])
-        .service('Modalbs', ['$uibModal', function($uibModal) {
-            this.open = function(name, plan) {
+        .service('Modalbs', ['$uibModal', function ($uibModal) {
+            this.open = function (name, plan) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/modalbs.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.name = name;
                         $scope.plan = plan;
 
-                        $scope.ok = function() {
+                        $scope.ok = function () {
                             $uibModalInstance.close();
                         };
-                        $scope.cancel = function() {
+                        $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                     }]
                 }).result;
             };
         }])
-        .service('Toast', ['$uibModal', function($uibModal) {
-            this.open = function(txt, timeout) {
+        .service('Toast', ['$uibModal', function ($uibModal) {
+            this.open = function (txt, timeout) {
                 return $uibModal.open({
                     template: '<p>{{txt}}</p>',
                     size: 'toast',
-                    controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.txt = txt;
                         timeout = timeout || 1500;
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $uibModalInstance.dismiss();
                         }, timeout);
                     }]
                 }).result;
             }
         }])
-        .service('ChooseSecret', ['$uibModal', function($uibModal) {
-            this.open = function(olength, secretsobj) {
+        .service('ChooseSecret', ['$uibModal', function ($uibModal) {
+            this.open = function (olength, secretsobj) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
+                    backdrop: 'static',
                     controller: ['by', '$scope', '$uibModalInstance', '$log', 'secretskey', '$rootScope', 'configmaps', 'persistent', '$state',
-                        function(by, $scope, $uibModalInstance, $log, secretskey, $rootScope, configmaps, persistent, $state) {
+                        function (by, $scope, $uibModalInstance, $log, secretskey, $rootScope, configmaps, persistent, $state) {
                             $scope.secretarr = secretsobj.secretarr;
                             $scope.configmap = secretsobj.configmap;
                             $scope.persistentarr = secretsobj.persistentarr;
@@ -757,183 +758,181 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                     chongfu: false,
                                     buhefa: false
                                 }
-                            }
+                            };
                             $scope.obj = {
                                 secretarr: $scope.secretarr,
                                 configmap: $scope.configmap,
                                 persistentarr: $scope.persistentarr
-                            }
-                            $
-                            $scope.$watch('obj', function(n, o) {
-                                    if (n == o) {
-                                        return
-                                    }
-                                    if ($scope.grid.change) {
-                                        $scope.grid.change = false;
-                                        return
-                                    }
-                                    var kong = false;
-                                    var r = /^\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i;
-                                    var obj = angular.copy(n);
-                                    angular.forEach(obj, function(items, i) {
-                                        items.sort(by.open("mountPath"));
-                                        if (!kong) {
-                                            angular.forEach(items, function(item, k) {
-                                                if (item.secret && item.secret.secretName == '名称') {
-                                                    $scope.grid[i].kong = true;
+                            };
+                            $scope.$watch('obj', function (n, o) {
+                                if (n == o) {
+                                    return
+                                }
+                                if ($scope.grid.change) {
+                                    $scope.grid.change = false;
+                                    return
+                                }
+                                var kong = false;
+                                var r = /^\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i;
+                                var obj = angular.copy(n);
+                                angular.forEach(obj, function (items, i) {
+                                    items.sort(by.open("mountPath"));
+                                    if (!kong) {
+                                        angular.forEach(items, function (item, k) {
+                                            if (item.secret && item.secret.secretName == '名称') {
+                                                $scope.grid[i].kong = true;
+                                                kong = true
+                                            }
+                                            if (item.configMap && item.configMap.name == '名称') {
+                                                $scope.grid[i].kong = true;
+                                                kong = true
+                                            }
+                                            if (item.persistentVolumeClaim && item.persistentVolumeClaim.claimName == '名称') {
+                                                $scope.grid[i].kong = true;
+                                                kong = true
+                                            }
+                                            if (item.mountPath !== '') {
+                                                if (!r.test(item.mountPath)) {
+                                                    //alert('bhf')
+                                                    $scope.grid[i].buhefa = true;
                                                     kong = true
                                                 }
-                                                if (item.configMap && item.configMap.name == '名称') {
-                                                    $scope.grid[i].kong = true;
-                                                    kong = true
-                                                }
-                                                if (item.persistentVolumeClaim && item.persistentVolumeClaim.claimName == '名称') {
-                                                    $scope.grid[i].kong = true;
-                                                    kong = true
-                                                }
-                                                if (item.mountPath !== '') {
-                                                    if (!r.test(item.mountPath)) {
-                                                        //alert('bhf')
-                                                        $scope.grid[i].buhefa = true;
+                                                if (items[k] && items[k + 1]) {
+                                                    if (items[k].mountPath == items[k + 1].mountPath) {
+                                                        //alert('cf')
+                                                        $scope.grid[i].chongfu = true;
                                                         kong = true
                                                     }
-                                                    if (items[k] && items[k + 1]) {
-                                                        if (items[k].mountPath == items[k + 1].mountPath) {
-                                                            //alert('cf')
-                                                            $scope.grid[i].chongfu = true;
-                                                            kong = true
-                                                        }
-                                                    }
-                                                } else {
-                                                    kong = true
                                                 }
+                                            } else {
+                                                kong = true
+                                            }
 
 
-                                            })
-                                        }
-                                        if (!kong) {
-                                            $scope.grid[i].chongfu = false;
-                                            $scope.grid[i].buhefa = false;
-                                            $scope.grid[i].kong = false;
-                                        }
-
-                                    })
-                                    if (!kong) {
-                                        $scope.isok = true
-                                    } else {
-                                        $scope.isok = false
+                                        })
                                     }
-                                    //console.log('==================nnnnnn',n);
-                                }, true)
-                                ////添加密钥卷
-                            $scope.addsecretarr = function() {
-                                    $scope.grid.change = true;
-                                    $scope.secretarr.push({
-                                        "myname": "",
-                                        "secret": {
-                                            "secretName": '名称'
-                                        },
-                                        mountPath: ''
-                                    });
+                                    if (!kong) {
+                                        $scope.grid[i].chongfu = false;
+                                        $scope.grid[i].buhefa = false;
+                                        $scope.grid[i].kong = false;
+                                    }
+                                });
+                                if (!kong) {
+                                    $scope.isok = true
+                                } else {
+                                    $scope.isok = false
                                 }
-                                ////删除密钥卷
-                            $scope.delsecretarr = function(idx) {
+                                //console.log('==================nnnnnn',n);
+                            }, true);
+                            ////添加密钥卷
+                            $scope.addsecretarr = function () {
+                                $scope.grid.change = true;
+                                $scope.secretarr.push({
+                                    "myname": "",
+                                    "secret": {
+                                        "secretName": '名称'
+                                    },
+                                    mountPath: ''
+                                });
+                            };
+                            ////删除密钥卷
+                            $scope.delsecretarr = function (idx) {
                                 $scope.secretarr.splice(idx, 1);
-                            }
-                            $scope.changesecrename = function(idx, val) {
-                                    $scope.secretarr[idx].secret.secretName = val
-                                }
-                                ////获取密钥卷列表
-                            var loadsecretsList = function() {
+                            };
+                            $scope.changesecrename = function (idx, val) {
+                                $scope.secretarr[idx].secret.secretName = val
+                            };
+                            ////获取密钥卷列表
+                            var loadsecretsList = function () {
                                 secretskey.get({
                                     namespace: $rootScope.namespace,
                                     region: $rootScope.region
-                                }, function(res) {
+                                }, function (res) {
                                     //console.log('-------loadsecrets', res);
                                     if (res.items) {
                                         $scope.loadsecretsitems = res.items;
                                     }
                                 })
-                            }
+                            };
                             loadsecretsList();
 
                             //////配置卷
                             ///获取配置卷列表////
-                            var loadconfigmaps = function() {
+                            var loadconfigmaps = function () {
                                 configmaps.get({
                                     namespace: $rootScope.namespace,
                                     region: $rootScope.region
-                                }, function(res) {
+                                }, function (res) {
                                     if (res.items) {
                                         $scope.configmapitem = res.items;
                                     }
                                 })
-                            }
+                            };
                             loadconfigmaps();
 
                             ///添加配置卷  ///
-                            $scope.addconfigmap = function() {
-                                    $scope.grid.change = true;
-                                    $scope.configmap.push({
-                                        "myname": "",
-                                        "configMap": {
-                                            "name": '名称'
-                                        },
-                                        mountPath: ''
-                                    });
-                                }
-                                ////////删除配置卷
-                            $scope.delconfigmap = function(idx) {
+                            $scope.addconfigmap = function () {
+                                $scope.grid.change = true;
+                                $scope.configmap.push({
+                                    "myname": "",
+                                    "configMap": {
+                                        "name": '名称'
+                                    },
+                                    mountPath: ''
+                                });
+                            };
+                            ////////删除配置卷
+                            $scope.delconfigmap = function (idx) {
                                 $scope.configmap.splice(idx, 1);
-                            }
-                            $scope.changeconfigname = function(idx, val) {
-                                    $scope.configmap[idx].configMap.name = val
-                                }
-                                ////////存储卷
+                            };
+                            $scope.changeconfigname = function (idx, val) {
+                                $scope.configmap[idx].configMap.name = val
+                            };
+                            ////////存储卷
 
                             ///获取存储卷
 
-                            var loadpersistent = function() {
+                            var loadpersistent = function () {
 
-                                persistent.get({ namespace: $rootScope.namespace }, function(res) {
+                                persistent.get({namespace: $rootScope.namespace}, function (res) {
                                     if (res.items) {
                                         //console.log(res);
                                         $scope.persistentitem = [];
-                                        angular.forEach(res.items, function(item, i) {
-                                                if (item.status.phase == "Bound") {
-                                                    $scope.persistentitem.push(item)
-                                                }
-                                            })
-                                            //$scope.persistentitem = res.items;
+                                        angular.forEach(res.items, function (item, i) {
+                                            if (item.status.phase == "Bound") {
+                                                $scope.persistentitem.push(item)
+                                            }
+                                        });
+                                        //$scope.persistentitem = res.items;
                                     }
                                 })
-                            }
+                            };
                             loadpersistent();
                             //////添加存储卷
-                            $scope.addpersistent = function() {
-                                    $scope.grid.change = true;
-                                    $scope.persistentarr.push({
-                                        "myname": "",
-                                        "persistentVolumeClaim": {
-                                            "claimName": '名称'
-                                        },
-                                        mountPath: ''
-                                    });
-                                }
-                                ///删除存储卷
-                            $scope.delpersistent = function(idx) {
+                            $scope.addpersistent = function () {
+                                $scope.grid.change = true;
+                                $scope.persistentarr.push({
+                                    "myname": "",
+                                    "persistentVolumeClaim": {
+                                        "claimName": '名称'
+                                    },
+                                    mountPath: ''
+                                });
+                            };
+                            ///删除存储卷
+                            $scope.delpersistent = function (idx) {
                                 $scope.persistentarr.splice(idx, 1);
-                            }
-                            $scope.changepersistentname = function(idx, val) {
+                            };
+                            $scope.changepersistentname = function (idx, val) {
                                 $scope.persistentarr[idx].persistentVolumeClaim.claimName = val
-                            }
-                            $scope.govolume = function(path) {
+                            };
+                            $scope.govolume = function (path) {
 
                                 $state.go(path);
                                 $uibModalInstance.dismiss();
                             };
                             ///  确定选择所选挂载卷
-                            $scope.ok = function() {
+                            $scope.ok = function () {
                                 var thisvolumes = [];
                                 var thisvolumeMounts = [];
                                 for (var i = 0; i < $scope.secretarr.length; i++) {
@@ -943,11 +942,11 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                             "secretName": $scope.secretarr[i].secret.secretName
                                         }
 
-                                    }
+                                    };
                                     var mountsval = {
                                         "name": "volumes" + (i + olength),
                                         "mountPath": $scope.secretarr[i].mountPath
-                                    }
+                                    };
                                     if ($scope.secretarr[i].secret.secretName == '名称' || !$scope.secretarr[i].mountPath) {
                                         //alert('密钥卷不能为空')
                                         return;
@@ -962,11 +961,11 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                             "name": $scope.configmap[j].configMap.name
                                         }
 
-                                    }
+                                    };
                                     var mountsval = {
                                         "name": "volumes" + (j + olength + $scope.secretarr.length),
                                         "mountPath": $scope.configmap[j].mountPath
-                                    }
+                                    };
                                     if ($scope.configmap[j].configMap.name == '名称' || !$scope.configmap[j].mountPath) {
                                         //alert('2不能为空')
                                         return;
@@ -981,12 +980,12 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                             "claimName": $scope.persistentarr[j].persistentVolumeClaim.claimName
                                         }
 
-                                    }
+                                    };
                                     var mountsval = {
-                                            "name": "volumes" + (j + olength + $scope.secretarr.length + $scope.configmap.length),
-                                            "mountPath": $scope.persistentarr[j].mountPath
-                                        }
-                                        //console.log('$scope.persistentarr[j].mountPath', $scope.persistentarr[j].mountPath)
+                                        "name": "volumes" + (j + olength + $scope.secretarr.length + $scope.configmap.length),
+                                        "mountPath": $scope.persistentarr[j].mountPath
+                                    };
+                                    //console.log('$scope.persistentarr[j].mountPath', $scope.persistentarr[j].mountPath)
                                     if ($scope.persistentarr[j].persistentVolumeClaim.claimName == '名称' || !$scope.persistentarr[j].mountPath) {
                                         //alert('3不能为空')
                                         return;
@@ -1004,8 +1003,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                         "persistentarr": $scope.persistentarr
                                     }
                                 });
-                            }
-                            $scope.cancel = function() {
+                            };
+                            $scope.cancel = function () {
                                 //$uibModalInstance.close();
                                 //$scope.secretarr=[]
                                 //$scope.configmap=[]
@@ -1017,46 +1016,46 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result
             }
         }])
-        .service('ModalPullImage', ['$rootScope', '$uibModal', 'clipboard', function($rootScope, $uibModal, clipboard) {
-            this.open = function(name, yuorself) {
+        .service('ModalPullImage', ['$rootScope', '$uibModal', 'clipboard', function ($rootScope, $uibModal, clipboard) {
+            this.open = function (name, yuorself) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/modal_pull_image.html',
                     size: 'default',
                     keyboard: false,
                     controller: ['$scope', '$uibModalInstance', '$log', 'Cookie', 'GLOBAL',
-                        function($scope, $uibModalInstance, $log, Cookie, GLOBAL) {
+                        function ($scope, $uibModalInstance, $log, Cookie, GLOBAL) {
                             //console.log(name)
                             //if (!yuorself) {
                             //    $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
                             //
                             //} else {
                             $scope.copyCon = '复制';
-                            var names = name
-                                //}
+                            var names = name;
+                            //}
 
                             var tokens = Cookie.get('df_access_token').split(',');
                             var token = tokens[0];
                             if (yuorself == 'project') {
                                 $scope.name = name;
-                                $scope.privateurl = GLOBAL.private_url
+                                $scope.privateurl = GLOBAL.private_url;
 
                                 //docker login -u chaizs -p xxzxczxadasd registry.dataos.io && docker pull
                                 $scope.cmd = 'docker login -u ' + Cookie.get('namespace') + ' -p ' + token + ' ' + GLOBAL.private_url + ' && docker pull ' + GLOBAL.private_url + '/' + $rootScope.namespace + '/' + $scope.name;
                             } else {
-                                $scope.privateurl = GLOBAL.common_url
+                                $scope.privateurl = GLOBAL.common_url;
                                 $scope.name = name;
-                                $scope.cmd = 'docker pull ' + GLOBAL.common_url + '/' + $scope.name;;
+                                $scope.cmd = 'docker pull ' + GLOBAL.common_url + '/' + $scope.name;
                             }
 
-                            $scope.cancel = function() {
+                            $scope.cancel = function () {
                                 $uibModalInstance.dismiss();
                             };
-                            $scope.success = function() {
+                            $scope.success = function () {
                                 $log.info('Copied!');
                                 $scope.copyCon = '已复制';
                                 //$uibModalInstance.close(true);
                             };
-                            $scope.fail = function(err) {
+                            $scope.fail = function (err) {
                                 $scope.tip = '该浏览器不支持复制，请手动选中输入框中内容，通过 Ctrl+C 复制';
                                 $log.error('Error!', err);
                             };
@@ -1065,13 +1064,13 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result;
             };
         }])
-        .service('ImageSelect', ['$uibModal', function($uibModal) {
-            this.open = function() {
+        .service('ImageSelect', ['$uibModal', function ($uibModal) {
+            this.open = function () {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
-                    controller: ['pubregistrytag', 'pubregistry', 'platform', 'regpro', '$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist',
-                        function(pubregistrytag, pubregistry, platform, regpro, $rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
+                    controller: ['pubregistrytag', 'pubregistry', 'platform', 'regpro', '$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist', 'Sort',
+                        function (pubregistrytag, pubregistry, platform, regpro, $rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist, Sort) {
                             //console.log('images', images);
                             $scope.grid = {
                                 cat: 0,
@@ -1079,8 +1078,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                 version_x: null,
                                 version_y: null
                             };
-                            $scope.cansever = false
-                            $scope.$watch('grid', function(n, o) {
+                            $scope.cansever = false;
+                            $scope.$watch('grid', function (n, o) {
                                 if (n == o) {
                                     return
                                 }
@@ -1104,36 +1103,36 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                 } else {
                                     $scope.cansever = false
                                 }
-                            }, true)
+                            }, true);
                             $scope.test = {
                                 'items': []
                             };
                             $scope.imgcon = {
                                 items: []
-                            }
-                            $scope.$watch('imageName', function(newVal, oldVal) {
+                            };
+                            $scope.$watch('imageName', function (newVal, oldVal) {
                                 if (newVal != oldVal) {
                                     newVal = newVal.replace(/\\/g);
                                     if ($scope.grid.cat == 0) {
-                                        angular.forEach($scope.images.items, function(image) {
+                                        angular.forEach($scope.images.items, function (image) {
                                             image.hide = !(new RegExp(newVal)).test(image.metadata.name);
                                         });
                                     } else {
-                                        angular.forEach($scope.images.items, function(image) {
+                                        angular.forEach($scope.images.items, function (image) {
                                             image.hide = !(new RegExp(newVal)).test(image.name);
                                         });
                                     }
                                 }
                             });
-                            $scope.$watch('imageVersion', function(newVal, oldVal) {
+                            $scope.$watch('imageVersion', function (newVal, oldVal) {
                                 if (newVal != oldVal) {
                                     newVal = newVal.replace(/\\/g);
                                     if ($scope.grid.cat == 0) {
-                                        angular.forEach($scope.imageTags, function(item, i) {
+                                        angular.forEach($scope.imageTags, function (item, i) {
                                             item.hide = !(new RegExp(newVal)).test(item.tag);
                                         });
                                     } else {
-                                        angular.forEach($scope.imageTags, function(item, i) {
+                                        angular.forEach($scope.imageTags, function (item, i) {
                                             item.hide = !(new RegExp(newVal)).test(item.tag);
                                         });
                                     }
@@ -1142,8 +1141,9 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                             });
 
                             $scope.images = images;
-
-                            $scope.selectCat = function(idx) {
+                            $scope.images.items = Sort.sort($scope.images.items, -1);
+                            console.log('images', images);
+                            $scope.selectCat = function (idx) {
                                 $scope.imageTags = {};
                                 $scope.images = {};
                                 $scope.grid.image = null;
@@ -1153,14 +1153,14 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                     ImageStream.get({
                                         namespace: $rootScope.namespace,
                                         region: $rootScope.region
-                                    }, function(res) {
+                                    }, function (res) {
                                         $scope.images = res;
                                     })
                                 } else if (idx == 1) {
-                                    regpro.query({ is_public: 0 }, function(data) {
+                                    regpro.query({is_public: 0}, function (data) {
 
                                         for (var i = 0; i < data.length; i++) {
-                                            platform.query({ id: data[i].project_id }, function(res) {
+                                            platform.query({id: data[i].project_id}, function (res) {
                                                 //console.log('newchange', res);
                                                 if (res) {
                                                     for (var j = 0; j < res.length; j++) {
@@ -1203,32 +1203,48 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                 console.log('$scope.images', $scope.images);
                             };
 
-                            $scope.selectImage = function(idx) {
-                                $scope.grid.version_x = null;
-                                $scope.grid.version_y = null;
+                            $scope.selectImage = function (idx) {
+
                                 if ($scope.grid.cat == 0) {
-                                    $scope.grid.image = idx;
-                                    var image = $scope.images.items[idx];
-                                    angular.forEach(image.status.tags, function(item) {
-                                        if (image.metadata.name) {
-                                            ImageStreamTag.get({
-                                                namespace: $rootScope.namespace,
-                                                name: image.metadata.name + ':' + item.tag,
-                                                region: $rootScope.region
-                                            }, function(res) {
-                                                item.ist = res;
-                                            }, function(res) {
-                                                //console.log("get image stream tag err", res);
-                                            });
-                                        }
-                                    });
+
+                                    if ($scope.grid.image == idx) {
+                                        $scope.grid.image = null
+
+                                        var image = $scope.images.items[idx];
+                                        angular.forEach(image.status.tags, function (item) {
+                                            if (image.metadata.name) {
+                                                item.ist = null;
+                                            }
+                                        });
+                                        $scope.imageTags = null;
+                                    } else {
+
+                                        $scope.grid.image = idx;
+                                        var image = $scope.images.items[idx];
+                                        angular.forEach(image.status.tags, function (item) {
+                                            if (image.metadata.name) {
+                                                ImageStreamTag.get({
+                                                    namespace: $rootScope.namespace,
+                                                    name: image.metadata.name + ':' + item.tag,
+                                                    region: $rootScope.region
+                                                }, function (res) {
+                                                    item.ist = res;
+                                                }, function (res) {
+                                                    //console.log("get image stream tag err", res);
+                                                });
+                                            }
+                                        });
+                                        $scope.imageTags = image.status.tags;
+                                    }
+                                    $scope.grid.version_x = null;
+                                    $scope.grid.version_y = null;
                                     //console.log("get image stream tag err", image.status.tags);
-                                    $scope.imageTags = image.status.tags;
+
                                     //console.log('test tag.items', $scope.imageTags)
                                 } else if ($scope.grid.cat == 1) {
                                     $scope.grid.image = idx;
 
-                                    platformlist.query({ id: $scope.test.items[idx].name }, function(data) {
+                                    platformlist.query({id: $scope.test.items[idx].name}, function (data) {
                                         $scope.test.items[idx].status = {};
                                         $scope.test.items[idx].status.tags = [];
                                         for (var i = 0; i < data.length; i++) {
@@ -1249,7 +1265,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                     $scope.grid.image = idx;
                                     $scope.imgcon.items[idx].status = {};
                                     $scope.imgcon.items[idx].status.tags = [];
-                                    angular.forEach($scope.images.items[idx].tags, function(tag, i) {
+                                    angular.forEach($scope.images.items[idx].tags, function (tag, i) {
                                         var tagmsgobj = {
                                             'tag': tag,
                                             'items': $scope.images.items[idx].tags,
@@ -1283,22 +1299,28 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                 }
                             };
 
-                            $scope.selectVersion = function(x, y) {
-                                $scope.grid.version_x = x;
-                                $scope.grid.version_y = y;
+                            $scope.selectVersion = function (x, y) {
+
+                                if ($scope.grid.version_x === x && $scope.grid.version_y == y) {
+                                    $scope.grid.version_x = null;
+                                    $scope.grid.version_y = null;
+                                } else {
+                                    $scope.grid.version_x = x;
+                                    $scope.grid.version_y = y;
+                                }
                             };
 
-                            $scope.cancel = function() {
+                            $scope.cancel = function () {
                                 $uibModalInstance.dismiss('cancel');
                             };
-                            $scope.ok = function() {
+                            $scope.ok = function () {
                                 //console.log("===", $scope.imageTags);
                                 $uibModalInstance.close($scope.imageTags[$scope.grid.version_x].ist);
                             };
                         }
                     ],
                     resolve: {
-                        images: ['$rootScope', 'ImageStream', function($rootScope, ImageStream) {
+                        images: ['$rootScope', 'ImageStream', function ($rootScope, ImageStream) {
                             return ImageStream.get({
                                 namespace: $rootScope.namespace,
                                 region: $rootScope.region
@@ -1308,13 +1330,13 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result;
             }
         }])
-        .service('ModalLogin', ['$rootScope', '$uibModal', function($rootScope, $uibModal) {
-            this.open = function() {
+        .service('ModalLogin', ['$rootScope', '$uibModal', function ($rootScope, $uibModal) {
+            this.open = function () {
                 return $uibModal.open({
                     templateUrl: 'views/login/login.html',
                     size: 'default',
                     controller: ['$scope', 'AuthService', '$uibModalInstance', 'ModalRegist',
-                        function($scope, AuthService, $uibModalInstance, ModalRegist) {
+                        function ($scope, AuthService, $uibModalInstance, ModalRegist) {
                             // $rootScope.credentials = {};
                             // $scope.login = function () {
                             //   AuthService.login($rootScope.credentials);
@@ -1333,24 +1355,25 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             }
         }])
         //registration
-        .service('ModalRegist', ['$uibModal', function($uibModal) {
-            this.open = function() {
+        .service('ModalRegist', ['$uibModal', function ($uibModal) {
+            this.open = function () {
                 return $uibModal.open({
                     templateUrl: 'views/login/regist.html',
                     size: 'default',
                     controller: ['$scope', 'AuthService', '$uibModalInstance', 'registration',
-                        function($scope, AuthService, $uibModalInstance, registration) {
+                        function ($scope, AuthService, $uibModalInstance, registration) {
                             $scope.credentials = {};
-                            $scope.regist = function() {
+                            $scope.regist = function () {
                                 //注册相关代码...
                                 registration.regist({
                                     username: $scope.credentials.username,
                                     password: $scope.credentials.password,
                                     email: $scope.credentials.email
-                                }, function(data) {})
+                                }, function (data) {
+                                });
                                 $uibModalInstance.close();
                             };
-                            $scope.cancel = function() {
+                            $scope.cancel = function () {
                                 $uibModalInstance.dismiss();
                             };
                         }
@@ -1358,44 +1381,44 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result;
             }
         }])
-        .service('ModalPwd', ['$uibModal', function($uibModal) {
-            this.open = function() {
+        .service('ModalPwd', ['$uibModal', function ($uibModal) {
+            this.open = function () {
                 return $uibModal.open({
                     templateUrl: 'views/user/pwd.html',
                     size: 'default',
                     controller: ['$state', 'Cookie', 'Toast', 'pwdModify', '$scope', '$rootScope', '$uibModalInstance',
-                        function($state, Cookie, Toast, pwdModify, $scope, $rootScope, $uibModalInstance) {
+                        function ($state, Cookie, Toast, pwdModify, $scope, $rootScope, $uibModalInstance) {
                             $scope.credentials = {}
-                                //console.log($rootScope);
+                            //console.log($rootScope);
 
-                            $scope.$watch('credentials.oldpwd', function(n, o) {
+                            $scope.$watch('credentials.oldpwd', function (n, o) {
                                 if (n === o) {
                                     return
                                 }
                                 if (n) {
                                     $scope.pwderr = false;
                                 }
-                            })
+                            });
 
-                            $scope.ok = function() {
+                            $scope.ok = function () {
                                 var possword = {
                                     oldpwd: $scope.credentials.oldpwd,
                                     pwd: $scope.credentials.pwd
-                                }
+                                };
                                 pwdModify.change({
                                     new_password: $scope.credentials.pwd,
                                     old_password: $scope.credentials.oldpwd
-                                }, function(data) {
+                                }, function (data) {
 
                                     $uibModalInstance.close(possword);
-                                }, function(data) {
+                                }, function (data) {
                                     $scope.pwderr = true;
                                     //console.log('reseterr', data);
                                 })
 
                             };
 
-                            $scope.cancel = function() {
+                            $scope.cancel = function () {
                                 $uibModalInstance.dismiss();
                             };
                         }
@@ -1403,31 +1426,33 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result;
             };
         }])
-        .service('Sort', [function() {
-            this.sort = function(items, reverse) {
+        .service('Sort', [function () {
+            this.sort = function (items, reverse) {
                 if (!reverse || reverse == 0) {
                     reverse = 1;
                 }
-                items.sort(function(a, b) {
+                items.sort(function (a, b) {
                     if (!a.metadata) {
                         return 0;
                     }
+                    //console.log('new Date(a.metadata.creationTimestamp)).getTime()',new Date(a.metadata.creationTimestamp).getTime())
+
                     return reverse * ((new Date(a.metadata.creationTimestamp)).getTime() - (new Date(b.metadata.creationTimestamp)).getTime());
                 });
                 return items;
             };
         }])
-        .service('UUID', [function() {
-            var S4 = function() {
+        .service('UUID', [function () {
+            var S4 = function () {
                 return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
             };
-            this.guid = function() {
+            this.guid = function () {
                 return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
             };
         }])
-        .service('randomWord', [function() {
+        .service('randomWord', [function () {
 
-            this.word = function(randomFlag, min, max) {
+            this.word = function (randomFlag, min, max) {
                 var str = "",
                     range = min,
                     arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -1445,13 +1470,13 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
 
 
         }])
-        .service('Cookie', [function() {
-            this.set = function(key, val, expires) {
+        .service('Cookie', [function () {
+            this.set = function (key, val, expires) {
                 var date = new Date();
                 date.setTime(date.getTime() + expires);
                 document.cookie = key + "=" + val + "; expires=" + date.toUTCString();
             };
-            this.get = function(key) {
+            this.get = function (key) {
                 var reg = new RegExp("(^| )" + key + "=([^;]*)(;|$)");
                 var arr = document.cookie.match(reg);
                 if (arr) {
@@ -1459,16 +1484,16 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }
                 return null
             };
-            this.clear = function(key) {
+            this.clear = function (key) {
                 this.set(key, "", -1);
             };
         }])
-        .service('ServiceSelect', ['$uibModal', function($uibModal) {
-            this.open = function(c) {
+        .service('ServiceSelect', ['$uibModal', function ($uibModal) {
+            this.open = function (c) {
                 return $uibModal.open({
                     templateUrl: 'views/backing_service/service_select.html',
                     size: 'default modal-foo',
-                    controller: ['$log', '$rootScope', '$scope', '$uibModalInstance', 'data', function($log, $rootScope, $scope, $uibModalInstance, data) {
+                    controller: ['$log', '$rootScope', '$scope', '$uibModalInstance', 'data', function ($log, $rootScope, $scope, $uibModalInstance, data) {
                         //var curdata = angular.copy(data);
 
                         var curdata = angular.copy(data);
@@ -1483,29 +1508,29 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
 
                         var dclist = angular.copy(curdata);
                         dclist.items = [];
-                        angular.forEach(curdata.items, function(item, i) {
+                        angular.forEach(curdata.items, function (item, i) {
                             if (item === 'false') {
 
                             } else {
                                 dclist.items.push(item)
                             }
                             //dclist
-                        })
+                        });
                         $scope.dc = {
                             name: null,
                             idx: null
-                        }
-                        $scope.selectDc = function(idx, name) {
-                                $scope.dc.idx = idx
-                                $scope.dc.name = name
-                            }
-                            //$log.info('curdatacurdata', curdata);
+                        };
+                        $scope.selectDc = function (idx, name) {
+                            $scope.dc.idx = idx;
+                            $scope.dc.name = name;
+                        };
+                        //$log.info('curdatacurdata', curdata);
                         $scope.data = dclist;
                         $scope.items = dclist.items;
-                        $scope.cancel = function() {
+                        $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
-                        $scope.ok = function() {
+                        $scope.ok = function () {
                             var items = [];
                             for (var i = 0; i < $scope.data.items.length; i++) {
                                 if ($scope.dc.name === $scope.data.items[i].metadata.name) {
@@ -1516,20 +1541,20 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                             $uibModalInstance.close(items);
                         };
 
-                        $scope.$watch('txt', function(newVal, oldVal) {
+                        $scope.$watch('txt', function (newVal, oldVal) {
                             if (newVal != oldVal) {
                                 $scope.search(newVal);
                             }
                         });
 
-                        $scope.search = function(txt) {
+                        $scope.search = function (txt) {
                             if (!txt) {
                                 $scope.items = $scope.data.items;
                             } else {
                                 $scope.items = [];
                                 txt = txt.replace(/\//g, '\\/');
-                                var reg = eval('/' + txt + '/');
-                                angular.forEach($scope.data.items, function(item) {
+                                var reg = new RegExp(txt);
+                                angular.forEach($scope.data.items, function (item) {
                                     if (reg.test(item.metadata.name)) {
                                         $scope.items.push(item);
                                     }
@@ -1538,7 +1563,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                         };
                     }],
                     resolve: {
-                        data: ['$rootScope', 'DeploymentConfig', function($rootScope, DeploymentConfig) {
+                        data: ['$rootScope', 'DeploymentConfig', function ($rootScope, DeploymentConfig) {
                             return DeploymentConfig.get({
                                 namespace: $rootScope.namespace,
                                 region: $rootScope.region
@@ -1548,12 +1573,12 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result;
             }
         }])
-        .service('MetricsService', [function() {
-            var midTime = function(point) {
+        .service('MetricsService', [function () {
+            var midTime = function (point) {
                 return point.start + (point.end - point.start) / 2;
             };
 
-            var millicoresUsed = function(point, lastValue) {
+            var millicoresUsed = function (point, lastValue) {
                 if (!lastValue || !point.value) {
                     return null;
                 }
@@ -1567,9 +1592,9 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 return (usageInMillis / timeInMillis) * 1000;
             };
 
-            this.normalize = function(data, metric) {
+            this.normalize = function (data, metric) {
                 var lastValue;
-                angular.forEach(data, function(point) {
+                angular.forEach(data, function (point) {
                     var value;
 
                     if (!point.timestamp) {
@@ -1592,8 +1617,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 return data;
             };
         }])
-        .service('ImageService', [function() {
-            this.tag = function(container) {
+        .service('ImageService', [function () {
+            this.tag = function (container) {
                 var foo = container.image.replace(/(.*\/)/, '');
                 foo = foo.split(':');
                 if (foo.length > 1) {
@@ -1603,13 +1628,57 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             };
 
         }])
+        .service('postapi', ['$rootScope', 'Route', 'DeploymentConfig', 'Service', 'BuildConfig', 'ImageStream','toastr',
+            function ($rootScope, Route, DeploymentConfig, Service, BuildConfig, ImageStream,toastr) {
+                this.apis = function (sendobj) {
+                    //console.log('sendobj', sendobj);
+                    if (sendobj.kind === 'Route') {
+                        Route.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+
+                        }, function (err) {
+                            toastr.error('创建Route失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
+                        })
+                    } else if (sendobj.kind === 'DeploymentConfig') {
+                        DeploymentConfig.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                        }, function (err) {
+                            toastr.error('创建DeploymentConfig失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
+                        })
+                    } else if (sendobj.kind === 'Service') {
+                        Service.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                        }, function (err) {
+                            toastr.error('创建Service失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
+                        })
+                    } else if (sendobj.kind === 'BuildConfig') {
+                        BuildConfig.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                        }, function (err) {
+                            toastr.error('创建BuildConfig失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
+                        })
+                    } else if (sendobj.kind === 'ImageStream') {
+                        ImageStream.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                        })
+                    }
+                };
+
+            }])
         .service('AuthService', ['account', '$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
-                function(account, $timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
-                this.login = function(credentials, stateParams) {
+            function (account, $timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
+                this.login = function (credentials, stateParams) {
                     //console.log("login", credentials);
                     //console.log("login", stateParams);
                     credentials.region = 'cn-north-1'
-                    localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
+                    localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password));
                     $rootScope.loding = true;
                     var deferred = $q.defer();
                     var req = {
@@ -1620,15 +1689,15 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                             'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
                         }
                     };
-                    localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
+                    localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password));
 
-                    var loadProject = function(name, callback) {
+                    var loadProject = function (name, callback) {
                         // $log.info("load project");
-                        Project.get({ region: credentials.region }, function(data) {
-                            callback(name, data)
-                                //console.log("load project success", data);
+                        Project.get({region: credentials.region}, function (data) {
+                            callback(name, data);
+                            //console.log("load project success", data);
 
-                        }, function(res) {
+                        }, function (res) {
                             $log.info("find project err", res);
                         });
                     };
@@ -1642,16 +1711,16 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     //localStorage.setItem('codenum','0')
                     function denglu() {
 
-                        $http(req).success(function(data) {
+                        $http(req).success(function (data) {
                             //var arrstr = data.join(',');
-                            var arr = []
-                                //console.log(data);
-                            angular.forEach(data, function(token, i) {
+                            var arr = [];
+                            //console.log(data);
+                            angular.forEach(data, function (token, i) {
                                 //arr.push(token.access_token)
                                 var index = token.region.split('-')[2]
                                 arr[index - 1] = token.access_token
 
-                            })
+                            });
 
                             var arrstr = arr.join(',');
                             //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
@@ -1661,24 +1730,21 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                             Cookie.set('region', credentials.region, 24 * 3600 * 1000);
                             $rootScope.region = Cookie.get('region');
 
-                            User.get({ name: '~', region: $rootScope.region }, function(res) {
+                            User.get({name: '~', region: $rootScope.region}, function (res) {
 
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
-                                loadProject(credentials.username, function(name, data) {
+                                loadProject(credentials.username, function (name, data) {
                                     for (var i = 0; i < data.items.length; i++) {
                                         if (data.items[i].metadata.name == name) {
                                             $rootScope.namespace = name;
-                                            angular.forEach(data.items, function(item, i) {
-
+                                            angular.forEach(data.items, function (item, i) {
                                                 data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
-
-
-                                            })
-                                            data.items.sort(function(x, y) {
+                                            });
+                                            data.items.sort(function (x, y) {
                                                 return x.sortname > y.sortname ? 1 : -1;
                                             });
-                                            angular.forEach(data.items, function(project, i) {
+                                            angular.forEach(data.items, function (project, i) {
                                                 if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
                                                     //console.log(project.metadata.annotations['openshift.io/display-name']);
                                                     //data.items.push(project);
@@ -1694,17 +1760,10 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                     $rootScope.loginyanzheng = false;
                                     //获取套餐
                                     $rootScope.loding = false;
-                                    $state.go("console.dashboard", { namespace: $rootScope.namespace })
-                                        //跳转dashboard
-
-
+                                    $state.go("console.dashboard", {namespace: $rootScope.namespace});
+                                    //跳转dashboard
                                     //$state.go("console.dashboard", { namespace: $rootScope.namespace });
-
-
                                 });
-
-
-
                                 //var inputDaovoice = function () {
                                 //    daovoice('init', {
                                 //        app_id: "b31d2fb1",
@@ -1717,8 +1776,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                 //}
                                 //inputDaovoice();
                             });
-
-                        }).error(function(data) {
+                        }).error(function (data) {
                             //console.log(data);
                             //if (data.code == 401) {
                             //  //$rootScope.user=false;
@@ -1770,39 +1828,33 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     }
 
                     denglu()
-
                 };
             }
         ])
-        .service("KeywordService", function() {
+        .service("KeywordService", function () {
 
-            var generateKeywords = function(filterText) {
+            var generateKeywords = function (filterText) {
                 if (!filterText) {
                     return [];
                 }
-
                 var keywords = _.uniq(filterText.match(/\S+/g));
-
                 // Sort the longest keyword first.
-                keywords.sort(function(a, b) {
+                keywords.sort(function (a, b) {
                     return b.length - a.length;
                 });
-
                 // Convert the keyword to a case-insensitive regular expression for the filter.
-                return _.map(keywords, function(keyword) {
+                return _.map(keywords, function (keyword) {
                     return new RegExp(_.escapeRegExp(keyword), "i");
                 });
             };
-
-            var filterForKeywords = function(objects, filterFields, keywords) {
+            var filterForKeywords = function (objects, filterFields, keywords) {
                 var filteredObjects = objects;
                 if (_.isEmpty(keywords)) {
                     return filteredObjects;
                 }
-
                 // Find resources that match all keywords.
-                angular.forEach(keywords, function(regex) {
-                    var matchesKeyword = function(obj) {
+                angular.forEach(keywords, function (regex) {
+                    var matchesKeyword = function (obj) {
                         var i;
                         for (i = 0; i < filterFields.length; i++) {
                             var value = _.get(obj, filterFields[i]);
@@ -1824,7 +1876,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 generateKeywords: generateKeywords
             };
         })
-        .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function($rootScope, $q, AUTH_EVENTS, Cookie) {
+        .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
             var CODE_MAPPING = {
                 401: AUTH_EVENTS.loginNeeded,
                 403: AUTH_EVENTS.httpForbidden,
@@ -1832,7 +1884,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 440: AUTH_EVENTS.loginNeeded
             };
             return {
-                request: function(config) {
+                request: function (config) {
                     if (/^\/login/.test(config.url)) {
                         return config;
                     }
@@ -1865,7 +1917,9 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     }
                     //console.log(tokens,token, regions);
                     if (config.headers && token) {
+                        //console.log('window.location.pathname', window.location);
                         config.headers["Authorization"] = "Bearer " + token;
+                        //config.headers["Sso"] = window.location.href;
                     }
 
                     if (/^\/hawkular/.test(config.url)) {
@@ -1874,7 +1928,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                         config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                     }
                     if (/^\/registry/.test(config.url)) {
-                        var Auth = localStorage.getItem("Auth")
+                        var Auth = localStorage.getItem("Auth");
                         config.headers["Authorization"] = "Basic " + Auth;
                     }
                     if (config.method == 'PATCH') {
@@ -1884,15 +1938,15 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     $rootScope.loading = true;
                     return config
                 },
-                requestError: function(rejection) {
+                requestError: function (rejection) {
                     $rootScope.loading = false;
                     return $q.reject(rejection);
                 },
-                response: function(res) {
+                response: function (res) {
                     $rootScope.loading = false;
                     return res;
                 },
-                responseError: function(response) {
+                responseError: function (response) {
                     //alert(11)
                     $rootScope.loading = false;
                     var val = CODE_MAPPING[response.status];
@@ -1903,8 +1957,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }
             };
         }])
-        .factory("ConversionService", function() {
-            var bytesToMiB = function(value) {
+        .factory("ConversionService", function () {
+            var bytesToMiB = function (value) {
                 if (!value) {
                     return value;
                 }
@@ -1912,7 +1966,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 return value / (1024 * 1024);
             };
 
-            var bytesToKiB = function(value) {
+            var bytesToKiB = function (value) {
                 if (!value) {
                     return value;
                 }
@@ -1920,7 +1974,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 return value / 1024;
             };
 
-            var millicoresToCores = function(value) {
+            var millicoresToCores = function (value) {
                 if (!value) {
                     return value;
                 }
@@ -1938,7 +1992,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
     function UIAceYAML($scope) {
         var ctrl = this;
         var aceEditor;
-        var parseYAML = function(strict) {
+        var parseYAML = function (strict) {
             // https://github.com/nodeca/js-yaml#safeload-string---options-
             return jsyaml.safeLoad(ctrl.model, {
                 // If `strict` is false, allow duplicate keys in the YAML for
@@ -1947,13 +2001,13 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 json: !strict
             });
         };
-        var clearAnnotations = function() {
+        var clearAnnotations = function () {
             aceEditor.getSession().clearAnnotations();
-            $scope.$evalAsync(function() {
+            $scope.$evalAsync(function () {
                 ctrl.annotations = {};
             });
         };
-        var setAnnotation = function(e, severity) {
+        var setAnnotation = function (e, severity) {
             var session = aceEditor.getSession();
             var length = session.getLength();
             var row = _.get(e, 'mark.line', 0);
@@ -1973,19 +2027,19 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 type: severity
             };
             session.setAnnotations([annotation]);
-            $scope.$evalAsync(function() {
+            $scope.$evalAsync(function () {
                 ctrl.annotations = {};
                 ctrl.annotations[severity] = [annotation];
             });
         };
 
-        var setValid = function(valid) {
-            $scope.$evalAsync(function() {
+        var setValid = function (valid) {
+            $scope.$evalAsync(function () {
                 // ctrl.form.$setValidity('yamlValid', valid);
             });
         };
 
-        var updated = function(current, previous) {
+        var updated = function (current, previous) {
             var resource;
             // Check for errors, then check for warnings.
             try {
@@ -2009,15 +2063,15 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 setValid(false);
             }
         };
-        $scope.$watch(function() {
+        $scope.$watch(function () {
             return ctrl.fileUpload;
-        }, function(content, previous) {
+        }, function (content, previous) {
             if (content === previous) {
                 return;
             }
             ctrl.model = content;
         });
-        ctrl.$onInit = function() {
+        ctrl.$onInit = function () {
             if (ctrl.resource) {
                 ctrl.model = jsyaml.safeDump(ctrl.resource, {
                     sortKeys: true
@@ -2025,7 +2079,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             }
         };
 
-        ctrl.aceLoaded = function(editor) {
+        ctrl.aceLoaded = function (editor) {
             // Keep a reference to use later in event callbacks.
             aceEditor = editor;
             var session = editor.getSession();
@@ -2034,11 +2088,11 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             editor.setDragDelay = 0;
         };
 
-        $scope.$watch(function() {
+        $scope.$watch(function () {
             return ctrl.model;
         }, updated);
 
-        ctrl.gotoLine = function(line) {
+        ctrl.gotoLine = function (line) {
             aceEditor.gotoLine(line);
         };
     }

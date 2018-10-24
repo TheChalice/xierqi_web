@@ -9,8 +9,8 @@ angular.module("console.header", [{
         restrict: 'EA',
         replace: true,
         templateUrl: 'components/header/header.html',
-        controller: ['$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-            function($timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+        controller: ['GLOBAL','$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+            function(GLOBAL,$timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                 ///////分区
                 if (navigator.userAgent.indexOf("Firefox") > 0) {
                     $('#testjt').unbind('DOMMouseScroll');
@@ -34,7 +34,10 @@ angular.module("console.header", [{
                 //    Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                 //    $rootScope.region = id
                 //    Cookie.set('region', id, 10 * 365 * 24 * 3600 * 1000);
-
+                $scope.nolohout=false;
+                if (GLOBAL.sso_switch === 'true') {
+                    $scope.nolohout=true;
+                }
                 //   // console.log($state.current.name);
                 //    if ($state.current.name === 'console.dashboard') {
                 //        $state.reload();
@@ -295,15 +298,15 @@ angular.module("console.header", [{
 
                 $scope.back = function() {
                     //console.log($state);
-                    if ($state.current.name == "console.image_detail") {
-                        $state.go('console.image', { index: 1 })
-                    } else if ($state.current.name == "console.image_Public") {
-                        $state.go('console.image', { index: 3 })
-                    } else if ($state.current.name == "console.image_regstry") {
-                        $state.go('console.image', { index: 2 })
-                    } else {
+                    //if ($state.current.name == "console.image_detail") {
+                    //    $state.go('console.image', { index: 1 })
+                    //} else if ($state.current.name == "console.image_Public") {
+                    //    $state.go('console.image', { index: 3 })
+                    //} else if ($state.current.name == "console.image_regstry") {
+                    //    $state.go('console.image', { index: 2 })
+                    //} else {
                         $window.history.back();
-                    }
+                    //}
                 };
 
                 // console.log($location.url().split('/')[2])
@@ -384,7 +387,7 @@ angular.module("console.header", [{
 
                 $scope.hasBack = function(){
 
-                    if ($state.current.name == "console.resource_secret"||$state.current.name == "console.resource_configMap"||$state.current.name == "console.resource_persistentVolume"||$state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+                    if ($state.current.name == "console.pipeline"||$state.current.name == "console.resource_configMap"||$state.current.name == "console.resource_persistentVolume"||$state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
 
                         return false
                     }
@@ -478,7 +481,7 @@ angular.module("console.header", [{
                 return "仪表盘"
             case "console.build":
                 return "代码构建";
-            case "console.build_create_new":
+            case "console.build_create":
                 return "新建构建";
             case "console.build_detail":
                 return "构建详情";
@@ -490,12 +493,20 @@ angular.module("console.header", [{
                 return "镜像详情";
             case "console.image_regstry":
                 return "镜像详情";
+            case "console.import_from_file":
+                return "导入yaml";
+            case "console.rc":
+                return "rc详情";
+            case "console.primage_detail":
+                return "镜像详情";
             case "console.service_detail":
                 return "服务详情";
             case "console.service_create":
                 return "新建服务";
             case "console.quick_deploy":
                 return "快速部署";
+            case "console.create_pipeline":
+                return "新建流水线";
             case "console.backing_service":
                 return "后端服务";
             case "console.backing_service_detail":

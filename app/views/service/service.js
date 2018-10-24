@@ -1,12 +1,12 @@
 'use strict';
 angular.module('console.service', [
-        {
-            files: [
-                'components/searchbar/searchbar.js',
-                'views/service/service.css'
-            ]
-        }
-    ])
+    {
+        files: [
+            'components/searchbar/searchbar.js',
+            'views/service/service.css'
+        ]
+    }
+])
     .controller('ServiceCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'GLOBAL', 'Confirm', 'Sort', 'Ws', 'Pod',
         function ($rootScope, $scope, $log, $state, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, GLOBAL, Confirm, Sort, Ws, Pod) {
             $(".service_close").on("click", function () {
@@ -30,7 +30,7 @@ angular.module('console.service', [
             });
             $scope.reload = function () {
                 $state.reload();
-            }
+            };
             var refresh = function (page) {
                 //console.log(page);
 
@@ -51,54 +51,48 @@ angular.module('console.service', [
             };
             $scope.text = '您还没有部署服务';
             $scope.servicesearch = function (event) {
-                if (true) {
-                    if (!$scope.grid.txt) {
-                        $scope.data = angular.copy($scope.copydata)
-                        refresh(1);
-                        $scope.grid.total = $scope.copydata.length;
-                        //return;
-                    } else {
-                        var iarr = [];
-                        var str = $scope.grid.txt;
-                        str = str.toLocaleLowerCase();
-                        console.log('$scope.copydata', $scope.copydata);
-                        angular.forEach($scope.copydata, function (item, i) {
-                            //console.log(item.build);
-                            var nstr = item.metadata.name;
-                            nstr = nstr.toLocaleLowerCase();
-                            if (nstr.indexOf(str) !== -1) {
-                                iarr.push(item)
-                            }
-                            //console.log(repo.instance_data, $scope.grid.txt);
-                        })
-
-                        if (iarr.length === 0) {
-                            $scope.isQuery = true;
-                            $scope.text = '没有查询到相关数据';
-                            console.log($scope.items.length);
-                        }
-                        else {
-                            $scope.text = '您还没有部署服务';
-                        }
-                        $scope.data = angular.copy(iarr);
-                        refresh(1);
-                        console.log('$scope.data', $scope.data);
-                        $scope.grid.total = $scope.data.length;
-
-
-                    }
-                    console.log('$scope.data', $scope.data);
-                    RouteList($scope.data);
-                    loadBsi($scope.data);
+                if (!$scope.grid.txt) {
+                    $scope.data = angular.copy($scope.copydata)
                     refresh(1);
-                    replicationcls($scope.data);
-                    for (var i = 0; i < $scope.data.length; i++) {
-                        loadPods($scope.data[i]);
+                    $scope.grid.total = $scope.copydata.length;
+                    //return;
+                } else {
+                    var iarr = [];
+                    var str = $scope.grid.txt;
+                    str = str.toLocaleLowerCase();
+                    console.log('$scope.copydata', $scope.copydata);
+                    angular.forEach($scope.copydata, function (item, i) {
+                        //console.log(item.build);
+                        var nstr = item.metadata.name;
+                        nstr = nstr.toLocaleLowerCase();
+                        if (nstr.indexOf(str) !== -1) {
+                            iarr.push(item)
+                        }
+                        //console.log(repo.instance_data, $scope.grid.txt);
+                    });
+
+                    if (iarr.length === 0) {
+                        $scope.isQuery = true;
+                        $scope.text = '没有查询到相关数据';
+                        console.log($scope.items.length);
                     }
-
-
+                    else {
+                        $scope.text = '您还没有部署服务';
+                    }
+                    $scope.data = angular.copy(iarr);
+                    refresh(1);
+                    console.log('$scope.data', $scope.data);
+                    $scope.grid.total = $scope.data.length;
                 }
-            }
+                console.log('$scope.data', $scope.data);
+                RouteList($scope.data);
+                loadBsi($scope.data);
+                refresh(1);
+                replicationcls($scope.data);
+                for (var i = 0; i < $scope.data.length; i++) {
+                    loadPods($scope.data[i]);
+                }
+            };
 
             //$scope.search = function (key, txt) {
             //    if (!txt) {
@@ -156,7 +150,7 @@ angular.module('console.service', [
                     $log.info('serviceList', res);
                     //todo ������
                 });
-            }
+            };
 
             serviceList();
             var loadPods = function (itemarr, len, n) {
@@ -227,8 +221,6 @@ angular.module('console.service', [
                     }
                     $scope.running = false;
                     $scope.data = data;
-
-
                 }, function (res) {
                     $log.info('serviceList', res);
                     //todo ������
@@ -237,7 +229,7 @@ angular.module('console.service', [
             };
             //////pod数
             var replicationcls = function (items) {
-                $log.info('replicationclsitems====', items)
+                $log.info('replicationclsitems====', items);
 
                 var labelSelector = '';
                 if (items.length > 0) {
@@ -266,11 +258,13 @@ angular.module('console.service', [
                     $scope.resourceVersion = data.metadata.resourceVersion;
                     //watchBuilds(data.metadata.resourceVersion);
                 });
-            }
+            };
             ////路由
             var RouteList = function (servicedata) {
-                Route.get({namespace: $rootScope.namespace, 
-                    region: $rootScope.region}, function (data) {
+                Route.get({
+                    namespace: $rootScope.namespace,
+                    region: $rootScope.region
+                }, function (data) {
                     $log.info("Route", data);
                     $scope.routeMap = {};
                     for (var i = 0; i < data.items.length; i++) {
@@ -289,9 +283,9 @@ angular.module('console.service', [
                         }
                     }
                 }, function (err) {
-                    
+
                 });
-            }
+            };
 
             var isNormal = function (servicedata) {
                 //$log.info('servicedata---test',servicedata)
@@ -325,7 +319,7 @@ angular.module('console.service', [
                         servicedata[i].ismn = '警告';
                     }
                 }
-            }
+            };
 
             var watchRcs = function (resourceVersion) {
                 Ws.watch({
@@ -388,13 +382,13 @@ angular.module('console.service', [
 
 
                 }
-            }
+            };
             $scope.$watch('items', function (n, o) {
                 if (n == o) {
                     return;
                 }
                 isNormal($scope.items);
-            }, true)
+            }, true);
             $scope.startDc = function (idx) {
                 DeploymentConfig.get({
                     namespace: $rootScope.namespace,

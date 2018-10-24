@@ -1,15 +1,12 @@
 <!-- detail -->
 <div id="rc">
-    <h3 class="df_tit">rc详情</h3>
-    <div class="df_left_set">
-        <div class="row matgin-txt">
-            <div class="col-md-2 detail_w">状态:</div>
-            <div class="col-md-10">
-                <status-icon status="replicaSet | deploymentStatus"></status-icon>
-                {{replicaSet | deploymentStatus}}
-                <span style="margin-left: 7px;">
-                <button ng-show="!rollBackCollapsed && showRollbackAction()" type="button"
-                        ng-click="rollBackCollapsed = !rollBackCollapsed">Roll Back</button>
+    <div class="row matgin-txt">
+        <div class="col-md-2">Status:</div>
+        <div class="col-md-10">
+            <status-icon status="replicaSet | deploymentStatus"></status-icon>
+            {{replicaSet | deploymentStatus}}
+            <span style="margin-left: 7px;">
+                <button ng-show="!rollBackCollapsed && showRollbackAction()" type="button" ng-click="rollBackCollapsed = !rollBackCollapsed">Roll Back</button>
                 <div ng-show="rollBackCollapsed" class="well well-sm">
                 Use the following settings from {{replicaSet.metadata.name}} when rolling back:
                 <div class="checkbox">
@@ -27,131 +24,124 @@
                     <input type="checkbox" ng-model="changeTriggers" ng-disabled="flag"> deployment trigger
                   </label>
                 </div>
-                <button type="button" ng-disabled="flag"
-                        ng-click="rollbackToDeployment(changeScaleSettings, changeStrategy, changeTriggers)">
+                <button type="button" ng-disabled="flag" ng-click="rollbackToDeployment(changeScaleSettings, changeStrategy, changeTriggers)">
                     Roll Back
                 </button>
                 </div>
             </span>
-            </div>
-
         </div>
-        <div class="row matgin-txt">
-            <div class="col-md-2 detail_w">服务:</div>
-            <div class="col-md-10">
+    </div>
+    <div class="row matgin-txt">
+        <div class="col-md-2">Deployment Config:</div>
+        <div class="col-md-10">
             <span class="jumpUrl"
-                  ui-sref="console.deploymentconfig_detail({namespace:namespace,name:replicaSet.spec.selector.deploymentconfig})">
+                  ui-sref="console.deploymentconfig_detail({name:replicaSet.spec.selector.deploymentconfig})">
                          {{replicaSet.spec.selector.deploymentconfig}}
             </span>
-            </div>
         </div>
-        <div class="row matgin-txt">
-            <div class="col-md-2 detail_w">
-                状态原因:
-                <!--Status Reason:-->
-            </div>
-            <div class="col-md-10">{{replicaSet.metadata.annotations['openshift.io/deployment.status-reason']}}</div>
+    </div>
+    <div class="row matgin-txt">
+        <div class="col-md-2">Status Reason:</div>
+        <div class="col-md-10">{{replicaSet.metadata.annotations['openshift.io/deployment.status-reason']}}</div>
+    </div>
+    <div class="row matgin-txt">
+        <div class="col-md-2">Selectors:</div>
+        <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector">{{name}}={{value}}&nbsp;&nbsp;<br/></span>
         </div>
-        <div class="row matgin-txt">
-            <div class="col-md-2 detail_w">选择器:</div>
-            <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector">{{name}}={{value}}&nbsp;&nbsp;<br/></span>
-            </div>
-        </div>
-        <div class="row matgin-txt">
-            <div class="col-md-2 detail_w">副本:</div>
-            <div class="col-md-10">
-                <div>
-                <span ng-show="isShow">{{replicaSet.spec.replicas}} 当前 / {{replicaSet.status.replicas}} 期望 &nbsp;&nbsp;
+    </div>
+    <div class="row matgin-txt">
+        <div class="col-md-2">Replicas:</div>
+        <div class="col-md-10">
+            <div>
+                <span ng-show="isShow">{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
                   <i class="glyphicon glyphicon-pencil jumpUrl"
                      ng-click="changeScale();$event.stopPropagation();"></i>
                 </span>
-                    <form ng-show="!isShow">
-                        <input type="number" ng-model="iptReplicas" min="1" max="20"
-                               value={{replicaSet.status.replicas}}>
-                        <i class="glyphicon glyphicon-ok" ng-click="confirm(iptReplicas)"></i>
-                        <i class="glyphicon glyphicon-remove" ng-click="cancel()"></i>
-                    </form>
-                </div>
+                <form ng-show="!isShow">
+                    <input type="number" ng-model="iptReplicas" min="1" max="20" value={{replicaSet.status.replicas}}>
+                    <i class="glyphicon glyphicon-ok" ng-click="confirm(iptReplicas)"></i>
+                    <i class="glyphicon glyphicon-remove" ng-click="cancel()"></i>
+                </form>
             </div>
         </div>
     </div>
-    <div class="h15"></div>
-    <h3 class="df_tit">模版</h3>
-    <pod-template style="line-height:20px;"
-                  pod-template="replicaSet.spec.template"
-                  images-by-docker-reference="imagesByDockerReference"
-                  builds="builds"
-                  detailed="true"
-                  add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">
+
+    <h3 class="subtitle">Template</h3>
+    <pod-template
+            pod-template="replicaSet.spec.template"
+            images-by-docker-reference="imagesByDockerReference"
+            builds="builds"
+            detailed="true"
+            add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">
     </pod-template>
-    <div class="h15"></div>
-    <h3 class="df_tit">卷</h3>
+
+    <h4 class="subtitle">Volumes</h4>
     <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in replicaSet.spec.template.spec.volumes">
         <!--<div class="row matgin-txt">-->
-        <!--<div class="col-md-2">volumeName:</div>-->
-        <!--<div class="col-md-10">{{volume.name}}</div>-->
+            <!--<div class="col-md-2">volumeName:</div>-->
+            <!--<div class="col-md-10">{{volume.name}}</div>-->
         <!--</div>-->
-        <div ng-if="volume.secret" class="df_left_set">
+        <div ng-if="volume.secret">
             <div class="row matgin-txt">
-                <div class="col-md-2 detail_w">类型:</div>
+                <div class="col-md-2">类型:</div>
                 <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2 detail_w">卷名称:</div>
+                <div class="col-md-2">卷名称:</div>
                 <div class="col-md-10">{{volume.secret.secretName}}</div>
             </div>
             <div class="row matgin-txt" ng-repeat="item in volume.secret.items">
-                <div class="col-md-2 detail_w">路径:</div>
+                <div class="col-md-2">路径:</div>
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
-        <div ng-if="volume.configMap" class="df_left_set">
+        <div ng-if="volume.configMap">
             <div class="row matgin-txt">
-                <div class="col-md-2 detail_w">类型:</div>
+                <div class="col-md-2">类型:</div>
                 <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2 detail_w">卷名称:</div>
+                <div class="col-md-2">卷名称:</div>
                 <div class="col-md-10">{{volume.configMap.name}}</div>
             </div>
             <div class="row matgin-txt" ng-repeat="item in volume.configMap.items">
-                <div class="col-md-2 detail_w">路径:</div>
+                <div class="col-md-2">路径:</div>
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
-        <div ng-if="volume.persistentVolumeClaim" class="df_left_set">
+        <div ng-if="volume.persistentVolumeClaim">
             <div class="row matgin-txt">
-                <div class="col-md-2 detail_w">类型:</div>
+                <div class="col-md-2">类型:</div>
                 <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2 detail_w">卷名称:</div>
+                <div class="col-md-2">卷名称:</div>
                 <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2 detail_w">模式:</div>
+                <div class="col-md-2">模式:</div>
                 <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
                 <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
             </div>
         </div>
 
     </div>
-    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt df_left_set">
-        <div class="col-md-10" style="padding-left:0px;">none</div>
+    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt">
+        <div class="col-md-10">none</div>
     </div>
-    <div class="h15"></div>
-    <h3 class="df_tit">Pods</h3>
-    <div class="table-responsive">
+
+    <h4 class="subtitle">Pods</h4>
+    <div class="table-responsive" style="margin-top: 20px;">
         <table class="table table-hover table-default">
             <tr>
-                <th class="col-lg-2 col-md-2 col-sm-1">Name</th>
-                <th class="col-lg-2 col-md-2 col-sm-1">Status</th>
-                <th class="col-lg-2 col-md-2 col-sm-1">Containers Ready</th>
-                <th class="col-lg-2 col-md-2 col-sm-1">Containers Restart</th>
-                <th class="col-lg-2 col-md-2 col-sm-1">Age</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Name</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Status</th>
+                <th class="col-lg-3 col-md-3 col-sm-3">Containers Ready</th>
+                <th class="col-lg-3 col-md-3 col-sm-3">Containers Restart</th>
+                <th class="col-lg-2 col-md-2 col-sm-2">Age</th>
             </tr>
             <tr ng-repeat="pod in replicaPods">
                 <td data-title="Name" class="poda"
@@ -177,13 +167,13 @@
             </tr>
             <tr>
                 <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
-                    <p class="blank_block"><span class="blank_pic"></span><span class="blank_tit"> {{text}}</span></p>
+                    <p class="blank_block"><span class="blank_tit"> {{text}}</span></p>
                 </td>
             </tr>
         </table>
         <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
             <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
-                            boundary-links="false" max-size="12" rotate="true" previous-text="<"
+                            class="pagination-sm" boundary-links="false" max-size="12" rotate="true" previous-text="<"
                             next-text=">">
             </uib-pagination>
         </div>

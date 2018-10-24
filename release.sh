@@ -16,6 +16,7 @@ cp -r bower_components/html5-boilerplate $dist/vendor/
 
 cp -r bower_components/jquery $dist/vendor/
 cp -r bower_components/uri.js $dist/vendor/
+cp -r bower_components/browser-md5-file $dist/vendor/
 
 cp -r bower_components/requirejs $dist/vendor/
 cp -r bower_components/marked $dist/vendor/

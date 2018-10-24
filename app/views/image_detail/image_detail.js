@@ -44,12 +44,6 @@ angular.module('console.image_detail', [
                             $scope.date = data;
                         }
 
-                        //console.log();
-                        //for (var i = 0; i < $scope.date.status.tags.length; i++) {
-                        //    if (name == $scope.date.status.tags[i].tag) {
-                        //        $scope.date.status.tags.splice(i, 1)
-                        //    }
-                        //}
 
                     })
                 })

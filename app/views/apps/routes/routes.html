@@ -1,19 +1,16 @@
-<div id="routes">
+<div id="routes" style="background:#fff;padding:20px 40px 40px;">
     <style>
         #creat:focus {
             color: #ffffff;
         }
-
+        
         #creatbtn:hover {
             z-index: 0;
         }
         #routes .creatbtn {
-            padding-top:6px;padding-bottom:10px;
-            box-shadow: 0 1px 0 0 rgba(224,230,237,0.50);height:42px;
-            clear:both;overflow:hidden;padding-left:20px;padding-right:20px;background:#fff;
+            margin-right:0;
+            margin-left:-15px;
         }
-        .new_deploycol{float:right;}
-        .clear{clear:both;overflow:hidden;}
     </style>
     <div class="loader" ng-if="!items">
         <div class="loader-inner ball-clip-rotate-multiple">
@@ -24,46 +21,41 @@
     </div>
     <div ng-if="items">
         <div class="creatbtn" style="">
-
-            <div class="input-group col-sm-3 searchbar">
-                <input type="text" class="form-control" placeholder="搜索域名路由名称" ng-keyup=search($event) ng-model="grid.txt">
-                <span class="input-group-btn">
-                                <span class="df_search uex-icon-search" ng-click="scretssearch('search')">
-                                </span>
-                            </span>
-            </div>
-
-            <div class="new_deploycol" style="" role="group" aria-label="">
+            <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
                 <div class="btn-group" role="group">
-                    <a id="creatbtn" class="btn btn-green" style="margin-top:4px;" ui-sref="console.create_routes({namespace:namespace})">
+                    <a id="creatbtn" class="btn btn-green" ui-sref="console.create_routes({namespace:namespace})">
                         <i class="fa fa-plus fa-lg"></i>
                         <span class=""> 新建路由</span>
                     </a>
                     <!--<button type="button" id="creat" class="btn dropdown-toggle ser_drp_set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                    <!--<span class="caret"></span>-->
-                    <!--<span class="sr-only">Toggle Dropdown</span>-->
+                        <!--<span class="caret"></span>-->
+                        <!--<span class="sr-only">Toggle Dropdown</span>-->
                     <!--</button>-->
                     <!--<ul class="dropdown-menu quick_menu">-->
-                    <!--<li class="quick_bs" ui-sref="console.quick_deploy"><a href="#">快速部署</a></li>-->
+                        <!--<li class="quick_bs" ui-sref="console.quick_deploy"><a href="#">快速部署</a></li>-->
                     <!--</ul>-->
                 </div>
 
 
             </div>
-            <!-- <div class="col-sm-4">
-            </div> -->
+            <div class="col-sm-4">
+            </div>
 
-
+            <div class="input-group col-sm-4 searchbar">
+                <input type="text" class="form-control" placeholder="搜索域名路由名称" ng-keyup=search($event) ng-model="grid.txt">
+                <span class="input-group-btn">
+                    <a class="btn" ng-click="scretssearch('search')"></a>
+                </span>
+            </div>
         </div>
-        <div class="clear"></div>
-        <div class="table-responsive" style="margin-top: 20px;margin-left:20px;margin-right:20px;">
-            <table class="table table-hover table-default df_table">
+        <div class="table-responsive" style="margin-top: 20px;">
+            <table class="table table-hover table-default">
                 <tr>
-                    <th class="col-lg-2 col-md-2 col-sm-1">名称</th>
-                    <th class="col-lg-4 col-md-2 col-sm-1">域名</th>
-                    <th class="col-lg-2 col-md-2 col-sm-1">目标</th>
-                    <th class="col-lg-2 col-md-2 col-sm-1">端口</th>
-                    <th class="col-lg-2 col-md-2 col-sm-1">TLS</th>
+                    <th class="col-lg-2 col-md-2 col-sm-2">名称</th>
+                    <th class="col-lg-4 col-md-4 col-sm-4">域名</th>
+                    <th class="col-lg-3 col-md-3 col-sm-3">目标</th>
+                    <th class="col-lg-2 col-md-2 col-sm-2">端口</th>
+                    <th class="col-lg-1 col-md-1 col-sm-1">TLS</th>
                 </tr>
                 <tr ng-repeat="route in routeItem">
                     <td  data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
@@ -78,7 +70,7 @@
                     <td data-title="Hostname" data-title="Hostname">
                         <span ng-if="(route | isWebRoute)">
                             <a class="a_color_org" href="{{route | routeWebURL}}" target="_blank">
-                                {{route | routeLabel}}
+                                {{route | routeLabel}} 
                                 <i class="fa fa-external-link" aria-hidden="true"></i>
                             </a>
                         </span>
@@ -87,8 +79,8 @@
                         </span>
 
                         <!--<span ng-if="!route.status.ingress" data-toggle="popover" data-trigger="hover" data-content="The route is not accepting traffic yet because it has not been admitted by a router." style="cursor: help; padding-left: 5px;">-->
-                        <!--<status-icon status="'Pending'"></status-icon>s-->
-                        <!--<span class="sr-only">Pending</span>-->
+                            <!--<status-icon status="'Pending'"></status-icon>s-->
+                            <!--<span class="sr-only">Pending</span>-->
                         <!--</span>-->
                     </td>
                     <!--
@@ -105,7 +97,7 @@
                     <td data-title="Target Port">
                         <span ng-if="route.spec.port.targetPort">
                         <span ng-if="route.spec.to.kind !== 'Service'">{{route.spec.port.targetPort}}</span>
-                            <!-- <span ng-if="route.spec.to.kind === 'Service'" ng-attr-title="{{route | routeTargetPortMapping : services[route.spec.to.name]}}"> -->
+                        <!-- <span ng-if="route.spec.to.kind === 'Service'" ng-attr-title="{{route | routeTargetPortMapping : services[route.spec.to.name]}}"> -->
                         <span ng-if="route.spec.to.kind === 'Service'">
                             {{route.spec.port.targetPort}}
                         </span>
@@ -118,22 +110,14 @@
                         <span ng-if="!route.spec.tls.termination">&nbsp;</span>
                     </td>
                 </tr>
-                <tr class="df_blank">
-                    <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="items.length===0">
-                        <div class="blank_block"> <span class="blank_pic"></span> <span class="blank_tit">{{text}}</span>
-                            <div class="blank_create_tit" ng-if="begin_blank">
-                                <span class="blank_des">，点击</span>
-                                <a class="df_go_create" ui-sref="console.create_routes({namespace:namespace})">
-                                    <span class="hidden-xs">去创建</span>
-                                </a>
-                            </div>
-                        </div>
+                <tr>
+                    <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
+                        <p class="blank_block"> <span class="blank_tit"> {{text}}</span></p>
                     </td>
                 </tr>
-
             </table>
             <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total"
+                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"
                                 items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true"
                                 previous-text="<"
                                 next-text=">">
@@ -146,17 +130,17 @@
 </div>
 <style>
     .table>a{
-        color:#47B2FB
+       color:#47B2FB
     }
     .table>a :hover{
-        color:#47B2FB;
+        color:#e5993a;
     }
     .table-bordered>tbody>tr>td{
         border-left:none !important;
         border-right:none !important;
-    }
+      }
     .new_deploycol a :hover{
-        color:#fff;
+         color:#fff;
     }
     .a_color_org{
         color:#47B2FB !important;

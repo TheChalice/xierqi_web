@@ -14,9 +14,9 @@ angular.module('console.dashboard', [
             $scope.oldpiedata = {
                 usage_rate: {name: 'CPU', use: 0, unit: ' cores'},
                 usage: {name: 'memory', use: 0, unit: ' MiB'},
-                network:{name: 'network', use: 0, unit: ' KiB/s'},
-                rx_rate: {name: 'rx_rate', use: 0, unit: ' KiB/s'},
-                tx_rate: {name: 'tx_rate', use: 0, unit: ' KiB/s'}
+                network:{name: 'network', use: 0, unit: ' KB/s'},
+                rx_rate: {name: 'rx_rate', use: 0, unit: ' KB/s'},
+                tx_rate: {name: 'tx_rate', use: 0, unit: ' KB/s'}
             }
             var timesnow = (new Date()).getTime()
 
@@ -91,9 +91,6 @@ angular.module('console.dashboard', [
             };
 
             Project.get({region: $rootScope.region}, function (data) {
-                //$rootScope.projects = data.items;
-                //console.log('Project', Project);
-                //var newprojects = [];
                 angular.forEach(data.items, function (item, i) {
                     if (item.metadata.name === $rootScope.namespace) {
                         $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
@@ -277,7 +274,7 @@ angular.module('console.dashboard', [
                         pointInterval: 15 * 60 * 1000 //时间间隔
                     },
                         {
-                            name: '内存',
+                            name: 'memory',
                             fillColor: {
                                 linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                                 stops: [
@@ -301,7 +298,7 @@ angular.module('console.dashboard', [
                     },
                     yAxis: [{
                         title: {
-                            text: 'memory (M)',
+                            text: 'memory (MiB)',
                             style: {
                                 color: '#bec0c7'
                             }
@@ -309,7 +306,7 @@ angular.module('console.dashboard', [
 
                     }, {
                         title: {
-                            text: 'CPU (%)',
+                            text: 'CPU (cores)',
                             style: {
                                 color: '#f6a540'
                             }
