@@ -22,6 +22,9 @@ angular.module('console.monitoring', [
             $scope.statefulSets =  angular.copy(monitoringStatefulSets);
             $scope.builds= angular.copy(monitoringBuild);
             /////////
+            $scope.savelog = function (log) {
+                
+            }
             $scope.checkCurListName = function(name){
                 console.log('name',name);
                 $scope.curListName = name;

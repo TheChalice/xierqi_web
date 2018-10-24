@@ -50,6 +50,7 @@ require.config({
         toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
         uploadShim: '../bower_components/ng-file-upload-shim/ng-file-upload-shim.min',
         ngUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
+        fileserve: '../node_modules/file-saver/dist/FileSaver.min',
     },
     shim: {
         'angular': {
@@ -132,6 +133,9 @@ require.config({
         },
         'ngUpload': {
             deps: ['angular','uploadShim']
+        },
+        'fileserve': {
+            deps: ['angular']
         }
     },
     priority: [
