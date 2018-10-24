@@ -38,7 +38,8 @@
         ace: '../bower_components/ace-builds/src-min-noconflict/ace',
         ui_ace: '../bower_components/angular-ui-ace/ui-ace',
         uploadShim: '../bower_components/ng-file-upload-shim/ng-file-upload-shim.min',
-        ngUpload: '../bower_components/ng-file-upload/ng-file-upload.min'
+        ngUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
+        fileserve: '../node_modules/file-saver/dist/FileSaver.min'
     },
     shim: {
         'angular': {
@@ -121,5 +122,8 @@
         'ngUpload': {
             deps: ['angular','uploadShim']
         },
+        'fileserve': {
+            deps: ['angular']
+        }
     }
 }

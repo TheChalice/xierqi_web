@@ -392,6 +392,12 @@ define(['angular'], function (angular) {
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
                         //console.log('$scope.podContainer',$scope.podContainer);
+                        $scope.savelog = function () {
+                            var filename = _.get($scope, 'object.metadata.name', 'openshift') + '.log';
+                            var blob = new Blob([$scope.result], { type: "text/plain;charset=utf-8" });
+                            saveAs(blob, filename);
+                            //console.log('$scope.result', $scope.result);
+                        }
                         $scope.copycon=angular.copy($scope.podContainer)
                         $scope.conlist=[]
                         var makeconarr= function (name) {
