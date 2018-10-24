@@ -18,7 +18,8 @@
 #console #sidebar-right-fixed {
     overflow: hidden;
     /*padding: 40px 40px;*/
-    padding: 36px 50px;/*by zn for zhongxin */
+    /*padding: 36px 50px;!*by zn for zhongxin *!*/
+    padding: 25px;
     min-height: 600px;
     margin-left: 200px;
     -webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;

@@ -1,43 +1,54 @@
-
 <!--<div class="bounce3"></div>-->
 <!--<img ng-show='lding' class="spinner" src="pub/img/loading.gif" alt="">-->
 <!--</div>-->
 <div class="timeline">
     <ul>
         <li ng-repeat="item in rcs.items">
-            <label>
+            <!-- <label>
                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                 {{item.metadata.creationTimestamp | dateRelative}}
-            </label>
+            </label> -->
+            <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="dot_blank"></span>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-3">
-                        <a class="dcList" ui-sref="console.rc({namespace:namespace,name:item.metadata.name})">
-                        #{{item.metadata.annotations['openshift.io/deployment-config.latest-version']}}
-                        </a>
-                    </div>
-                    <div class="col-sm-3">
-                        <span class="icon12 icon12-{{item.metadata.annotations['openshift.io/deployment.phase']}}"
-                              ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}">
+                        <span class="detail_tit">构建状态：</span>
+                        <!-- <span class="icon12 uex-icon-{{item.metadata.annotations['openshift.io/deployment.phase']}}" ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}">
 
-                        </span>
+                        </span> -->
+                        <span class="icon12 uex-icon-{{item.metadata.annotations['openshift.io/deployment.phase']}}"
+                              ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}"></span>
                         <!--switch to Chinese-->
                         {{item.metadata.annotations['openshift.io/deployment.phase'] | rcStatusFilter}}
                     </div>
                     <div class="col-sm-3">
-
+                        <span class="detail_tit">构建时间：</span>
+                        <label class="build_name">
+                            {{item.metadata.creationTimestamp | timescon}}
+                        </label>
                     </div>
+
                     <div class="col-sm-3">
+                        <span class="detail_tit">版本：</span>
+                        <a class="dcList" ui-sref="console.rc({namespace:namespace,name:item.metadata.name})">
+                            #{{item.metadata.annotations['openshift.io/deployment-config.latest-version']}}
+                        </a>
+                    </div>
+
+
+                    <div class="col-sm-3">
+                        <span class="detail_tit">触发器：</span>
                         <span ng-if="!item.dc.status.details.causes.length">未知</span>
                         <span ng-if="item.dc.status.details.causes.length">
                             <span ng-repeat="cause in item.dc.status.details.causes">
-                              <span ng-switch="cause.type">
-                                <span ng-switch-when="ImageChange">镜像变化</span>
-                                <span ng-switch-when="ConfigChange">配置变化</span>
-                                <span ng-switch-default>{{cause.type}}</span>
-                              </span>
+                                <span ng-switch="cause.type">
+                                    <span ng-switch-when="ImageChange">镜像变化</span>
+                                    <span ng-switch-when="ConfigChange">配置变化</span>
+                                    <span ng-switch-default>{{cause.type}}</span>
+                                </span>
                             </span>
-                          </span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -52,6 +63,12 @@
             <!--</div>-->
 
         </li>
+        <div style="" class="ng-scope border_background" ng-if="rcs.items.length===0">
+            <span class="dot"></span>
+            <span class="dot_blank"></span>
+            <p class="blank_name">
+                <span class="blank_tit">您还没有构建记录</span>
+            </p>
+        </div>
     </ul>
 </div>
-
