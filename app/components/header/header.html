@@ -447,11 +447,18 @@
 
         <div id="tenants-box" class="tenants-box" style="display: inline-block;height: 55px;">
 
-            <div class="header-name-list">
-                <a class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
+            <div class="header-name-list" ng-show="showAbout">
+                <a  class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
                    <span class="neirong">概览</span>
                 </a>
-                <a class="header-name-list-span" ui-sref="console.build({namespace:namespace})"
+                <a  class="header-name-list-span" ui-sref="console.build({namespace:namespace})"
+                   ng-class="{'overSelect':isActive}">
+                    <span class="neirong">应用控制台</span>
+                </a>
+            </div>
+            <div class="header-name-list" ng-show="!showAbout">
+
+                <a  class="header-name-list-span"
                    ng-class="{'overSelect':isActive}">
                     <span class="neirong">应用控制台</span>
                 </a>
