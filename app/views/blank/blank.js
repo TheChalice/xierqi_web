@@ -52,31 +52,32 @@ angular.module('home.blank', [])
                                 Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                                 $state.go(oldurl, {namespace: $rootScope.namespace})
                             }else {
-                                creatproject.create({'metadata': {
-                                    name:$rootScope.user.metadata.name
-                                }}, function (res) {
-                                    loadProject($rootScope.user.metadata.name,function (name, data) {
-                                        for (var i = 0; i < data.items.length; i++) {
-                                            if (data.items[i].metadata.name == name) {
-                                                $rootScope.namespace = name;
-                                                angular.forEach(data.items, function (item, i) {
-
-                                                    data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
-
-
-                                                })
-                                                data.items.sort(function (x, y) {
-                                                    return x.sortname > y.sortname ? 1 : -1;
-                                                });
-
-                                                $rootScope.projects = data.items;
-                                            }
-                                        }
-
-                                        $state.go(oldurl, {namespace: $rootScope.namespace})
-
-                                    })
-                                })
+                                $state.go('noproject', {namespace: $rootScope.namespace})
+                                //creatproject.create({'metadata': {
+                                //    name:$rootScope.user.metadata.name
+                                //}}, function (res) {
+                                //    loadProject($rootScope.user.metadata.name,function (name, data) {
+                                //        for (var i = 0; i < data.items.length; i++) {
+                                //            if (data.items[i].metadata.name == name) {
+                                //                $rootScope.namespace = name;
+                                //                angular.forEach(data.items, function (item, i) {
+                                //
+                                //                    data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                                //
+                                //
+                                //                })
+                                //                data.items.sort(function (x, y) {
+                                //                    return x.sortname > y.sortname ? 1 : -1;
+                                //                });
+                                //
+                                //                $rootScope.projects = data.items;
+                                //            }
+                                //        }
+                                //
+                                //        $state.go(oldurl, {namespace: $rootScope.namespace})
+                                //
+                                //    })
+                                //})
                             }
                         });
 
