@@ -11,7 +11,7 @@ angular.module('console', [
     ])
     .controller('ConsoleCtrl', ['creatproject', '$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state', 'GLOBAL', '$stateParams', '$location', 'userNum',
         function (creatproject, $timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state, GLOBAL, $stateParams, $location, userNum) {
-
+            $scope.showAbout = true;
             //console.log('$state', $state);
             // 获取当前登录用户名
             var loginuser = Cookie.get('loginuser')

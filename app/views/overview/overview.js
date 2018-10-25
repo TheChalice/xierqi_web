@@ -15,6 +15,7 @@ angular.module('overview', [
             } else {
                 $rootScope.user = user;
             }
+            $scope.showAbout = true;
             $scope.urllist ={
                 operation_url:GLOBAL.operation_url,
                 dataassets_url:GLOBAL.dataassets_url,
