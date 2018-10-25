@@ -14,7 +14,7 @@ angular.module("console.header", [{
             templateUrl: 'components/header/header.html',
             controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams','ssologout',
                 function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams,ssologout) {
-                    console.log('showAbout', $scope.showAbout);
+                    //console.log('showAbout', $scope.showAbout);
                     var cmHost = 'http://sso-cm.southbase.prd.dataos.io/';
                     var dacpHost = 'http://10.1.235.155:9089/dacp/';
                     var aiopHost = 'http://10.1.253.98:9080/AIOP-WEB';
@@ -245,414 +245,7 @@ angular.module("console.header", [{
                         }
                     ];
                     $scope.columns = columns;
-                /////////能力视图导航；
-                //     $scope.colonyList = [
-                //         {
-                //             title:'运营管控',
-                //             children:[
-                //                 {
-                //                     subtitle:'服务接入',
-                //                     subChild:[
-                //                         {
-                //                             url:'https://sso-cm.southbase.prd.dataos.io/#/console/service',
-                //                             urlName:'服务管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'服务接入'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'租户管理',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'租户列表'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'服务实例'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'服务资源'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'工具申请'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'资源监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'成员授权'
-                //                         },
-                //
-                //                     ]
-                //
-                //                 }
-                //             ]
-                //
-                //         },
-                //         {
-                //             title:'数据资产',
-                //             children:[
-                //                 {
-                //                     subtitle:'数据开发',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'团队管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'开发者中心'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据开发'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'脚本开发'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据查询'
-                //                         },
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'任务调度',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'任务监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'任务配置'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'团队任务监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'调度管理'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'数据规划',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'架构设计'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'流程管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据标准'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'数据治理',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'元数据管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'生命周期'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据质量'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'资产管理',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据资产地图'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据资产目录'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据资产盘点'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据资产运维'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据资产体检'
-                //                         },
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'数据安全',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'敏感数据管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据安全策略'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据安全审计'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'数据服务',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'API管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'服务授权'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'服务调用监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据开放目录'
-                //                         }
-                //                     ]
-                //
-                //                 }
-                //             ]
-                //
-                //         },
-                //         {
-                //             title:'统一运维',
-                //             children:[
-                //                 {
-                //                     subtitle:'平台监控',
-                //                     subChild:[
-                //                         {
-                //                             url:'http://10.1.253.98:9080/AIOP-WEB/#g=1&p=zjjk&c=1',
-                //                             urlName:'主机监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'集群监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'租户监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'容器监控'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'服务监控',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'中间件监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'租户服务监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'采集服务监控'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'数据监控',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'作业调度监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'接口调度监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'数据资产视图'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'应用监控',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'应用报表监控'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'应用系统监控'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'监控告警',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'实时告警'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'告警配置'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'知识库管理',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'工单管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'知识库'
-                //                         }
-                //                     ]
-                //
-                //                 }
-                //             ]
-                //
-                //         },
-                //         {
-                //             title:'应用管理',
-                //             children:[
-                //                 {
-                //                     subtitle:'应用管理',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'应用列表'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'应用发布'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'应用生命周期'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'代码构建',
-                //                     url:'https://sso-console.southbase.prd.dataos.io/?refer=/console/project/'+$rootScope.namespace+'/build#/console/project/'+$rootScope.namespace+'/build',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'构建任务管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'VM管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'推送镜像仓库'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'容器管理',
-                //                     subChild:[
-                //                         {
-                //                             url:'https://sso-console.southbase.prd.dataos.io/?refer=/console/project/'+$rootScope.namespace+'/pods#/console/project/'+$rootScope.namespace+'/pods',
-                //                             urlName:'容器状态'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'存储卷管理'
-                //                         },
-                //                         {
-                //                             url:'https://sso-console.southbase.prd.dataos.io/?refer=/console/project/'+$rootScope.namespace+'/routes#/console/project/'+$rootScope.namespace+'/routes',
-                //                             urlName:'域名管理'
-                //                         },
-                //                         {
-                //                             url:'https://sso-console.southbase.prd.dataos.io/?refer=/console/project/'+$rootScope.namespace+'/deployments#/console/project/'+$rootScope.namespace+'/deployments',
-                //                             urlName:'部署镜像'
-                //                         },
-                //                         // {
-                //                         //     url:'https://sso-console.southbase.prd.dataos.io/?refer=/console/project/'+$rootScope.namespace+'/private-image#/console/project/'+$rootScope.namespace+'/private-image',
-                //                         //     urlName:'构建镜像'
-                //                         // },
-                //                         {
-                //                             url:'https://sso-console.southbase.prd.dataos.io/?refer=/console/project/'+$rootScope.namespace+'/repository-image#/console/project/'+$rootScope.namespace+'/repository-image',
-                //                             urlName:'镜像仓库管理'
-                //                         }
-                //                     ]
-                //
-                //                 },
-                //                 {
-                //                     subtitle:'自定义编排',
-                //                     subChild:[
-                //                         {
-                //                             url:'',
-                //                             urlName:'yaml编排'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'yaml文件管理'
-                //                         },
-                //                         {
-                //                             url:'',
-                //                             urlName:'yaml执行'
-                //                         }
-                //                     ]
-                //
-                //                 }
-                //             ]
-                //
-                //         },
-                //     ]
-                    /////////能力视图链接跳转
+
                     $scope.colonyUrlGo = function(url){
                         if(url){
                             window.location.href=url
@@ -782,7 +375,7 @@ angular.module("console.header", [{
                         $scope.sso_switch = true;
                     }
 
-                    $scope.urllist ={
+                    $scope.urllist = {
                         operation_url:GLOBAL.operation_url,
                         dataassets_url:GLOBAL.dataassets_url,
                         center_url:GLOBAL.center_url,
@@ -860,8 +453,9 @@ angular.module("console.header", [{
                                     data.items.splice(i + 1, 1);
                                 }
                             });
-
+                            $scope.projects = data.items;
                             $rootScope.projects = data.items;
+
                         }, function (res) {
                             $log.info("find project err", res);
                         });
@@ -869,17 +463,7 @@ angular.module("console.header", [{
 
                     loadProject()
 
-                    //regions.query({}, function (data) {
-                    //    //console.log('regions', data);
-                    //    $scope.regions = data;
-                    //    $scope.copyregions = angular.copy(data);
-                    //    angular.forEach(data, function (region, i) {
-                    //        if (region.identification === $rootScope.region) {
-                    //            $scope.curregion = region.region_describe;
-                    //        }
-                    //
-                    //    })
-                    //})
+
 
                     $scope.$watch('curregion', function (n, o) {
                         if (n === o) {
@@ -899,137 +483,8 @@ angular.module("console.header", [{
                             $scope.regions = arr;
                         }
                     })
-                    //$scope.regionlist = [
-                    //    {regionname : '一区一区'},
-                    //    {regionname : '二区二区'}
-                    //]
 
-
-                    //if ($state.params.useorg) {
-                    //    $http({
-                    //        url: '/lapi/orgs/' + $state.params.useorg,
-                    //        method: 'GET'
-                    //    }).success(function (data, header, config, status, orgid) {
-                    //        //alert(data.name)
-                    //        $scope.checked = data.name;
-                    //    }).error(function (data, header, config, status) {
-                    //    });
-                    //
-                    //}
-
-                    //$scope.checked = '';
-
-                    //if($rootScope.delOrgs){
-                    //    $http({
-                    //        url:'/lapi/orgs/'+$state.params.useorg,
-                    //        method:'GET'
-                    //    }).success(function(data,header,config,status,orgid){
-                    //        $scope.checked = data.name;
-                    //    }).error(function(data,header,config,status){
-                    //    });
-                    //}
-
-                    //$scope.$watch('delOrgs', function (n, o) {
-                    //    if (n == o) {
-                    //        return;
-                    //    }
-                    //    if (n) {
-                    //        //alert()
-                    //        $scope.checked = $rootScope.user.metadata.name;
-                    //        $http({
-                    //            url: '/lapi/orgs',
-                    //            method: 'GET'
-                    //        }).success(function (data, header, config, status, orgid) {
-                    //            $scope.userorgs = data.orgnazitions;
-                    //            $rootScope.delOrgs = false;
-                    //        }).error(function (data, header, config, status) {
-                    //        });
-                    //    } else {
-                    //        //$rootScope.isorg = false;
-                    //    }
-                    //})
-                    //$scope.$watch('$state.params.useorg', function (n, o) {
-                    //    if (n == o) {
-                    //        return;
-                    //    }
-                    //    if ($state.params.useorg) {
-                    //        //$rootScope.isorg = true;
-                    //        $scope.neworgid = $state.params.useorg
-                    //    } else {
-                    //        //$rootScope.isorg = false;
-                    //    }
-                    //})
-                    //$rootScope.isorg = false;
-                    //$scope.$watch('namespace', function (n, o) {
-                    //    //console.log('new', n);
-                    //    if (n == o) {
-                    //        return
-                    //    }
-                    //    if (n.indexOf('org') == -1) {
-                    //        $rootScope.isorg = false;
-                    //        $http({
-                    //            url: '/lapi/inbox_stat',
-                    //            method: 'GET',
-                    //        }).success(function (res) {
-                    //            //console.log("test the inbox stat", res);
-                    //            if (res.data == null) {
-                    //                res.data = {};
-                    //            }
-                    //            if (res.data.sitenotify || res.data.accountms || res.data.alert) {
-                    //                $scope.isshow = true;
-                    //            } else {
-                    //                $scope.isshow = false;
-                    //            }
-                    //            ;
-                    //        }).error(function (data) {
-                    //            //console.log("Couldn't get inbox message", data)
-                    //        });
-                    //        $scope.timer = setInterval(function () {
-                    //            $http({
-                    //                url: '/lapi/inbox_stat',
-                    //                method: 'GET',
-                    //            }).success(function (res) {
-                    //                //console.log("test the inbox stat", res);
-                    //                if (res.data == null) {
-                    //                    res.data = {};
-                    //                }
-                    //                if (res.data.sitenotify || res.data.accountms || res.data.alert) {
-                    //                    $scope.isshow = true;
-                    //                } else {
-                    //                    $scope.isshow = false;
-                    //                }
-                    //                ;
-                    //            }).error(function (data) {
-                    //                //console.log("Couldn't get inbox message", data)
-                    //            });
-                    //        }, 1000000)
-                    //    } else {
-                    //        clearInterval($scope.timer);
-                    //        $rootScope.isorg = true;
-                    //    }
-                    //
-                    //
-                    //});
-                    //$scope.$on('$destroy', function () {
-                    //    clearInterval($scope.timer);
-                    //});
-
-
-                    //account.get({
-                    //    namespace: $rootScope.namespace,
-                    //    region: $rootScope.region,
-                    //    status: "consuming"
-                    //}, function (data) {
-                    //    //console.log('套餐', data);
-                    //    //$rootScope.payment=data;
-                    //    if (data.purchased) {
                     $scope.cancreatorg = true
-                    //跳转dashboard
-                    //    } else {
-                    //        $scope.cancreatorg = false
-                    //        //跳转购买套餐
-                    //    }
-                    //})
 
                     $scope.createOrg = function () {
                         Addmodal.open('创建组织', '组织名称', '', '', 'org').then(function (res) {
@@ -1061,21 +516,6 @@ angular.module("console.header", [{
                         //}
                     };
 
-                    // console.log($location.url().split('/')[2])
-                    //if ($location.url().split('/')[2] === 'org') {
-                    //    $http({
-                    //        url: '/lapi/orgs/' + $location.url().split('/')[3],
-                    //        method: 'GET'
-                    //    }).success(function (data) {
-                    //        // console.log('112',data.name)
-                    //        $scope.checked = data.name
-                    //    })
-                    //} else if ($rootScope.huancun && $rootScope.huancun.name) {
-                    //    $scope.checked = $rootScope.huancun.name;
-                    //    $rootScope.huancun.name = false
-                    //} else if (!$scope.checked) {
-                    //    $scope.checked = $rootScope.namespace;
-                    //}
 
                     $scope.backindex = function () {
                         $rootScope.whereclick = '首页';
@@ -1088,30 +528,6 @@ angular.module("console.header", [{
                         Cookie.set('namespace', $rootScope.user.metadata.name, 10 * 365 * 24 * 3600 * 1000);
                     }
 
-                    //$scope.goto = function (ind) {
-                    //    $scope.checked = $scope.userorgs[ind].name;
-                    //    $rootScope.namespace = $scope.userorgs[ind].id;
-                    //    $scope.neworgid = $scope.userorgs[ind].id
-                    //    //console.log('路由',$state);
-                    //    if ($state.current.name == 'console.apply_instance' || $state.current.name == 'console.build_create_new' || $state.current.name == 'console.service_create') {
-                    //        return
-                    //    } else if ($state.current.url.indexOf(':') !== -1 && $state.current.name !== 'console.dashboard') {
-                    //        //$location.url('/'+)
-                    //        //console.log($state.current.url.split('/')[1]);
-                    //        $location.url('/console/' + $state.current.url.split('/')[1])
-                    //    } else if ($state.current.name == 'console.dashboard') {
-                    //        //console.log($rootScope.namespace);
-                    //        $state.reload();
-                    //    }
-                    //    //console.log('路由',$state);
-                    //
-                    //}
-
-                    //orgList.get({}, function (org) {
-                    //    // console.log(org);
-                    //    $scope.userorgs = org.orgnazitions;
-                    //});
-                    //图片预加载
                     var images = new Array()
 
                     function preload() {
@@ -1146,27 +562,6 @@ angular.module("console.header", [{
                         return true;
                     };
 
-                    //$scope.$watch("orgStatus", function (n, old) {
-                    //    // console.log("%%%%%%", n, old);
-                    //    if (n) {
-                    //        orgList.get({}, function (org) {
-                    //            $scope.userorgs = org.orgnazitions;
-                    //            //alert(11)
-                    //            $scope.checked = $rootScope.namespace;
-                    //
-                    //            $rootScope.orgStatus = false;
-                    //
-                    //        })
-                    //    }
-                    //})
-
-                    //$scope.$watch('checked', function (n, o) {
-                    //    if (n == o) {
-                    //        return
-                    //    }
-                    //    console.log('checked', n);
-                    //})
-                    //console.log('$rootScope',$rootScope);
                     $rootScope.huancun = {}
 
                     $scope.logout = function () {
