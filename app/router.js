@@ -151,6 +151,16 @@ define([
                         }]
                     }
                 })
+                .state('noproject', {
+                    url: '/noproject',
+                    templateUrl: 'views/noproject/noproject.html',
+                    controller: 'noprojectCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/noproject/noproject.js')
+                        }]
+                    }
+                })
 
                 .state('console.uploadimage', {
                     url: '/:namespace/uploadimage',
@@ -1110,6 +1120,7 @@ define([
                         }]
                     }
                 })
+
 
 
             //新建routes
