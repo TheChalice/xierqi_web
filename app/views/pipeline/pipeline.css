@@ -1,40 +1,60 @@
 /*new code*/
-#build{
-    background:#fff;
-    padding:20px 40px 40px;
+#build {
+    background: #fff;
+    padding: 20px 40px 40px;
 }
-#build .nav_top_li{
+
+#build .nav_top_li {
     margin-right: 0;
-    margin-left:-15px;
+    margin-left: -15px;
 }
-#build .btn-green_li{
-    margin-right:20px;
+
+#build .btn-green_li {
+    margin-right: 20px;
 }
-#build .table_topMargin{
+
+#build .table_topMargin {
     margin-top: 20px;
 }
-#build .table-buju{
-    table-layout:fixed;
+
+#build .table-buju {
+    table-layout: fixed;
 }
-#build .table_headOperating{
-    text-align:left;text-indent:8px;
+
+#build .table_headOperating {
+    text-align: left;
+    text-indent: 8px;
 }
-#build .buildname{
-    white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;
+
+#build .buildname {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
 }
-#build .OperatingContent{
-    text-align: center; padding-left: 0;padding-right: 0;
+
+#build .OperatingContent {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
 }
-#build Operating{
-    white-space: nowrap; text-align: center;margin-left:10px;margin-right:10px;
+
+#build Operating {
+    white-space: nowrap;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
 }
-#build td_colspan_li{
-    text-align: center;background: #fff;position:relative
+
+#build td_colspan_li {
+    text-align: center;
+    background: #fff;
+    position: relative
 }
+
 #build .icon25 {
     margin: 0 18px;
 }
-
 
 #build .table-responsive .buildname {
     overflow: hidden;
@@ -43,24 +63,31 @@
 
 }
 
-#build @media screen and (max-width: 1250px) {
+#build
+
+@media screen and (max-width: 1250px) {
     #build .icon25 {
         margin: 0 18px;
     }
 }
+
 /*new code end*/
 #build .icon25 {
     margin: 0 8px;
 }
+
 #build .icon25-source {
     background-image: url(img/source.png);
 }
+
 #build .icon25-source:hover {
     background-image: url(img/source-hover.png);
 }
+
 #build .icon25-image {
     background-image: url(img/image.png);
 }
+
 #build .icon25-image:hover {
     background-image: url(img/image-hover.png);
 }
@@ -68,32 +95,52 @@
 #build .icon25-stop {
     background-image: url(img/stop.png);
 }
+
 #build .icon25-stop:hover {
     background-image: url(img/stop-hover.png);
 }
+
 #build .row_set {
-    white-space:nowrap;
+    white-space: nowrap;
 }
-#build @media (max-width: 1201px) {
+
+#build
+
+@media (max-width: 1201px) {
     .threec a {
         display: inline-block;
     }
 }
+
 /*����Ϊ��ʱ״̬*/
-#build .blank_block{margin-bottom:0;}
-#build .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
-#build .builder_jia_btn{padding-left:15px!important;}
-#build .buld_jia_btn{padding:6px 12px!important;}
-
-
-
-#build .pagination > li > a:hover{
-    color:black;
+#build .blank_block {
+    margin-bottom: 0;
 }
 
-#build .pagination > .disabled > a{
-    background:#f7f7f7;
+#build .blank_tit {
+    font-size: 12px;
+    color: #A2B0C4;
+    margin-left: 0px;
+    float: left;
+    margin-top: 40px;
 }
-#build .pagination > .disabled > a:hover{
-    background:#f7f7f7;
+
+#build .builder_jia_btn {
+    padding-left: 15px !important;
+}
+
+#build .buld_jia_btn {
+    padding: 6px 12px !important;
+}
+
+#build .pagination > li > a:hover {
+    color: black;
+}
+
+#build .pagination > .disabled > a {
+    background: #f7f7f7;
+}
+
+#build .pagination > .disabled > a:hover {
+    background: #f7f7f7;
 }
