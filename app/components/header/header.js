@@ -14,7 +14,13 @@ angular.module("console.header", [{
             templateUrl: 'components/header/header.html',
             controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams','ssologout',
                 function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams,ssologout) {
-                    //console.log('showAbout', $scope.showAbout);
+                    //console.log($state.current.name);
+                    if ($state.current.name === 'overview') {
+                        $scope.isActive=false
+                    }else {
+                        $scope.isActive=true
+                    }
+
                     var cmHost = 'http://sso-cm.southbase.prd.dataos.io/';
                     var dacpHost = 'http://10.1.235.155:9089/dacp/';
                     var aiopHost = 'http://10.1.253.98:9080/AIOP-WEB';

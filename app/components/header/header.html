@@ -447,7 +447,7 @@
 
         <div id="tenants-box" class="tenants-box" style="display: inline-block;height: 55px;">
 
-            <div class="header-name-list" ng-show="showAbout">
+            <div class="header-name-list" ng-if="showAbout">
                 <a  class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
                    <span class="neirong">概览</span>
                 </a>
@@ -456,7 +456,7 @@
                     <span class="neirong">应用控制台</span>
                 </a>
             </div>
-            <div class="header-name-list" ng-show="!showAbout">
+            <div class="header-name-list" ng-if="!showAbout">
 
                 <a  class="header-name-list-span"
                    ng-class="{'overSelect':isActive}">
