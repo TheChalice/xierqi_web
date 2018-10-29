@@ -96,7 +96,7 @@ a {
     line-height: 26px;
     padding: 0px 10px;
     margin: 0px;
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
 .btn-green {
@@ -528,7 +528,7 @@ a {
 }
 
 .tab-default .tab-content {
-    border: 1px solid #c9c9c9;
+    /*border: 1px solid #c9c9c9;*/
     border-top: none;
     border-radius: 0 0 2px 2px;
     padding: 30px 0px 30px 10px;
@@ -2847,15 +2847,15 @@ td a:hover, a:focus {
 }
 
 .nav_top_li {
-    padding-top: 2px;
+    /*padding-top: 2px;*/
     box-shadow: 0 1px 0 0 rgba(224, 230, 237, 0.50);
     clear: both;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
     background: #fff;
-    height: 38px;
+    height: 40px;
     position: fixed;
-    left: 180px;
+    left: 188px;
     right: 0px;
     top: 55px;
     z-index: 999;
