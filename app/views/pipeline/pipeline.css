@@ -133,14 +133,14 @@
     padding: 6px 12px !important;
 }
 
-#build .pagination > li > a:hover {
-    color: black;
-}
+/*#build .pagination > li > a:hover {*/
+    /*color: black;*/
+/*}*/
 
-#build .pagination > .disabled > a {
-    background: #f7f7f7;
-}
+/*#build .pagination > .disabled > a {*/
+    /*background: #f7f7f7;*/
+/*}*/
 
-#build .pagination > .disabled > a:hover {
-    background: #f7f7f7;
-}
+/*#build .pagination > .disabled > a:hover {*/
+    /*background: #f7f7f7;*/
+/*}*/
