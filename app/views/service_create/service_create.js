@@ -465,7 +465,7 @@ angular.module('console.service.create', [
                     return
                 }
                 if (n) {
-                    console.log(n);
+                    //console.log(n);
                     $scope.showall = false
                     $scope.checked = {
                         namespace: '',
@@ -1025,7 +1025,7 @@ angular.module('console.service.create', [
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                    console.log('con.open', con.name);
+                    //console.log('con.open', con.name);
                     if (con.name.indexOf('_')) {
                         con.name = con.name.replace('_','-')
                     }
@@ -1398,7 +1398,14 @@ angular.module('console.service.create', [
             templateUrl: 'views/service_create/tpl/setQuota.html',
             scope: false,
             controller: ['$scope', function ($scope) {
+                $scope.$watch('container.open.resources', function (n, o) {
+                    //console.log('n', n);
+                    //console.log('$scope.institution', $scope.institution);
+                    if ($scope.institution.rubustCheck&&n===false) {
+                        $scope.institution.rubustCheck=false
+                    }
 
+                })
             }],
         };
     })

@@ -275,6 +275,21 @@ angular.module('console.deploymentconfig_detail', [
             //    }
             //
             //}
+            var enverr = function (envs) {
+                var err=false;
+                var envrex = /[A-Za-z_][A-Za-z0-9_]*/
+                angular.forEach(envs, function (env,i) {
+                    console.log('envrex.test(env.name)', envrex.test(env.name));
+                    if (!envrex.test(env.name)) {
+                        err = true
+                    }
+                })
+                if (err) {
+                    return true
+                }else {
+                    return false
+                }
+            }
             $scope.updateDc = function () {
 
                 $scope.dc.spec.template.spec.volumes = []
@@ -337,7 +352,18 @@ angular.module('console.deploymentconfig_detail', [
                         delete con.volments
                     }
 
+                    //console.log('con.envs', con.env);
+                    if (con.env&&con.env.length > 0) {
+                        if (enverr(con.env)) {
+                            cancreat = false
+                            toastr.error('环境变量不合法', {
 
+                                timeOut: 2000,
+                                closeButton: true
+                            });
+
+                        }
+                    }
                     if (!con.display) {
                         con.image = con.annotate.regimage
                     }
