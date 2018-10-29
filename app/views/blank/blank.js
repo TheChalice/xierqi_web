@@ -2,7 +2,7 @@
 angular.module('home.blank', [])
     .controller('blankCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','creatproject','$stateParams',
         function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,creatproject,$stateParams) {
-            console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
+            //console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
             function loadProject(name, callback) {
                 // $log.info("load project");
                 Project.get({}, function (data) {
@@ -17,7 +17,7 @@ angular.module('home.blank', [])
             if (GLOBAL.sso_switch === 'true') {
                 var oldurl = '';
 
-                console.log('$stateParams.oldurl', $stateParams);
+                //console.log('$stateParams.oldurl', $stateParams);
                 if ($stateParams.oldurl) {
                     oldurl = $stateParams.oldurl
                 }else {
