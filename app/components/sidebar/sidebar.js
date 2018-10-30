@@ -22,7 +22,7 @@ angular.module("console.sidebar", [
                 $scope.goUrl = function (url) {
                     if (url) {
                         var urlarr = url.split('@');
-                        console.log('urlarr', urlarr);
+                        // console.log('urlarr', urlarr);
                         if (urlarr && urlarr.length) {
                             $state.go(urlarr[0], ({namespace: urlarr[1]}));
                         }
@@ -38,6 +38,9 @@ angular.module("console.sidebar", [
                             }
                             if (data.name == '资源管理') {
                                 $rootScope.dataForTheTree[i].children = $rootScope.resources
+                            }
+                            if (data.name == '镜像仓库') {
+                                $rootScope.dataForTheTree[i].children = $rootScope.imageChild
                             }
                         });
                         //$rootScope.dataForTheTree[4].children = $rootScope.app
@@ -76,6 +79,9 @@ angular.module("console.sidebar", [
                             if (data.name == '资源管理') {
                                 $rootScope.dataForTheTree[i].children = []
                             }
+                            if (data.name == '镜像仓库') {
+                                $rootScope.dataForTheTree[i].children = []
+                            }
                         })
 
                     } else {
@@ -87,6 +93,9 @@ angular.module("console.sidebar", [
                             }
                             if (data.name == '资源管理') {
                                 $rootScope.dataForTheTree[i].children = $rootScope.resources
+                            }
+                            if (data.name == '镜像仓库') {
+                                $rootScope.dataForTheTree[i].children = $rootScope.imageChild
                             }
                         });
                         //$rootScope.dataForTheTree[4].children = $rootScope.app
