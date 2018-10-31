@@ -52,7 +52,6 @@ angular.module('console.monitoring', [
             };
             ////////列表展开收缩
             $scope.openCon = function(idx,type){
-                console.log('13e4',idx,type);
                 if(type=='pod'){
                     if($scope.podsItem.items[idx].isLog){
                         $scope.podsItem.items[idx].isLog = false;
