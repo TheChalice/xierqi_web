@@ -30,14 +30,14 @@
     float: left;
     border-left: 1px solid #bbbbbb;
     display: inline-block;
-    height: 32px;
+    height: 24px;
     margin: 0 7px;
     vertical-align: middle;
     width: 1px;
 }
 
 .sort-group {
-    line-height: 34px;
+    line-height: 24px;
     display: inline-block;
 }
 
@@ -52,7 +52,7 @@
 
 .list-btn {
     width: 100px;
-    height: 34px;
+    height: 24px;
     /*border:1px solid #CCD5E0;*/
     border-radius: 4px;
     overflow: hidden;
@@ -71,4 +71,11 @@
     font-size: 14px;
     position: absolute;
     right: 5px;
+}
+.out-line-word{
+    -ms-word-wrap:break-word;
+    word-wrap:break-word;
+    /*overflow: hidden;*/
+    /*white-space: nowrap;*/
+    /*text-overflow: ellipsis;*/
 }

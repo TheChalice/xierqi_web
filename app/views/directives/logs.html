@@ -1,6 +1,12 @@
 <div class="pod-logs">
     <!--showcon-->
-    <button ng-click="savelog()">下载</button>
+    <div class="row">
+        <div class="col-lg-10"></div>
+        <div class="col-lg-2">
+            <!--<button ng-click="Expandlog($index)" style="float: right;margin-left: 5px;">Expand</button>-->
+            <button ng-click="savelog()" style="float: right;">下载</button>
+        </div>
+    </div>
     <div ng-show="showcon"
          style="margin-bottom: 10px;
          line-height: 32px;
