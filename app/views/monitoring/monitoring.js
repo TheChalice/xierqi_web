@@ -11,25 +11,31 @@ angular.module('console.monitoring', [
         ]
     }
 ])
-    .controller('MonitoringCtrl', ['$rootScope', '$scope', 'monitoringPods', 'monitoringReplicas', 'monitoringReplicaSet', 'BuildConfig', 'Build', 'Sort','monitoringStatefulSets','monitoringBuild',
-        function ($rootScope, $scope, monitoringPods, monitoringReplicas, monitoringReplicaSet, BuildConfig, Build, Sort,monitoringStatefulSets,monitoringBuild) {
+    .controller('MonitoringCtrl', ['$rootScope', '$scope','$state', 'monitoringPods', 'monitoringReplicas', 'monitoringReplicaSet', 'BuildConfig', 'Build', 'Sort','monitoringStatefulSets','monitoringBuild',
+        function ($rootScope, $scope, $state,monitoringPods, monitoringReplicas, monitoringReplicaSet, BuildConfig, Build, Sort,monitoringStatefulSets,monitoringBuild) {
             $scope.bodyclass = true;
             $scope.allList = ['All', 'Pods', 'Deployments', 'Builds', 'Stateful Sets'];
-            $scope.curListName = "All"
+            $scope.curListName = "All";
             $scope.podsItem = angular.copy(monitoringPods);
             $scope.replicasItem = angular.copy(monitoringReplicas);
             $scope.replicaSetItem = angular.copy(monitoringReplicaSet);
             $scope.statefulSets =  angular.copy(monitoringStatefulSets);
             $scope.builds= angular.copy(monitoringBuild);
             /////////
+             $scope.editEvent = function () {
+                 $state.go("console.events", { namespace: $rootScope.namespace })
+             };
+
             $scope.savelog = function (log) {
-                
-            }
+                var filename = _.get($scope, 'object.metadata.name', 'openshift') + '.log';
+                var blob = new Blob([$scope.result], { type: "text/plain;charset=utf-8" });
+                saveAs(blob, filename);
+            };
             $scope.checkCurListName = function(name){
                 console.log('name',name);
                 $scope.curListName = name;
                 console.log('$scope.curListName',$scope.curListName);
-            }
+            };
             ////rc监控
             var getOwnerReferences = function (apiObject) {
                 return _.get(apiObject, 'metadata.ownerReferences');
