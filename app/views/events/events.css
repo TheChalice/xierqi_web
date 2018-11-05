@@ -50,9 +50,10 @@
     display: inline-block;
 }
 
-.list-btn {
+.list-btn-event {
     width: 100px;
     height: 24px;
+    padding: 0;
     /*border:1px solid #CCD5E0;*/
     border-radius: 4px;
     overflow: hidden;
@@ -71,6 +72,7 @@
     font-size: 14px;
     position: absolute;
     right: 5px;
+    top:0;
 }
 .out-line-word{
     -ms-word-wrap:break-word;
