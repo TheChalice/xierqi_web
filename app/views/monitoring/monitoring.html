@@ -11,194 +11,216 @@
     <!--</pageslide>-->
     <!--内容区-->
     <div class="monitoring-container" style="margin: 0 25px;">
-        <h1 style="font-size: 24px;border-bottom: 1px solid #ddd;padding-bottom: 10px;">
-            <span style="font-size: 24px;">Monitoring</span>
-            <span style="font-size: 14px;color: #0088ce;float: right;">
-            <span style="padding-left: 10px;cursor: pointer;" ng-click="editEvent()">Events</span>
-        </span>
-        </h1>
-        <h4 style="border-bottom: 1px solid #ddd;padding-bottom: 40px;">
-            <div class="dropdown dropdown-select" style="display: block;width: 125px;float: left">
-                <button class="dropdown-toggle list-btn" data-toggle="dropdown" style="width: 125px;font-size: 14px;">
-                    <span style="float: left;color: gray;">{{curListName}}</span>
-                    <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
-                </button>
-                <ul class="dropdown-menu" style="max-height: 156px;width: 100px;margin-top: -1px;overflow-y: auto">
-                    <li ng-repeat="name in allList">
-                        <a href="javascript:;" style="padding-left:12px;" ng-click="checkCurListName(name)">{{name}}</a>
-                    </li>
-                </ul>
-            </div>
-            <div style="color: #ddd;float: left;margin-left: 10px;">|</div>
-            <div style="float: left;margin-left: 10px;font-size: 14px;">
-                <input type="text" class="list-btn" placeholder="Filter by name">
-            </div>
-            <div style="float: right;font-size: 14px;">
-                <input type="checkbox">Hide older resources
-            </div>
-        </h4>
-        <div class="row" ng-show="curListName == 'All' || curListName =='Pods'">
-            <div class="col-md-12">
-                <h2>Pods</h2>
-                <div class="list-view-pf">
-                    <div class="list-group-item list-group-item-expandable" ng-repeat="pod in podsItem.items" style="margin-top:10px">
-                        <div class="list-view-pf-checkbox " ng-click="openCon($index,'pod')">
-                            <button class="sr-only">Expand</button>
-                            <span class="uex-icon-arrow-right"></span>
-                        </div>
-                        <div class="list-view-pf-main-info">
-                            <div class="list-view-pf-body">
-                                <div class="list-view-pf-description">
-                                    <div class="list-group-item-heading">
-                                      <p style="margin: 0px;">{{pod.metadata.name}}</p>
-                                        <p style="margin: 0px;">{{pod.metadata.creationTimestamp  | dateRelative}}</p>
-                                    </div>
-                                    <div class="list-group-item-text ng-binding">
-                                        <status-icon status="pod | podStatus" disable-animation></status-icon>
-                                        {{pod | podStatus | sentenceCase}}
-                                    </div>
-                                </div>
-                                <div class="list-view-pf-additional-info">
-                                    <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image" aria-hidden="true"></span>
-                                        <image-names pod-template="pod" pods="[pod]"></image-names>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div ng-if="pod.isLog">
-                            <pod-logs  pod-name="{{pod.metadata.name}}"
-                                       pod-container="pod.spec.containers"
-                                       pod-resource-version="{{pod.metadata.resourceVersion}}"
-                                       type="pods"
-                                       api="k8s"
-                            ></pod-logs>
-                            <public-metrics conname="pod.spec.containers[0].name"
-                                            podid="pod.metadata.uid"
-                                            podname="pod.metadata.name">
-                            </public-metrics>
-                        </div>
-
+        <div class="nav_top_li" add-classes-top>
+            <div class="row" style="margin-top: 8px;margin-right: 0;">
+                <div class="col-sm-3">
+                    <div class="dropdown dropdown-select" style="display: block;float: left;width: 100%;">
+                        <button class="dropdown-toggle list-btn" data-toggle="dropdown"
+                                style="width: 100%;font-size: 12px;height: 26px;">
+                            <span style="float: left;color: gray;">{{curListName}}</span>
+                            <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
+                        </button>
+                        <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
+                            <li ng-repeat="name in allList">
+                                <a href="javascript:;" ng-click="checkCurListName(name)">{{name}}</a>
+                            </li>
+                        </ul>
                     </div>
-
+                </div>
+                <div style="color: #ddd;float: left;">|</div>
+                <div class="col-sm-3">
+                    <div style="float: left;font-size: 12px;width: 100%;">
+                        <input type="text" class="list-btn" style="width: 100%;" placeholder="Filter by name">
+                    </div>
+                </div>
+                <div style="float: right;font-size: 12px;">
+                    <span style="cursor: pointer;color: #47b2fb;margin-right: 10px;"
+                          ng-click="editEvent()">Events</span>
+                    <input type="checkbox">Hide older resources
                 </div>
             </div>
         </div>
-        <div class="row" ng-show="curListName == 'All' || curListName =='Deployments'">
-            <div class="col-md-12">
-                <h2>Deployments</h2>
-                <div class="list-view-pf">
-                    <div class="list-group-item list-group-item-expandable" ng-repeat="rc in replicasItem.items" style="margin-top:10px">
-                        <div class="list-view-pf-checkbox " ng-click="openCon($index,'rc')">
-                            <button class="sr-only">Expand</button>
-                            <span class="uex-icon-arrow-right"></span>
-                        </div>
-                        <div class="list-view-pf-main-info">
-                            <div class="list-view-pf-body">
-                                <div class="list-view-pf-description">
-                                    <div class="list-group-item-heading">
-                                        <p style="margin: 0px;">{{rc.metadata.name}}</p>
-                                        <p style="margin: 0px;">{{rc.metadata.creationTimestamp  | dateRelative}}</p>
-                                    </div>
-                                    <div class="list-group-item-text ng-binding">
-                                        <status-icon status="rc | deploymentStatus"></status-icon>
-                                        {{rc | deploymentStatus}}
-                                    </div>
-                                </div>
-                                <div class="list-view-pf-additional-info">
-                                    <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image" aria-hidden="true"></span>
-                                        <image-names
-                                                pod-template="rc.spec.template"
-                                                pods="podsByOwnerUID[rc.metadata.uid]">
-                                        </image-names>
-                                    </div>
-                                </div>
+        <div style="margin-top: 62px;">
+            <div ng-show="curListName == 'All' || curListName =='Pods'">
+                <h2 style="font-size: 16px;font-weight: bold;">Pods</h2>
+                <div ng-repeat="pod in podsItem.items">
+                    <div class='monitoring-container-other'>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <span class="detail_tit">名称：</span>
+                                <span class="build_name">{{pod.metadata.name}}</span>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="detail_tit">创建时间：</span>
+                                <label class="build_name">
+                                    {{pod.metadata.creationTimestamp | dateRelative}}
+                                </label>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <span class="detail_tit">状态：</span>
+                                <label class="build_name">
+                                    <status-icon status="pod | podStatus" disable-animation></status-icon>
+                                    {{pod | podStatus | sentenceCase}}
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="detail_tit">版本：</span>
+                                <label class="build_name">
+                                    <span class="pficon pficon-image" aria-hidden="true"></span>
+                                    <image-names pod-template="pod" pods="[pod]"></image-names>
+                                </label>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="detail_tit">查看：</span>
+                                <label class="build_name" ng-click="openCon($index,'pod')">
+                                    <i class="icon25 icon25-collapse"></i>
+                                </label>
                             </div>
                         </div>
-                        <div ng-if="rc.isLog">
-                            <pod-logs pod-name="{{rc.metadata.annotations['openshift.io/deployment-config.name']}}"
-                                      type="deploymentconfigs"></pod-logs>
-                            <public-metrics conname="rc.spec.template.spec.containers[0].name"
-                                            podid="rcPoduid"
-                                            stateful-pods="rcPods">
-                            </public-metrics>
-                        </div>
-
                     </div>
-
+                    <div ng-if="pod.isLog">
+                        <pod-logs pod-name="{{pod.metadata.name}}"
+                                  pod-container="pod.spec.containers"
+                                  pod-resource-version="{{pod.metadata.resourceVersion}}"
+                                  type="pods"
+                                  api="k8s"
+                        ></pod-logs>
+                        <public-metrics conname="pod.spec.containers[0].name"
+                                        podid="pod.metadata.uid"
+                                        podname="pod.metadata.name">
+                        </public-metrics>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row" ng-show="curListName == 'All' || curListName =='Stateful Sets'">
-            <div class="col-md-12">
-                <h2>Stateful Sets</h2>
-                <div class="list-view-pf">
-                    <div class="list-group-item list-group-item-expandable" ng-repeat="stateful in statefulSets.items" style="margin-top:10px">
-                        <div class="list-view-pf-checkbox " ng-click="openCon($index,'stateful')">
-                            <button class="sr-only">Expand</button>
-                            <span class="uex-icon-arrow-right"></span>
-                        </div>
-                        <div class="list-view-pf-main-info">
-                            <div class="list-view-pf-body">
-                                <div class="list-view-pf-description">
-                                    <div class="list-group-item-heading">
-                                        <p style="margin: 0px;">{{stateful.metadata.name}}</p>
-                                        <p style="margin: 0px;">{{stateful.metadata.creationTimestamp  | dateRelative}}</p>
-                                    </div>
-                                    <div class="list-group-item-text ng-binding">
-                                        <status-icon status="rc | deploymentStatus"></status-icon>
-                                        {{stateful | deploymentStatus}}
-                                    </div>
-                                </div>
-                                <div class="list-view-pf-additional-info">
-                                    <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image" aria-hidden="true"></span>
-                                        <image-names
-                                                pod-template="stateful.spec.template"
-                                                pods="podsByOwnerUID[stateful.metadata.uid]">
-                                        </image-names>
-                                    </div>
-                                </div>
+            <div ng-show="curListName == 'All' || curListName =='Deployments'">
+                <h2 style="font-size: 16px;font-weight: bold;">Deployments</h2>
+                <div ng-repeat="rc in replicasItem.items">
+                    <div class='monitoring-container-other'>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <span class="detail_tit">名称：</span>
+                                <span class="build_name">{{rc.metadata.name}}</span>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="detail_tit">创建时间：</span>
+                                <label class="build_name">
+                                    {{rc.metadata.creationTimestamp | dateRelative}}
+                                </label>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <span class="detail_tit">状态：</span>
+                                <label class="build_name">
+                                    <status-icon status="rc | deploymentStatus"></status-icon>
+                                    {{rc | deploymentStatus}}
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="detail_tit">版本：</span>
+                                <label class="build_name">
+                                    <span class="pficon pficon-image" aria-hidden="true"></span>
+                                    <image-names
+                                            pod-template="rc.spec.template"
+                                            pods="podsByOwnerUID[rc.metadata.uid]">
+                                    </image-names>
+                                </label>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="detail_tit">查看：</span>
+                                <label class="build_name" ng-click="openCon($index,'rc')">
+                                    <i class="icon25 icon25-collapse"></i>
+                                </label>
                             </div>
                         </div>
-                        <div ng-if="stateful.isLog">
-                            <public-metrics conname="stateful.spec.template.spec.containers[0].name"
-                                            podid="statefulPoduid"
-                                            stateful-pods="statefulPods">
-                            </public-metrics>
-                        </div>
-
                     </div>
-
+                    <div ng-if="rc.isLog">
+                        <pod-logs pod-name="{{rc.metadata.annotations['openshift.io/deployment-config.name']}}"
+                                  type="deploymentconfigs"></pod-logs>
+                        <public-metrics conname="rc.spec.template.spec.containers[0].name"
+                                        podid="rcPoduid"
+                                        stateful-pods="rcPods">
+                        </public-metrics>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row"  ng-show="curListName == 'All' || curListName =='Builds'">
-            <div class="col-md-12">
-                <h2>Builds</h2>
-                <div class="list-view-pf">
-                    <div class="list-group-item list-group-item-expandable" ng-repeat="bc in builds.items" style="margin-top:10px">
-                        <div class="list-view-pf-checkbox " ng-click="openCon($index,'bc')">
-                            <button class="sr-only">Expand</button>
-                            <span class="uex-icon-arrow-right"></span>
+            <div ng-show="curListName == 'All' || curListName =='Stateful Sets'">
+                <h2 style="font-size: 16px;font-weight: bold;">Stateful Sets</h2>
+                <!--<h2 style="font-size: 12px;color: #363636;" ng-show="statefulSets.items.length<0">-->
+                <!--There are no stateful sets in this project.-->
+                <!--</h2>-->
+                <div ng-repeat="stateful in statefulSets.items">
+                    <div class='monitoring-container-other'>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <span class="detail_tit">名称：</span>
+                                <span class="build_name">{{stateful.metadata.name}}</span>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="detail_tit">创建时间：</span>
+                                <label class="build_name">
+                                    {{stateful.metadata.creationTimestamp | dateRelative}}
+                                </label>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <span class="detail_tit">状态：</span>
+                                <label class="build_name">
+                                    <status-icon status="rc | deploymentStatus"></status-icon>
+                                    {{stateful | deploymentStatus}}
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="pficon pficon-image" aria-hidden="true"></span>
+                                <image-names
+                                        pod-template="stateful.spec.template"
+                                        pods="podsByOwnerUID[stateful.metadata.uid]">
+                                </image-names>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="detail_tit">查看：</span>
+                                <label class="build_name" ng-click="openCon($index,'pod')">
+                                    <i class="icon25 icon25-collapse"></i>
+                                </label>
+                            </div>
                         </div>
-                        <div class="list-view-pf-main-info">
-                            <div class="list-view-pf-body">
-                                <div class="list-view-pf-description">
-                                    <div class="list-group-item-heading">
-                                        <p style="margin: 0px;">{{bc.metadata.name}}</p>
-                                        <p style="margin: 0px;">{{bc.metadata.creationTimestamp  | dateRelative}}</p>
-                                    </div>
-                                    <div class="list-group-item-text ng-binding">
-                                        <status-icon status="bc.status.phase" disable-animation></status-icon>
-                                        <span ng-if="!bc.status.reason || bc.status.phase === 'Cancelled'">{{bc.status.phase}}</span>
-                                        <span ng-if="bc.status.reason && bc.status.phase !== 'Cancelled'">{{bc.status.phase}}</span>
-                                    </div>
-                                </div>
-                                <div class="list-view-pf-additional-info">
-                                    <div class="list-view-pf-additional-info-item">
-                                         <span ng-if="bc.spec.source.type || bc.spec.revision.git.commit || bc.spec.source.git.uri">
+                    </div>
+                    <div ng-if="stateful.isLog">
+                        <public-metrics conname="stateful.spec.template.spec.containers[0].name"
+                                        podid="statefulPoduid"
+                                        stateful-pods="statefulPods">
+                        </public-metrics>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="curListName == 'All' || curListName =='Builds'">
+                <h2 style="font-size: 16px;font-weight: bold;">Builds</h2>
+                <div ng-repeat="bc in builds.items">
+                    <div class='monitoring-container-other'>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <span class="detail_tit">名称：</span>
+                                <span class="build_name">{{bc.metadata.name}}</span>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="detail_tit">创建时间：</span>
+                                <label class="build_name">
+                                    {{bc.metadata.creationTimestamp | dateRelative}}
+                                </label>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <span class="detail_tit">状态：</span>
+                                <label class="build_name">
+                                    <status-icon status="bc.status.phase" disable-animation></status-icon>
+                                    <span ng-if="!bc.status.reason || bc.status.phase === 'Cancelled'">{{bc.status.phase}}</span>
+                                    <span ng-if="bc.status.reason && bc.status.phase !== 'Cancelled'">{{bc.status.phase}}</span>
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <span class="detail_tit">版本：</span>
+                                <label class="build_name">
+                                <span ng-if="bc.spec.source.type || bc.spec.revision.git.commit || bc.spec.source.git.uri">
                                             <span class="fa fa-fw fa-code"></span>
                                             <span ng-if="bc.spec.revision.git.commit">
                                               {{bc.spec.revision.git.message}}
@@ -211,22 +233,27 @@
                                               </span>
                                             </span>
                                             <span ng-if="!bc.spec.revision.git.commit && bc.spec.source.git.uri">
-                                              <osc-git-link uri="bc.spec.source.git.uri">{{bc.spec.source.git.uri}}</osc-git-link>
+                                              <osc-git-link
+                                                      uri="bc.spec.source.git.uri">{{bc.spec.source.git.uri}}</osc-git-link>
                                             </span>
                                             <span ng-if="bc.spec.source.type && !bc.spec.source.git">
                                               Source: {{bc.spec.source.type}}
                                             </span>
                                         </span>
-                                    </div>
-                                </div>
+                                </label>
+                            </div>
+                            <div class="col-sm-2">
+                                <span class="detail_tit">查看：</span>
+                                <label class="build_name" ng-click="openCon($index,'pod')">
+                                    <i class="icon25 icon25-collapse"></i>
+                                </label>
                             </div>
                         </div>
-                        <div ng-if="bc.isLog">
-                            <pod-logs pod-name="{{bc.metadata.name}}"
-                                      type="builds"></pod-logs>
-                        </div>
                     </div>
-
+                    <div ng-if="bc.isLog">
+                        <pod-logs pod-name="{{bc.metadata.name}}"
+                                  type="builds"></pod-logs>
+                    </div>
                 </div>
             </div>
         </div>
