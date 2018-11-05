@@ -193,6 +193,7 @@
                                     <div class="list-group-item-text ng-binding">
                                         <status-icon status="bc.status.phase" disable-animation></status-icon>
                                         <span ng-if="!bc.status.reason || bc.status.phase === 'Cancelled'">{{bc.status.phase}}</span>
+                                        <span ng-if="bc.status.reason && bc.status.phase !== 'Cancelled'">{{bc.status.phase}}</span>
                                     </div>
                                 </div>
                                 <div class="list-view-pf-additional-info">
