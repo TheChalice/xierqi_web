@@ -19,8 +19,8 @@
 }
 
 .list-btn {
-    height: 26px;
-    /*padding: 5px 5px;*/
+    height: 24px;
+    padding: 0px 5px;
     border: 1px solid #CCD5E0;
     border-radius: 4px;
     overflow: hidden;
@@ -29,11 +29,11 @@
     position: relative;
 }
 
-.uex-btn-bottom {
+.caret-btn-bottom {
     font-size: 14px;
     position: absolute;
     right: 5px;
-    top: 5px;
+    top: 12px;
 }
 
 .list-view-pf {
@@ -176,6 +176,26 @@
     border-radius: 2px;
     margin: 10px 0;
 }
-.monitoring-container-other:hover{
+
+.monitoring-container-other:hover {
     background: #E0E6ED;
+}
+
+.show-log-style {
+    background: #fff;
+}
+
+.filter-name {
+    float: left;
+    font-size: 12px;
+    width: 100%;
+}
+
+.filter-name-father {
+    position: relative;
+}
+.filter-name-sarch{
+    position: absolute;
+    right:5px;
+    top:5px;
 }

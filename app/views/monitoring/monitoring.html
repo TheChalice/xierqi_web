@@ -16,9 +16,9 @@
                 <div class="col-sm-3">
                     <div class="dropdown dropdown-select" style="display: block;float: left;width: 100%;">
                         <button class="dropdown-toggle list-btn" data-toggle="dropdown"
-                                style="width: 100%;font-size: 12px;height: 26px;">
+                                style="width: 100%;font-size: 12px;height: 24px;">
                             <span style="float: left;color: gray;">{{curListName}}</span>
-                            <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
+                            <span class="caret caret-btn-bottom"></span>
                         </button>
                         <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
                             <li ng-repeat="name in allList">
@@ -29,8 +29,10 @@
                 </div>
                 <div style="color: #ddd;float: left;">|</div>
                 <div class="col-sm-3">
-                    <div style="float: left;font-size: 12px;width: 100%;">
+                    <div class="filter-name filter-name-father">
                         <input type="text" class="list-btn" style="width: 100%;" placeholder="Filter by name">
+                        <span class="uex-icon-search filter-name-sarch">
+                </span>
                     </div>
                 </div>
                 <div style="float: right;font-size: 12px;">
@@ -79,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="pod.isLog">
+                    <div ng-if="pod.isLog" class="show-log-style">
                         <pod-logs pod-name="{{pod.metadata.name}}"
                                   pod-container="pod.spec.containers"
                                   pod-resource-version="{{pod.metadata.resourceVersion}}"
@@ -90,6 +92,18 @@
                                         podid="pod.metadata.uid"
                                         podname="pod.metadata.name">
                         </public-metrics>
+                    </div>
+                    <div ng-if="podsItem.items.length===0">
+                        <div class="blank_block">
+                            <span class="blank_pic"></span>
+                            <span class="blank_tit">{{text}} </span>
+                            <div class="blank_create_tit" ng-if="begin_blank">
+                                <!--<span class="blank_des">，点击</span>-->
+                                <!--<a class="df_go_create" ui-sref="console.build_create({namespace:namespace})">-->
+                                    <!--<span class="hidden-xs">去创建</span>-->
+                                <!--</a>-->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -134,7 +148,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="rc.isLog">
+                    <div ng-if="rc.isLog" class="show-log-style">
                         <pod-logs pod-name="{{rc.metadata.annotations['openshift.io/deployment-config.name']}}"
                                   type="deploymentconfigs"></pod-logs>
                         <public-metrics conname="rc.spec.template.spec.containers[0].name"
@@ -185,7 +199,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="stateful.isLog">
+                    <div ng-if="stateful.isLog" class="show-log-style">
                         <public-metrics conname="stateful.spec.template.spec.containers[0].name"
                                         podid="statefulPoduid"
                                         stateful-pods="statefulPods">
@@ -244,15 +258,16 @@
                             </div>
                             <div class="col-sm-2">
                                 <span class="detail_tit">查看：</span>
-                                <label class="build_name" ng-click="openCon($index,'pod')">
+                                <label class="build_name" ng-click="openCon($index,'bc')">
                                     <i class="icon25 icon25-collapse"></i>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div ng-if="bc.isLog">
+                    <div ng-if="bc.isLog" class="show-log-style">
                         <pod-logs pod-name="{{bc.metadata.name}}"
-                                  type="builds"></pod-logs>
+                                  type="builds">
+                        </pod-logs>
                     </div>
                 </div>
             </div>

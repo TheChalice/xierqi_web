@@ -81,3 +81,49 @@
     /*white-space: nowrap;*/
     /*text-overflow: ellipsis;*/
 }
+.caret-btn-bottom {
+    font-size: 14px;
+    position: absolute;
+    right: 5px;
+    top: 12px;
+}
+.list-btn {
+    height: 26px;
+    padding: 0px 5px;
+    border: 1px solid #CCD5E0;
+    border-radius: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+}
+.caret-btn-bottom {
+    font-size: 14px;
+    position: absolute;
+    right: 5px;
+    top: 12px;
+}
+.filter-name {
+    float: left;
+    font-size: 12px;
+    width: 100%;
+}
+
+.filter-name-father {
+    position: relative;
+}
+.filter-name-sarch{
+    position: absolute;
+    right:5px;
+    top:5px;
+}
+.dropdown-menu > li > a {
+    font-size: 12px;
+    padding: 3px 10px;
+    display: block;
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    transition: all 300ms;
+    height: 26px;
+    line-height: 26px;
+}

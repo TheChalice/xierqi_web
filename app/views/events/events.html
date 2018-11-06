@@ -1,37 +1,37 @@
-<div style="margin: 20px 25px;">
-    <h4>Events</h4>
-    <div style="margin-bottom: 20px;">
-        <form role="form" class="search-pf">
-            <div class="form-group filter-controls has-clear">
-                <div class="search-pf-input-group">
-                    <label for="events-filter" class="sr-only">Filter</label>
-                    <input type="search"
-                           placeholder="Filter by keyword"
-                           class="form-control ipt"
-                           id="events-filter"
-                           ng-model="grid.text"
-                           ng-keyup=search()
-                           ng-click="search()">
-                </div>
-            </div>
-        </form>
-        <div class="vertical-divider"></div>
-        <div class="sort-group">
-            <span class="sort-label">Sort by</span>
-            <div class="dropdown dropdown-select">
-                <button class="dropdown-toggle list-btn-event" data-toggle="dropdown">
+<div class="nav_top_li" add-classes-top>
+    <div class="row" style="margin-top: 8px;margin-right: 0;">
+        <div class="col-sm-3">
+            <div class="dropdown dropdown-select" style="display: block;float: left;width: 100%;">
+                <button class="dropdown-toggle list-btn" data-toggle="dropdown"
+                        style="width: 100%;font-size: 12px;height: 24px;">
                     <span style="float: left;color: gray;font-size: 12px;">{{chooseTitle||'选择'}}</span>
-                    <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
+                    <span class="caret caret-btn-bottom"></span>
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
                     <li ng-repeat="name in sortConfig.fields" ng-click="chooseMenu($index)">
-                        <a href="javascript:;" style="padding-left:12px;">{{name.title}}</a>
+                        <a href="javascript:;">{{name.title}}</a>
                     </li>
                 </ul>
             </div>
         </div>
+        <div style="color: #ddd;float: left;">|</div>
+        <div class="col-sm-3">
+            <div class="filter-name filter-name-father">
+                <!--<input type="text" class="list-btn" style="width: 100%;" placeholder="Filter by name">-->
+                <input type="search"
+                       placeholder="Filter by keyword"
+                       class="form-control ipt"
+                       id="events-filter"
+                       ng-model="grid.text"
+                       ng-keyup=search()
+                       ng-click="search()">
+                <span class="uex-icon-search filter-name-sarch">
+                </span>
+            </div>
+        </div>
     </div>
-
+</div>
+<div style="margin: 62px 25px 20px;">
     <div class="row" style="margin:0;border: solid 1px #e6e9f2;">
         <div class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
             <div class="col-md-1">Time</div>
@@ -52,13 +52,15 @@
             </div>
             <div class="col-md-2">{{event.involvedObject.kind}}</div>
             <div class="col-md-2">{{event.reason}}</div>
-            <div class="col-md-6 out-line-word" uib-tooltip="{{event.message}}" tooltip-placement="top">{{event.message}}</div>
+            <div class="col-md-6 out-line-word" uib-tooltip="{{event.message}}" tooltip-placement="top">{{event.message}}
+            </div>
         </div>
         <div class="col-md-12" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
             <span style="font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;"> {{grid.noItems}}</span>
         </div>
     </div>
 </div>
+
 
 
 
