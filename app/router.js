@@ -218,6 +218,32 @@ define([
                         //}]
                     }
                 })//ok
+                .state('console.repository-image', {
+                    url: '/:namespace/repository-image',
+                    templateUrl: 'views/repository_image/repositoryImage.html',
+                    controller: 'RepositoryImageCtrl',
+                    params: {
+                        index: null
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/repository_image/repositoryImage.js', 'views/repository_image/repositoryImage.css'])
+                        }],
+                    }
+                })
+                .state('console.private-image', {
+                    url: '/:namespace/private-image',
+                    templateUrl: 'views/private_image/privateImage.html',
+                    controller: 'PrivateImageCtrl',
+                    params: {
+                        index: null
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/private_image/privateImage.js', 'views/private_image/privateImage.css'])
+                        }],
+                    }
+                })
                 .state('console.image_detail', {
                     url: '/:namespace/image/myimage/:bc/:name',
                     templateUrl: 'views/image_detail/image_detail.html',
@@ -398,11 +424,25 @@ define([
                     controller: 'ServiceCreateCtrl',
                     params: {
                         image: null,
-                        ports: null
+                        message: null,
+                        imagename: null,
+                        imagetag: null,
+                        imagetype: null,
+                        postobj: null
                     },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/service_create/service_create.js'])
+                        }],
+                        myimage: ['ImageStream', 'Cookie', '$stateParams',
+                            function (ImageStream, Cookie, $stateParams) {
+                                return ImageStream.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                            return ImageStreamTag.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
                         }]
                     }
                 })//ok

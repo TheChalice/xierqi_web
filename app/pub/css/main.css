@@ -96,7 +96,7 @@ a {
     line-height: 26px;
     padding: 0px 10px;
     margin: 0px;
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
 .btn-green {
@@ -309,13 +309,13 @@ a {
     background-image: url(../img/panel-repository.png);
 }
 
-/* .icon25-start {
+ .icon25-start {
     background-image: url(../img/start.png);
 }
 
 .icon25-start:hover {
     background-image: url(../img/start-hover.png);
-} */
+}
 /*
 .icon25-stop {
     background-image: url(../img/stop2.png);
@@ -528,7 +528,7 @@ a {
 }
 
 .tab-default .tab-content {
-    border: 1px solid #c9c9c9;
+    /*border: 1px solid #c9c9c9;*/
     border-top: none;
     border-radius: 0 0 2px 2px;
     padding: 30px 0px 30px 10px;
@@ -844,10 +844,9 @@ a {
 
 .well.well-log {
     border: none;
-    border-radius: 4px;
     margin: 15px 0 0 30px;
-    background: #fff;
-    border: 1px solid #E0E6ED;
+    background: #000;
+    border-radius: 4px;
     height: 100%;
     padding: 10px;
     box-shadow: none;
@@ -861,14 +860,12 @@ a {
     font-size: 12px;
     background: none;
     border: none;
-    color: #475669 !important;
-    /*height: 180px!important;*/
+    color: #3e8f3e;
     overflow: auto;
     word-break: break-all;
     word-wrap: break-word;
     white-space: pre-wrap;
     height: 100%;
-    /*height:166px;*/
     padding: 0px;
     margin: 0px;
     cursor: auto;
@@ -2850,15 +2847,15 @@ td a:hover, a:focus {
 }
 
 .nav_top_li {
-    padding-top: 2px;
+    /*padding-top: 2px;*/
     box-shadow: 0 1px 0 0 rgba(224, 230, 237, 0.50);
     clear: both;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
     background: #fff;
-    height: 38px;
+    height: 40px;
     position: fixed;
-    left: 180px;
+    left: 188px;
     right: 0px;
     top: 55px;
     z-index: 999;

@@ -1,0 +1,175 @@
+<div class="nav_top_li pricvate_top" add-classes-top>
+    <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
+        <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
+                <div style="margin-left: 0;padding-left: 0;margin-top: 6px;" class="col-sm-3">
+                        <div class="dropdown dropdown-select" style="width: 100%;">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 100%;height: 26px;">
+                                <span>{{proname||'选择仓库'}}</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu onbehalf-list" style="max-height: 200px; overflow-y:scroll">
+                                <li ng-repeat="reg in regdate">
+                                    <a href="javascript:;" ng-click='changename(reg)'>{{reg.name}}</a>
+                                </li>
+                            </ul>
+        
+                        </div>
+                    </div>
+            <div class="input-group col-sm-3 searchbar">
+                <input type="text" class="form-control" ng-model="cktxt" ng-focus="showTip=true;" placeholder="搜索镜像名称" ng-keyup="cksearch('all', cktxt)">
+                <span class="input-group-btn">
+                    <!-- <a class="btn" ng-click="cksearch('all', cktxt)"></a> -->
+                    <span class="df_search uex-icon-search" ng-click="search('all', txt)">
+                    </span>
+                </span>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+<div id="image" class="repository_frame df_top_set">
+
+
+    <div class="row image_jia_btn" style="margin: 0 25px;">
+        <table class="table table-hover table-default table-buju df_table" style="">
+            <tr>
+                <div class="row row_set">
+                    <!-- 20160921 jia 服务分类模块问题 -->
+                    <th class='col-lg-2 col-md-2 col-sm-1'>镜像名称</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>更新时间
+
+                    </th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>创建时间
+                        <span class="sort_btn">
+                                    <i class="uex-icon-to-back" ></i>
+                                    <i class="uex-icon-to-front" ng-if="uex_front"></i>
+                                </span>
+                    </th>
+                </div>
+
+            </tr>
+
+            <tr ng-if="proname" ng-repeat="item in newprimage">
+                <td class='buildname' style="">
+                    <a class="href-orange" ui-sref="console.primage_detail({namespace:namespace,name:item.name})" uib-tooltip="{{item.name}}"
+                        tooltip-placement="top">{{item.name}}</a>
+                </td>
+
+                <td>
+                    <span>{{item.update_time | timescon}}</span>
+                </td>
+                <td>
+                    <span>{{item.creation_time | timescon}}</span>
+                </td>
+                <!--<td>-->
+                <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
+                <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
+                <!--</td>-->
+            </tr>
+            <tr ng-if="!proname" class="df_blank">
+                <td colspan="5" class="td_colspan_li" style="text-align: center;">
+                    <p class="blank_block">
+                            <span class="blank_pic"></span>
+                        <span class="blank_tit"> 您还没有选择仓库</span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="df_blank">
+                <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="newprimage.length===0 && proname">
+                    <p class="blank_block">
+                            <span class="blank_pic"></span>
+                        <span class="blank_tit"> 没有查询到相关数据</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="text-center" style="text-align:center;" ng-if="grid.ckTotal > 10">
+        <uib-pagination ng-model="grid.ckPage" total-items="grid.ckTotal" items-per-page="grid.size" class="pagination-sm" boundary-links="false"
+            max-size="10" rotate="true" previous-text="<" next-text=">">
+        </uib-pagination>
+    </div>
+
+</div>
+<style>
+    .fenlei label {
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    .fenlei .sc {
+        background-color: #E6E9F2;
+        color: white;
+    }
+
+    .fenlei .btn {
+        font-size: 12px;
+        font-weight: normal;
+        background-color: #EAEBEF;
+        color: #0f0f0f;
+        padding-left: 25px;
+        padding-right: 25px;
+        border-radius: 0;
+    }
+
+    /*.fl :first-child{*/
+
+    /*margin-left: 30px;*/
+
+    /*margin-right: 30px;*/
+
+    /*}*/
+
+    .fenlei .btn.active {
+        border-color: #f6a540;
+        box-shadow: inset 0 0px 0px rgba(0, 0, 0, .125);
+        font-weight: bold;
+        background: url(../../views/backing_service/img/images_48.png) no-repeat #fff;
+        color: black;
+    }
+
+    .list-group-item {
+        height: 40px;
+        line-height: 40px;
+        border: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+        display: block;
+        border-bottom: 1px solid #d4d4d4;
+    }
+
+    .list-group-item a {
+        font-size: 12px;
+        color: #47B2FB;
+        font-weight: bold;
+    }
+
+    .list-group-item a:hover {
+        color: #5b73eb;
+    }
+
+    #sousuo {
+        position: absolute;
+        right: 16px;
+    }
+
+    /*.fw:last-child .btn {*/
+
+    /*width: 112px;*/
+
+    /*!*}*!*/
+
+    .list-group-item:last-child {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .repository_frame .dropdown-menu>li>a {
+        height: 36px;
+        line-height: 36px;
+    }
+</style>

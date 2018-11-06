@@ -58,14 +58,15 @@
     background:#fff;padding:20px 40px 40px;
 }
 #build-detail .panel_marginBottom{
-    margin-bottom: 50px;
+    /*margin-bottom: 50px;*/
 }
 #build-detail .btn_a{
-    padding: 6px 12px;
+    /*padding: 6px 12px;*/
     margin-left: 15px;
-    height:34px;
+    /*height:34px;*/
     font-size:14px;
 }
+
 #build-detail .small_col{
     color: #5a6378;
 }

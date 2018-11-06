@@ -7,7 +7,7 @@
 .builder_create_btn {
     padding: 0px;
     float: right;
-    margin-top: 1px;
+    margin-top: 6px;
 }
 
 #build_list .btn-green_li {
@@ -18,9 +18,9 @@
 }
 
 #build_list .table_topMargin {
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
+    /*margin-top: 20px;*/
+    /*margin-left: 20px;*/
+    /*margin-right: 20px;*/
     overflow: hidden !important;
 }
 

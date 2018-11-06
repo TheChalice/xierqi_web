@@ -10,7 +10,7 @@
     <!--<monitoring-slide></monitoring-slide>-->
     <!--</pageslide>-->
     <!--内容区-->
-    <div class="monitoring-container">
+    <div class="monitoring-container" style="margin: 0 25px;">
         <h1 style="font-size: 24px;border-bottom: 1px solid #ddd;padding-bottom: 10px;">
             <span style="font-size: 24px;">Monitoring</span>
             <span style="font-size: 14px;color: #0088ce;float: right;">
@@ -76,7 +76,6 @@
                             <public-metrics conname="pod.spec.containers[0].name"
                                             podid="pod.metadata.uid"
                                             podname="pod.metadata.name">
-
                             </public-metrics>
                         </div>
 
@@ -225,7 +224,6 @@
                             <pod-logs pod-name="{{bc.metadata.name}}"
                                       type="builds"></pod-logs>
                         </div>
-
                     </div>
 
                 </div>
