@@ -97,6 +97,8 @@
 }
 #build-detail .well-log_overflow{
     overflow: auto;
+    height: 300px;
+    overflow: scroll;
 }
 #build-detail .sa_color{
     color:#e4e4e4;
