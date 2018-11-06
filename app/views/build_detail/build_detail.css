@@ -99,6 +99,13 @@
     height: 300px;
     overflow: auto;
 }
+#build-detail .icon25-stop {
+    background-image: url(img/stop.png);
+}
+#build-detail .icon25-stop:hover {
+    background-image: url(img/stop-hover.png);
+}
+
 #build-detail .sa_color{
     color:#e4e4e4;
 }
