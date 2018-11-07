@@ -29,7 +29,7 @@ angular.module('console.monitoring', [
                 txt : ''
             };
             var refresh = function () {
-                console.log('refresh');
+                // console.log('refresh');
                 $(document.body).animate({
                     scrollTop: 0
                 }, 200);
@@ -47,7 +47,7 @@ angular.module('console.monitoring', [
                 saveAs(blob, filename);
             };
             $scope.checkCurListName = function (name) {
-                console.log('name', name);
+                // console.log('name', name);
                 $scope.curListName = name;
                 // console.log('$scope.curListName', $scope.curListName);
             };
