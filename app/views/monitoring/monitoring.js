@@ -28,16 +28,6 @@ angular.module('console.monitoring', [
             $scope.grid = {
                 txt : ''
             };
-            var refresh = function () {
-                // console.log('refresh');
-                $(document.body).animate({
-                    scrollTop: 0
-                }, 200);
-                $scope.podsItemData = $scope.podsItem.items;
-                $scope.replicasItemData = $scope.replicasItem.items;
-                $scope.statefulSetsData = $scope.statefulSets.items;
-                $scope.buildsData = $scope.builds.items;
-            };
             $scope.editEvent = function () {
                 $state.go("console.events", {namespace: $rootScope.namespace})
             };
@@ -49,13 +39,15 @@ angular.module('console.monitoring', [
             $scope.checkCurListName = function (name) {
                 // console.log('name', name);
                 $scope.curListName = name;
-                // console.log('$scope.curListName', $scope.curListName);
             };
 
             $scope.searchName = function (name) {
-                console.log('name', name);
+                // console.log('name', name);
                 if(!$scope.grid.txt){
-                    refresh();
+                    $scope.podsItemData = $scope.podsItem.items;
+                    $scope.replicasItemData = $scope.replicasItem.items;
+                    $scope.statefulSetsData = $scope.statefulSets.items;
+                    $scope.buildsData = $scope.builds.items;
                     return
                 }else{
                     var arr = [];

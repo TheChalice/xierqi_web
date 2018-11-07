@@ -23,8 +23,7 @@
                        class="form-control ipt"
                        id="events-filter"
                        ng-model="grid.text"
-                       ng-keyup=search()
-                       ng-click="search()">
+                       ng-keyup=search(grid.text)>
                 <span class="uex-icon-search filter-name-sarch">
                 </span>
             </div>
@@ -56,7 +55,7 @@
             </div>
         </div>
         <div class="col-md-12" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
-            <span style="font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;"> {{grid.noItems}}</span>
+            <span style="font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;"> {{text}}</span>
         </div>
     </div>
 </div>

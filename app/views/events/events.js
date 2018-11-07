@@ -10,8 +10,7 @@ angular.module('console.events', [
     .controller('EventsCtrl', ['$rootScope', '$scope', 'Event', 'Ws', '$log',
         function ($rootScope, $scope, Event, Ws, $log) {
             $scope.grid = {
-                text: '',
-                noItems: '暂无信息'
+                text: ''
             };
             Event.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
                 // console.log('0123', res);
@@ -71,8 +70,8 @@ angular.module('console.events', [
                 })
             };
             //input search
-            $scope.search = function () {
-                // console.log('12121');
+            $scope.search = function (name) {
+                console.log('12121', name);
                 if (!$scope.grid.text) {
                     $scope.items = angular.copy($scope.eventsCopy);
                     return;
@@ -83,8 +82,14 @@ angular.module('console.events', [
                     str = str.toLocaleLowerCase();
                     angular.forEach($scope.eventsCopy, function (item, i) {
                         var nstr = item.metadata.name;
+                        var strKind = item.involvedObject.kind;
+                        var strReason = item.reason;
+                        var strMessage = item.message;
                         nstr = nstr.toLocaleLowerCase();
-                        if (nstr.indexOf(str) !== -1) {
+                        strKind = strKind.toLocaleLowerCase();
+                        strReason = strReason.toLocaleLowerCase();
+                        strMessage = strMessage.toLocaleLowerCase();
+                        if (nstr.indexOf(str) !== -1 || strKind.indexOf(str) !== -1 || strReason.indexOf(str) !== -1 || strMessage.indexOf(str) !== -1) {
                             iarr.push(item)
                         }
                     });
