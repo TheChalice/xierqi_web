@@ -30,7 +30,8 @@
                 <div style="color: #ddd;float: left;">|</div>
                 <div class="col-sm-3">
                     <div class="filter-name filter-name-father">
-                        <input type="text" class="list-btn" style="width: 100%;" placeholder="Filter by name">
+                        <input type="text" class="list-btn" style="width: 100%;" placeholder="Filter by name"
+                               ng-model="grid.txt" ng-keyup="searchName(grid.txt)">
                         <span class="uex-icon-search filter-name-sarch">
                 </span>
                     </div>
@@ -45,7 +46,7 @@
         <div style="margin-top: 62px;">
             <div ng-show="curListName == 'All' || curListName =='Pods'">
                 <h2 style="font-size: 16px;font-weight: bold;">Pods</h2>
-                <div ng-repeat="pod in podsItem.items">
+                <div ng-repeat="pod in podsItemData">
                     <div class='monitoring-container-other'>
                         <div class="row">
                             <div class="col-sm-2">
@@ -100,16 +101,19 @@
                             <div class="blank_create_tit" ng-if="begin_blank">
                                 <!--<span class="blank_des">，点击</span>-->
                                 <!--<a class="df_go_create" ui-sref="console.build_create({namespace:namespace})">-->
-                                    <!--<span class="hidden-xs">去创建</span>-->
+                                <!--<span class="hidden-xs">去创建</span>-->
                                 <!--</a>-->
                             </div>
                         </div>
                     </div>
                 </div>
+                <div ng-if="podsItemData.length===0">
+                    There are no pods sets in this project.
+                </div>
             </div>
             <div ng-show="curListName == 'All' || curListName =='Deployments'">
                 <h2 style="font-size: 16px;font-weight: bold;">Deployments</h2>
-                <div ng-repeat="rc in replicasItem.items">
+                <div ng-repeat="rc in replicasItemData">
                     <div class='monitoring-container-other'>
                         <div class="row">
                             <div class="col-sm-2">
@@ -157,13 +161,16 @@
                         </public-metrics>
                     </div>
                 </div>
+                <div ng-if="replicasItemData.length===0">
+                    There are no deployments sets in this project.
+                </div>
             </div>
             <div ng-show="curListName == 'All' || curListName =='Stateful Sets'">
                 <h2 style="font-size: 16px;font-weight: bold;">Stateful Sets</h2>
                 <!--<h2 style="font-size: 12px;color: #363636;" ng-show="statefulSets.items.length<0">-->
                 <!--There are no stateful sets in this project.-->
                 <!--</h2>-->
-                <div ng-repeat="stateful in statefulSets.items">
+                <div ng-repeat="stateful in statefulSetsData">
                     <div class='monitoring-container-other'>
                         <div class="row">
                             <div class="col-sm-2">
@@ -206,10 +213,13 @@
                         </public-metrics>
                     </div>
                 </div>
+                <div ng-if="statefulSetsData.length===0">
+                    There are no stateful sets in this project.
+                </div>
             </div>
             <div ng-show="curListName == 'All' || curListName =='Builds'">
                 <h2 style="font-size: 16px;font-weight: bold;">Builds</h2>
-                <div ng-repeat="bc in builds.items">
+                <div ng-repeat="bc in buildsData">
                     <div class='monitoring-container-other'>
                         <div class="row">
                             <div class="col-sm-2">
@@ -269,6 +279,9 @@
                                   type="builds">
                         </pod-logs>
                     </div>
+                </div>
+                <div ng-if="buildsData.length===0">
+                    There are no builds sets in this project.
                 </div>
             </div>
         </div>
