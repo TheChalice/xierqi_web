@@ -1,19 +1,19 @@
-.uex-icon-swap-left:before{
+#monitoring .uex-icon-swap-left:before{
     content: '\e90c';
 }
-.uex-icon-caret-bottom:before{
+#monitoring .uex-icon-caret-bottom:before{
     content: '\e906';
 }
-.uex-icon-arrow-right:before{
+#monitoring .uex-icon-arrow-right:before{
     content: '\e901';
 }
-.uex-icon-arrow-down:before{
+#monitoring .uex-icon-arrow-down:before{
     content: '\e902';
 }
-.uex-icon-document:before{
+#monitoring .uex-icon-document:before{
     content: '\e940';
 }
-.list-btn {
+#monitoring .list-btn {
     padding: 5px 5px;
     border:1px solid #CCD5E0;
     border-radius: 4px;
@@ -22,20 +22,20 @@
     white-space: nowrap;
     position: relative;
 }
-.uex-btn-bottom {
+#monitoring .uex-btn-bottom {
     font-size: 14px;
     position: absolute;
     right: 5px;
     top:5px;
 }
-.list-view-pf{
+#monitoring .list-view-pf{
     margin-top: 20px;
     margin-bottom: 50px;
 }
-.list-view-pf .list-group-item:first-child{
+#monitoring .list-view-pf .list-group-item:first-child{
     border-top: 1px solid #eaeaea;
 }
-.list-view-pf .list-group-item-expandable{
+#monitoring .list-view-pf .list-group-item-expandable{
     cursor: pointer;
     border:1px solid #eaeaea;
 }
@@ -48,7 +48,7 @@
     margin-right: 15px;
     padding: 3px 10px 3px 0;
 }
-.sr-only{
+#monitoring .sr-only{
     margin: -1px;
     padding: 0;
     overflow: hidden;
@@ -58,12 +58,12 @@
     clip: rect(0,0,0,0);
     border: 0;
 }
-.list-view-pf-main-info{
+#monitoring .list-view-pf-main-info{
     overflow: hidden;
     padding-bottom: 10px;
     padding-top: 10px;
 }
-.list-view-pf-body{
+#monitoring .list-view-pf-body{
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -72,10 +72,10 @@
     vertical-align: top;
     width: 100%;
 }
-.list-view-pf-description{
+#monitoring .list-view-pf-description{
     width:60%;
 }
-.list-group-item-heading{
+#monitoring .list-group-item-heading{
     float: left;
     white-space: normal;
     flex: 1 0 auto;
@@ -84,24 +84,24 @@
     width: 50%;
     font-size: 13px;
 }
-.list-group-item-text{
+#monitoring .list-group-item-text{
     float: left;
     flex: 1 0 auto;
     margin: 0;
     padding: 0 20px 0 0;
     width: 50%;
 }
-.list-view-pf-additional-info{
+#monitoring .list-view-pf-additional-info{
     width:40%;
 }
-.list-view-pf-additional-info-item:last-child{
+#monitoring .list-view-pf-additional-info-item:last-child{
     margin-right: 0;
 }
-.list-view-pf-additional-info-item{
+#monitoring .list-view-pf-additional-info-item{
     display: inline-block;
     text-align: left;
 }
-[class^="pficon-"],
+#monitoring [class^="pficon-"],
 [class*=" pficon-"] {
     display: inline-block;
     font-family: "PatternFlyIcons-webfont";
@@ -119,5 +119,5 @@
 
 
 
-.fa-refresh:before{content:"\f021";}
-.pficon-image:before{content:"\e61f";}
+#monitoring .fa-refresh:before{content:"\f021";}
+#monitoring .pficon-image:before{content:"\e61f";}
