@@ -49,7 +49,7 @@ define(['angular'], function (angular) {
                 }
             };
         })
-        .directive('imageNames', function($filter, PodsService) {
+        .directive('imageNames', ['$filter','PodsService',function($filter, PodsService) {
             return {
                 restrict: 'E',
                 scope: {
@@ -77,8 +77,8 @@ define(['angular'], function (angular) {
                     $scope.$watchGroup(['podTemplate', 'pods'], updateImageDetails);
                 }
             };
-        })
-        .factory("PodsService", function(OwnerReferencesService) {
+        }])
+        .factory("PodsService", ['OwnerReferencesService',function(OwnerReferencesService) {
             return {
                 getImageIDs: function(pods, containerName) {
                     // Use a map so we only ever add the same SHA once.
@@ -143,7 +143,7 @@ define(['angular'], function (angular) {
                     return OwnerReferencesService.filterForController(pods, owner);
                 }
             };
-        })
+        }])
         .directive('fullHeight', [function () {
             return function (scope, element, attr) {
                 var height = document.documentElement.clientHeight - 70 + 'px';
@@ -162,7 +162,7 @@ define(['angular'], function (angular) {
                 });
             }
         }])
-        .directive('onFinishRender', function ($timeout) {
+        .directive('onFinishRender', ['$timeout',function ($timeout) {
             return {
                 restrict: 'A',
                 link: function (scope, element, attr) {
@@ -173,7 +173,7 @@ define(['angular'], function (angular) {
                     }
                 }
             };
-        })
+        }])
         .directive('statusIcon', function () {
             return {
                 restrict: 'E',

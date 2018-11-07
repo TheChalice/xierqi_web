@@ -96,6 +96,7 @@
     white-space:nowrap;overflow: hidden;text-overflow: ellipsis;
 }
 #build-detail .well-log_overflow{
+    height: 300px;
     overflow: auto;
 }
 #build-detail .sa_color{

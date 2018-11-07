@@ -123,7 +123,6 @@ angular.module('console.dashboard', [
                 planName: null
             }
 
-
             var netChart = function () {
                 return {
                     options: {
@@ -143,6 +142,7 @@ angular.module('console.dashboard', [
                             enabled: false
                         },
                         tooltip: {
+                            xDateFormat :  '%H:%M:%S',
                             backgroundColor: '#666',
                             borderWidth: 0,
                             shadow: false,
@@ -243,6 +243,7 @@ angular.module('console.dashboard', [
                             enabled: false
                         },
                         tooltip: {
+                            xDateFormat :  '%H:%M:%S',
                             backgroundColor: '#666',
                             borderWidth: 0,
                             shadow: false,

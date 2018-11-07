@@ -729,6 +729,279 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 }).result;
             }
         }])
+        .service('ChangeImages', ['$uibModal', function ($uibModal) {
+            this.open = function (imageslist, tags) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/changeImage.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance', 'ImageStreamImage', 'imagestreamimports', '$rootScope', 'ImageStream', 'Cookie',
+                        function ($scope, $uibModalInstance, ImageStreamImage, imagestreamimports, $rootScope, ImageStream, Cookie) {
+                            $scope.imageslist = imageslist;
+                            $scope.istag = angular.copy(tags)
+                            $scope.tagslist = [];
+                            $scope.institution = {
+                                display: 1,
+                                configregistry: false
+                            }
+                            $scope.err = {
+                                url: {
+                                    null: false,
+                                    notfind: false,
+                                    role: false
+                                },
+                                name: {
+                                    null: false,
+                                    repeated: false,
+                                    pattern: false
+                                },
+                                env: {
+                                    null: false,
+                                    repeated: false,
+                                },
+                                label: {
+                                    null: false,
+                                    repeated: false,
+                                }
+
+                            }
+                            $scope.checked = {
+                                namespace: '',
+                                image: '',
+                                tag: ''
+                            }
+
+                            $scope.postobj = {
+                                "kind": "ImageStreamImport",
+                                "apiVersion": "v1",
+                                "metadata": {"name": "newapp", "namespace": $rootScope.namespace},
+                                "spec": {
+                                    "import": false,
+                                    "images": [
+                                        {
+                                            "from": {
+                                                "kind": "DockerImage",
+                                                "name": ""
+                                            }
+
+                                        }
+                                    ]
+
+
+                                },
+                                "status": {}
+                            }
+                            ImageStream.get({namespace: Cookie.get('namespace')}, function (data) {
+
+                            })
+                            ImageStream.get({namespace: Cookie.get('namespace')}, function (data) {
+
+                            })
+                            $scope.checkedimage = function (image) {
+                                $scope.checked.image = image.metadata.name;
+                                $scope.checked.tag = '';
+                                $scope.tagslist = [];
+                                if (image.status.tags) {
+                                    angular.forEach(image.status.tags, function (tag, i) {
+                                        tag.items[0].name = tag.tag
+                                        tag.items[0].imagecopy = angular.copy(image)
+                                        $scope.tagslist.push(tag.items[0])
+                                    })
+                                }
+                            }
+
+                            $scope.myKeyup = function (e) {
+                                var keycode = window.event ? e.keyCode : e.which;
+                                if (keycode == 13) {
+                                    $scope.find();
+                                }
+                            }
+
+                            function imagetimemessage(imagestime) {
+                                $scope.creattime = imagestime
+                            }
+
+                            function imageportmessage(port) {
+                                var port = port;
+                                //console.log('port', port);
+                                $scope.port = []
+                                $scope.strport = '';
+
+                                for (var k in port) {
+                                    var pot = parseInt(k.split('/')[0])
+                                    $scope.port.push({protocol: k.split('/')[1].toUpperCase(), containerPort: pot})
+                                    //var rep = false
+                                    //angular.forEach($scope.portsArr, function (item, i) {
+                                    //    if (item.containerPort && item.containerPort == pot) {
+                                    //        rep = true
+                                    //    }
+                                    //})
+                                    //if (!rep) {
+                                    //    $scope.portsArr.push({
+                                    //        protocol: k.split('/')[1].toUpperCase(),
+                                    //        containerPort: pot,
+                                    //        hostPort: pot
+                                    //    })
+                                    //}
+                                    $scope.strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
+                                }
+                                $scope.strport = $scope.strport.replace(/\,$/, "");
+                                $scope.firstPort = '';
+                                if($scope.strport.split(',').length>1){
+                                    $scope.firstPort = $scope.strport.split(',')[0];
+                                }else{
+                                    $scope.firstPort = $scope.strport
+                                }
+
+                                $scope.hasport = true;
+                                //$scope.dc.spec.template.spec.containers[0].ports = angular.copy($scope.port)
+                            }
+
+                            $scope.find = function () {
+                                if ($scope.institution.display == 2) {
+                                    return
+                                }
+                                $scope.err.url.null = false;
+                                $scope.err.url.role = false;
+                                $scope.err.url.notfind = false;
+                                if (!$scope.finding) {
+                                    if ($scope.postobj.spec.images[0].from.name === '') {
+                                        $scope.err.url.null = true
+                                        return
+                                    }
+                                    $scope.finding = true;
+                                    if ($scope.institution.configregistry) {
+                                        $scope.postobj.spec.images[0].importPolicy = {
+                                            insecure: true
+                                        }
+                                    }
+                                    $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
+                                    imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
+                                        $scope.finding = false;
+                                        $scope.checked.postobj = $scope.postobj
+                                        $scope.checked.images = images
+                                        $scope.checked.ismy = 'ourtag'
+                                        //console.log('size', $scope.imagesize);
+                                        if (images.status.images && images.status.images[0] && images.status.images[0].status) {
+                                            if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
+                                                $scope.err.url.role = true;
+                                                return
+                                            }
+                                            if (images.status.images[0].status.code && images.status.images[0].status.code === 404) {
+                                                //$scope.namerr.url = true;
+                                                $scope.err.url.notfind = true;
+                                                return
+                                            }
+                                            if (images.status.images[0].status.code && images.status.images[0].status.code === 500) {
+                                                //$scope.namerr.url = true;
+                                                $scope.err.url.role = true;
+                                                return
+                                            }
+                                        }
+                                        //$scope.namerr.canbuild = false;
+                                        $scope.images = images;
+                                        $scope.curl = $scope.postobj.spec.images[0].from.name;
+                                        var name = $scope.postobj.spec.images[0].from.name.split('/')[$scope.postobj.spec.images[0].from.name.split('/').length - 1]
+                                        $scope.fuwuname = name.split(':').length > 1 ? name.split(':')[0] : name;
+                                        //$scope.dc.spec.template.spec.containers[0].name = $scope.fuwuname
+                                        $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
+                                        $scope.imagetext = $scope.postobj.spec.images[0].from.name;
+                                        //$scope.dc.spec.template.spec.containers[0].ports
+
+                                        //var imagetag = 'dadafoundry.io/image-' + $scope.postobj.spec.images[0].from.name;
+                                        //
+                                        //$scope.dc.metadata.annotations[imagetag] = $scope.fuwuname + ":" + $scope.tag;
+
+                                        if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
+                                            imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
+                                            //console.log('images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts', images.status.images[0].image.dockerImageMetadata);
+                                            if (images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
+                                                imageportmessage(images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts)
+                                            }
+                                        } else {
+                                            //$scope.namerr.url = true;
+                                        }
+                                        $scope.showall = true;
+
+                                        //$scope.dc.metadata.labels[0].value = $scope.fuwuname;
+                                    }, function (err) {
+                                        //$scope.namerr.url = true;
+                                        $scope.finding = false;
+                                    })
+                                }
+                            }
+
+                            $scope.checkedtag = function (tag) {
+                                //console.log('tag', tag);
+                                $scope.checked.tag = tag.name;
+                                $scope.detail = {}
+                                //imagemessage(tag.imagecopy)
+                                ImageStreamImage.get({
+                                    namespace: $rootScope.namespace,
+                                    name: $scope.checked.image + '@' + tag.image
+                                }, function (tag) {
+                                    $scope.checked.mytag = tag
+                                    $scope.checked.istag = $scope.istag
+                                    $scope.checked.ismy = 'mytag'
+
+                                    $scope.mytag = tag
+                                    var allsize = 0;
+                                    //console.log(tag.image.dockerImageLayers.length);
+                                    if (tag.image.dockerImageLayers && tag.image.dockerImageLayers.length) {
+                                        angular.forEach(tag.image.dockerImageLayers, function (size, i) {
+                                            //console.log('size.size', size.size);
+                                            allsize = allsize + size.size;
+                                        })
+                                    }
+                                    $scope.imagesize = Math.round(parseInt(allsize) / 1024 / 1024 * 100) / 100
+                                    //console.log('size',$scope.imagesize);
+                                    imagetimemessage(tag.image.metadata.creationTimestamp)
+                                    if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
+                                        imageportmessage(tag.image.dockerImageMetadata.Config.ExposedPorts)
+                                    }
+
+                                    $scope.curl = $scope.checked.image;
+                                    //if (!$scope.dc.metadata.name) {
+                                    //    $scope.dc.metadata.name=$scope.checked.image;
+                                    //}
+                                    //$scope.dc.spec.template.spec.containers[0].annotate = {
+                                    //    image: $scope.checked.image,
+                                    //    tag: $scope.checked.tag
+                                    //}
+                                    //$scope.dc.spec.template.spec.containers[0].annotate.ismy = true
+
+                                    //$scope.dc.spec.template.spec.containers[0].name = $scope.checked.image
+                                    $scope.fuwuname = $scope.checked.image;
+
+                                    //tag.image.
+                                    angular.forEach($scope.istag.items, function (istag, i) {
+                                        if (istag.image.metadata.name === tag.image.metadata.name) {
+                                            //console.log(istag.image.dockerImageReference);
+                                            $scope.imagetext = istag.image.dockerImageReference;
+                                        }
+                                    })
+                                    //$scope.showall = true;
+
+                                    //$scope.dc.metadata.labels[0].value = $scope.fuwuname;
+
+                                })
+                            }
+
+                            $scope.ok = function () {
+                                //$scope.
+                                if ($scope.check === 1) {
+                                    $uibModalInstance.close($scope.checked);
+                                } else {
+                                    $uibModalInstance.close($scope.checked);
+                                }
+
+                            };
+                            $scope.cancel = function () {
+                                $uibModalInstance.dismiss();
+                            };
+                        }]
+                }).result;
+            };
+        }])
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
             this.open = function (olength, secretsobj) {
                 return $uibModal.open({
