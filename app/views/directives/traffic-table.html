@@ -7,7 +7,7 @@
             <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">服务端口</th>
             <th style="border-bottom-width:1px;background:#e6e9f2;border:none;" role="presentation"></th>
             <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">目标端口</th>
-            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">主机名</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">域名</th>
             <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">TLS</th>
 
         </tr>
@@ -23,7 +23,7 @@
         <tr ng-repeat-start="(routeName,ports) in portsByRoute" style="display: none;"></tr>
         <tr ng-repeat="port in ports" ng-if="routeName !== ''">
             <td style="border-right:none;" data-title="{{customNameHeader || 'Route'}}{{ showNodePorts ? ' / Node Port' : '' }}">
-                <a href="" class="href-orange" ui-sref="console.route_detail({name: routes[routeName].metadata.name})">{{routes[routeName].metadata.name}}</a>
+                <a href="" class="href-orange" ui-sref="console.route_detail({namespace:routenamespace,name: routes[routeName].metadata.name})">{{routes[routeName].metadata.name}}</a>
                 <!-- <a href="{{routes[routeName] | navigateResourceURL}}">{{routes[routeName].metadata.name}}</a> -->
                 <route-warnings ng-if="routes[routeName].spec.to.kind !== 'Service' || services" route="routes[routeName]" services="services">
                 </route-warnings>
