@@ -89,10 +89,10 @@ angular.module('console.monitoring', [
             }
             function reservePodItemInHiddenMode(item) {
                 // console.log('-=-=',item);
-                if(item['status']['phase'] != 'Running'){
-                    return false;
+                if(item['status']['phase'] === 'Running'){
+                    return true;
                 }
-                return true;
+                return false;
             }
             function reserveReplicasItemInHiddenMode(item) {
                 if(item['status']['phase'] === 'Active'){
