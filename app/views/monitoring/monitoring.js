@@ -19,8 +19,11 @@ angular.module('console.monitoring', [
             $scope.podsItem = angular.copy(monitoringPods);
             $scope.podsItemData = $scope.podsItem.items;
             $scope.replicasItem = angular.copy(monitoringReplicas);
-            $scope.replicasItemData = $scope.replicasItem.items;
             $scope.replicaSetItem = angular.copy(monitoringReplicaSet);
+            $scope.deploymentsData = $scope.replicasItem.items.concat($scope.replicaSetItem.items);
+            $scope.replicasItemData = $scope.deploymentsData;
+
+            // console.log('090900===',$scope.replicaSetItem);
             $scope.statefulSets = angular.copy(monitoringStatefulSets);
             $scope.statefulSetsData = $scope.statefulSets.items;
             $scope.builds = angular.copy(monitoringBuild);
@@ -85,14 +88,14 @@ angular.module('console.monitoring', [
                 return resultArr;
             }
             function reservePodItemInHiddenMode(item) {
-                console.log('-=-=',item);
-                if(item['status']['phase'] === 'Running'){
-                    return true;
+                // console.log('-=-=',item);
+                if(item['status']['phase'] != 'Running'){
+                    return false;
                 }
-                return false;
+                return true;
             }
             function reserveReplicasItemInHiddenMode(item) {
-                if(item['status']['phase'] === 'Complete'){
+                if(item['status']['phase'] === 'Active'){
                     return true;
                 }
                 return false;
@@ -104,19 +107,21 @@ angular.module('console.monitoring', [
                 return false;
             }
             function reserveStatefulItemInHiddenMode(item) {
-
-                return true;
+                if(item['status']['phase'] === 'Active'){
+                    return true;
+                }
+                return false;
             }
             $scope.hideOlderResources = function (status) {
                 if (status === true) {
                     // itemsInHiddenMode
                     $scope.podsItemData = itemsInHiddenMode($scope.podsItemData, reservePodItemInHiddenMode);
-                    $scope.replicasItemData = itemsInHiddenMode($scope.replicasItemData, reserveReplicasItemInHiddenMode);
+                    $scope.replicasItemData = itemsInHiddenMode($scope.deploymentsData, reserveReplicasItemInHiddenMode);
                     $scope.statefulSetsData = itemsInHiddenMode($scope.statefulSetsData, reserveStatefulItemInHiddenMode);
                     $scope.buildsData = itemsInHiddenMode($scope.buildsData,reserveBuildItemInHiddenMode);
                 } else {
                     $scope.podsItemData = $scope.podsItem.items;
-                    $scope.replicasItemData = $scope.replicasItem.items;
+                    $scope.replicasItemData = $scope.deploymentsData;
                     $scope.statefulSetsData = $scope.statefulSets.items;
                     $scope.buildsData = $scope.builds.items;
                 }
@@ -125,7 +130,7 @@ angular.module('console.monitoring', [
                 // console.log('name', name);
                 if (!$scope.grid.txt) {
                     $scope.podsItemData = $scope.podsItem.items;
-                    $scope.replicasItemData = $scope.replicasItem.items;
+                    $scope.replicasItemData = $scope.deploymentsData;
                     $scope.statefulSetsData = $scope.statefulSets.items;
                     $scope.buildsData = $scope.builds.items;
                     return
@@ -144,10 +149,10 @@ angular.module('console.monitoring', [
                     }
                     $scope.podsItemData = arr;
                     //in dc
-                    for (var j = 0; j < $scope.replicasItem.items.length; j++) {
-                        var nstrArrReplicasItem = $scope.replicasItem.items[j].metadata.name;
+                    for (var j = 0; j < $scope.deploymentsData.length; j++) {
+                        var nstrArrReplicasItem = $scope.deploymentsData[j].metadata.name;
                         if (nstrArrReplicasItem.indexOf(str) !== -1) {
-                            arrReplicasItem.push($scope.replicasItem.items[j])
+                            arrReplicasItem.push($scope.deploymentsData[j])
                         }
                     }
                     $scope.replicasItemData = arrReplicasItem;
