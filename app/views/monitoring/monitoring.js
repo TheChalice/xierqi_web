@@ -19,14 +19,18 @@ angular.module('console.monitoring', [
             $scope.podsItem = angular.copy(monitoringPods);
             $scope.podsItemData = $scope.podsItem.items;
             $scope.replicasItem = angular.copy(monitoringReplicas);
-            $scope.replicasItemData = $scope.replicasItem.items;
             $scope.replicaSetItem = angular.copy(monitoringReplicaSet);
+            $scope.deploymentsData = $scope.replicasItem.items.concat($scope.replicaSetItem.items);
+            $scope.replicasItemData = $scope.deploymentsData;
+
+            // console.log('090900===',$scope.replicaSetItem);
             $scope.statefulSets = angular.copy(monitoringStatefulSets);
             $scope.statefulSetsData = $scope.statefulSets.items;
             $scope.builds = angular.copy(monitoringBuild);
             $scope.buildsData = $scope.builds.items;
             $scope.grid = {
-                txt : ''
+                txt: '',
+                isHide: false
             };
             $scope.editEvent = function () {
                 $state.go("console.events", {namespace: $rootScope.namespace})
@@ -40,16 +44,97 @@ angular.module('console.monitoring', [
                 // console.log('name', name);
                 $scope.curListName = name;
             };
+            function group(data, assistantFilter) {
+                // console.log('assistantFilter==',assistantFilter);
+                const result = {};
+                for (var i in data) {
+                    var item = data[i];
 
+                    // 把状态不满足的item筛除
+                    if (!assistantFilter) continue;
+                    var key = item['metadata']['labels']['app'];
+                    var targetLastItem = result[key];
+                    if (!targetLastItem) {
+                        targetLastItem = [];
+                        result[key] = item;
+                        continue;
+                    }
+                    result[key] = getNewItem(item, targetLastItem);
+                }
+                return result;
+            }
+
+            function getNewItem(item1, item2) {
+                return getItemVersion(item1) > item2 ? item1 : item2;
+            }
+
+            function getItemVersion(item) {
+                var tmpArr = item.metadata.name.split('-');
+                var versionStr = tmpArr[tmpArr.length - 1];
+                return parseInt(versionStr);
+            }
+            function itemsInHiddenMode(originalDatas, assistantFilter) {
+                if(!originalDatas){
+                    return []
+                }
+                var resultArr = Object.entries(group(originalDatas, assistantFilter));
+                resultArr.sort(function (a, b) {
+                    if (a[0] > b[0]) return 1;
+                    else return 0;
+                });
+                resultArr = resultArr.map(function (item) {
+                    return item[1];
+                });
+                return resultArr;
+            }
+            function reservePodItemInHiddenMode(item) {
+                // console.log('-=-=',item);
+                if(item['status']['phase'] === 'Running'){
+                    return true;
+                }
+                return false;
+            }
+            function reserveReplicasItemInHiddenMode(item) {
+                if(item['status']['phase'] === 'Active'){
+                    return true;
+                }
+                return false;
+            }
+            function reserveBuildItemInHiddenMode(item) {
+                if(item['status']['phase'] === 'Complete'){
+                    return true;
+                }
+                return false;
+            }
+            function reserveStatefulItemInHiddenMode(item) {
+                if(item['status']['phase'] === 'Active'){
+                    return true;
+                }
+                return false;
+            }
+            $scope.hideOlderResources = function (status) {
+                if (status === true) {
+                    // itemsInHiddenMode
+                    $scope.podsItemData = itemsInHiddenMode($scope.podsItemData, reservePodItemInHiddenMode);
+                    $scope.replicasItemData = itemsInHiddenMode($scope.deploymentsData, reserveReplicasItemInHiddenMode);
+                    $scope.statefulSetsData = itemsInHiddenMode($scope.statefulSetsData, reserveStatefulItemInHiddenMode);
+                    $scope.buildsData = itemsInHiddenMode($scope.buildsData,reserveBuildItemInHiddenMode);
+                } else {
+                    $scope.podsItemData = $scope.podsItem.items;
+                    $scope.replicasItemData = $scope.deploymentsData;
+                    $scope.statefulSetsData = $scope.statefulSets.items;
+                    $scope.buildsData = $scope.builds.items;
+                }
+            };
             $scope.searchName = function (name) {
                 // console.log('name', name);
-                if(!$scope.grid.txt){
+                if (!$scope.grid.txt) {
                     $scope.podsItemData = $scope.podsItem.items;
-                    $scope.replicasItemData = $scope.replicasItem.items;
+                    $scope.replicasItemData = $scope.deploymentsData;
                     $scope.statefulSetsData = $scope.statefulSets.items;
                     $scope.buildsData = $scope.builds.items;
                     return
-                }else{
+                } else {
                     var arr = [];
                     var arrReplicasItem = [];
                     var arrStatefulSets = [];
@@ -64,10 +149,10 @@ angular.module('console.monitoring', [
                     }
                     $scope.podsItemData = arr;
                     //in dc
-                    for (var j = 0; j < $scope.replicasItem.items.length; j++) {
-                        var nstrArrReplicasItem = $scope.replicasItem.items[j].metadata.name;
+                    for (var j = 0; j < $scope.deploymentsData.length; j++) {
+                        var nstrArrReplicasItem = $scope.deploymentsData[j].metadata.name;
                         if (nstrArrReplicasItem.indexOf(str) !== -1) {
-                            arrReplicasItem.push($scope.replicasItem.items[j])
+                            arrReplicasItem.push($scope.deploymentsData[j])
                         }
                     }
                     $scope.replicasItemData = arrReplicasItem;
