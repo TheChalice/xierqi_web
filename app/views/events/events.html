@@ -43,7 +43,7 @@
         <div class="col-md-12" ng-repeat="event in items"
              style="padding-top: 10px;padding-bottom:10px;">
             <div class="col-md-1">{{event.metadata.creationTimestamp | timescon2}}</div>
-            <div class="col-md-1">
+            <div class="col-md-1 out-line-word">
                 <a class="href-orange"
                    ui-sref="console.constantly_persistentVolume({namespace:namespace,name: event.involvedObject.name})">
                     {{event.involvedObject.name}}
