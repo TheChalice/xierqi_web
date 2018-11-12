@@ -344,7 +344,9 @@ a {
 .icon25-forward {
     background-image: url(../img/arrow.png);
 }
-
+.icon25-stop {
+    background-image: url(../img/stop2.png);
+}
 .icon25-forward:hover {
     background-image: url(../img/arrow_active.png);
 }
@@ -880,7 +882,7 @@ a {
 }
 
 .timeline .icon25 {
-    margin: 0 10px;
+    margin: 0 9px;
 }
 
 .icon25-delete {
