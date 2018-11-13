@@ -128,11 +128,13 @@
                                         </label>
                                     </div>
 
-                                    <div class="col-sm-3" style="white-space:nowrap;  text-overflow:ellipsis;">
-                                        <span class="detail_tit">版本：</span>
-                                        <label class="build_name" uib-tooltip="{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}">
-                                            {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}
-                                        </label>
+                                    <div class="col-sm-3">
+                                        <p class="version-p">
+                                            <label class="detail_tit version-name">版本：</label>
+                                            <label class="build_name version-detail" uib-tooltip="{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}">
+                                                {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}
+                                            </label>
+                                        </p>
                                     </div>
 
 

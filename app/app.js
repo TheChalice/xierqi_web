@@ -114,7 +114,33 @@ define([
                 }
             ]);
         }])
-
+        .config(['toastrConfig', function (toastrConfig) {
+            angular.extend(toastrConfig, {
+                allowHtml: false,
+                closeButton: false,
+                closeHtml: '<button>&times;</button>',
+                extendedTimeOut: 1000,
+                iconClasses: {
+                    error: 'toast-shibai',
+                    info: 'toast-info',
+                    success: 'toast-chenggong',
+                    warning: 'toast-warning'
+                },
+                messageClass: 'toast-message',
+                onHidden: null,
+                onShown: null,
+                onTap: null,
+                progressBar: false,
+                tapToDismiss: true,
+                //templates: {
+                //    toast: 'directives/toast/toast.html',
+                //    progressbar: 'directives/progressbar/progressbar.html'
+                //},
+                timeOut: 1000,
+                titleClass: 'toast-title',
+                toastClass: 'toast'
+            });
+        }])
         .run(['$rootScope', 'account', '$state', 'Cookie',
             function ($rootScope, account, $state, Cookie) {
                 var masterPublicHostname = 'http://127.0.0.1:8080';
