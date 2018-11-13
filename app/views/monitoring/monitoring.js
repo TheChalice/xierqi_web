@@ -52,7 +52,8 @@ angular.module('console.monitoring', [
 
                     // 把状态不满足的item筛除
                     if (!assistantFilter) continue;
-                    var key = item['metadata']['labels']['app'];
+                    var key = item['metadata']['ownerReferences'][0]['name'];
+                    // var key = item['metadata']['labels']['app'];
                     var targetLastItem = result[key];
                     if (!targetLastItem) {
                         targetLastItem = [];
