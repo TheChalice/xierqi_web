@@ -183,6 +183,8 @@
 
 .show-log-style {
     background: #fff;
+    height: 300px;
+    overflow-y: scroll;
 }
 
 .filter-name {

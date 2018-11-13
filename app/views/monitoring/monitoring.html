@@ -39,7 +39,7 @@
                 <div style="float: right;font-size: 12px;">
                     <span style="cursor: pointer;color: #47b2fb;margin-right: 10px;"
                           ng-click="editEvent()">Events</span>
-                    <input type="checkbox">Hide older resources
+                    <input type="checkbox" ng-model="grid.isHide" ng-click="hideOlderResources(grid.isHide)">Hide older resources
                 </div>
             </div>
         </div>
