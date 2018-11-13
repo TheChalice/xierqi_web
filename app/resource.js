@@ -1006,4 +1006,18 @@ define([
             }, {});
             return uploadimage;
         }])
+        .factory('tempipline', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var tempipline = $resource(GLOBAL.host + '/namespaces/:namespaces/templates/:name', {
+                namespaces: '@namespaces',
+                name:'@name'
+            }, {});
+            return tempipline;
+        }])
+        .factory('processedtemplates', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var tempipline = $resource(GLOBAL.host + '/namespaces/:namespace/processedtemplates', {
+                namespaces: '@namespace'
+            }, { create: { method: 'POST' }});
+            return tempipline;
+        }])
+
 });
