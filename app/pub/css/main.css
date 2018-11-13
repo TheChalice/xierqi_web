@@ -3211,3 +3211,20 @@ td a:hover, a:focus {
 .container-terminal-wrapper:-fullscreen .fullscreen-toggle .go-fullscreen {
     display: none
 }
+.version-p{
+    position: relative;
+    margin: 0;
+    height: 25px;
+}
+.version-name {
+    position: absolute;
+    left: 0;
+}
+.version-detail {
+    position: absolute;
+    left: 36px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 160px;
+}
