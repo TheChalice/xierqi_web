@@ -8,65 +8,63 @@
     <div ng-show="databuild">
         <div class="panel panel-default panel_marginBottom" style="">
             <!--<div class="panel-heading">-->
-            <!--<span class="panel-title">-->
-            <!--<span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}-->
-            <!--</span>-->
-            <!--<a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">-->
-            <!--&lt;!&ndash; <i class="fa fa-trash-o fa-lg"></i> &ndash;&gt;删除-->
-            <!--</a>-->
-            <!--<a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>-->
+                <!--<span class="panel-title">-->
+                    <!--<span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}-->
+                <!--</span>-->
+                <!--<a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">-->
+                    <!--&lt;!&ndash; <i class="fa fa-trash-o fa-lg"></i> &ndash;&gt;删除-->
+                <!--</a>-->
+                <!--<a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>-->
             <!--</div>-->
             <!--<div class="panel-body">-->
-            <!--<div class="row">-->
-            <!--<div class="col-sm-4">-->
-            <!--<div class="media media-sm">-->
-            <!--<div class="media-left">-->
-            <!--<img class="media-object" src="views/build_detail/img/images_104.png">-->
-            <!--</div>-->
-            <!--<div class="media-body">-->
-            <!--<h4 class="media-heading">创建时间</h4>-->
-            <!--<small class="small_col" style="" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">{{data.metadata.creationTimestamp | dateRelative}}</small>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-sm-4">-->
-            <!--<div class="media media-sm">-->
-            <!--<div class="media-left">-->
-            <!--<img class="media-object" src="views/build_detail/img/images_106.png">-->
-            <!--</div>-->
-            <!--<div class="media-body media-body_tell" style="">-->
-            <!--<h4 class="media-heading">代码URL</h4>-->
-            <!--<div class="till" style=''>-->
+                <!--<div class="row">-->
+                    <!--<div class="col-sm-4">-->
+                        <!--<div class="media media-sm">-->
+                            <!--<div class="media-left">-->
+                                <!--<img class="media-object" src="views/build_detail/img/images_104.png">-->
+                            <!--</div>-->
+                            <!--<div class="media-body">-->
+                                <!--<h4 class="media-heading">创建时间</h4>-->
+                                <!--<small class="small_col" style="" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">{{data.metadata.creationTimestamp | dateRelative}}</small>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-4">-->
+                        <!--<div class="media media-sm">-->
+                            <!--<div class="media-left">-->
+                                <!--<img class="media-object" src="views/build_detail/img/images_106.png">-->
+                            <!--</div>-->
+                            <!--<div class="media-body media-body_tell" style="">-->
+                                <!--<h4 class="media-heading">代码URL</h4>-->
+                                <!--<div class="till" style=''>-->
 
-            <!--{{data.spec.source.git.uri}}-->
-            <!--</div>-->
-            <!--<small>-->
-            <!--<a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{data.spec.source.git.uri}}</a>-->
-            <!--</small>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-sm-4">-->
-            <!--<div class="media media-sm" ng-if="imageEnable">-->
-            <!--<div class="media-left">-->
-            <!--<img class="media-object" src="views/build_detail/img/images_108.png">-->
-            <!--</div>-->
-            <!--<div class="media-body">-->
-            <!--<h4 class="media-heading">镜像</h4>-->
-            <!--<small>-->
-            <!--<a class="href-orange" style="" ui-sref="console.image_detail({name: data.spec.output.to.name, bc: data.metadata.name})">{{data.spec.output.to.name}}</a>-->
-            <!--</small>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
+                                    <!--{{data.spec.source.git.uri}}-->
+                                <!--</div>-->
+                                <!--<small>-->
+                                    <!--<a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{data.spec.source.git.uri}}</a>-->
+                                <!--</small>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-4">-->
+                        <!--<div class="media media-sm" ng-if="imageEnable">-->
+                            <!--<div class="media-left">-->
+                                <!--<img class="media-object" src="views/build_detail/img/images_108.png">-->
+                            <!--</div>-->
+                            <!--<div class="media-body">-->
+                                <!--<h4 class="media-heading">镜像</h4>-->
+                                <!--<small>-->
+                                    <!--<a class="href-orange" style="" ui-sref="console.image_detail({name: data.spec.output.to.name, bc: data.metadata.name})">{{data.spec.output.to.name}}</a>-->
+                                <!--</small>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
             <!--</div>-->
             <div class="module-heading">
                 <div class="module_block_l">
                     <div class="img-block">
-                        <svg class="icon svg_img" viewBox="0 0 64 64">
-                            <path d="M32.07,0a32,32,0,1,0,32,32A32,32,0,0,0,32.07,0Zm-10,39.17A2.28,2.28,0,0,1,22,42.41a2.25,2.25,0,0,1-1.71.71,2.35,2.35,0,0,1-1.71-.71s-9.81-9.52-9.66-9.52A2.35,2.35,0,0,1,8.18,31,2.48,2.48,0,0,1,9,29.33l9.81-8.1A2.42,2.42,0,1,1,22,24.93l-7.67,6.54ZM39.16,24.36,29.21,42a2.64,2.64,0,0,1-2.13,1.28A2.68,2.68,0,0,1,25.95,43a2.36,2.36,0,0,1-.85-3.27L35,22.09a2.36,2.36,0,0,1,3.27-.85A2.14,2.14,0,0,1,39.16,24.36Zm6.25,18.19a3,3,0,0,1-1.71.71A2.35,2.35,0,0,1,42,42.55a2.59,2.59,0,0,1,0-3.41l7.82-7.67-7.67-6.54a2.42,2.42,0,0,1,3.13-3.7l9.81,8.1A2,2,0,0,1,55.93,31a2,2,0,0,1-.71,2Z"/>
-                        </svg>
+                        <svg class="icon svg_img" viewBox="0 0 64 64"><path d="M32.07,0a32,32,0,1,0,32,32A32,32,0,0,0,32.07,0Zm-10,39.17A2.28,2.28,0,0,1,22,42.41a2.25,2.25,0,0,1-1.71.71,2.35,2.35,0,0,1-1.71-.71s-9.81-9.52-9.66-9.52A2.35,2.35,0,0,1,8.18,31,2.48,2.48,0,0,1,9,29.33l9.81-8.1A2.42,2.42,0,1,1,22,24.93l-7.67,6.54ZM39.16,24.36,29.21,42a2.64,2.64,0,0,1-2.13,1.28A2.68,2.68,0,0,1,25.95,43a2.36,2.36,0,0,1-.85-3.27L35,22.09a2.36,2.36,0,0,1,3.27-.85A2.14,2.14,0,0,1,39.16,24.36Zm6.25,18.19a3,3,0,0,1-1.71.71A2.35,2.35,0,0,1,42,42.55a2.59,2.59,0,0,1,0-3.41l7.82-7.67-7.67-6.54a2.42,2.42,0,0,1,3.13-3.7l9.81,8.1A2,2,0,0,1,55.93,31a2,2,0,0,1-.71,2Z"/></svg>
                     </div>
                     <div class="img-detail">
                         <p class="img-tit">{{data.metadata.name}}</p>
@@ -74,15 +72,12 @@
                             <span classs="module_tit">创建时间：</span><span class="module_time">{{data.metadata.creationTimestamp | timescon}}</span>
                         </p>
                         <p class="img-new">
-                            <span class="module_tit">代码URL：</span><a class="href-orange text-overflow href-orange_a"
-                                                                     href="{{myurl}}" target="_blank"
-                                                                     style="">{{myurl}}</a>
+                            <span class="module_tit">代码URL：</span><a class="href-orange text-overflow href-orange_a" href="{{myurl}}" target="_blank" style="">{{myurl}}</a>
                         </p>
                     </div>
                     <div class="media media-sm" ng-if="imageEnable">
                         <span class="module_tit">镜像</span>
-                        <a class="href-orange"
-                           ui-sref="console.image_detail({name: data.spec.output.to.name, bc: data.metadata.name})">{{data.spec.output.to.name}}</a>
+                        <a class="href-orange" ui-sref="console.image_detail({name: data.spec.output.to.name, bc: data.metadata.name})">{{data.spec.output.to.name}}</a>
                     </div>
 
                 </div>
@@ -114,8 +109,7 @@
 
                                     <div class="col-sm-2">
                                         <span class="detail_tit">构建状态：</span>
-                                        <span class="icon12 icon12-{{item.status.phase}}"
-                                              ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
+                                        <span class="icon12 icon12-{{item.status.phase}}" ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
                                         <!--switch to Chinese-->
                                         <span class="build_name">{{item.status.phase | phaseFilter}}</span>
                                     </div>
@@ -144,6 +138,9 @@
                                     </div>
 
 
+
+
+
                                     <!-- <div class="col-sm-2">
 
                                     <span class="icon12 icon12-{{item.status.phase}}"
@@ -164,19 +161,13 @@
                                     <!-- <div class="col-sm-4">
                                         <span>构建时长:{{item.status.duration | duration}}</span>
                                     </div> -->
-
+                                    
                                     <div class="col-sm-2 text-right">
-                                        <a ng-if="item.status.phase == 'Complete'"
-                                           ui-sref="console.image_detail({namespace:namespace,bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
-                                           class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
-                                        <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'"
-                                           ng-click="delete($index)"
-                                           class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"></a>
-                                        <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'"
-                                           ng-click="stop($index)"
-                                           class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a>
-                                        <a class="icon25 icon25-collapse" uib-tooltip="查看内容"
-                                           ng-click="getLog($index,item)" href="javascript:;"></a>
+                                        <a ng-if="item.status.phase == 'Complete'" ui-sref="console.image_detail({namespace:namespace,bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
+                                            class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
+                                        <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'" ng-click="delete($index)" class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"></a>
+                                        <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)" class="icon25 icon25-stopbuild" uib-tooltip="终止" href="javascript:;"></a>
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看内容" ng-click="getLog($index,item)" href="javascript:;"></a>
                                     </div>
                                 </div>
                             </div>
@@ -260,101 +251,96 @@
                 </form> -->
 
                 <form class="form-horizontal" name="frm">
-                    <div ng-show="!showwebhook">
-
-                        <div>
+                        <div ng-show="!showwebhook">
+    
                             <div>
-                                <div class="pip_block">
-                                    <p class="pit_left">Generic Webhook URL:</p>
-                                    <span class="pip_tit">
+                                <div>
+                                    <div class="pip_block">
+                                        <p class="pit_left">Generic Webhook URL:</p>
+                                        <span class="pip_tit">
                                            {{httpurl}}/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[1].generic?data.spec.triggers[1].generic.secret:data.spec.triggers[0].generic.secret}}/generic
                                         </span>
-                                    <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
-                                       ng-click="gcopy($event)"></i>
+                                        <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                    </div>
+    
                                 </div>
-
-                            </div>
-
-                            <div>
-                                <div class="pip_block">
-                                    <p class="pit_left">GitHub Webhook URL:</p>
-                                    <span class="pip_tit">
+    
+                                <div>
+                                    <div class="pip_block">
+                                        <p class="pit_left">GitHub Webhook URL:</p>
+                                        <span class="pip_tit">
                                             {{httpurl}}/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[0].github?data.spec.triggers[0].github.secret:data.spec.triggers[1].github.secret}}/github
                                         </span>
-                                    <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
-                                       ng-click="gcopy($event)"></i>
+                                        <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="form-group" ng-show="showwebhook">
-                        <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
-                        <label class="col-sm-2 text-left">自动构建</label>
-                        <div class="col-sm-2">
-                            <!--<c-checkbox checked="grid.checked"></c-checkbox>-->
-                            <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
-                            <span class="my-checkbox">
-                                    <span class="checkbox-check" ng-class="{active: grid.checked}"
-                                          ng-click="saveTrigger(grid.checked)">
+    
+    
+                        <div class="form-group" ng-show="showwebhook">
+                            <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
+                            <label class="col-sm-2 text-left">自动构建</label>
+                            <div class="col-sm-2">
+                                <!--<c-checkbox checked="grid.checked"></c-checkbox>-->
+                                <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
+                                <span class="my-checkbox">
+                                    <span class="checkbox-check" ng-class="{active: grid.checked}" ng-click="saveTrigger(grid.checked)">
                                         <span class="check-btn"></span>
                                     </span>
-                                <!--<span ng-if="text" class="checkbox-text">{{text}}</span>-->
+                                    <!--<span ng-if="text" class="checkbox-text">{{text}}</span>-->
                                 </span>
+                            </div>
+    
                         </div>
-
-                    </div>
-                    <!--<div class="form-group" ng-show="!showwebhook||grid.pedding">-->
-                    <!--&lt;!&ndash;<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>&ndash;&gt;-->
-                    <!--<label class="col-sm-3 text-left text-left_color" style="">自动构建</label>-->
-                    <!--<div class="col-sm-2">-->
-                    <!--<span class="my-checkbox">-->
-                    <!--<span class="checkbox-check">-->
-                    <!--<span class="check-btn"></span>-->
-                    <!--</span>-->
-
-                    <!--</span>-->
-                    <!--&lt;!&ndash;ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"&ndash;&gt;-->
-                    <!--</div>-->
-
-                    <!--</div>-->
-
-                    <div class="form-group form-group_padding" style="" ng-if="false">
-                        <label class="col-sm-3 text-left">是否持续集成</label>
-                        <div class="col-sm-2">
-                            <c-checkbox checked="checked"></c-checkbox>
+                        <!--<div class="form-group" ng-show="!showwebhook||grid.pedding">-->
+                            <!--&lt;!&ndash;<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>&ndash;&gt;-->
+                            <!--<label class="col-sm-3 text-left text-left_color" style="">自动构建</label>-->
+                            <!--<div class="col-sm-2">-->
+                                <!--<span class="my-checkbox">-->
+                                    <!--<span class="checkbox-check">-->
+                                        <!--<span class="check-btn"></span>-->
+                                    <!--</span>-->
+    
+                                <!--</span>-->
+                                <!--&lt;!&ndash;ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"&ndash;&gt;-->
+                            <!--</div>-->
+    
+                        <!--</div>-->
+    
+                        <div class="form-group form-group_padding" style="" ng-if="false">
+                            <label class="col-sm-3 text-left">是否持续集成</label>
+                            <div class="col-sm-2">
+                                <c-checkbox checked="checked"></c-checkbox>
+                            </div>
+                            <div class="col-sm-7" ng-if="checked">
+                                <small class="small_margin" style="">点击按钮，进行持续集成配置</small>
+                                <a class="btn btn-orange">持续集成配置</a>
+                            </div>
                         </div>
-                        <div class="col-sm-7" ng-if="checked">
-                            <small class="small_margin" style="">点击按钮，进行持续集成配置</small>
-                            <a class="btn btn-orange">持续集成配置</a>
+    
+                        <div class="form-group form-group_paddingTop" style="display:none;">
+                            <label class="col-sm-3 text-left">构建超时时长</label>
+                            <div class="col-sm-9">
+                                <input class="input_sty" ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable"
+                                    style="" type="number" class="form-control">
+                                <span class="form_group_span" style="">&nbsp;mins&nbsp;</span>
+                                <a href="javascript:;" class="form_group_a" style="" ng-click="frm.cdm.$valid && save()">
+                                    <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
+                                </a>
+                                <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span>
+                                <br>
+                                <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle fa_small" style="">&nbsp;您设置的时长超过了限制，请重新设置</small>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-group form-group_paddingTop" style="display:none;">
-                        <label class="col-sm-3 text-left">构建超时时长</label>
-                        <div class="col-sm-9">
-                            <input class="input_sty" ng-model="grid.completionDeadlineMinutes" name="cdm" min="1"
-                                   max="60" ng-disabled="!deadlineMinutesEnable"
-                                   style="" type="number" class="form-control">
-                            <span class="form_group_span" style="">&nbsp;mins&nbsp;</span>
-                            <a href="javascript:;" class="form_group_a" style="" ng-click="frm.cdm.$valid && save()">
-                                <span class="fa fa-orange"
-                                      ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
-                            </a>
-                            <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span>
-                            <br>
-                            <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle fa_small" style="">&nbsp;您设置的时长超过了限制，请重新设置</small>
-                        </div>
-                    </div>
-                </form>
+                    </form>
             </uib-tab>
         </uib-tabset>
     </div>
 </div>
 <style>
-    .tooltip {
-        word-break: break-all; /* 支持IE和chrome，FF不支持*/
-        word-wrap: break-word; /* 以上三个浏览器均支持 */
+    .tooltip{
+        word-break:break-all; /* 支持IE和chrome，FF不支持*/
+        word-wrap:break-word; /* 以上三个浏览器均支持 */
     }
 </style>
