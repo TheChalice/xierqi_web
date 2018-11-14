@@ -14,12 +14,12 @@ angular.module('console', [
             $scope.showAbout = true;
             //console.log('$state', $state);
             // 获取当前登录用户名
-            var loginuser = Cookie.get('loginuser')
+            var namespace = Cookie.get('namespace')
             // 铃铛上的数字
             //var inituserNum = function () {
             //function a() {
             userNum.get(
-                {namespace: loginuser},
+                {namespace: namespace},
                 function (res) {
                     $scope.numbertotal = res.total;
                 }
