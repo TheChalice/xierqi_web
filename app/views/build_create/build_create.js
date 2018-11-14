@@ -383,10 +383,6 @@ angular.module('console.build_create_new', [
                             $scope.privateErr.nil = true;
                             return;
                         }
-                        //if (pwdRegExp.test($scope.sername.pwd) === false) {
-                        //    $scope.privateErr.pwderr = true;
-                        //    return;
-                        //}
 
                     }
                     createBuildModel();
