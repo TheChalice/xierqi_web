@@ -18,8 +18,7 @@ angular.module('console', [
             // 铃铛上的数字
             //var inituserNum = function () {
             //function a() {
-            userNum.get(
-                {namespace: namespace},
+            userNum.get({namespace: namespace},
                 function (res) {
                     $scope.numbertotal = res.total;
                 }
