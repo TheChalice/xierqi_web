@@ -129,10 +129,12 @@
                                     </div>
 
                                     <div class="col-sm-3">
-                                        <span class="detail_tit">版本：</span>
-                                        <label class="build_name" uib-tooltip="{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}">
-                                            {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}
-                                        </label>
+                                        <p class="version-p">
+                                            <label class="detail_tit version-name">版本：</label>
+                                            <label class="build_name version-detail" uib-tooltip="{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}">
+                                                {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}
+                                            </label>
+                                        </p>
                                     </div>
 
 
@@ -163,10 +165,8 @@
                                     <div class="col-sm-2 text-right">
                                         <a ng-if="item.status.phase == 'Complete'" ui-sref="console.image_detail({namespace:namespace,bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
                                             class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
-                                        <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'" ng-click="delete($index)"
-                                            class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"></a>
-                                        <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
-                                            class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a>
+                                        <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'" ng-click="delete($index)" class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"></a>
+                                        <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)" class="icon25 icon25-stopbuild" uib-tooltip="终止" href="javascript:;"></a>
                                         <a class="icon25 icon25-collapse" uib-tooltip="查看内容" ng-click="getLog($index,item)" href="javascript:;"></a>
                                     </div>
                                 </div>

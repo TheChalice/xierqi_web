@@ -56,6 +56,8 @@
 
 #build-detail{
     background:#fff;padding:20px 40px 40px;
+    /*margin-top: 20px;*/
+    /*margin-left: 20px;*/
 }
 #build-detail .panel_marginBottom{
     /*margin-bottom: 50px;*/
@@ -84,7 +86,7 @@
     color: white;
 }
 #build-detail .href-orange_a{
-    width:60%;
+    /*width:60%;*/
 }
 #build-detail .tell_position{
     position: relative;
@@ -99,6 +101,13 @@
     height: 300px;
     overflow: auto;
 }
+#build-detail .icon25-stop {
+    background-image: url(img/stop.png);
+}
+#build-detail .icon25-stop:hover {
+    background-image: url(img/stop-hover.png);
+}
+
 #build-detail .sa_color{
     color:#e4e4e4;
 }

@@ -894,7 +894,21 @@ define([
 
 
                 //resource management
-
+                .state('console.create_pipeline', {
+                    url: '/:namespace/create_pipeline',
+                    templateUrl: 'views/create_pipeline/create_pipeline.html',
+                    controller: 'CreatePiplineCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_pipeline/create_pipeline.js')
+                        }],
+                        createPipline: ['tempipline', 'Cookie',
+                            function (tempipline, Cookie) {
+                                return tempipline.get({namespaces: 'openshift'}).$promise
+                            }
+                        ]
+                    }
+                })
 
                 //数据集成
                 .state('console.Integration', {
