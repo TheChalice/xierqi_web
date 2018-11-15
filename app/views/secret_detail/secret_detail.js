@@ -156,7 +156,7 @@ angular.module('console.secret_secret', [
             };
             function keyerr(arr) {
                 console.log('arr,', arr);
-                var rex = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+                var rex = /^[-._a-zA-Z0-9]+$/;
                 var cancreat = true
                 angular.forEach(arr, function (item, i) {
                     if (item.key === '') {

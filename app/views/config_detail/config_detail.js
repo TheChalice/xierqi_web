@@ -74,7 +74,7 @@ angular.module('console.config_detail', [
             $scope.isCreate = true;
             function keyerr(arr) {
                 console.log('arr,', arr);
-                var rex = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+                var rex = /^[-._a-zA-Z0-9]+$/;
                 var cancreat = true;
                 angular.forEach(arr, function (item, i) {
                     if (item.key === '') {
