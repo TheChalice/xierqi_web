@@ -87,13 +87,15 @@ angular.module('home.uploadimage', [{
                     //$scope.grid.clickbtn = 'canclick'
                     $scope.timer = $interval(function () {
                         uploadimageapi.get({namespace: $rootScope.namespace}, function (data) {
-                            console.log('data', data.msg);
-                            if (data.msg === "image push complete") {
+                            //console.log('data', data.msg);
+                            if (data.status === 1) {
                                 toastr.success('上传成功', {
                                     closeButton: true
                                 });
-
-                                $state.go("console.image", {namespace: $rootScope.namespace});
+                                $state.go("console.private-image", {namespace: $rootScope.namespace});
+                            }else if(data.status === 2){
+                                $interval.cancel($scope.timer)
+                                $scope.grid.houtaierr = true
                             }
 
                         }, function (err) {
@@ -111,7 +113,7 @@ angular.module('home.uploadimage', [{
                     if ($scope.grid.progress == 100) {
                         $('#close-this').click();
                     }
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                    //console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
                 });
             };
             $scope.changename = function (item) {
