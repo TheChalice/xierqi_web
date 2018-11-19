@@ -244,6 +244,7 @@ angular.module('console.build_create_new', [
                     urlerr: false
                 };
                 $scope.privateErr = {
+                    nil: false,
                     urlerr: false,
                     usernameerr: false,
                     pwderr: false
@@ -378,10 +379,10 @@ angular.module('console.build_create_new', [
                             $scope.privateErr.usernameerr = true;
                             return;
                         }
-                        //if (pwdRegExp.test($scope.sername.pwd) === false) {
-                        //    $scope.privateErr.pwderr = true;
-                        //    return;
-                        //}
+                        if(!$scope.sername.pwd){
+                            $scope.privateErr.nil = true;
+                            return;
+                        }
 
                     }
                     createBuildModel();
