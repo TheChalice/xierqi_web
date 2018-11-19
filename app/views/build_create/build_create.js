@@ -128,7 +128,7 @@ angular.module('console.build_create', [
             $scope.$watch('grid', function (n, o) {
                 console.log('grif', n);
             }, true);
-            loadgitdata('github', 'cache');
+            //loadgitdata('github', 'cache');
             loadgitdata('gitlab', 'cache');
             $scope.bindhub = function (click) {
                 authorize.get({source: click, redirect_url: encodeURIComponent(window.location.href)}, function (res) {
