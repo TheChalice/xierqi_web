@@ -44,10 +44,15 @@
                                     </p>
                                     <p style="height: 16px;margin-top: 14px">
                                         <!--ng-show="needbind.gitlab"-->
-                                        <a class="view_tit_set" ng-class="{'greycolor':!needbind.gitlab}" style="margin-right: 32px;" ng-click="needbind.gitlab&&bindhub('gitlab')">
-                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
-                                                <i class="uex-icon-protocol-deafult"></i>
-                                            </span>绑定&nbsp;Gitlab&nbsp;&nbsp;</a>
+                                        <a ng-show="needbind.gitlab" class="view_tit_set" style="margin-right: 32px;" ng-click="needbind.gitlab&&bindhub('gitlab')">
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;vertical-align:middle">
+                                                <i class="uex-icon-protocol-deafult"></i>&nbsp;&nbsp;绑定&nbsp;Gitlab&nbsp;&nbsp;
+                                            </span></a>
+                                        <a ng-show="!needbind.gitlab" class="view_tit_set greycolor" style="margin-right: 32px;cursor: default;">
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;vertical-align:middle">
+                                                <i class="uex-icon-protocol-deafult"></i>&nbsp;&nbsp;已绑定&nbsp;Gitlab&nbsp;&nbsp;
+                                            </span></a>
+
                                         <a class="view_tit_set" ng-class="{'running':labrunning }" uib-tooltip="同步代码源" ng-click="loadOwner('gitlab')">
                                             <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
                                                 <i class="uex-icon-refresh"></i>
