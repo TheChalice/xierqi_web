@@ -109,7 +109,7 @@
 
                                     <div class="col-sm-2">
                                         <span class="detail_tit">构建状态：</span>
-                                        <span class="icon12 icon12-{{item.status.phase}}" ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
+                                        <span class="icon12 uex-icon-{{item.status.phase}}" ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
                                         <!--switch to Chinese-->
                                         <span class="build_name">{{item.status.phase | phaseFilter}}</span>
                                     </div>
