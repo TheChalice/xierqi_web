@@ -67,7 +67,7 @@
                     <div class="timeline">
                         <ul>
                             <li ng-repeat="item in tags">
-                                <label uib-tooltip="">
+                                <label uib-tooltip="{{item.created | timescon}}">
                                     <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                                     {{item.created | dateRelative}}
                                 </label>
