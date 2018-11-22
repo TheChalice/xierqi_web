@@ -27,24 +27,22 @@
                 <div class="img-detail">
                     <p class="img-tit">{{imagename}}</p>
                     <!--<p class="img-time">-->
-                        <!--<span classs="module_tit">创建时间：</span>-->
-                        <!--<span class="module_time">{{curImgCon.creation_time | timescon}}</span>-->
+                    <!--<span classs="module_tit">创建时间：</span>-->
+                    <!--<span class="module_time">{{curImgCon.creation_time | timescon}}</span>-->
                     <!--</p>-->
                     <p class="img-new">
                         <span class="module_tit">最新版本：</span>
                         <span class="module_time">{{imagename}}:{{tags[0].name}}</span>
                     </p>
-
                 </div>
-
-
             </div>
             <div class="module_block_r">
                 <a class="btn pull-right btn-green"
                    style="height: 26px;line-height: 26px;padding: 0px 12px; font-size: 12px;"
                    ng-if="tags.length>0&&tags[tags.length-1].images"
                    ng-disabled=false
-                   ui-sref="console.service_create({namespace:namespace,image:imagename+':'+tags[0].name})">部署最新版本</a>
+                   ui-sref="console.service_create({namespace:namespace,image:tags[0].images,postobj:tags[0].postobj,imagetype:'ourimage'})">部署最新版本
+                </a>
                 <a class="btn pull-right btn-orange"
                    ng-if="!tags[tags.length-1].images || !tags.length"
                    ng-disabled=true>暂无最新版本</a>
