@@ -1,31 +1,21 @@
 <div id="build" style="margin: 0 25px;">
+    <div class="table-responsive table_topMargin" style="margin-top: 62px;">
+        <div class="nav_top_li pricvate_top row" add-classes-top style="margin-left: 0px;">
+            <div class="col-sm-3 searchbar input-group" style="" role="group" aria-label="">
+                <input type="text" class="form-control" placeholder="搜索流水线名称" ng-keyup="buildsearch(grid.txt)" ng-model="grid.txt">
+                <span class="input-group-btn">
+                <a class="btn" ng-click="buildsearch('search')"></a>
+                </span>
+            </div>
 
-
-    <div class="table-responsive table_topMargin" style="">
-        <div style="margin-right:0;margin-left:-15px;margin-bottom: 20px;height: 34px;">
-            <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
-                <div class="btn-group" role="group">
+            <div class="col-sm-9 serv_jia_btn new_deploycol">
+                <div class="btn-group" role="group" style="float: right;margin-top: 7px;padding: 0px;">
                     <a id="creatbtn" class="btn btn-green" ui-sref="console.create_pipeline({namespace:namespace})">
                         <i class="fa fa-plus fa-lg"></i>
                         <span class=""> 新建流水线</span>
                     </a>
                 </div>
-
-                <!--<a class="btn build-jia" ng-click="reload()" style="display:inline-block;">-->
-                    <!--<i class="fa fa-refresh fa-lg"></i>-->
-                <!--</a>-->
             </div>
-            <div class="col-sm-4">
-            </div>
-            <div class="col-sm-4">
-            </div>
-
-            <!--<div class="input-group col-sm-4 searchbar">-->
-            <!--&lt;!&ndash;<input type="text" class="form-control" placeholder="搜索Route名称" ng-keyup=search($event) ng-model="grid.txt">&ndash;&gt;-->
-            <!--&lt;!&ndash;<span class="input-group-btn">&ndash;&gt;-->
-            <!--&lt;!&ndash;<a class="btn" ng-click="scretssearch('search')"></a>&ndash;&gt;-->
-            <!--&lt;!&ndash;</span>&ndash;&gt;-->
-            <!--</div>-->
         </div>
         <table class="table table-hover table-default table-buju" style="">
             <tr>

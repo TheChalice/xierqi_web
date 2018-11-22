@@ -116,10 +116,14 @@ angular.module('console.monitoring', [
             $scope.hideOlderResources = function (status) {
                 if (status === true) {
                     // itemsInHiddenMode
-                    $scope.podsItemData = itemsInHiddenMode($scope.podsItemData, reservePodItemInHiddenMode);
-                    $scope.replicasItemData = itemsInHiddenMode($scope.deploymentsData, reserveReplicasItemInHiddenMode);
-                    $scope.statefulSetsData = itemsInHiddenMode($scope.statefulSetsData, reserveStatefulItemInHiddenMode);
-                    $scope.buildsData = itemsInHiddenMode($scope.buildsData,reserveBuildItemInHiddenMode);
+                    [Sort.sort($scope.podsItemData, -1)[0]] ? $scope.podsItemData = [Sort.sort($scope.podsItemData, -1)[0]]:$scope.podsItemData = [];
+                    [Sort.sort($scope.deploymentsData, -1)[0]] ? $scope.replicasItemData = [Sort.sort($scope.deploymentsData, -1)[0]]:$scope.replicasItemData = [];
+                    Sort.sort($scope.statefulSetsData, -1)[0] ? $scope.statefulSetsData = [Sort.sort($scope.statefulSetsData, -1)[0]]:$scope.statefulSetsData = [];
+                    [Sort.sort($scope.buildsData, -1)[0]] ? $scope.buildsData = [Sort.sort($scope.buildsData, -1)[0]]:$scope.buildsData = [];
+                    //$scope.podsItemData = itemsInHiddenMode($scope.podsItemData, reservePodItemInHiddenMode);
+                    //$scope.replicasItemData = itemsInHiddenMode($scope.deploymentsData, reserveReplicasItemInHiddenMode);
+                    //$scope.statefulSetsData = itemsInHiddenMode($scope.statefulSetsData, reserveStatefulItemInHiddenMode);
+                    //$scope.buildsData = itemsInHiddenMode($scope.buildsData,reserveBuildItemInHiddenMode);
                 } else {
                     $scope.podsItemData = $scope.podsItem.items;
                     $scope.replicasItemData = $scope.deploymentsData;
