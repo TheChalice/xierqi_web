@@ -146,7 +146,7 @@
     content: "\e61f";
 }
 
-.dropdown-menu > li > a {
+#monitoring .dropdown-menu > li > a {
     font-size: 12px;
     padding: 3px 10px;
     display: block;
