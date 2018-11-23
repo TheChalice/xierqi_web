@@ -807,11 +807,11 @@ angular.module('console.service.create', [
                 if (unit === 'millicores') {
                     return num + 'm'
                 } else if (unit === 'cores') {
-                    return num + 'cores'
+                    return num
                 } else if (unit === 'MB') {
                     return num + 'm'
                 } else if (unit === 'GB') {
-                    return num + 'g'
+                    return num + 'G'
                 }
             }
 
@@ -947,6 +947,7 @@ angular.module('console.service.create', [
                 }
 
             }
+
             function creathoriz() {
                 horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
 
@@ -1110,6 +1111,7 @@ angular.module('console.service.create', [
                             con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
                             con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
                             con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
+                            //console.log('con.resources', con.resources);
                         } else {
                             delete con.resources
                         }
