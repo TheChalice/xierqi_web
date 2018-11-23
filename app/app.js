@@ -3191,18 +3191,18 @@ define([
                         }
 
                     ];
+                    console.log('toState.name', toState.name);
                     if (toState && toState.name) {
                         $rootScope.console.state = toState.name;
                         if (toState.name.indexOf('dashboard') != -1) {
                             $rootScope.dataForTheTree[0].stateUrl = toState.name
                         } else if (toState.name.indexOf('build') != -1) {
                             $rootScope.dataForTheTree[1].stateUrl = toState.name;
+                        } else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage_detail') !== -1) {
+                            console.log('primage_detail');
+                            $rootScope.imageChild[1].stateUrl = toState.name;
                         } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
                             $rootScope.imageChild[0].stateUrl = toState.name;
-                        }
-                        else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage') !== -1) {
-                            $rootScope.imageChild[1].stateUrl = toState.name;
-
                         } else if (toState.name.indexOf('pipeline') != -1) {
                             $rootScope.dataForTheTree[3].stateUrl = toState.name;
                         }
