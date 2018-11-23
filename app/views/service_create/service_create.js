@@ -618,7 +618,7 @@ angular.module('console.service.create', [
                 }
             }
 
-            //console.log($stateParams);
+            console.log('00000000$stateParams',$stateParams);
             if ($stateParams.imagetype === 'myimage') {
                 $scope.checkimage = 1
                 $scope.checked = {
