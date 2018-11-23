@@ -538,7 +538,6 @@ angular.module('console.service.create', [
             }
 
             $scope.ourimage = function (images, idx, postobj) {
-                //console.log('images.status.images', images,postobj);
                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                         $scope.err.url.role = true;
@@ -618,7 +617,7 @@ angular.module('console.service.create', [
                 }
             }
 
-            //console.log($stateParams);
+            // console.log('00000000$stateParams',$stateParams);
             if ($stateParams.imagetype === 'myimage') {
                 $scope.checkimage = 1
                 $scope.checked = {
