@@ -65,16 +65,26 @@
                     <div class="timeline">
                         <ul>
                             <li ng-repeat="item in tags">
-                                <label uib-tooltip="{{item.created | timescon}}">
+                                <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span class="dot_blank"></span>
+                                <!-- <label uib-tooltip="">
                                     <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                                     {{item.created | dateRelative}}
-                                </label>
-                                <div class="container-fluid">
+                                </label> -->
+                                <div class="container-fluid" ng-show="item.images">
                                     <div class="row">
-                                        <div class="col-sm-8">
+
+                                        <div class="col-sm-4">
+                                            <span class="detail_tit">创建时间：</span>
+                                            <label class="build_name" uib-tooltip="{{item.created | timescon}}">
+                                                {{item.created | dateRelative}}
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4" >
                                             <div>
-                                                <i class="fa fa-flag-o"></i>&nbsp;
+                                                <!-- <i class="fa fa-flag-o"></i>&nbsp; -->
                                                 <!--<span ng-if="item.spec.revision.git.ref">-->
+                                                <span class="detail_tit">版本：</span>
                                                 <span>{{imagename}}:{{item.name}}</span>
                                             </div>
                                         </div>
