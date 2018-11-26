@@ -116,14 +116,39 @@ angular.module('console.monitoring', [
             $scope.hideOlderResources = function (status) {
                 if (status === true) {
                     // itemsInHiddenMode
-                    [Sort.sort($scope.podsItemData, -1)[0]] ? $scope.podsItemData = [Sort.sort($scope.podsItemData, -1)[0]]:$scope.podsItemData = [];
-                    [Sort.sort($scope.deploymentsData, -1)[0]] ? $scope.replicasItemData = [Sort.sort($scope.deploymentsData, -1)[0]]:$scope.replicasItemData = [];
-                    Sort.sort($scope.statefulSetsData, -1)[0] ? $scope.statefulSetsData = [Sort.sort($scope.statefulSetsData, -1)[0]]:$scope.statefulSetsData = [];
-                    [Sort.sort($scope.buildsData, -1)[0]] ? $scope.buildsData = [Sort.sort($scope.buildsData, -1)[0]]:$scope.buildsData = [];
+                    //[Sort.sort($scope.podsItemData, -1)[0]] ? $scope.podsItemData = [Sort.sort($scope.podsItemData, -1)[0]]:$scope.podsItemData = [];
+                    //[Sort.sort($scope.deploymentsData, -1)[0]] ? $scope.replicasItemData = [Sort.sort($scope.deploymentsData, -1)[0]]:$scope.replicasItemData = [];
+                    //Sort.sort($scope.statefulSetsData, -1)[0] ? $scope.statefulSetsData = [Sort.sort($scope.statefulSetsData, -1)[0]]:$scope.statefulSetsData = [];
+                    //[Sort.sort($scope.buildsData, -1)[0]] ? $scope.buildsData = [Sort.sort($scope.buildsData, -1)[0]]:$scope.buildsData = [];
+                    angular.forEach($scope.podsItemData, function (item, i) {
+                        let name = item.metadata.annotations['openshift.io/build.name'] || item.metadata.annotations['openshift.io/deployment.name'];
+                        if(name){
+                           let nameArr = name.split('-');
+                           item.podVersion = nameArr.pop();
+                           item.newname = nameArr.join('-');
+                       }
+                    })
+                    let newObj={};
+                    let newpodarr = []
+                    for(let item in $scope.podsItemData){
+                        let name =$scope.podsItemData[item].newname;
+                        if(newObj[name]){
+                            newObj[name].push($scope.podsItemData[item]);
+                        }else{
+                            newObj[name]=[$scope.podsItemData[item]];
+                        }
+                    }
+                    for(let newItem in newObj){
+                        newObj[newItem].sort((a,b)=>{
+                            return a.podVersion- b.podVersion;
+                        })
+                        newpodarr.push(newObj[newItem][0])
+                    }
+                    $scope.podsItemData = newpodarr;
                     //$scope.podsItemData = itemsInHiddenMode($scope.podsItemData, reservePodItemInHiddenMode);
-                    //$scope.replicasItemData = itemsInHiddenMode($scope.deploymentsData, reserveReplicasItemInHiddenMode);
-                    //$scope.statefulSetsData = itemsInHiddenMode($scope.statefulSetsData, reserveStatefulItemInHiddenMode);
-                    //$scope.buildsData = itemsInHiddenMode($scope.buildsData,reserveBuildItemInHiddenMode);
+                    $scope.replicasItemData = itemsInHiddenMode($scope.deploymentsData, reserveReplicasItemInHiddenMode);
+                    $scope.statefulSetsData = itemsInHiddenMode($scope.statefulSetsData, reserveStatefulItemInHiddenMode);
+                    $scope.buildsData = itemsInHiddenMode($scope.buildsData,reserveBuildItemInHiddenMode);
                 } else {
                     $scope.podsItemData = $scope.podsItem.items;
                     $scope.replicasItemData = $scope.deploymentsData;
