@@ -11,8 +11,8 @@ angular.module('console.monitoring', [
         ]
     }
 ])
-    .controller('MonitoringCtrl', ['$rootScope', '$scope', '$filter','$state', 'KeywordService', 'monitoringPods', 'monitoringReplicas', 'monitoringReplicaSet', 'BuildConfig', 'Build', 'Sort', 'monitoringStatefulSets', 'monitoringBuild',
-        function ($rootScope, $scope, $filter, $state, KeywordService, monitoringPods, monitoringReplicas, monitoringReplicaSet, BuildConfig, Build, Sort, monitoringStatefulSets, monitoringBuild) {
+    .controller('MonitoringCtrl', ['$rootScope', '$scope', '$state', 'monitoringPods', 'monitoringReplicas', 'monitoringReplicaSet', 'BuildConfig', 'Build', 'Sort', 'monitoringStatefulSets', 'monitoringBuild',
+        function ($rootScope, $scope, $state, monitoringPods, monitoringReplicas, monitoringReplicaSet, BuildConfig, Build, Sort, monitoringStatefulSets, monitoringBuild) {
             $scope.bodyclass = true;
             $scope.allList = ['All', 'Pods', 'Deployments', 'Builds', 'Stateful Sets'];
             $scope.curListName = "All";
@@ -48,10 +48,10 @@ angular.module('console.monitoring', [
                     var item = data[i];
                     // 把状态不满足的item筛除
                     if (!assistantFilter(item)) continue;
-                    if(item['metadata']['ownerReferences'] instanceof Array){
+                    if (item['metadata']['ownerReferences'] instanceof Array) {
                         var key = item['metadata']['ownerReferences'][0]['name']
-                    }else {
-                        var key =item['metadata']['labels']['app'];
+                    } else {
+                        var key = item['metadata']['labels']['app'];
                     }
                     // var key = item['metadata']['labels']['app'];
                     var targetLastItem = result[key];
@@ -74,8 +74,9 @@ angular.module('console.monitoring', [
                 var versionStr = tmpArr[tmpArr.length - 1];
                 return parseInt(versionStr);
             }
+
             function itemsInHiddenMode(originalDatas, assistantFilter) {
-                if(!originalDatas){
+                if (!originalDatas) {
                     return []
                 }
                 var resultArr = Object.entries(group(originalDatas, assistantFilter));
@@ -88,37 +89,42 @@ angular.module('console.monitoring', [
                 });
                 return resultArr;
             }
+
             function reservePodItemInHiddenMode(item) {
-                if(item.status.phase !== 'Succeeded' && item.status.phase !== 'Failed'){
+                if (item.status.phase !== 'Succeeded' && item.status.phase !== 'Failed') {
                     return true;
                 }
                 return false;
             }
+
             function reserveRcItemInHiddenMode(item) {
-                if(item.status.replicas > 0){
+                if (item.status.replicas > 0) {
                     return true;
                 }
                 return false;
             }
+
             function reserveRsItemInHiddenMode(item) {
-                if(item.status.replicas > 0){
+                if (item.status.replicas > 0) {
                     return true;
                 }
                 return false;
             }
 
             function reserveStatefulItemInHiddenMode(item) {
-                if(item.status.replicas > 0){
+                if (item.status.replicas > 0) {
                     return true;
                 }
                 return false;
             }
+
             function reserveBuildItemInHiddenMode(item) {
-                if(item.status.phase === 'Complete'){
+                if (item.status.phase === 'Complete') {
                     return true;
                 }
                 return false;
             }
+
             $scope.hideOlderResources = function (status) {
                 if (status === true) {
                     $scope.podsItemData = itemsInHiddenMode($scope.podsItemData, reservePodItemInHiddenMode);
@@ -126,7 +132,7 @@ angular.module('console.monitoring', [
                     $scope.rsItem = itemsInHiddenMode($scope.replicaSetItem.items, reserveRsItemInHiddenMode);
                     $scope.replicasItemData = $scope.rcItem.concat($scope.rsItem);
                     $scope.statefulSetsData = itemsInHiddenMode($scope.statefulSetsData, reserveStatefulItemInHiddenMode);
-                    $scope.buildsData = itemsInHiddenMode($scope.buildsData,reserveBuildItemInHiddenMode);
+                    $scope.buildsData = itemsInHiddenMode($scope.buildsData, reserveBuildItemInHiddenMode);
                 } else {
                     $scope.podsItemData = $scope.podsItem.items;
                     $scope.replicasItemData = $scope.replicasItem.items.concat($scope.replicaSetItem.items);
