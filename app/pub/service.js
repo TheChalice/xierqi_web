@@ -2260,8 +2260,801 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 bytesToKiB: bytesToKiB,
                 millicoresToCores: millicoresToCores
             };
-        });
+        })
+        .service("Navigate",['$location','$window','$timeout','annotationFilter','LabelFilter','$filter','APIService',function(
+            $location,$window,$timeout,annotationFilter,LabelFilter,$filter,APIService){
+            var annotation = $filter('annotation');
+            var buildConfigForBuild = $filter('buildConfigForBuild');
+            var isPipeline = $filter('isJenkinsPipelineStrategy');
+            var displayNameFilter = $filter('displayName');
 
+            // Get the type segment for build URLs. `resource` can be a build or build config.
+            var getBuildURLType = function(resource, opts) {
+                if (_.get(opts, 'isPipeline')) {
+                    return "pipelines";
+                }
+
+                if (_.isObject(resource) && isPipeline(resource)) {
+                    // Use "pipelines" instead of "builds" in the URL so the right nav item is highlighted
+                    // for pipeline builds.
+                    return "pipelines";
+                }
+
+                return "builds";
+            };
+
+            return {
+                /**
+                 * Navigate and display the error page.
+                 *
+                 * @param {type} message    The message to display to the user
+                 * @param {type} errorCode  An optional error code to display
+                 * @returns {undefined}
+                 */
+                toErrorPage: function(message, errorCode, reload) {
+                    var redirect = URI('error').query({
+                        error_description: message,
+                        error: errorCode
+                    }).toString();
+                    if (!reload) {
+                        // Use replace() to avoid breaking the browser back button.
+                        $location.url(redirect).replace();
+                    }
+                    else {
+                        $window.location.href = redirect;
+                    }
+                },
+
+                /**
+                 * Navigate and display the project overview page.
+                 *
+                 * @param {type} projectName  the project name
+                 * @returns {undefined}
+                 */
+                toProjectOverview: function(projectName){
+                    $location.path(this.projectOverviewURL(projectName));
+                },
+
+                /**
+                 * Return the URL for the project overview
+                 *
+                 * @param {type}     projectName
+                 * @returns {String} a URL string for the project overview
+                 */
+                projectOverviewURL: function(projectName){
+                    return "project/" + encodeURIComponent(projectName) + "/overview";
+                },
+
+                toProjectList: function(){
+                    $location.path('projects');
+                },
+
+                membershipURL: function(projectName) {
+                    return "project/" + encodeURIComponent(projectName) + "/membership";
+                },
+
+                toProjectMembership: function(projectName) {
+                    $location.path(this.membershipURL(projectName));
+                },
+
+                /**
+                 * Return the URL for the project catalog browse page
+                 *
+                 * @param {Object|String}     project - Can be a project object or the project's name (string)
+                 * @returns {String} a URL string for the project catalog browse page
+                 */
+                catalogURL: function(project) {
+                    var projectName = angular.isString(project) ? project : _.get(project, 'metadata.name');
+                    if (!projectName) {
+                        return 'catalog';
+                    }
+
+                    return "project/" + encodeURIComponent(projectName) + "/catalog";
+                },
+
+                /**
+                 * Navigate and display the project catalog browse page.
+                 *
+                 * @param {Object|String} project - Can be a project object or the project's name (string)
+                 * @param {Object} search - optional search object (supports initial filters via a filter field)
+                 * @returns {undefined}
+                 */
+                toProjectCatalog: function(project, search) {
+                    var loc = $location.path(this.catalogURL(project));
+                    if (search) {
+                        loc.search(search);
+                    }
+                },
+
+                quotaURL: function(projectName) {
+                    return "project/" + encodeURIComponent(projectName) + "/quota";
+                },
+
+                createFromImageURL: function(imageStream, imageTag, projectName, queryParams) {
+                    var createURI = URI.expand("project/{project}/create/fromimage{?q*}", {
+                        project: projectName,
+                        q: angular.extend ({
+                            imageStream: imageStream.metadata.name,
+                            imageTag: imageTag,
+                            namespace: imageStream.metadata.namespace,
+                            displayName: displayNameFilter(imageStream)
+                        }, queryParams || {})
+                    });
+                    return createURI.toString();
+                },
+
+                createFromTemplateURL: function(template, projectName, queryParams) {
+                    var createURI = URI.expand("project/{project}/create/fromtemplate{?q*}", {
+                        project: projectName,
+                        q: angular.extend ({
+                            template: template.metadata.name,
+                            namespace: template.metadata.namespace
+                        }, queryParams || {})
+                    });
+                    return createURI.toString();
+                },
+
+                /**
+                 * Navigate and display the next steps after creation page.
+                 *
+                 * @param {type} projectName  the project name
+                 * @returns {undefined}
+                 */
+                toNextSteps: function(name, projectName, searchPart) {
+                    var search = {
+                        name: name
+                    };
+
+                    if (_.isObject(searchPart)) {
+                        _.extend(search, searchPart);
+                    }
+
+                    $location.path("project/" + encodeURIComponent(projectName) + "/create/next").search(search);
+                },
+
+                toPodsForDeployment: function(deployment, pods) {
+                    if (_.size(pods) === 1) {
+                        this.toResourceURL(_.sample(pods));
+                        return;
+                    }
+                    this.toResourceURL(deployment);
+                },
+
+                // Resource is either a resource object, or a name.  If resource is a name, kind and namespace must be specified
+                // Note that builds and deployments can only have their URL built correctly (including their config in the URL)
+                // if resource is an object, otherwise they will fall back to the non-nested URL.
+                //
+                // `opts` is for additional options. Currently only `opts.isPipeline` is supported for building URLs with a
+                // pipeline path segment.
+                resourceURL: function(resource, kind, namespace, action, opts) {
+                    action = action || "browse";
+
+                    if (!resource || (!resource.metadata && (!kind || !namespace))) {
+                        return null;
+                    }
+
+                    // normalize based on the kind of args we got
+                    if (!kind) {
+                        kind = resource.kind;
+                    }
+
+                    if (!namespace) {
+                        namespace = resource.metadata.namespace;
+                    }
+
+                    var name = resource;
+                    if (resource.metadata) {
+                        name = resource.metadata.name;
+                    }
+
+                    var url = URI("")
+                        .segment("project")
+                        .segmentCoded(namespace)
+                        .segment(action);
+
+                    switch(kind) {
+                        case "Build":
+                            var buildConfigName = $filter('buildConfigForBuild')(resource);
+                            var typeSegment = getBuildURLType(resource, opts);
+                            if (buildConfigName) {
+                                url.segment(typeSegment)
+                                    .segmentCoded(buildConfigName)
+                                    .segmentCoded(name);
+                            }
+                            else {
+                                url.segment(typeSegment + "-noconfig")
+                                    .segmentCoded(name);
+                            }
+                            break;
+                        case "BuildConfig":
+                            url.segment(getBuildURLType(resource, opts))
+                                .segmentCoded(name);
+                            break;
+                        case "ConfigMap":
+                            url.segment('config-maps')
+                                .segmentCoded(name);
+                            break;
+                        case "Deployment":
+                            url.segment("deployment")
+                                .segmentCoded(name);
+                            break;
+                        case "DeploymentConfig":
+                            url.segment("dc")
+                                .segmentCoded(name);
+                            break;
+                        case "ReplicaSet":
+                            url.segment("rs")
+                                .segmentCoded(name);
+                            break;
+                        case "ReplicationController":
+                            url.segment("rc")
+                                .segmentCoded(name);
+                            break;
+                        case "ImageStream":
+                            url.segment("images")
+                                .segmentCoded(name);
+                            break;
+                        case "ImageStreamTag":
+                            var ind = name.indexOf(':');
+                            url.segment("images")
+                                .segmentCoded(name.substring(0, ind))
+                                .segmentCoded(name.substring(ind + 1));
+                            break;
+                        case "ServiceInstance":
+                            url.segment("service-instances")
+                                .segmentCoded(name);
+                            break;
+                        case "StatefulSet":
+                            url.segment("stateful-sets")
+                                .segmentCoded(name);
+                            break;
+                        case "PersistentVolumeClaim":
+                        case "Pod":
+                        case "Route":
+                        case "Secret":
+                        case "Service":
+                            url.segment(APIService.kindToResource(kind))
+                                .segmentCoded(name);
+                            break;
+                        default:
+                            var rgv;
+                            if (resource.metadata) {
+                                rgv = APIService.objectToResourceGroupVersion(resource);
+                            }
+                            else if (_.get(opts, "apiVersion")) {
+                                var r = APIService.kindToResource(kind);
+                                var gv = APIService.parseGroupVersion(opts.apiVersion);
+                                gv.resource = r;
+                                rgv = APIService.toResourceGroupVersion(gv);
+                            }
+                            else {
+                                rgv = APIService.toResourceGroupVersion(APIService.kindToResource(kind));
+                            }
+                            var apiInfo = APIService.apiInfo(rgv);
+                            if (!apiInfo) {
+                                // This is not an API object we know about from discovery
+                                // We won't be able to navigate to it in Other Resources
+                                return null;
+                            }
+                            url.segment("other")
+                                .search({
+                                    kind: kind,
+                                    group: rgv.group
+                                });
+                    }
+
+                    if (_.get(opts, "tab")) {
+                        url.setSearch("tab", opts.tab);
+                    }
+
+                    return url.toString();
+                },
+
+                // Navigate to the URL of the resource
+                toResourceURL: function (resource) {
+                    $location.url(this.resourceURL(resource));
+                },
+
+                // Returns the build config URL for a build or the deployment config URL for a deployment.
+                configURLForResource: function(resource, /* optional */ action) {
+                    var bc, dc,
+                        kind = _.get(resource, 'kind'),
+                        namespace = _.get(resource, 'metadata.namespace');
+                    if (!kind || !namespace) {
+                        return null;
+                    }
+
+                    switch (kind) {
+                        case 'Build':
+                            bc = buildConfigForBuild(resource);
+                            if (!bc) {
+                                return null;
+                            }
+
+                            return this.resourceURL(bc, 'BuildConfig', namespace, action, {
+                                isPipeline: isPipeline(resource)
+                            });
+
+                        case 'ReplicationController':
+                            dc = annotation(resource, 'deploymentConfig');
+                            if (!dc) {
+                                return null;
+                            }
+                            return this.resourceURL(dc, 'DeploymentConfig', namespace, action);
+                    }
+
+                    return null;
+                },
+
+                resourceListURL: function(resource, projectName) {
+                    var routeMap = {
+                        'builds': 'builds',
+                        'buildconfigs': 'builds',
+                        'configmaps': 'config-maps',
+                        'deployments': 'deployments',
+                        'deploymentconfigs': 'deployments',
+                        'imagestreams': 'images',
+                        'pods': 'pods',
+                        'replicasets': 'deployments',
+                        'replicationcontrollers': 'deployments',
+                        'routes': 'routes',
+                        'secrets': 'secrets',
+                        'services': 'services',
+                        'serviceinstances': 'service-instances',
+                        'persistentvolumeclaims': 'storage',
+                        'statefulsets' : 'stateful-sets'
+                    };
+
+                    return URI.expand("project/{projectName}/browse/{browsePath}", {
+                        projectName: projectName,
+                        browsePath: routeMap[resource]
+                    }).toString();
+                },
+
+                /**
+                 * Navigate to a list view for a resource type
+                 *
+                 * @param {String} resource      the resource (e.g., builds or replicationcontrollers)
+                 * @param {String} projectName   the project name
+                 * @returns {undefined}
+                 */
+                toResourceList: function(resource, projectName) {
+                    $location.url(this.resourceListURL(resource, projectName));
+                },
+
+                yamlURL: function(object, returnURL) {
+                    if (!object) {
+                        return '';
+                    }
+
+                    var groupVersion = APIService.parseGroupVersion(object.apiVersion);
+                    return URI.expand("project/{projectName}/edit/yaml?kind={kind}&name={name}&group={group}&returnURL={returnURL}", {
+                        projectName: object.metadata.namespace,
+                        kind: object.kind,
+                        name: object.metadata.name,
+                        group: groupVersion.group || '',
+                        returnURL: returnURL || ''
+                    }).toString();
+                },
+
+                healthCheckURL: function(projectName, kind, name, group) {
+                    return URI.expand("project/{projectName}/edit/health-checks?kind={kind}&name={name}&group={group}", {
+                        projectName: projectName,
+                        kind: kind,
+                        name: name,
+                        group: group || ''
+                    }).toString();
+                }
+            };
+        }])
+        .factory("BuildsService",['$filter','$q','APIService','DataService','Navigate','NotificationsService',function(
+            $filter,$q,APIService,DataService,Navigate,NotificationsService) {
+
+            var buildConfigsInstantiateVersion = APIService.getPreferredVersion('buildconfigs/instantiate');
+            var buildsCloneVersion = APIService.getPreferredVersion('builds/clone');
+
+            var annotation = $filter('annotation');
+            var buildConfigForBuild = $filter('buildConfigForBuild');
+            var getErrorDetails = $filter('getErrorDetails');
+            var isIncompleteBuild = $filter('isIncompleteBuild');
+            var isJenkinsPipelineStrategy = $filter('isJenkinsPipelineStrategy');
+            var isNewer = $filter('isNewerResource');
+
+            var getBuildNumber = function(build) {
+                var buildNumber = annotation(build, 'buildNumber') || parseInt(build.metadata.name.match(/(\d+)$/), 10);
+                if (isNaN(buildNumber)) {
+                    return null;
+                }
+
+                return buildNumber;
+            };
+
+            var getBuildDisplayName = function(build, buildConfigName) {
+                var buildNumber = getBuildNumber(build);
+                if (buildConfigName && buildNumber) {
+                    return buildConfigName + " #" + buildNumber;
+                }
+
+                return build.metadata.name;
+            };
+
+            var startBuild = function(buildConfig) {
+                var buildType = isJenkinsPipelineStrategy(buildConfig) ? 'pipeline' : 'build';
+                var req = {
+                    kind: "BuildRequest",
+                    apiVersion: APIService.toAPIVersion(buildConfigsInstantiateVersion),
+                    metadata: {
+                        name: buildConfig.metadata.name
+                    }
+                };
+
+                var context = {
+                    namespace: buildConfig.metadata.namespace
+                };
+                return DataService.create(buildConfigsInstantiateVersion, buildConfig.metadata.name, req, context).then(function(build) {
+                    var message, details;
+                    var displayName = getBuildDisplayName(build, buildConfig.metadata.name);
+                    var runPolicy = _.get(buildConfig, 'spec.runPolicy');
+                    if (runPolicy === 'Serial' || runPolicy === 'SerialLatestOnly') {
+                        message = _.capitalize(buildType) + " " + displayName + " successfully queued.";
+                        details = "Builds for " + buildConfig.metadata.name + " are configured to run one at a time.";
+                    } else {
+                        message = _.capitalize(buildType) + " " + displayName + " successfully created.";
+                    }
+                    NotificationsService.addNotification({
+                        type: "success",
+                        message: message,
+                        details: details,
+                        links: [{
+                            href: Navigate.resourceURL(build),
+                            label: "View Build"
+                        }]
+                    });
+                }, function(result) {
+                    NotificationsService.addNotification({
+                        type: "error",
+                        message: "An error occurred while starting the " + buildType + ".",
+                        details: getErrorDetails(result)
+                    });
+
+                    return $q.reject(result);
+                });
+            };
+
+            var cancelBuild = function(build, buildConfigName) {
+                var buildType = isJenkinsPipelineStrategy(build) ? 'pipeline' : 'build';
+                var displayName = getBuildDisplayName(build, buildConfigName);
+                var context = {
+                    namespace: build.metadata.namespace
+                };
+                var canceledBuild = angular.copy(build);
+                var rgv = APIService.objectToResourceGroupVersion(canceledBuild);
+                canceledBuild.status.cancelled = true;
+
+                return DataService.update(rgv, canceledBuild.metadata.name, canceledBuild, context).then(function() {
+                    NotificationsService.addNotification({
+                        type: "success",
+                        message: _.capitalize(buildType) + " " + displayName + " successfully cancelled."
+                    });
+                }), function(result) {
+                    NotificationsService.addNotification({
+                        type: "error",
+                        message: "An error occurred cancelling " + buildType + " " + displayName + ".",
+                        details: getErrorDetails(result)
+                    });
+
+                    return $q.reject(result);
+                };
+            };
+
+            var cloneBuild = function(originalBuild, buildConfigName) {
+                var buildType = isJenkinsPipelineStrategy(originalBuild) ? 'pipeline' : 'build';
+                var originalDisplayName = getBuildDisplayName(originalBuild, buildConfigName);
+
+                var req = {
+                    kind: "BuildRequest",
+                    apiVersion: APIService.toAPIVersion(buildsCloneVersion),
+                    metadata: {
+                        name: originalBuild.metadata.name
+                    }
+                };
+                var context = {
+                    namespace: originalBuild.metadata.namespace
+                };
+
+                return DataService.create(buildsCloneVersion, originalBuild.metadata.name, req, context).then(function(clonedBuild) {
+                    var clonedDisplayName = getBuildDisplayName(clonedBuild, buildConfigName);
+                    NotificationsService.addNotification({
+                        type: "success",
+                        message: _.capitalize(buildType) + " " + originalDisplayName + " is being rebuilt as " + clonedDisplayName + ".",
+                        links: [{
+                            href: Navigate.resourceURL(clonedBuild),
+                            label: "View Build"
+                        }]
+                    });
+                }, function(result) {
+                    NotificationsService.addNotification({
+                        type: "error",
+                        message: "An error occurred while rerunning " + buildType + " " + originalDisplayName + ".",
+                        details: getErrorDetails(result)
+                    });
+
+                    return $q.reject();
+                });
+            };
+
+            var isPaused = function(buildConfig) {
+                return annotation(buildConfig, "openshift.io/build-config.paused") === 'true';
+            };
+
+            var canBuild = function(buildConfig) {
+                if (!buildConfig) {
+                    return false;
+                }
+                if (buildConfig.metadata.deletionTimestamp) {
+                    return false;
+                }
+                if (isPaused(buildConfig)) {
+                    return false;
+                }
+                return true;
+            };
+
+            // TODO: Generalize for other kinds since the annotation is generic.
+            var usesDeploymentConfigs = function(buildConfig) {
+                var uses = annotation(buildConfig, 'pipeline.alpha.openshift.io/uses');
+                if (!uses) {
+                    return [];
+                }
+                try {
+                    uses = JSON.parse(uses);
+                } catch(e) {
+                    Logger.warn('Could not parse "pipeline.alpha.openshift.io/uses" annotation', e);
+                    return;
+                }
+
+                var depoymentConfigs = [];
+                _.each(uses, function(resource) {
+                    if (!resource.name) {
+                        return;
+                    }
+                    if (resource.namespace && resource.namespace !== _.get(buildConfig, 'metadata.namespace')) {
+                        return;
+                    }
+                    if (resource.kind !== 'DeploymentConfig') {
+                        return;
+                    }
+                    depoymentConfigs.push(resource.name);
+                });
+
+                return depoymentConfigs;
+            };
+
+            // Returns a map of only the builds that belong to a particular build config, needed
+            // because we can't filter our watch on the annotation, only on the potentially truncated label
+            // Assumes the builds were already pre-filtered based on the label.
+            var validatedBuildsForBuildConfig = function(buildConfigName, builds) {
+                return _.pickBy(builds, function(build){
+                    var buildCfgAnnotation = annotation(build, 'buildConfig');
+                    return !buildCfgAnnotation || buildCfgAnnotation === buildConfigName;
+                });
+            };
+
+            var latestBuildByConfig = function(builds, /* optional */ filter) {
+                var latestByConfig = {};
+                _.each(builds, function(build) {
+                    var buildConfigName = buildConfigForBuild(build) || "";
+                    if (filter && !filter(build)) {
+                        return;
+                    }
+
+                    if (isNewer(build, latestByConfig[buildConfigName])) {
+                        latestByConfig[buildConfigName] = build;
+                    }
+                });
+
+                return latestByConfig;
+            };
+
+            var getStartTimestsamp = function(build) {
+                return build.status.startTimestamp || build.metadata.creationTimestamp;
+            };
+
+            var nsToMS = function(duration) {
+                // build.duration is returned in nanoseconds. Convert to ms.
+                // 1000 nanoseconds per microsecond
+                // 1000 microseconds per millisecond
+                return _.round(duration / 1000 / 1000);
+            };
+
+            var getDuration = function(build) {
+                // Use build.status.duration if available.
+                var duration = _.get(build, 'status.duration');
+                if (duration) {
+                    // Convert duration from ns to ms.
+                    return nsToMS(duration);
+                }
+
+                // Fall back to comparing start timestamp to end timestamp.
+                var startTimestamp = getStartTimestsamp(build);
+                var endTimestamp = build.status.completionTimestamp;
+                if (!startTimestamp || !endTimestamp) {
+                    return 0;
+                }
+
+                return moment(endTimestamp).diff(moment(startTimestamp));
+            };
+
+            var incompleteBuilds = function(builds) {
+                return _.map(builds, function(build) {
+                    return isIncompleteBuild(build);
+                });
+            };
+
+            var completeBuilds = function(builds) {
+                return _.map(builds, function(build) {
+                    return !isIncompleteBuild(build);
+                });
+            };
+
+            var lastCompleteByBuildConfig = function(builds) {
+                return _.reduce(
+                    builds,
+                    function(result, build) {
+                        if(isIncompleteBuild(build)) {
+                            return result;
+                        }
+                        var bc = $filter('annotation')(build, 'buildConfig');
+                        if(isNewer(build, result[bc])) {
+                            result[bc] = build;
+                        }
+                        return result;
+                    }, {});
+
+            };
+
+            // result: incomplete builds + the single latest build for each build config.
+            var interestingBuilds = function(builds) {
+                var latestCompleteByConfig = {};
+                var incompleteBuilds = _.filter(
+                    builds,
+                    function(build) {
+                        if(isIncompleteBuild(build)) {
+                            return true;
+                        }
+                        // for efficiency, since we have a loop, if the build is
+                        // complete we can build a map of latest complete builds by bcs
+                        var bc = $filter('annotation')(build, 'buildConfig');
+                        if(isNewer(build, latestCompleteByConfig[bc])) {
+                            latestCompleteByConfig[bc] = build;
+                        }
+                    });
+                // in the end we want a single list for ng-repeating
+                return incompleteBuilds
+                    .concat(
+                        _.map(
+                            latestCompleteByConfig,
+                            function(build) {
+                                return build;
+                            }));
+            };
+
+            var imageObjectRef = $filter('imageObjectRef');
+            var groupBuildConfigsByOutputImage = function(buildConfigs) {
+                var buildConfigsByOutputImage = {};
+                _.each(buildConfigs, function(buildConfig) {
+                    var outputImage = _.get(buildConfig, 'spec.output.to');
+                    var ref = imageObjectRef(outputImage, buildConfig.metadata.namespace);
+                    if (!ref) {
+                        return;
+                    }
+
+                    buildConfigsByOutputImage[ref] = buildConfigsByOutputImage[ref] || [];
+                    buildConfigsByOutputImage[ref].push(buildConfig);
+                });
+
+                return buildConfigsByOutputImage;
+            };
+
+            // Sort by date first, falling back to build number in case two builds
+            // have the same date.
+            var sortBuilds = function(builds, descending) {
+                var compareNumbers = function(left, right) {
+                    var leftNumber = getBuildNumber(left);
+                    var rightNumber = getBuildNumber(right);
+
+                    // Fall back to names if no numbers.
+                    var leftName, rightName;
+                    if (!leftNumber && !rightNumber) {
+                        leftName = _.get(left, 'metadata.name', '');
+                        rightName = _.get(right, 'metadata.name', '');
+                        if (descending) {
+                            return rightName.localeCompare(leftName);
+                        }
+                        return leftName.localeCompare(rightName);
+                    }
+
+                    if (!leftNumber) {
+                        return descending ? 1 : -1;
+                    }
+
+                    if (!rightNumber) {
+                        return descending ? -1 : 1;
+                    }
+
+                    if (descending) {
+                        return rightNumber - leftNumber;
+                    }
+
+                    return leftNumber - rightNumber;
+                };
+
+                var compareDates = function(left, right) {
+                    var leftDate = _.get(left, 'metadata.creationTimestamp', '');
+                    var rightDate = _.get(right, 'metadata.creationTimestamp', '');
+
+                    // If the builds have identical dates, sort by number.
+                    if (leftDate === rightDate) {
+                        return compareNumbers(left, right);
+                    }
+
+                    // The date format can be sorted using straight string comparison.
+                    // Example Date: 2016-02-02T21:53:07Z
+                    if (descending) {
+                        return rightDate.localeCompare(leftDate);
+                    }
+
+                    return leftDate.localeCompare(rightDate);
+                };
+
+                // Compare dates, falling back to build number, then name, if dates are the same.
+                return _.toArray(builds).sort(compareDates);
+            };
+
+            var getJenkinsStatus = function(pipelineBuild) {
+                var json = annotation(pipelineBuild, 'jenkinsStatus');
+                if (!json) {
+                    return null;
+                }
+
+                try {
+                    return JSON.parse(json);
+                } catch (e) {
+                    Logger.error('Could not parse Jenkins status as JSON', json);
+                    return null;
+                }
+            };
+
+            var getCurrentStage = function(pipelineBuild) {
+                var jenkinsStatus = getJenkinsStatus(pipelineBuild);
+                var stages = _.get(jenkinsStatus, 'stages', []);
+                return _.last(stages);
+            };
+
+            return {
+                startBuild: startBuild,
+                cancelBuild: cancelBuild,
+                cloneBuild: cloneBuild,
+                isPaused: isPaused,
+                canBuild: canBuild,
+                usesDeploymentConfigs: usesDeploymentConfigs,
+                validatedBuildsForBuildConfig: validatedBuildsForBuildConfig,
+                latestBuildByConfig: latestBuildByConfig,
+                getBuildNumber: getBuildNumber,
+                getBuildDisplayName: getBuildDisplayName,
+                getStartTimestsamp: getStartTimestsamp,
+                getDuration: getDuration,
+                incompleteBuilds: incompleteBuilds,
+                completeBuilds: completeBuilds,
+                lastCompleteByBuildConfig: lastCompleteByBuildConfig,
+                interestingBuilds: interestingBuilds,
+                groupBuildConfigsByOutputImage: groupBuildConfigsByOutputImage,
+                sortBuilds: sortBuilds,
+                getJenkinsStatus: getJenkinsStatus,
+                getCurrentStage: getCurrentStage
+            };
+        }]
+        )
     function UIAceYAML($scope) {
         var ctrl = this;
         var aceEditor;
