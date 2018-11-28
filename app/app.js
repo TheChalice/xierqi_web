@@ -3208,7 +3208,7 @@ define([
                             $rootScope.dataForTheTree[6].stateUrl = toState.name;
                         }
 
-                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1) {
+                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1 || toState.name.indexOf('rc') != -1|| toState.name.indexOf('rs') != -1) {
                             $rootScope.app[0].stateUrl = toState.name;
                         } else if (toState.name.indexOf('stateful-sets') != -1) {
                             $rootScope.app[4].stateUrl = toState.name;
