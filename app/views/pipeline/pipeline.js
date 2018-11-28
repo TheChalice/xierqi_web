@@ -31,7 +31,7 @@ angular.module('console.pipeline', [
                 var skip = (page - 1) * $scope.grid.size;
                 $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
             };
-            $scope.text = '您还没有构建代码';
+            $scope.text = '您还没有流水线构建';
             $scope.buildsearch = function (event) {
                 //if (event.keyCode === 13 || event === 'search') {
                 console.log($scope.grid.txt);
