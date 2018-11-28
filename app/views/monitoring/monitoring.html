@@ -49,7 +49,7 @@
                 <div ng-repeat="pod in podsItemData">
                     <div class='monitoring-container-other'>
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-2" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                                 <span class="detail_tit">名称：</span>
                                 <span class="build_name">{{pod.metadata.name}}</span>
                             </div>
@@ -116,7 +116,7 @@
                 <div ng-repeat="rc in replicasItemData">
                     <div class='monitoring-container-other'>
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-2" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                                 <span class="detail_tit">名称：</span>
                                 <span class="build_name">{{rc.metadata.name}}</span>
                             </div>
@@ -173,7 +173,7 @@
                 <div ng-repeat="stateful in statefulSetsData">
                     <div class='monitoring-container-other'>
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-2" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                                 <span class="detail_tit">名称：</span>
                                 <span class="build_name">{{stateful.metadata.name}}</span>
                             </div>
@@ -222,13 +222,13 @@
                 <div ng-repeat="bc in buildsData">
                     <div class='monitoring-container-other'>
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-2" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                                 <span class="detail_tit">名称：</span>
                                 <span class="build_name">{{bc.metadata.name}}</span>
                             </div>
                             <div class="col-sm-2">
                                 <span class="detail_tit">创建时间：</span>
-                                <label class="build_name">
+                                <label class="build_name" >
                                     {{bc.metadata.creationTimestamp | dateRelative}}
                                 </label>
                             </div>
@@ -241,11 +241,11 @@
                                     <span ng-if="bc.status.reason && bc.status.phase !== 'Cancelled'">{{bc.status.phase}}</span>
                                 </label>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                                 <span class="detail_tit">版本：</span>
-                                <label class="build_name">
+                                <label class="build_name" style="display: inline">
                                 <span ng-if="bc.spec.source.type || bc.spec.revision.git.commit || bc.spec.source.git.uri">
-                                            <span class="fa fa-fw fa-code"></span>
+                                            <span class="fa fa-fw fa-code" style=""></span>
                                             <span ng-if="bc.spec.revision.git.commit">
                                               {{bc.spec.revision.git.message}}
                                               <osc-git-link

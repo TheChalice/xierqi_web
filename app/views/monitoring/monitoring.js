@@ -9,10 +9,14 @@ angular.module('console.monitoring', [
             'views/monitoring/monitoring.css',
             'components/public_metrics/public_metrics.js'
         ]
-    }
-])
-    .controller('MonitoringCtrl', ['$rootScope', '$scope', '$state', 'monitoringPods', 'monitoringReplicas', 'monitoringReplicaSet', 'BuildConfig', 'Build', 'Sort', 'monitoringStatefulSets', 'monitoringBuild',
-        function ($rootScope, $scope, $state, monitoringPods, monitoringReplicas, monitoringReplicaSet, BuildConfig, Build, Sort, monitoringStatefulSets, monitoringBuild) {
+    }])
+    .controller('MonitoringCtrl', ['$filter','$rootScope', '$scope', '$state', 'monitoringPods', 'monitoringReplicas', 'monitoringReplicaSet', 'BuildConfig', 'Build', 'Sort', 'monitoringStatefulSets', 'monitoringBuild',
+        function ($filter,$rootScope, $scope, $state, monitoringPods, monitoringReplicas, monitoringReplicaSet, BuildConfig, Build, Sort, monitoringStatefulSets, monitoringBuild) {
+            //console.log(moment);
+            var isIncompleteBuild = $filter('isIncompleteBuild');
+            var buildConfigForBuild = $filter('buildConfigForBuild');
+            var isRecentBuild = $filter('isRecentBuild');
+            var isNewer = $filter('isNewerResource');
             $scope.bodyclass = true;
             $scope.allList = ['All', 'Pods', 'Deployments', 'Builds', 'Stateful Sets'];
             $scope.curListName = "All";
@@ -23,11 +27,13 @@ angular.module('console.monitoring', [
             $scope.deploymentsData = $scope.replicasItem.items.concat($scope.replicaSetItem.items);
             $scope.replicasItemData = $scope.deploymentsData;
 
-            // console.log('090900===',$scope.replicaSetItem);
             $scope.statefulSets = angular.copy(monitoringStatefulSets);
             $scope.statefulSetsData = $scope.statefulSets.items;
             $scope.builds = angular.copy(monitoringBuild);
+
             $scope.buildsData = $scope.builds.items;
+            $scope.latestBuildByConfig = latestBuildByConfig($scope.buildsData);
+            console.log('$scope.latestBuildByConfig', $scope.latestBuildByConfig);
             $scope.grid = {
                 txt: '',
                 isHide: false
@@ -52,7 +58,13 @@ angular.module('console.monitoring', [
 
                     // 把状态不满足的item筛除
                     if (!assistantFilter) continue;
-                    var key = item['metadata']['ownerReferences'][0]['name'];
+
+                    //console.log(item['metadata']['ownerReferences']);
+                    if (item['metadata']['ownerReferences'] && item['metadata']['ownerReferences'].length) {
+                        var key = item['metadata']['ownerReferences'][0]['name'];
+                    }
+
+
                     // var key = item['metadata']['labels']['app'];
                     var targetLastItem = result[key];
                     if (!targetLastItem) {
@@ -113,13 +125,67 @@ angular.module('console.monitoring', [
                 }
                 return false;
             }
+            var filterPods = function() {
+                var ageFilteredPods = _.filter($scope.podsItemData, function(pod) {
+                    //if (!$scope.filters.hideOlderResources) {
+                    //    return true;
+                    //}
+                    return pod.status.phase !== 'Succeeded' && pod.status.phase !== 'Failed';
+                });
+                //console.log('ageFilteredPods', ageFilteredPods);
+                return ageFilteredPods
+                //$scope.filteredPods = KeywordService.filterForKeywords(ageFilteredPods, filterFields, filterKeywords);
+            };
+            var deploymentStatus = $filter('deploymentStatus');
+            var deploymentIsInProgress = $filter('deploymentIsInProgress');
+            var filterDeployments = function() {
+               var ageFilteredReplicationControllers = _.filter($scope.deploymentsData, function(deployment) {
+
+                    return deploymentIsInProgress(deployment) || deploymentStatus(deployment) === 'Active';
+                });
+                return ageFilteredReplicationControllers;
+                //console.log('ageFilteredReplicationControllers', ageFilteredReplicationControllers);
+                //$scope.filteredReplicationControllers = KeywordService.filterForKeywords(ageFilteredReplicationControllers, filterFields, filterKeywords);
+            };
+
+            function latestBuildByConfig(builds, filter) {
+                var latestByConfig = {};
+                _.each(builds, function(build) {
+                    //console.log(buildConfigForBuild);
+                    var buildConfigName = buildConfigForBuild(build) || "";
+                    if (filter && !filter(build)) {
+                        return;
+                    }
+
+                    if (isNewer(build, latestByConfig[buildConfigName])) {
+                        latestByConfig[buildConfigName] = build;
+                    }
+                });
+
+                return latestByConfig;
+            };
+            var filterBuilds = function() {
+                var ageFilteredBuilds = _.filter($scope.buildsData, function(build) {
+
+                    if (isIncompleteBuild(build)) {
+                        return true;
+                    }
+                    var buildConfigName = buildConfigForBuild(build);
+                    if (buildConfigName) {
+                        return $scope.latestBuildByConfig[buildConfigName].metadata.name === build.metadata.name;
+                    }
+
+                    // Otherwise this is a one-off build, fallback to the isRecentBuild logic
+                    return isRecentBuild(build);
+                });
+                console.log('ageFilteredBuilds', ageFilteredBuilds);
+                //$scope.filteredBuilds = KeywordService.filterForKeywords(ageFilteredBuilds, filterFields, filterKeywords);
+            };
             $scope.hideOlderResources = function (status) {
                 if (status === true) {
-                    // itemsInHiddenMode
-                    $scope.podsItemData = itemsInHiddenMode($scope.podsItemData, reservePodItemInHiddenMode);
-                    $scope.replicasItemData = itemsInHiddenMode($scope.deploymentsData, reserveReplicasItemInHiddenMode);
-                    $scope.statefulSetsData = itemsInHiddenMode($scope.statefulSetsData, reserveStatefulItemInHiddenMode);
-                    $scope.buildsData = itemsInHiddenMode($scope.buildsData,reserveBuildItemInHiddenMode);
+                    $scope.podsItemData=angular.copy(filterPods())
+                    $scope.replicasItemData = angular.copy(filterDeployments())
+                    $scope.buildsData = filterBuilds()
                 } else {
                     $scope.podsItemData = $scope.podsItem.items;
                     $scope.replicasItemData = $scope.deploymentsData;

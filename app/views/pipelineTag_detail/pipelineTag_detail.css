@@ -8,32 +8,32 @@
     color: #9c9c9c;
 }
 
-#build-detail .tab-default li .nav-link {
-    font-size: 14px;
-    color: #333;
-}
+/*#build-detail .tab-default li .nav-link {*/
+    /*font-size: 14px;*/
+    /*color: #333;*/
+/*}*/
 
-#build-detail .tab-default li .nav-link:hover {
-    font-size: 14px;
-}
+/*#build-detail .tab-default li .nav-link:hover {*/
+    /*font-size: 14px;*/
+/*}*/
 
-#build-detail .tab-default li.active .nav-link,
-#build-detail .tab-default li.active .nav-link:focus,
-#build-detail .tab-default li.active .nav-link:hover {
-    border: 0px;
-    border-bottom: 2px solid #F8A632;
-    color: #333;
-    font-size: 14px;
-}
+/*#build-detail .tab-default li.active .nav-link,*/
+/*#build-detail .tab-default li.active .nav-link:focus,*/
+/*#build-detail .tab-default li.active .nav-link:hover {*/
+    /*border: 0px;*/
+    /*border-bottom: 2px solid #F8A632;*/
+    /*color: #333;*/
+    /*font-size: 14px;*/
+/*}*/
 
-#build-detail .tab-default .nav-tabs {
-    border-bottom: 1px solid #E0E6ED;
-}
+/*#build-detail .tab-default .nav-tabs {*/
+    /*border-bottom: 1px solid #E0E6ED;*/
+/*}*/
 
-#build-detail .tab-default .tab-content {
-    border: 0px;
-    padding: 20px 0px;
-}
+/*#build-detail .tab-default .tab-content {*/
+    /*border: 0px;*/
+    /*padding: 20px 0px;*/
+/*}*/
 
 .hide-ng-leave .ng-animate, .hide-ng-leave .ng-leave, .hide-ng-leave.ng-animate, .hide-ng-leave.ng-leave {
     animation: none 0s;
@@ -53,3 +53,12 @@
     color: #475669;
     letter-spacing: 0;
 }
+.tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{
+    border:0;
+    border-bottom:2px solid #47B2FB;
+    color:#47B2FB;
+}
+.tab-jia-default .tab-content{border: 0;}
+.tab-jia-default li .nav-link:hover{color:#333;}
+/*new code*/
+#build-detail .tab-default .tab-content{border:0;padding:20px 0px;}
