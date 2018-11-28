@@ -6,13 +6,15 @@ angular.module('console.build_create_new', [
         ]
     }
 ])
-    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
-        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
+    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'tags', 'githubTags', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
+        function (repositorysecret, repositorybranches, tags, githubTags, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
             $scope.grid = {
                 org: null,
                 repo: null,
                 branch: null
             };
+            $scope.tagsColor = false;
+            $scope.tagsColorGroup = true;
             $scope.selectCodeBase = {
                 status: 1
             };
@@ -96,6 +98,7 @@ angular.module('console.build_create_new', [
                 name: null,
                 pwd: null
             };
+
             function clearselec() {
                 for (var k in $scope.gitdata) {
                     $scope.gitdata[k] = []
@@ -128,8 +131,15 @@ angular.module('console.build_create_new', [
             }
 
             $scope.$watch('grid', function (n, o) {
-                console.log('grif', n);
+                console.log('grif', n,o);
+                // console.log(n);
             }, true);
+            //$emit向上广播事件，即只有本身和父controller可以收到这个事件
+            $scope.$on('emit',function(){
+                console.log('emit');
+                $scope.tagsColor = false;
+                $scope.tagsColorGroup = true;
+            });
             loadgitdata('github', 'cache');
             loadgitdata('gitlab', 'cache');
             $scope.bindhub = function (click) {
@@ -166,6 +176,8 @@ angular.module('console.build_create_new', [
                         } else {
                             if (!$scope.needbind.gitlab) {
                                 $scope.showbox = true
+                                $scope.tagsColor = false;
+                                $scope.tagsColorGroup = true;
                             }
                         }
 
@@ -175,6 +187,8 @@ angular.module('console.build_create_new', [
                         $scope.gitdata.orgs = angular.copy($scope.gitload.github);
                         if (!$scope.needbind.github) {
                             $scope.showbox = true
+                            $scope.tagsColor = false;
+                            $scope.tagsColorGroup = true;
                         }
                     }
                 }
@@ -191,6 +205,7 @@ angular.module('console.build_create_new', [
                 }
             });
             $scope.selectorg = function (idx, orgs) {
+                $scope.$emit('emit');
                 // console.log('$scope.selectorg', idx, orgs);
                 $scope.grid.org = idx;
                 $scope.grid.repo = null;
@@ -199,23 +214,70 @@ angular.module('console.build_create_new', [
             };
             $scope.selectrepo = function (idx, repo) {
                 // console.log('$scope.selectrepo', idx, repo);
+                $scope.$emit('emit');
                 $scope.grid.repo = idx;
                 $scope.grid.branch = null;
                 $scope.gitdata.branchs = [];
                 if (!repo.branchs) {
-                    var sendobj = {source: $scope.gitstatus, repo: repo.name, ns: repo.namespace};
+                    $scope.sendobj = {source: $scope.gitstatus, repo: repo.name, ns: repo.namespace};
                     if ($scope.gitstatus === 'gitlab') {
-                        sendobj.id = repo.id;
+                        $scope.sendobj.id = repo.id;
+                        $scope.id = repo.id;
+                        $scope.repo = repo;
+                        // console.log($scope.id);
                     }
-                    repositorybranches.query(sendobj, function (branchres) {
+                    repositorybranches.query($scope.sendobj, function (branchres) {
                         repo.branchs = branchres;
-                        $scope.gitdata.branchs = angular.copy(repo.branchs)
+                        $scope.gitdata.branchs = angular.copy(repo.branchs);
                     })
 
                 }
             };
+            //代码分支
+            $scope.selectBranchGroup = function () {
+                if(!$scope.sendobj)return;
+                else
+                $scope.grid.branch =-1;
+                $scope.gitdata.branchs='';
+                $scope.tagsColorGroup = true;
+                $scope.tagsColor = false;
+                // console.log('代码分支');
+                // console.log($scope.sendobj);
+                repositorybranches.query($scope.sendobj, function (branchres) {
+                    $scope.branchsGroup = branchres;
+                    $scope.gitdata.branchs = angular.copy($scope.branchsGroup);
+                })
+            };
+            //gitlab tags
+            $scope.selectTag = function () {
+                if ($scope.gitstatus === 'gitlab') {
+                    if(!$scope.id)return;
+                    else
+                    $scope.grid.branch =-1;
+                    $scope.gitdata.branchs='';
+                    $scope.tagsColor = true;
+                    $scope.tagsColorGroup = false;
+                    tags.query({id: $scope.id}, function (branchres) {
+                        $scope.repo.branchs = branchres;
+                        $scope.gitdata.branchs = angular.copy($scope.repo.branchs)
+                    })
+                } else {
+                    //githubTags
+                    // console.log($scope.sendobj);
+                    if(!$scope.sendobj)return;
+                    else
+                    $scope.tagsColor = true;
+                    $scope.tagsColorGroup = false;
+                    githubTags.query({repo: $scope.sendobj.repo,ns:$scope.sendobj.ns}, function (branchres) {
+                        $scope.branchs = branchres;
+                        $scope.gitdata.branchs = angular.copy($scope.branchs)
+                    })
+                }
+            };
             $scope.selectbranch = function (idx) {
                 $scope.grid.branch = idx;
+                console.log($scope.grid.branch)
+                console.log(idx)
             };
 
             function createsecret(name, pwd) {
@@ -345,7 +407,7 @@ angular.module('console.build_create_new', [
                     }
 
                     $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + name;
-                    //console.log('$scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo]', $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private);
+                    console.log('$scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo]', $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private);
                     if ($scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private) {
                         repositorysecret.get({source: $scope.gitstatus, ns: $rootScope.namespace}, function (resecret) {
                             $scope.buildConfig.spec.source.sourceSecret = {
@@ -379,7 +441,7 @@ angular.module('console.build_create_new', [
                             $scope.privateErr.usernameerr = true;
                             return;
                         }
-                        if(!$scope.sername.pwd){
+                        if (!$scope.sername.pwd) {
                             $scope.privateErr.nil = true;
                             return;
                         }
