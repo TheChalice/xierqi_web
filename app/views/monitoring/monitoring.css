@@ -196,8 +196,9 @@
 .filter-name-father {
     position: relative;
 }
-.filter-name-sarch{
+
+.filter-name-sarch {
     position: absolute;
-    right:5px;
-    top:5px;
+    right: 5px;
+    top: 5px;
 }
