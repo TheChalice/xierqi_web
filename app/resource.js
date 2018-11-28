@@ -969,6 +969,14 @@ define([
             var repositorybranches = $resource(GLOBAL.host_repo + '/:source/branches', { source: '@source' }, {});
             return repositorybranches;
         }])
+        .factory('tags', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //获取仓库分支
+            var tags = $resource(GLOBAL.host_repo + '/gitlab/tags?id=:id', { id: '@id' }, {});
+            return tags;
+        }])
+        .factory('githubTags', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //获取仓库分支
+            var githubTags = $resource(GLOBAL.host_repo + '/github/tags?repo=:repo&ns=:ns', { repo: '@repo',ns:'@ns' }, {});
+            return githubTags;
+        }])
         .factory('repositorysecret', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //获取仓库分支
             var repositorysecret = $resource(GLOBAL.host_repo + '/:source/secret', { source: '@source' }, {});
             return repositorysecret;
