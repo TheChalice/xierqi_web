@@ -431,3 +431,16 @@
     border-radius: 0px 4px 4px 0px ;
     border-left:none;
 }
+.tagsColor{
+    color: #57B5F2 ;
+}
+.tagsColorGroup{
+    color: black ;
+}
+#segmentation{
+    height: 100%;
+    width:auto;
+    border-right: 1px solid #CCD5E0;
+    padding-bottom:34px;
+    margin-bottom:-34px;
+}
