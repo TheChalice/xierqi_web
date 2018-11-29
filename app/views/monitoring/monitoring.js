@@ -185,7 +185,7 @@ angular.module('console.monitoring', [
                 if (status === true) {
                     $scope.podsItemData=angular.copy(filterPods())
                     $scope.replicasItemData = angular.copy(filterDeployments())
-                    $scope.buildsData = filterBuilds()
+                    $scope.buildsData = angular.copy(filterBuilds())
                 } else {
                     $scope.podsItemData = $scope.podsItem.items;
                     $scope.replicasItemData = $scope.deploymentsData;
