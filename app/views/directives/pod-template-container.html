@@ -10,7 +10,7 @@
             <span class="pficon pficon-image" aria-hidden="true"></span>
         </div>
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key">
+            <span class="pod-template-key" style="width: 150px;">
                 镜像:
                 <!--Image:-->
             </span>
@@ -96,10 +96,10 @@
 
     <div row ng-if="container.ports.length > 0" class="pod-template-ports icon-row">
         <div class="icon-wrap">
-            <span data-icon="" aria-hidden="true" style="font-size:16px;line-height:normal"></span>
+            <span data-icon="" aria-hidden="true" style="font-size:12px;line-height:normal"></span>
         </div>
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key" style='width:156px;text-indent:18px;'>端口:</span>
+            <span class="pod-template-key" style='width:156px;'>端口:</span>
             <span ng-repeat="port in container.ports | orderBy: 'containerPort' | limitToOrAll : detailed ? undefined : 1">
         <span class="nowrap">{{port.containerPort}}/{{port.protocol}}</span><span ng-if="port.name"><span class="nowrap"> ({{port.name}})</span></span><span ng-if="port.hostPort"><span class="nowrap"><span class="port-icon"> &#8594;</span> {{port.hostPort}}</span></span><span ng-if="!$last">, </span>
       </span>
@@ -132,7 +132,7 @@
             <i class="fa fa-area-chart" aria-hidden="true"></i>
         </div>
         <div flex class="pod_list_mt">
-            <span class="pod-template-key">CPU:</span>
+            <span class="pod-template-key" style="width: 138px;">CPU:</span>
             <span ng-if="container.resources.requests.cpu && container.resources.limits.cpu">{{container.resources.requests.cpu}} to {{container.resources.limits.cpu}}</span>
             <span ng-if="!container.resources.requests.cpu">
             {{container.resources.limits.cpu}} limit
@@ -148,7 +148,7 @@
             <i class="fa fa-area-chart" aria-hidden="true"></i>
         </div>
         <div flex class="pod_list_mt">
-            <span class="pod-template-key">内存:</span>
+            <span class="pod-template-key" style="width: 138px;">内存:</span>
             <span ng-if="container.resources.requests.memory && container.resources.limits.memory">
             {{container.resources.requests.memory}} to {{container.resources.limits.memory}}
           </span>
@@ -166,7 +166,7 @@
             <i class="fa fa-medkit" aria-hidden="true"></i>
         </div>
         <div flex class="pod_list_mt">
-            <span class="pod-template-key">健康检查:</span>
+            <span class="pod-template-key" style="width: 138px;">健康检查:</span>
             <probe probe="container.readinessProbe"></probe>
         </div>
     </div>
@@ -176,7 +176,7 @@
             <i class="fa fa-medkit" aria-hidden="true"></i>
         </div>
         <div flex class="pod_list_mt">
-            <span class="pod-template-key">保活检查:</span>
+            <span class="pod-template-key" style="width: 138px;">保活检查:</span>
             <probe probe="container.livenessProbe"></probe>
         </div>
     </div>
