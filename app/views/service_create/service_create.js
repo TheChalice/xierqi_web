@@ -538,7 +538,6 @@ angular.module('console.service.create', [
             }
 
             $scope.ourimage = function (images, idx, postobj) {
-                //console.log('images.status.images', images,postobj);
                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                         $scope.err.url.role = true;
@@ -618,7 +617,7 @@ angular.module('console.service.create', [
                 }
             }
 
-            //console.log($stateParams);
+            // console.log('00000000$stateParams',$stateParams);
             if ($stateParams.imagetype === 'myimage') {
                 $scope.checkimage = 1
                 $scope.checked = {
@@ -807,11 +806,11 @@ angular.module('console.service.create', [
                 if (unit === 'millicores') {
                     return num + 'm'
                 } else if (unit === 'cores') {
-                    return num + 'cores'
+                    return num
                 } else if (unit === 'MB') {
                     return num + 'm'
                 } else if (unit === 'GB') {
-                    return num + 'g'
+                    return num + 'G'
                 }
             }
 
@@ -947,6 +946,7 @@ angular.module('console.service.create', [
                 }
 
             }
+
             function creathoriz() {
                 horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
 
@@ -1110,6 +1110,7 @@ angular.module('console.service.create', [
                             con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
                             con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
                             con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
+                            //console.log('con.resources', con.resources);
                         } else {
                             delete con.resources
                         }

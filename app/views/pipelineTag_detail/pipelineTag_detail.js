@@ -5,7 +5,7 @@ angular.module('console.pipelinetag.detail', [
         files: [
             'components/checkbox/checkbox.js',
             'components/deploymentsevent/deploymentsevent.js',
-            'views/pipelineTag_detail/pipelineTag_detail.css'
+            'views/pipeline_detail/pipeline_detail.css'
         ]
     }
 ])

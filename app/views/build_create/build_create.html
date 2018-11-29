@@ -13,7 +13,7 @@
                                onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
                                ng-focus="namefocus()" type="text" name="name"
                                class="form-control creat-name-input build-ipt-name"
-                               required placeholder="名称只能包含小写字母">
+                               required placeholder="名称只能包含小写英文、数字以及“-”">
                         <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
                         </small>
                         <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">
@@ -186,8 +186,7 @@
                                                 <input type="password"
                                                        class="form-control tab-reg-input form-control-input-line"
                                                        id="spwd" ng-model="sername.pwd">
-                                                <small ng-show="privateErr.pwderr" class="fa fa-info-circle err-tip">
-                                                    请输入正确口令，以字母开头，长度在6~18之间，只能包含字母、数字和下划线
+                                                <small ng-if="privateErr.nil" class="fa fa-info-circle err-tip">口令不能为空
                                                 </small>
                                             </div>
                                         </div>
@@ -232,7 +231,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                                      </div>
 
                             <div class="panel panel-default first col-md-4 box-div" ng-show="buildcheck==2">
                                 <div class="panel-heading">
@@ -275,9 +274,11 @@
                                 </div>
                             </div>
                             <div class="panel panel-default third col-md-4">
-                                <div class="panel-heading">
+                                <div class="panel-heading" style="display: flex;text-align: center;">
                                     <!--<img src="views/build_create/img/branch.png">-->
-                                    代码分支
+                                    <div  style="cursor:pointer;flex: 1;" ng-click="selectBranchGroup()"  ng-class="{true:'tagsColorGroup',false:'tagsColor ;'}[tagsColorGroup]">代码分支</div>
+                                    <div id="segmentation"></div>
+                                    <div style="flex: 1;cursor:pointer" ng-click="selectTag()" ng-class="{true:'tagsColorGroup',false:'tagsColor ;'}[tagsColor]">Tag</div>
                                     <small ng-show="gitStatus.codeBranch" class="fa fa-info-circle err-tip">
                                         请选择代码分支
                                     </small>

@@ -56,13 +56,12 @@
             </div>
 
         </div>
-        <div class="config_main">
-            <div class="col-md-1"></div>
-            <div class="col-md-11">
-                <div class="podlist" style="margin-left:35px;">
+        <div class="col-md-12">
+            <div class="col-md-2 col-md-2_padding tittle" style="width: 120px;"></div>
+            <div class="col-md-10">
+                <div class="podlist" style="margin-left: 0;">
                     <p class="tit_num">Pod数量</p>
-                    <input class="podnum" ng-model="dc.spec.replicas" name="cdm" type="text" placeholder="数字必须为正整数"
-                           style="">
+                    <input class="podnum" ng-model="dc.spec.replicas" name="cdm" type="text" placeholder="数字必须为正整数">
                 </div>
                 <!-- placeholder="{{dc.spec.replicas}}" -->
                 <div class="podlist" ng-show="quota.rubustCheck">
@@ -84,8 +83,6 @@
 
                 </div>
             </div>
-
-
         </div>
     </div>
 
@@ -558,7 +555,7 @@
                     <div class="df_block_set">
                         <div class="df_block_left">环境变量</div>
                         <div class="df_block_right" style="margin-bottom:20px;">
-                    <span style="font-size: 12px; cursor: pointer; color:#47B2FB;margin-left: 10px;"
+                    <span style="font-size: 12px; cursor: pointer; color:#47B2FB;"
                           ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
                         <i style="font-style: normal;" ng-show="!container.annotate.isShowEnv">展开</i>
                         <i style="font-style: normal;" ng-show="container.annotate.isShowEnv">收起</i>
@@ -668,7 +665,7 @@
 
     #service_config .dropdown-toggle {
         height: 26px;
-        padding-top: 3px;
+        /*padding-top: 3px;*/
     }
 
     #service_config .dropdown-select > .btn .caret {

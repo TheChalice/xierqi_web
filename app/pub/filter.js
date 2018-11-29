@@ -13,6 +13,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 return parts.length > 1 ? parts[1] : '';
             };
         })
+
         .filter('dateRelative', [function() {
             // dropSuffix will tell moment whether to include the "ago" text
             console.log('timestamp', 1);
@@ -264,7 +265,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 } else if (phase == "Failed") {
                     return "构建失败"
                 } else if (phase == "Pending" || phase == "New") {
-                    return "正在拉取代码"
+                    return "拉取代码"
                 } else if (phase == "Error") {
                     return "构建错误"
                 } else if (phase == "Cancelled") {
@@ -1469,4 +1470,123 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
             };
         })
+        .filter('deploymentIsInProgress', ['deploymentStatusFilter',function(deploymentStatusFilter) {
+            return function(deployment) {
+                return ['New', 'Pending', 'Running'].indexOf(deploymentStatusFilter(deployment)) > -1;
+            };
+        }])
+        .filter('deploymentStatus', ['annotationFilter','hasDeploymentConfigFilter',function(annotationFilter, hasDeploymentConfigFilter) {
+            return function(deployment) {
+                // We should show Cancelled as an actual status instead of showing Failed
+                if (annotationFilter(deployment, 'deploymentCancelled')) {
+                    return "Cancelled";
+                }
+                var status = annotationFilter(deployment, 'deploymentStatus');
+                // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
+                if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
+                    return "Active";
+                }
+                return status;
+            };
+        }])
+        .filter('ageLessThan', function() {
+            // ex:  amt = 5  and unit = 'minutes'
+            return function(timestamp, amt, unit) {
+                return moment().subtract(amt, unit).diff(moment(timestamp)) < 0;
+            };
+        })
+        .filter('isNewerResource', function() {
+            // Checks if candidate is newer than other.
+            return function(candidate, other) {
+                var candidateCreation = _.get(candidate, 'metadata.creationTimestamp');
+                if (!candidateCreation) {
+                    return false;
+                }
+
+                var otherCreation = _.get(other, 'metadata.creationTimestamp');
+                if (!otherCreation) {
+                    return true;
+                }
+
+                // The date format can be compared using straight string comparison.
+                // Example Date: 2016-02-02T21:53:07Z
+                return candidateCreation > otherCreation;
+            };
+        })
+        .filter('isIncompleteBuild', function() {
+            return function(build) {
+                if (!build || !build.status || !build.status.phase){
+                    return false;
+                }
+
+                switch (build.status.phase) {
+                    case 'New':
+                    case 'Pending':
+                    case 'Running':
+                        return true;
+                    default:
+                        if (!build.status.completionTimestamp) {
+                            return true;
+                        }
+                        return false;
+                }
+            };
+        })
+        .filter('label', function() {
+            return function(resource, key) {
+                if (resource && resource.metadata && resource.metadata.labels) {
+                    return resource.metadata.labels[key];
+                }
+                return null;
+            };
+        })
+        .filter('labelName', function() {
+            var labelMap = {
+                'buildConfig' : ["openshift.io/build-config.name"],
+                'deploymentConfig' : ["openshift.io/deployment-config.name"]
+            };
+            return function(labelKey) {
+                return labelMap[labelKey];
+            };
+        })
+        .filter('buildConfigForBuild', ['annotationFilter','labelNameFilter','labelFilter',
+            function(annotationFilter, labelNameFilter, labelFilter) {
+            var labelName = labelNameFilter('buildConfig');
+            return function(build) {
+                return annotationFilter(build, 'buildConfig') || labelFilter(build, labelName);
+            };
+        }])
+        .filter('isIncompleteBuild', function() {
+            return function(build) {
+                if (!build || !build.status || !build.status.phase){
+                    return false;
+                }
+
+                switch (build.status.phase) {
+                    case 'New':
+                    case 'Pending':
+                    case 'Running':
+                        return true;
+                    default:
+                        if (!build.status.completionTimestamp) {
+                            return true;
+                        }
+                        return false;
+                }
+            };
+        })
+        .filter('isRecentBuild', ['ageLessThanFilter','isIncompleteBuildFilter',function(ageLessThanFilter, isIncompleteBuildFilter) {
+            return function(build) {
+                if (!build || !build.status || !build.status.phase || !build.metadata) {
+                    return false;
+                }
+
+                if (isIncompleteBuildFilter(build)) {
+                    return true;
+                }
+
+                var timestamp = build.status.completionTimestamp || build.metadata.creationTimestamp;
+                return ageLessThanFilter(timestamp, 5, 'minutes');
+            };
+        }])
 });

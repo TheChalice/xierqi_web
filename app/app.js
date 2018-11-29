@@ -95,8 +95,9 @@ define([
         internal_registry: '<INTERNAL_REGISTRY_ADDR>',
         //service_url:'.cloud.new.dataos.io',
         common_url: '<REGISTRY_PUBLIC_ADDR>',
-        //private_url:'registry.dataos.io',
         private_url: '<REGISTRY_PRIVATE_ADDR>'
+           // common_url:'registry.dataos.io',
+           // private_url:'registry.dataos.io'
 
     })
         .constant('AUTH_EVENTS', {
@@ -114,7 +115,33 @@ define([
                 }
             ]);
         }])
-
+        .config(['toastrConfig', function (toastrConfig) {
+            angular.extend(toastrConfig, {
+                allowHtml: false,
+                closeButton: false,
+                closeHtml: '<button>&times;</button>',
+                extendedTimeOut: 1000,
+                iconClasses: {
+                    error: 'toast-shibai',
+                    info: 'toast-info',
+                    success: 'toast-chenggong',
+                    warning: 'toast-warning'
+                },
+                messageClass: 'toast-message',
+                onHidden: null,
+                onShown: null,
+                onTap: null,
+                progressBar: false,
+                tapToDismiss: true,
+                //templates: {
+                //    toast: 'directives/toast/toast.html',
+                //    progressbar: 'directives/progressbar/progressbar.html'
+                //},
+                timeOut: 1000,
+                titleClass: 'toast-title',
+                toastClass: 'toast'
+            });
+        }])
         .run(['$rootScope', 'account', '$state', 'Cookie',
             function ($rootScope, account, $state, Cookie) {
                 var masterPublicHostname = 'http://127.0.0.1:8080';
@@ -3162,18 +3189,18 @@ define([
                         }
 
                     ];
+                    console.log('toState.name', toState.name);
                     if (toState && toState.name) {
                         $rootScope.console.state = toState.name;
                         if (toState.name.indexOf('dashboard') != -1) {
                             $rootScope.dataForTheTree[0].stateUrl = toState.name
                         } else if (toState.name.indexOf('build') != -1) {
                             $rootScope.dataForTheTree[1].stateUrl = toState.name;
+                        } else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage_detail') !== -1) {
+                            console.log('primage_detail');
+                            $rootScope.imageChild[1].stateUrl = toState.name;
                         } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
                             $rootScope.imageChild[0].stateUrl = toState.name;
-                        }
-                        else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage') !== -1) {
-                            $rootScope.imageChild[1].stateUrl = toState.name;
-
                         } else if (toState.name.indexOf('pipeline') != -1) {
                             $rootScope.dataForTheTree[3].stateUrl = toState.name;
                         }
@@ -3181,7 +3208,7 @@ define([
                             $rootScope.dataForTheTree[6].stateUrl = toState.name;
                         }
 
-                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1) {
+                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1 || toState.name.indexOf('rc') != -1|| toState.name.indexOf('rs') != -1) {
                             $rootScope.app[0].stateUrl = toState.name;
                         } else if (toState.name.indexOf('stateful-sets') != -1) {
                             $rootScope.app[4].stateUrl = toState.name;

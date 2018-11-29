@@ -4,7 +4,9 @@
         <div class="col-lg-10"></div>
         <div class="col-lg-2">
             <!--<button ng-click="Expandlog($index)" style="float: right;margin-left: 5px;">Expand</button>-->
-            <button ng-click="savelog()" style="float: right;">下载</button>
+            <span ng-click="savelog()" uib-tooltip="下载" tooltip-placement="left" style="float: right;width: 26px;height: 26px;line-height: 26px;text-align: center;cursor: pointer;">
+                <i class="uex-icon-download"></i>
+            </span>
         </div>
     </div>
     <div ng-show="showcon"

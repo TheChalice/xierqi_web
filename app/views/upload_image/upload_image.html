@@ -164,6 +164,8 @@
                                 data-target="#myModal"></button>
                         <small ng-show="grid.imagenamenull" class="fa fa-info-circle err-tip">镜像名称不能为空
                         </small>
+                        <small ng-show="grid.houtaierr" class="fa fa-info-circle err-tip">上传失败，请联系管理员
+                        </small>
                     </uib-tab>
                     <uib-tab index="2" ng-click="selectManualUpload()">
                         <uib-tab-heading>

@@ -49,7 +49,7 @@ define(['angular'], function (angular) {
                 }
             };
         })
-        .directive('imageNames', function($filter, PodsService) {
+        .directive('imageNames', ['$filter','PodsService',function($filter, PodsService) {
             return {
                 restrict: 'E',
                 scope: {
@@ -77,8 +77,8 @@ define(['angular'], function (angular) {
                     $scope.$watchGroup(['podTemplate', 'pods'], updateImageDetails);
                 }
             };
-        })
-        .factory("PodsService", function(OwnerReferencesService) {
+        }])
+        .factory("PodsService", ['OwnerReferencesService',function(OwnerReferencesService) {
             return {
                 getImageIDs: function(pods, containerName) {
                     // Use a map so we only ever add the same SHA once.
@@ -143,7 +143,7 @@ define(['angular'], function (angular) {
                     return OwnerReferencesService.filterForController(pods, owner);
                 }
             };
-        })
+        }])
         .directive('fullHeight', [function () {
             return function (scope, element, attr) {
                 var height = document.documentElement.clientHeight - 70 + 'px';
@@ -162,7 +162,7 @@ define(['angular'], function (angular) {
                 });
             }
         }])
-        .directive('onFinishRender', function ($timeout) {
+        .directive('onFinishRender', ['$timeout',function ($timeout) {
             return {
                 restrict: 'A',
                 link: function (scope, element, attr) {
@@ -173,7 +173,7 @@ define(['angular'], function (angular) {
                     }
                 }
             };
-        })
+        }])
         .directive('statusIcon', function () {
             return {
                 restrict: 'E',
@@ -193,6 +193,7 @@ define(['angular'], function (angular) {
                 scope: {
                     routes: '=',
                     services: '=',
+                    routenamespace: '=',
                     portsByRoute: '=',
                     showNodePorts: '=?',
                     // Alternative header text to display in the 'Name' column.
@@ -206,7 +207,7 @@ define(['angular'], function (angular) {
                 restrict: 'E',
                 scope: {
                     pods: '=',
-                    namespace: '=',
+                    routenamespace: '=',
                     // Optional active pods map to display whether or not pods have endpoints
                     activePods: '=?',
                     // Optional empty message to display when there are no pods.
@@ -219,7 +220,7 @@ define(['angular'], function (angular) {
                 templateUrl: 'views/directives/pods-table.html',
                 link: function ($scope) {
                     //$scope.namespace=$rootScope.namespace
-                    console.log('$scope.namespace', $scope.namespace);
+                    console.log('$scope.namespace----', $scope.routenamespace);
                     var orderObjectsByDate = $filter('orderObjectsByDate');
                     var sortPods = _.debounce(function (pods) {
                         $scope.$evalAsync(function () {
@@ -695,4 +696,14 @@ define(['angular'], function (angular) {
                 }]
             };
         })
+        .directive('addClassesTop', [function () {
+            return function (scope, element, attr) {
+                if ($("#sidebar-container").hasClass("sider_zx")) {
+                    element.addClass("nav_top_toggle");
+                }else {
+                    element.removeClass("nav_top_toggle");
+                }
+
+            }
+        }])
 });
