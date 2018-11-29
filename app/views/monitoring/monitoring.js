@@ -100,31 +100,7 @@ angular.module('console.monitoring', [
                 });
                 return resultArr;
             }
-            function reservePodItemInHiddenMode(item) {
-                // console.log('-=-=',item);
-                if(item['status']['phase'] === 'Running'){
-                    return true;
-                }
-                return false;
-            }
-            function reserveReplicasItemInHiddenMode(item) {
-                if(item['status']['phase'] === 'Active'){
-                    return true;
-                }
-                return false;
-            }
-            function reserveBuildItemInHiddenMode(item) {
-                if(item['status']['phase'] === 'Complete'){
-                    return true;
-                }
-                return false;
-            }
-            function reserveStatefulItemInHiddenMode(item) {
-                if(item['status']['phase'] === 'Active'){
-                    return true;
-                }
-                return false;
-            }
+
             var filterPods = function() {
                 var ageFilteredPods = _.filter($scope.podsItemData, function(pod) {
                     //if (!$scope.filters.hideOlderResources) {
@@ -139,7 +115,7 @@ angular.module('console.monitoring', [
             var deploymentStatus = $filter('deploymentStatus');
             var deploymentIsInProgress = $filter('deploymentIsInProgress');
             var filterDeployments = function() {
-               var ageFilteredReplicationControllers = _.filter($scope.deploymentsData, function(deployment) {
+                var ageFilteredReplicationControllers = _.filter($scope.deploymentsData, function(deployment) {
 
                     return deploymentIsInProgress(deployment) || deploymentStatus(deployment) === 'Active';
                 });
@@ -178,7 +154,8 @@ angular.module('console.monitoring', [
                     // Otherwise this is a one-off build, fallback to the isRecentBuild logic
                     return isRecentBuild(build);
                 });
-                console.log('ageFilteredBuilds', ageFilteredBuilds);
+                // console.log('ageFilteredBuilds', ageFilteredBuilds);
+                return ageFilteredBuilds;
                 //$scope.filteredBuilds = KeywordService.filterForKeywords(ageFilteredBuilds, filterFields, filterKeywords);
             };
             $scope.hideOlderResources = function (status) {
@@ -186,6 +163,7 @@ angular.module('console.monitoring', [
                     $scope.podsItemData=angular.copy(filterPods())
                     $scope.replicasItemData = angular.copy(filterDeployments())
                     $scope.buildsData = angular.copy(filterBuilds())
+                    // console.log('$scope.buildsData',$scope.buildsData);
                 } else {
                     $scope.podsItemData = $scope.podsItem.items;
                     $scope.replicasItemData = $scope.deploymentsData;

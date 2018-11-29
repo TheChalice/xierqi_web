@@ -30,7 +30,7 @@
     <uib-tabset class="tab-default tab-image-jia-defautl" active="check">
         <uib-tab index="1">
             <uib-tab-heading>
-                Details
+                详情
             </uib-tab-heading>
             <div>
                 <h3 class="df_tit">rs详情</h3>
@@ -39,8 +39,8 @@
                         <div class="col-md-2 df_w_set">Deployment:</div>
                         <div class="col-md-10">
                         <span class="jumpUrl"
-                              ui-sref="console.deployment_detail({name:replicaSet.metadata.labels.app})">
-                                                 {{replicaSet.metadata.labels.app}}
+                              ui-sref="console.deployment_detail({namespace:namespace,name:replicaSet.metadata.labels.app})">
+                                              {{replicaSet.metadata.labels.app}}
 
                         </span>
                         </div>
@@ -194,7 +194,7 @@
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                Environment
+                环境变量
             </uib-tab-heading>
             <div id="Environment">
                 <div class="detail_set">
@@ -249,7 +249,7 @@
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
-                Metrics
+                指标
             </uib-tab-heading>
             <public-metrics conname="conname"
                             podid="poduid"
@@ -258,7 +258,7 @@
         </uib-tab>
         <uib-tab index="4">
             <uib-tab-heading>
-                Events
+                事件
             </uib-tab-heading>
             <deployments-event dcname="replicaSet.metadata.name" dcfit="ReplicaSet"></deployments-event>
         </uib-tab>
