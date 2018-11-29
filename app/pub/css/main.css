@@ -2760,7 +2760,7 @@ td a:hover, a:focus {
     color: #5a6378;
     font-size: 12px;
     line-height: 25px;
-    width: 380px;
+    width: 400px;
     height: 120px;
     margin: 0 auto;
 }
@@ -2859,7 +2859,7 @@ td a:hover, a:focus {
     padding-left: 25px;
     padding-right: 25px;
     background: #fff;
-    height: 40px;
+    height: 41px;
     position: fixed;
     left: 188px;
     right: 0px;
