@@ -12,19 +12,23 @@ angular.module("console.header", [{
                 showAbout: '=',
             },
             templateUrl: 'components/header/header.html',
-            controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams','ssologout','userNum',
-                function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams,ssologout,userNum) {
+            controller: ['User','allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams','ssologout','userNum',
+                function (User,allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams,ssologout,userNum) {
                     //console.log($state.current.name);
                     if ($state.current.name === 'overview') {
                         $scope.isActive=false
                     }else {
                         $scope.isActive=true
                     }
-                    userNum.get({namespace: $rootScope.namespace},
-                        function (res) {
-                            $scope.numbertotal = res.total;
-                        }
-                    );
+                    User.get({name: '~'}, function (user) {
+                        console.log('user', user.metadata.name);
+                        userNum.get({namespace:user.metadata.name},
+                            function (res) {
+                                $scope.numbertotal = res.total;
+                            }
+                        );
+                    })
+
                     //$scope.numbertotal=5
                     var cmHost = 'http://sso-cm.southbase.prd.dataos.io/';
                     var dacpHost = 'http://10.1.235.155:9089/dacp/';

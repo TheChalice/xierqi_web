@@ -6,8 +6,8 @@ angular.module('console.build_create', [
             ]
         }
     ])
-    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
-        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
+    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr','repositorytags',
+        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr,repositorytags) {
             $scope.grid = {
                 org: null,
                 repo: null,
@@ -205,6 +205,12 @@ angular.module('console.build_create', [
                     if ($scope.gitstatus === 'gitlab') {
                         sendobj.id = repo.id;
                     }
+
+                    //repositorybranches.query(sendobj, function (branchres) {
+                    //    repo.branchs = branchres;
+                    //    $scope.gitdata.branchs = angular.copy(repo.branchs)
+                    //})
+
                     repositorybranches.query(sendobj, function (branchres) {
                         repo.branchs = branchres;
                         $scope.gitdata.branchs = angular.copy(repo.branchs)

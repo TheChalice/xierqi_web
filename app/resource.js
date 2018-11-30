@@ -1003,6 +1003,10 @@ define([
             var repositorybranches = $resource(GLOBAL.host_repo + '/:source/branches', {source: '@source'}, {});
             return repositorybranches;
         }])
+        .factory('repositorytags', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //获取仓库tag
+            var repositorytags = $resource(GLOBAL.host_repo + '/:source/tags', {source: '@source'}, {});
+            return repositorytags;
+        }])
         .factory('repositorysecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //获取仓库分支
             var repositorysecret = $resource(GLOBAL.host_repo + '/:source/secret', {source: '@source'}, {});
             return repositorysecret;
