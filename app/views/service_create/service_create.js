@@ -809,7 +809,7 @@ angular.module('console.service.create', [
                 } else if (unit === 'cores') {
                     return num
                 } else if (unit === 'MB') {
-                    return num + 'm'
+                    return num + 'M'
                 } else if (unit === 'GB') {
                     return num + 'G'
                 }
