@@ -803,16 +803,14 @@ angular.module('console.service.create', [
 
             }
 
-            function unit(num, unit) {
-                if (unit === 'millicores') {
-                    return num + 'm'
-                } else if (unit === 'cores') {
-                    return num + 'cores'
-                } else if (unit === 'MB') {
-                    return num + 'm'
-                } else if (unit === 'GB') {
-                    return num + 'g'
-                }
+            if (unit === 'millicores') {
+                return num + 'm'
+            } else if (unit === 'cores') {
+                return num
+            } else if (unit === 'MB') {
+                return num + 'm'
+            } else if (unit === 'GB') {
+                return num + 'G'
             }
 
             function invEnv() {
