@@ -211,7 +211,7 @@ angular.module('console.build_create', [
                     //    $scope.gitdata.branchs = angular.copy(repo.branchs)
                     //})
 
-                    repositorytags.query(sendobj, function (branchres) {
+                    repositorybranches.query(sendobj, function (branchres) {
                         repo.branchs = branchres;
                         $scope.gitdata.branchs = angular.copy(repo.branchs)
                     })
