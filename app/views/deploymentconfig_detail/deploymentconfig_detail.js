@@ -1016,11 +1016,9 @@ angular.module('console.deploymentconfig_detail', [
             scope: false,
             controller: ['$scope', function ($scope) {
                 $scope.changeContainerPort = function (idx, port) {
-                    console.log('1212121===',idx);
-                    console.log('323232===',port);
                     $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
                 }
-            }],
+            }]
         };
     })
     .directive('containerReadinessCheck', function () {
