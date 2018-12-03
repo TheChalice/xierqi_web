@@ -1349,7 +1349,7 @@ angular.module('console.service.create', [
                 $scope.changeContainerPort = function (idx, port) {
                     $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
                 }
-            }],
+            }]
         };
     })
     .directive('containerReadinessCheck', function () {
@@ -1361,7 +1361,7 @@ angular.module('console.service.create', [
                 $scope.changeAnnotationsPort = function (idx, port) {
                     $scope.dc.spec.template.spec.containers[idx].readinessProbe.annotations.port = port;
                 }
-            }],
+            }]
         };
     })
     .directive('setPorts', function () {
@@ -1386,11 +1386,11 @@ angular.module('console.service.create', [
                 $scope.portInitList = ['TCP'];
                 $scope.changePort = function (idx, port) {
                     $scope.portsArr[idx].protocol = port;
-                }
+                };
                 $scope.delprot = function (idx) {
                     $scope.portsArr.splice(idx, 1);
                 };
-            }],
+            }]
         };
     })
     .directive('setQuota', function () {
@@ -1400,14 +1400,14 @@ angular.module('console.service.create', [
             scope: false,
             controller: ['$scope', function ($scope) {
                 $scope.$watch('container.open.resources', function (n, o) {
-                    console.log('n', n);
-                    console.log('$scope.institution', $scope.institution);
+                    // console.log('n', n);
+                    // console.log('$scope.institution', $scope.institution);
                     if ($scope.institution.rubustCheck&&n===false) {
                         $scope.institution.rubustCheck=false
                     }
 
                 })
-            }],
+            }]
         };
-    })
+    });
 

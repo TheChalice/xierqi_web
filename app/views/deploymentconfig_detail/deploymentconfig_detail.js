@@ -14,10 +14,45 @@ angular.module('console.deploymentconfig_detail', [
     .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 'Service',
         function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr, Service) {
             $scope.dc = angular.copy(mydc);
+            $scope.resourcesunit = {
+                    mincpu: 'millicores',
+                    maxcpu: 'millicores',
+                    minmem: 'MB',
+                    maxmem: 'MB'
+            };
+            $scope.open = {
+                    resources: false,
+                    volment: false,
+                    livenessProbe: false,
+                    readinessProbe: false,
+                    livenesscheck: 'HTTP',
+                    livenesshttpscheck: false,
+                    readinesscheck: 'HTTP',
+                    readinesshttpscheck: false
+            };
+            $scope.institution = {
+                display: 1,
+                configregistry: false,
+                rubustCheck: false
+            };
+            function unit(num, unit) {
+                if (unit === 'millicores') {
+                    return num + 'm'
+                } else if (unit === 'cores') {
+                    return num
+                } else if (unit === 'MB') {
+                    return num + 'm'
+                } else if (unit === 'GB') {
+                    return num + 'G'
+                }
+            }
             for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                 $scope.dc.spec.template.spec.containers[i].retract = true;
+                $scope.dc.spec.template.spec.containers[i].resourcesunit = $scope.resourcesunit;
+                $scope.dc.spec.template.spec.containers[i].open = $scope.open;
             }
-            $scope.mytag = angular.copy(mytag)
+            // console.log('-=-=-',$scope.dc.spec.template.spec.containers);
+            $scope.mytag = angular.copy(mytag);
             $scope.err = {
                 vol: {
                     secret: false,
@@ -53,7 +88,8 @@ angular.module('console.deploymentconfig_detail', [
                     "maxReplicas": null,
                     "targetCPUUtilizationPercentage": null
                 }
-            }
+            };
+
             var watchdcs = function (resourceVersion) {
                 Ws.watch({
                     api: 'other',
@@ -81,8 +117,6 @@ angular.module('console.deploymentconfig_detail', [
                 }
                 //console.log('data.object', data.object);
                 $scope.resourceVersion = data.object.metadata.resourceVersion;
-
-
                 if (data.type == 'ADDED') {
                     //$scope.rcs.items.shift(data.object);
                 } else if (data.type == "MODIFIED") {
@@ -90,11 +124,6 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.dc.status.replicas = data.object.status.replicas
                 }
             };
-            $scope.institution = {
-                display: 1,
-                configregistry: false,
-                rubustCheck: false
-            }
             var creathor = function () {
                 $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || $scope.dc.spec.replicas;
                 $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
@@ -281,16 +310,14 @@ angular.module('console.deploymentconfig_detail', [
             //
             //}
             $scope.updateDc = function () {
-
-                $scope.dc.spec.template.spec.volumes = []
-                var cancreat = true
+                $scope.dc.spec.template.spec.volumes = [];
+                var cancreat = true;
                 angular.forEach($scope.dc.spec.triggers, function (tri, i) {
                     // console.log(tri);
                     if (tri.type !== "ConfigChange") {
                         $scope.dc.spec.triggers.splice(i, 1)
                     }
-
-                })
+                });
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     delete con.retract;   //清除自定义key值retract
                     // console.log("jiwer--",con)
@@ -321,9 +348,9 @@ angular.module('console.deploymentconfig_detail', [
                         creatimageconfig(con)
                     }
                     if (con.volment) {
-                        con.volumeMounts = []
+                        con.volumeMounts = [];
                         if (volerr(con.volments)) {
-                            cancreat = false
+                            cancreat = false;
 
                             toastr.error('操作失败,请重试', {
 
@@ -331,14 +358,14 @@ angular.module('console.deploymentconfig_detail', [
                                 closeButton: true
                             });
                         }
-                        creatvol(con, con.volments)
+                        creatvol(con, con.volments);
                         //if (volrepeat(con.volumeMounts)) {
                         //    Toast.open('卷路径重复');
                         //    cancreat=false
                         //}
                         //
                     } else {
-                        delete con.volumeMounts
+                        delete con.volumeMounts;
                         delete con.volments
                     }
 
@@ -363,6 +390,14 @@ angular.module('console.deploymentconfig_detail', [
                     }
 
                 })
+                if (con.open.resources) {
+                    con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu)
+                    con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
+                    con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
+                    con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
+                } else {
+                    delete con.resources
+                }
                 if (!cancreat) {
                     return
                 }
@@ -964,8 +999,8 @@ angular.module('console.deploymentconfig_detail', [
             scope: false,
             controller: ['$scope', function ($scope) {
                 $scope.$watch('container.open.resources', function (n, o) {
-                    console.log('n', n);
-                    console.log('$scope.institution', $scope.institution);
+                    // console.log('n', n);
+                    // console.log('$scope.institution', $scope.institution);
                     if ($scope.institution.rubustCheck&&n===false) {
                         $scope.institution.rubustCheck=false
                     }
@@ -973,6 +1008,32 @@ angular.module('console.deploymentconfig_detail', [
                 })
             }]
         };
-    });
+    })
+    .directive('containerLivenessCheck', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/deploymentconfig_detail/tpl/containerLivenessCheck.html',
+            scope: false,
+            controller: ['$scope', function ($scope) {
+                $scope.changeContainerPort = function (idx, port) {
+                    console.log('1212121===',idx);
+                    console.log('323232===',port);
+                    $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
+                }
+            }],
+        };
+    })
+    .directive('containerReadinessCheck', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/deploymentconfig_detail/tpl/containerReadinessCheck.html',
+            scope: false,
+            controller: ['$scope', function ($scope) {
+                $scope.changeAnnotationsPort = function (idx, port) {
+                    $scope.dc.spec.template.spec.containers[idx].readinessProbe.annotations.port = port;
+                }
+            }],
+        };
+    })
 
 
