@@ -89,6 +89,11 @@ angular.module('console.deploymentconfig_detail', [
                     data.object.spec.replicas = $scope.dc.spec.replicas
                     $scope.dc.status.replicas = data.object.status.replicas
                 }
+            };
+            $scope.institution = {
+                display: 1,
+                configregistry: false,
+                rubustCheck: false
             }
             var creathor = function () {
                 $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || $scope.dc.spec.replicas;
@@ -952,5 +957,22 @@ angular.module('console.deploymentconfig_detail', [
                 }],
         };
     })
+    .directive('setQuota', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/deploymentconfig_detail/tpl/setQuota.html',
+            scope: false,
+            controller: ['$scope', function ($scope) {
+                $scope.$watch('container.open.resources', function (n, o) {
+                    console.log('n', n);
+                    console.log('$scope.institution', $scope.institution);
+                    if ($scope.institution.rubustCheck&&n===false) {
+                        $scope.institution.rubustCheck=false
+                    }
+
+                })
+            }]
+        };
+    });
 
 

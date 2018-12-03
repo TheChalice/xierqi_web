@@ -1400,8 +1400,8 @@ angular.module('console.service.create', [
             scope: false,
             controller: ['$scope', function ($scope) {
                 $scope.$watch('container.open.resources', function (n, o) {
-                    //console.log('n', n);
-                    //console.log('$scope.institution', $scope.institution);
+                    console.log('n', n);
+                    console.log('$scope.institution', $scope.institution);
                     if ($scope.institution.rubustCheck&&n===false) {
                         $scope.institution.rubustCheck=false
                     }

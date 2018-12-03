@@ -115,6 +115,7 @@
         <div class="tittle">
             <h3 class="df_tit">镜像信息</h3>
         </div>
+        {{dc.spec.template.spec.containers}}
         <div style="min-width: 750px;" class="container-fluid container-bar"
              ng-repeat="container in dc.spec.template.spec.containers"
              ng-init="outerIndex = $index">
@@ -551,7 +552,17 @@
                 </div>
 
                 <div class="clear"></div>
+                <!---->
                 <div style="margin-top: 5px;margin-bottom:10px;">
+                    <div class="df_block_set">
+                        <div class="df_block_left">配额限制</div>
+                        <set-quota></set-quota>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <!---->
+                <div style="margin-top: 5px;">
                     <div class="df_block_set">
                         <div class="df_block_left">环境变量</div>
                         <div class="df_block_right" style="margin-bottom:20px;">
