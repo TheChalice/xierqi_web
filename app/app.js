@@ -116,6 +116,7 @@ define([
             common_url: '<REGISTRY_PUBLIC_ADDR>',
             //common_url:'registry.dataos.io',
             private_url: '<REGISTRY_PRIVATE_ADDR>'
+            //private_url: 'aaaabbb'
 
         })
         .constant('AUTH_EVENTS', {
