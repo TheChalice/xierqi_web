@@ -324,9 +324,9 @@ input::-webkit-input-placeholder {
     border-right:1px solid #ccd5e0;
 }
 .quota-input:hover,.quota-input:focus{
-    border:none;
+    border:none!important;
     border-radius: 0px;
-    border-right:1px solid #ccd5e0;
+    border-right:1px solid #ccd5e0!important;
 }
 
 
