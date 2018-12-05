@@ -142,8 +142,8 @@ define([
                 toastClass: 'toast'
             });
         }])
-        .run(['$rootScope', 'account', '$state', 'Cookie',
-            function ($rootScope, account, $state, Cookie) {
+        .run(['$rootScope', 'account', '$state', 'Cookie','User',
+            function ($rootScope, account, $state, Cookie,User) {
                 var masterPublicHostname = 'http://127.0.0.1:8080';
                 window.OPENSHIFT_CONFIG = {
                     apis: {
@@ -3192,6 +3192,13 @@ define([
                     console.log('toState.name', toState.name);
                     if (toState && toState.name) {
                         $rootScope.console.state = toState.name;
+                        if(toState.name == "login"){
+                            User.get({name: '~', region: $rootScope.region}, function (res) {
+                                $state.go("console.dashboard", {namespace: $rootScope.namespace});
+                                $rootScope.dataForTheTree[0].stateUrl = toState.name
+                            })
+                        }
+
                         if (toState.name.indexOf('dashboard') != -1) {
                             $rootScope.dataForTheTree[0].stateUrl = toState.name
                         } else if (toState.name.indexOf('build') != -1) {
@@ -3208,7 +3215,7 @@ define([
                             $rootScope.dataForTheTree[6].stateUrl = toState.name;
                         }
 
-                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1) {
+                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1 || toState.name.indexOf('rc') != -1|| toState.name.indexOf('rs') != -1) {
                             $rootScope.app[0].stateUrl = toState.name;
                         } else if (toState.name.indexOf('stateful-sets') != -1) {
                             $rootScope.app[4].stateUrl = toState.name;
