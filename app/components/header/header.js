@@ -470,19 +470,21 @@ angular.module("console.header", [{
     return function(state) {
         switch (state) {
             case "console.deployments":
-                return "镜像部署"
+                return "镜像部署";
             case "console.pipelinetag_detail":
-                return "流水线详情"
+                return "流水线详情";
             case "console.pipeline_detail":
-                return "流水线详情"
+                return "流水线详情";
             case "console.pipeline":
-                return "流水线"
+                return "流水线";
             case "console.dashboard":
-                return "仪表盘"
+                return "仪表盘";
             case "console.build":
                 return "代码构建";
             case "console.build_create":
                 return "新建构建";
+            case "console.uploadimage":
+                return "镜像上传详情";
             case "console.build_detail":
                 return "构建详情";
             case "console.image":
@@ -497,6 +499,8 @@ angular.module("console.header", [{
                 return "导入yaml";
             case "console.rc":
                 return "rc详情";
+            case "console.rs":
+                return "rs详情";
             case "console.primage_detail":
                 return "镜像详情";
             case "console.service_detail":
