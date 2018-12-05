@@ -27,6 +27,7 @@ sed -i 's/<redis_host>/'$REDIS_HOST'/g' /usr/local/openresty/nginx/conf/nginx.co
 sed -i 's/<redis_port>/'$REDIS_PORT'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<redis_password>/'$REDIS_PASSWORD'/g' /usr/local/openresty/nginx/conf/nginx.conf
 
+sed -i 's/<api_restapi_addr>/'$API_RESTAPI_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<api_aipaas_addr>/'$API_AIPAAS_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 
 
