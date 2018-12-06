@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.rc', [
+angular.module('console.replication', [
     {
         files: [
             'views/rc/rc_detail.css',
