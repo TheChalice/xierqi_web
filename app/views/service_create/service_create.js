@@ -974,34 +974,41 @@ angular.module('console.service.create', [
                         item.containerPort = parseInt(item.containerPort);
                         item.hostPort = parseInt(item.hostPort);
                         item.err.containerPortnan = false;
+                        item.err.containerPortNull = false;
                         item.err.hostPortnan = false;
+                        item.err.hostPortNull = false;
+                        // var reg = /^\d[0-9]$/;
                         if (item.containerPort) {
                             if (item.containerPort < 0 || item.containerPort > 65535) {
                                 item.err.containerPortnan = true;
                             }
+                        }else{
+                            item.err.containerPortNull = true;
                         }
                         if (item.hostPort) {
                             if (item.hostPort < 0 || item.hostPort > 65535) {
                                 item.err.hostPortnan = true;
                             }
+                        }else{
+                            item.err.hostPortNull = true;
                         }
-                        angular.forEach($scope.portsArr, function (initem, k) {
-                            if (i !== k) {
-                                if (item.containerPort === initem.containerPort) {
-                                    portcan = false;
-                                    item.err.containerPort = true
-                                    initem.err.containerPort = true
-                                }
-                            }
-                            if (i !== k) {
-                                if (item.hostPort === initem.hostPort) {
-                                    portcan = false;
-                                    item.err.hostPort = true
-                                    initem.err.hostPort = true
-                                }
-                            }
-
-                        })
+                        // angular.forEach($scope.portsArr, function (initem, k) {
+                        //     if (i !== k) {
+                        //         if (item.containerPort === initem.containerPort) {
+                        //             portcan = false;
+                        //             item.err.containerPort = true
+                        //             initem.err.containerPort = true
+                        //         }
+                        //     }
+                        //     if (i !== k) {
+                        //         if (item.hostPort === initem.hostPort) {
+                        //             portcan = false;
+                        //             item.err.hostPort = true
+                        //             initem.err.hostPort = true
+                        //         }
+                        //     }
+                        //
+                        // })
                     })
                 }
                 if (!portcan) {
