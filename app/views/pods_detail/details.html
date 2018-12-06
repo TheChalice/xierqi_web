@@ -26,7 +26,7 @@
         <dd ng-if-end>
           <span id="dt_set" ui-sref="console.deploymentconfig_detail({namespace:namespace,name:pod.metadata.labels.deploymentconfig})">
             {{pod.metadata.labels.deploymentconfig}}</span>,
-          <span id="dt_set" ui-sref="console.rc({namespace:namespace,name:pod.metadata.labels.deployment})">
+          <span id="dt_set" ui-sref="console.replication({namespace:namespace,name:pod.metadata.labels.deployment})">
             #{{pod.metadata.annotations["openshift.io/deployment-config.latest-version"]}}
           </span>
           <!-- <a ng-href="{{dcName | navigateResourceURL : 'DeploymentConfig' : Pod.metadata.namespace}}">{{dcName}}</a><span ng-if="rcName">,
@@ -39,7 +39,7 @@
         </dt>
 
         <dd ng-if-end>
-            <span id="dt_set" ui-sref="console.rs({namespace:namespace,name:pod.metadata.ownerReferences[0].name})">
+            <span id="dt_set" ui-sref="console.replicaset({namespace:namespace,name:pod.metadata.ownerReferences[0].name})">
             {{pod.metadata.ownerReferences[0].name}}
             </span>
         </dd>

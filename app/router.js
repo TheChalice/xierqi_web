@@ -468,7 +468,7 @@ define([
                 })//ok
 
                 //rc
-                .state('console.rc', {
+                .state('console.replication', {
                     url: '/:namespace/rc/:name',
                     templateUrl: 'views/rc/rc_detail.html',
                     controller: 'rcCtrl',
@@ -493,7 +493,7 @@ define([
                     }
                 })//ok
                 //rs
-                .state('console.rs', {
+                .state('console.replicaset', {
                     url: '/:namespace/rs/:name',
                     templateUrl: 'views/rs/rs_detail.html',
                     controller: 'rsCtrl',

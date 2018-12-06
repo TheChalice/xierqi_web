@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.rs', [
+angular.module('console.replicaset', [
     {
         files: [
             'views/rs/rs_detail.css',
