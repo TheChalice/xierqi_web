@@ -569,6 +569,7 @@ angular.module('console.deploymentconfig_detail', [
                         }
                     };
                     $scope.openLivePro = function (idx) {
+                        // console.log('$scope.dc.spec.template.spec.containers[idx].livenessFlag',$scope.dc.spec.template.spec.containers[idx].livenessFlag);
                         if ($scope.dc.spec.template.spec.containers[idx].livenessFlag) {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = false;
                             delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
@@ -675,6 +676,47 @@ angular.module('console.deploymentconfig_detail', [
                                         }
                                     } else if (n[i].dosetcon == "TCP") {
                                         $scope.dc.spec.template.spec.containers[i].readinessProbe = {
+                                            "tcpSocket": {
+                                                "port": ""
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        }
+                                    }
+                                }
+                            //    健康检查
+                                if (n[i].livenesscheck != o[i].livenesscheck) {
+                                    if (n[i].livenesscheck == "HTTP") {
+                                        $scope.dc.spec.template.spec.containers[i].livenessProbe = {
+                                            "httpGet": {
+                                                "path": "",
+                                                "port": "",
+                                                "scheme": "HTTP"
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        }
+                                    } else if (n[i].livenesscheck == "命令") {
+                                        $scope.dc.spec.template.spec.containers[i].livenessProbe = {
+                                            "exec": {
+                                                "command": [
+                                                    {key: ''}
+                                                ]
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        }
+                                    } else if (n[i].livenesscheck == "TCP") {
+                                        $scope.dc.spec.template.spec.containers[i].livenessProbe = {
                                             "tcpSocket": {
                                                 "port": ""
                                             },
