@@ -22,7 +22,7 @@
                     <div class="col-sm-3 ">
                         <span class="detail_tit">版本：</span>
                         <a class="dList href-orange" style="cursor: pointer;"
-                           ui-sref="console.rs({namespace:namespace,name:item.metadata.name})">
+                           ui-sref="console.replicaset({namespace:namespace,name:item.metadata.name})">
                             #{{item.metadata.annotations['deployment.kubernetes.io/revision']}}
                         </a>
                     </div>
