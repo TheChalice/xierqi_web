@@ -295,6 +295,39 @@ input::-webkit-input-placeholder {
 .df_my_error {
     color: #f00;
 }
+.quota-box-wrop{
+    width: 169px; border: 1px solid #ccd5e0;border-radius: 4px; ;
+}
+.quota-dropdown{
+    width: 80px;
+    line-height:8px;
+    height: 24px;
+    font-size:12px;
+    color: #475669;
+    background: #F9FAFC;
+    text-shadow: none;
+    border:none;
+}
+.quota-dropdown:active,.quota-dropdown:hover{
+    background: #F9FAFC !important;
+    color: #475669 !important;
+    border:none !important;
+
+}
+.quota-input{
+    width: 87px;
+    height: 26px;
+    padding:12px;
+    float: left;
+    border:none;
+    border-radius: 0px;
+    border-right:1px solid #ccd5e0;
+}
+.quota-input:hover,.quota-input:focus{
+    border:none!important;
+    border-radius: 0px;
+    border-right:1px solid #ccd5e0!important;
+}
 
 
 

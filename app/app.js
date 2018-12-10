@@ -3191,6 +3191,7 @@ define([
                     ];
                     console.log('toState.name', toState.name);
                     if (toState && toState.name) {
+                        console.log("toState.name.indexOf('_configMap')", toState.name.indexOf('_configMap'));
                         $rootScope.console.state = toState.name;
                         if(toState.name == "login"){
                             User.get({name: '~', region: $rootScope.region}, function (res) {
@@ -3204,9 +3205,8 @@ define([
                         } else if (toState.name.indexOf('build') != -1) {
                             $rootScope.dataForTheTree[1].stateUrl = toState.name;
                         } else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage_detail') !== -1) {
-                            console.log('primage_detail');
                             $rootScope.imageChild[1].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
+                        } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1 || toState.name.indexOf('uploadimage') !== -1) {
                             $rootScope.imageChild[0].stateUrl = toState.name;
                         } else if (toState.name.indexOf('pipeline') != -1) {
                             $rootScope.dataForTheTree[3].stateUrl = toState.name;
@@ -3215,7 +3215,7 @@ define([
                             $rootScope.dataForTheTree[6].stateUrl = toState.name;
                         }
 
-                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1 || toState.name.indexOf('rc') != -1|| toState.name.indexOf('rs') != -1) {
+                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1 || toState.name.indexOf('replication') != -1|| toState.name.indexOf('replicaset') != -1) {
                             $rootScope.app[0].stateUrl = toState.name;
                         } else if (toState.name.indexOf('stateful-sets') != -1) {
                             $rootScope.app[4].stateUrl = toState.name;

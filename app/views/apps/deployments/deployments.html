@@ -73,7 +73,7 @@
                     </td>
                     <td data-title="版本">
                         <a ng-if="deployments.status.latestVersion >0" class="last_deploy"
-                           ui-sref="console.rc({namespace:namespace,name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</a>
+                           ui-sref="console.replication({namespace:namespace,name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</a>
                         <a ng-if="deployments.status.latestVersion ==0">No deployments</a>
                     </td>
                     <td data-title="状态">
@@ -167,7 +167,7 @@
                     <td data-title="Last Version">
                         <span>
                             <a class="href-orange"
-                               ui-sref="console.rs({namespace:namespace,name:deployment.rs.metadata.name})"
+                               ui-sref="console.replicaset({namespace:namespace,name:deployment.rs.metadata.name})"
                                style="cursor: pointer;">{{deployment | lastDeploymentRevision}}</a>
                         </span>
                     </td>
@@ -228,7 +228,7 @@
                 <!--<tr ng-repeat="deployments in mydeploylist">-->
                 <tr ng-repeat="replicas in otherreplicasItem | orderObjectsByDate : true">
                     <td data-title="Name">
-                        <a class="href-orange" ui-sref="console.rc({namespace:namespace,name: replicas.metadata.name})">{{replicas.metadata.name}}</a>
+                        <a class="href-orange" ui-sref="console.replication({namespace:namespace,name: replicas.metadata.name})">{{replicas.metadata.name}}</a>
 
                     </td>
                     <!--<td data-title="Last Version">-->
@@ -293,7 +293,7 @@
                 <tr ng-repeat="replicaset in otherreplicasetsItem | orderObjectsByDate : true">
                     <td data-title="Name">
                         <a class="href-orange"
-                           ui-sref="console.rs({namespace:namespace,name: replicaset.metadata.name})">{{replicaset.metadata.name}}</a>
+                           ui-sref="console.replicaset({namespace:namespace,name: replicaset.metadata.name})">{{replicaset.metadata.name}}</a>
 
                     </td>
                     <!--<td data-title="Last Version">-->

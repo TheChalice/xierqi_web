@@ -974,34 +974,41 @@ angular.module('console.service.create', [
                         item.containerPort = parseInt(item.containerPort);
                         item.hostPort = parseInt(item.hostPort);
                         item.err.containerPortnan = false;
+                        item.err.containerPortNull = false;
                         item.err.hostPortnan = false;
+                        item.err.hostPortNull = false;
+                        // var reg = /^\d[0-9]$/;
                         if (item.containerPort) {
                             if (item.containerPort < 0 || item.containerPort > 65535) {
                                 item.err.containerPortnan = true;
                             }
+                        }else{
+                            item.err.containerPortNull = true;
                         }
                         if (item.hostPort) {
                             if (item.hostPort < 0 || item.hostPort > 65535) {
                                 item.err.hostPortnan = true;
                             }
+                        }else{
+                            item.err.hostPortNull = true;
                         }
-                        angular.forEach($scope.portsArr, function (initem, k) {
-                            if (i !== k) {
-                                if (item.containerPort === initem.containerPort) {
-                                    portcan = false;
-                                    item.err.containerPort = true
-                                    initem.err.containerPort = true
-                                }
-                            }
-                            if (i !== k) {
-                                if (item.hostPort === initem.hostPort) {
-                                    portcan = false;
-                                    item.err.hostPort = true
-                                    initem.err.hostPort = true
-                                }
-                            }
-
-                        })
+                        // angular.forEach($scope.portsArr, function (initem, k) {
+                        //     if (i !== k) {
+                        //         if (item.containerPort === initem.containerPort) {
+                        //             portcan = false;
+                        //             item.err.containerPort = true
+                        //             initem.err.containerPort = true
+                        //         }
+                        //     }
+                        //     if (i !== k) {
+                        //         if (item.hostPort === initem.hostPort) {
+                        //             portcan = false;
+                        //             item.err.hostPort = true
+                        //             initem.err.hostPort = true
+                        //         }
+                        //     }
+                        //
+                        // })
                     })
                 }
                 if (!portcan) {
@@ -1349,7 +1356,7 @@ angular.module('console.service.create', [
                 $scope.changeContainerPort = function (idx, port) {
                     $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
                 }
-            }],
+            }]
         };
     })
     .directive('containerReadinessCheck', function () {
@@ -1361,7 +1368,7 @@ angular.module('console.service.create', [
                 $scope.changeAnnotationsPort = function (idx, port) {
                     $scope.dc.spec.template.spec.containers[idx].readinessProbe.annotations.port = port;
                 }
-            }],
+            }]
         };
     })
     .directive('setPorts', function () {
@@ -1386,11 +1393,11 @@ angular.module('console.service.create', [
                 $scope.portInitList = ['TCP'];
                 $scope.changePort = function (idx, port) {
                     $scope.portsArr[idx].protocol = port;
-                }
+                };
                 $scope.delprot = function (idx) {
                     $scope.portsArr.splice(idx, 1);
                 };
-            }],
+            }]
         };
     })
     .directive('setQuota', function () {
@@ -1400,14 +1407,14 @@ angular.module('console.service.create', [
             scope: false,
             controller: ['$scope', function ($scope) {
                 $scope.$watch('container.open.resources', function (n, o) {
-                    //console.log('n', n);
-                    //console.log('$scope.institution', $scope.institution);
+                    // console.log('n', n);
+                    // console.log('$scope.institution', $scope.institution);
                     if ($scope.institution.rubustCheck&&n===false) {
                         $scope.institution.rubustCheck=false
                     }
 
                 })
-            }],
+            }]
         };
-    })
+    });
 
