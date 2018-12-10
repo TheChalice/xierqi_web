@@ -65,18 +65,16 @@ angular.module('console.private-image', [
             // 存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
             $scope.gitStore = {};
             // 监视分页的页数控制换页
-
             $scope.$watch('grid.page', function (newVal, oldVal) {
-                if (newVal != oldVal) {
+                // console.log(newVal, oldVal);
+                if (newVal !== oldVal) {
                     if ($scope.grid.search) {
                         refresh(newVal, 'search');
                     } else {
                         refresh(newVal);
                     }
-
                 }
             });
-
             // myimage控制换页方法
             var refresh = function (page, type) {
                 $(document.body).animate({
@@ -86,14 +84,13 @@ angular.module('console.private-image', [
                 if (type) {
                     $scope.grid.search = true;
                     $scope.testlist = $scope.grid.myimagecopy.slice(skip, skip + $scope.grid.size);
-                    //console.log($scope.grid.myimagecopy);
+                    // console.log($scope.grid.myimagecopy);
                     $scope.grid.total = $scope.grid.myimagecopy.length;
                 } else {
                     $scope.testlist = $scope.testcopy.slice(skip, skip + $scope.grid.size);
-                    //console.log($scope.testcopy);
+                    // console.log($scope.testcopy);
                     $scope.grid.total = $scope.testcopy.length;
                 }
-
             };
             // 在searchbar组件中调用
             $scope.doSearch = function (txt) {
@@ -103,10 +100,16 @@ angular.module('console.private-image', [
             }
             // 私有镜像平台键盘搜索
             $scope.text = '您还没有构建镜像';
-            $scope.begin_blank=true;
+            $scope.begin_blank = true;
             $scope.search = function (key, txt) {
+                // console.log(key,txt);
+                $scope.text = txt;
                 if (!txt) {
                     $scope.grid.search = false;
+                    $scope.uex_back = true;
+                    $scope.uex_front = false;
+                    $scope.grid.page = 1;
+                    console.log($scope.grid.page);
                     refresh(1);
                     return;
                 }
@@ -117,12 +120,13 @@ angular.module('console.private-image', [
                 if ($scope.testcopy) {
                     for (var i = 0; i < $scope.testcopy.length; i++) {
                         if (reg.test($scope.testcopy[i].metadata.name)) {
+                            // console.log($scope.testcopy[i].metadata.name);
                             imagearr.push($scope.testcopy[i]);
                         }
                     }
                 }
                 if (imagearr.length === 0) {
-                    $scope.begin_blank=false;
+                    $scope.begin_blank = false;
                     $scope.text = '没有查询到符合条件的数据';
                 } else {
                     $scope.text = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
@@ -130,16 +134,16 @@ angular.module('console.private-image', [
 
                 $scope.testlist = imagearr;
                 $scope.grid.myimagecopy = angular.copy($scope.testlist);
+                // console.log($scope.grid.myimagecopy);
                 refresh(1, 'search');
             };
 
 
             // 我的镜像
-            ImageStream.get({ namespace: $rootScope.namespace, region: $rootScope.region }, function (datalist) {
+            ImageStream.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (datalist) {
                 //$scope.images = res;
                 //console.log('is', datalist.items);
-
-                datalist.items = Sort.sort(datalist.items, -1)
+                datalist.items = Sort.sort(datalist.items, -1);
                 var connt = 0
                 if (datalist.items.length === 0) {
                     $scope.testlist = [];
@@ -149,15 +153,14 @@ angular.module('console.private-image', [
                     if (item.status.tags) {
                         arr.push(item);
                     }
-                })
+                });
                 if (arr.length === 0) {
                     $scope.testlist = [];
                 }
                 datalist.items = angular.copy(arr);
                 angular.forEach(datalist.items, function (item, i) {
-
                     //$scope.testlist = [];
-
+                    // console.log(item.status.tags);
                     if (item.status.tags && item.status.tags.length > 0) {
                         //console.log(i);
                         connt = connt + 1;
@@ -166,45 +169,76 @@ angular.module('console.private-image', [
                                 datalist.items[i].status.tags.splice(k, 1)
                             }
                         })
-
-                        //console.log(item.metadata.name, item.status.tags[0].tag);
+                        // console.log(item.metadata.name, item.status.tags[0].tag);
+                        // console.log(item.metadata, item.status.tags[0].tag);
                         datalist.items[i].status.tags[0].port = []
                         ImageStreamTag.get({
                             namespace: $rootScope.namespace,
                             name: item.metadata.name + ':' + item.status.tags[0].tag,
                             region: $rootScope.region
                         }, function (data) {
-                            //console.log(data);
                             angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port, k) {
                                 datalist.items[i].status.tags[0].port.push(k);
                             })
-
                             $scope.testlist = datalist.items;
-                            //console.log('datalist.items',datalist.items);
+                            // console.log('datalist.items',datalist.items);
+                            // console.log('datalist.items', $scope.testlist);
                             //datalist.items.sort(function (x, y) {
                             //    return x.sorttime > y.sorttime ? -1 : 1;
                             //});
                             //console.log('$scope.testlist', $scope.testlist);
-
                             $scope.testcopy = angular.copy(datalist.items);
-
                             $scope.grid.total = $scope.testcopy.length;
                             // console.log('$scope.testcopy', $scope.testcopy)
-                            refresh(1)
-
-
+                            // console.log('$scope.testcopy',  $scope.grid.total);
+                            refresh(1);
+                            $scope.uex_back = true;
+                            $scope.uex_front = false;
+                            // 排列 如果页数发生变化而且点击排序按钮，就refresh()
+                            $scope.sortDetail = function () {
+                                if ($scope.uex_back){
+                                    // alert(1);
+                                    datalist.items = Sort.sort(datalist.items, 1); //排序
+                                    $scope.uex_back = false;
+                                    $scope.uex_front = true;
+                                    $scope.testcopy = angular.copy(datalist.items);
+                                    refresh($scope.grid.page);
+                                } else {
+                                    // alert(13);
+                                    //默认降序
+                                    datalist.items = Sort.sort(datalist.items, -1); //排序
+                                    $scope.uex_back = true;
+                                    $scope.uex_front = false;
+                                    $scope.testcopy = angular.copy(datalist.items);
+                                    refresh($scope.grid.page);
+                                }
+                                if ($scope.text &&$scope.uex_front ){
+                                    // alert(1);
+                                    $scope.grid.myimagecopy= Sort.sort($scope.grid.myimagecopy, 1); //排序
+                                    $scope.uex_back = false;
+                                    $scope.uex_front = true;
+                                    $scope.grid.myimagecopy  = angular.copy($scope.grid.myimagecopy);
+                                    console.log($scope.grid.myimagecopy );
+                                    refresh($scope.grid.page, 'search');
+                                }
+                                    if( $scope.text && $scope.uex_back){
+                                    // alert(13);
+                                    //默认降序
+                                    $scope.grid.myimagecopy = Sort.sort($scope.grid.myimagecopy, -1); //排序
+                                    $scope.uex_back = true;
+                                    $scope.uex_front = false;
+                                    $scope.grid.myimagecopy  = angular.copy($scope.grid.myimagecopy);
+                                    refresh($scope.grid.page, 'search');
+                                }
+                            }
                         }, function (res) {
-
                         });
                     }
-
-
                     if (datalist.items.length - 1 === i) {
                         if (connt === 0) {
                             $scope.testlist = [];
                         }
                     }
-
                 })
             })
 
