@@ -899,6 +899,12 @@ define([
             });
             return checkout;
         }])
+        .factory('recharge', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //充值
+            var recharge = $resource(GLOBAL.host_payment + '/recharge', {}, {
+                create: { method: 'POST' }
+            });
+            return recharge;
+        }])
         .factory('uploadinfo', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //充值
             var uploadinfo = $resource(GLOBAL.upload_url + '/:namespace/info', {}, {
                 create: { method: 'POST' }
