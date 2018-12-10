@@ -913,7 +913,7 @@ define([
             return account;
         }])
         .factory('uploadinfo', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //充值
-            var uploadinfo = $resource(GLOBAL.upload_url + '/:namespace/info', {}, {
+            var uploadinfo = $resource(GLOBAL.uploadimage + '/:namespace/info', {}, {
                 create: { method: 'POST' }
             });
             return uploadinfo;
