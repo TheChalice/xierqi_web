@@ -18,8 +18,12 @@
                         <p class="img-time">
                             <span classs="module_tit">创建时间：</span><span class="module_time">{{data.metadata.creationTimestamp | timescon}}</span>
                         </p>
-                        <p class="img-new">
-                            <span class="module_tit">代码URL：</span><a class="href-orange text-overflow href-orange_a" href="{{myurl}}" target="_blank" style="">{{myurl}}</a>
+                        <p class="img-new"  ng-show="canjump">
+                            <span class="module_tit">代码URL：</span><a class="href-orange text-overflow href-orange_a" href="{{myurl}}" target="_blank" style="">{{myurl}}</a><span ng-show="myref" class="module_tit" style="margin-left: 40px;">分支/tag：{{myref}}</span>
+
+                        </p>
+                        <p class="img-new"  ng-show="!canjump">
+                            <span class="module_tit">代码URL：{{myurl}}</span><span ng-show="myref" class="module_tit" style="margin-left: 40px;">分支/tag：{{myref}}</span>
                         </p>
                     </div>
                     <div class="media media-sm" ng-if="imageEnable">

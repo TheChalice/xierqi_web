@@ -912,6 +912,12 @@ define([
 
             return account;
         }])
+        .factory('uploadinfo', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //充值
+            var uploadinfo = $resource(GLOBAL.uploadimage + '/:namespace/info', {}, {
+                create: { method: 'POST' }
+            });
+            return uploadinfo;
+        }])
         .factory('balance', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //余额查询
             var balance = $resource(GLOBAL.host_payment + '/balance', {}, {});
             return balance;
@@ -1002,6 +1008,10 @@ define([
         .factory('repositorybranches', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //获取仓库分支
             var repositorybranches = $resource(GLOBAL.host_repo + '/:source/branches', {source: '@source'}, {});
             return repositorybranches;
+        }])
+        .factory('repositorytags', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //获取仓库tag
+            var repositorytags = $resource(GLOBAL.host_repo + '/:source/tags', {source: '@source'}, {});
+            return repositorytags;
         }])
         .factory('repositorysecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //获取仓库分支
             var repositorysecret = $resource(GLOBAL.host_repo + '/:source/secret', {source: '@source'}, {});

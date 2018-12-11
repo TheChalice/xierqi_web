@@ -6,8 +6,8 @@ angular.module('console.build_create', [
             ]
         }
     ])
-    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
-        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
+    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr','repositorytags',
+        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr,repositorytags) {
             $scope.grid = {
                 org: null,
                 repo: null,
@@ -128,7 +128,7 @@ angular.module('console.build_create', [
             $scope.$watch('grid', function (n, o) {
                 console.log('grif', n);
             }, true);
-            loadgitdata('github', 'cache');
+            //loadgitdata('github', 'cache');
             loadgitdata('gitlab', 'cache');
             $scope.bindhub = function (click) {
                 authorize.get({source: click, redirect_url: encodeURIComponent(window.location.href)}, function (res) {
@@ -205,6 +205,12 @@ angular.module('console.build_create', [
                     if ($scope.gitstatus === 'gitlab') {
                         sendobj.id = repo.id;
                     }
+
+                    //repositorybranches.query(sendobj, function (branchres) {
+                    //    repo.branchs = branchres;
+                    //    $scope.gitdata.branchs = angular.copy(repo.branchs)
+                    //})
+
                     repositorybranches.query(sendobj, function (branchres) {
                         repo.branchs = branchres;
                         $scope.gitdata.branchs = angular.copy(repo.branchs)
@@ -323,6 +329,12 @@ angular.module('console.build_create', [
                         return;
                     }
                     $scope.buildConfig.spec.source.git.ref = $scope.gitdata.branchs[$scope.grid.branch].name;
+                    var name = '';
+                    if ($scope.gitdata.branchs[$scope.grid.branch].name) {
+                        name = $scope.gitdata.branchs[$scope.grid.branch].name.replace('/', '-');
+                    }
+
+                    $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + name;
                     if ($scope.gitstatus === 'gitlab') {
 
                         $scope.buildConfig.spec.source.git.uri = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].ssh_clone_url;
@@ -330,20 +342,7 @@ angular.module('console.build_create', [
                         $scope.buildConfig.metadata.annotations.user = $scope.gitload.gitlab[$scope.grid.org].namespace;
                         $scope.buildConfig.metadata.annotations.repo = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].name;
                         $scope.buildConfig.metadata.annotations.id = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].id.toString();
-                    } else {
-                        //console.log('$scope.gitdata.orgs[$scope.grid.org].name', );
-                        $scope.buildConfig.spec.source.git.uri = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].clone_url;
-                        $scope.buildConfig.metadata.annotations.user = $scope.gitload.github[$scope.grid.org].namespace;
-                        $scope.buildConfig.metadata.annotations.repo = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].name;
-                    }
-                    var name = '';
-                    if ($scope.gitdata.branchs[$scope.grid.branch].name) {
-                        name = $scope.gitdata.branchs[$scope.grid.branch].name.replace('/', '-');
-                    }
-
-                    $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + name;
-                    //console.log('$scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo]', $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private);
-                    if ($scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private) {
+                        console.log('$scope.gitstatus', $scope.gitstatus);
                         repositorysecret.get({source: $scope.gitstatus, ns: $rootScope.namespace}, function (resecret) {
                             $scope.buildConfig.spec.source.sourceSecret = {
                                 name: resecret.secret
@@ -351,8 +350,24 @@ angular.module('console.build_create', [
                             createBC()
                         })
                     } else {
-                        createBC()
+                        //console.log('$scope.gitdata.orgs[$scope.grid.org].name', );
+                        $scope.buildConfig.spec.source.git.uri = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].clone_url;
+                        $scope.buildConfig.metadata.annotations.user = $scope.gitload.github[$scope.grid.org].namespace;
+                        $scope.buildConfig.metadata.annotations.repo = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].name;
+                        if ($scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private) {
+                            repositorysecret.get({source: $scope.gitstatus, ns: $rootScope.namespace}, function (resecret) {
+                                $scope.buildConfig.spec.source.sourceSecret = {
+                                    name: resecret.secret
+                                };
+                                createBC()
+                            })
+                        } else {
+                            createBC()
+                        }
                     }
+
+                    //console.log('$scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo]', $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private);
+
 
                 } else {
                     // if (!$scope.buildConfig.spec.source.git.uri) {

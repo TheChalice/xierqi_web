@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('console.build.detail', [
-    {
-        files: [
-            'components/checkbox/checkbox.js',
-            'views/build_detail/build_detail.css'
-        ]
-    }
-])
-    .controller('BuildDetailCtrl', ['$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr','$base64','Cookie'
-                , function ($sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr,$base64,Cookie) {
+        {
+            files: [
+                'components/checkbox/checkbox.js',
+                'views/build_detail/build_detail.css'
+            ]
+        }
+    ])
+    .controller('BuildDetailCtrl', ['$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr', '$base64', 'Cookie'
+        , function ($sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr, $base64, Cookie) {
             $scope.grid = {};
 
             //console.log('路由',$state);
@@ -17,10 +17,10 @@ angular.module('console.build.detail', [
             $scope.grid.pedding = false;
 
             //$scope.buildnamespaces=cookie
-            $scope.buildnamespaces=Cookie.get('namespace');
+            $scope.buildnamespaces = Cookie.get('namespace');
             console.log('$scope.buildnamespaces', $scope.buildnamespaces);
             $scope.bcName = $stateParams.name;
-            $scope.websocklink=[];
+            $scope.websocklink = [];
             $scope.$on('image-enable', function (e, enable) {
                 $scope.imageEnable = enable;
             });
@@ -35,7 +35,12 @@ angular.module('console.build.detail', [
                 }, function (data) {
                     //$log.info('data', data.spec.triggers[1].generic.secret);
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
-                    $scope.myurl = data.spec.source.git.uri;
+                    //data.spec.source.git.uri='https://www.cnblogs.com/lmsblogs/p/5876384.html'
+                    if (data.spec.source.git.ref) {
+                        $scope.myref = data.spec.source.git.ref;
+                    } else {
+                        $scope.myref = false;
+                    }
                     $scope.data = data;
                     var host = $scope.data.spec.source.git.uri;
                     if (data.metadata.annotations.user) {
@@ -44,23 +49,11 @@ angular.module('console.build.detail', [
                     } else {
                         $scope.showwebhook = false;
                     }
-                    if (data.spec.source.git.uri.split(':')[0] == 'ssh') {
-                        var host = data.spec.source.git.uri.replace('git@', '').replace('.git', '');
-
-                        //console.log(host.split('/'));
-
-                        var parser = document.createElement('a');
-
-                        parser.href = host;
-
-                        parser.protocol = 'http:';
-
-                        var post = parser.host.split(':')[0];
-                        parser.host = post;
-                        //console.log(parser.href);
-                        //console.log(parser.hostname);
-                        //console.log(parser.pathname);
-                        $scope.myurl = 'https://' + parser.hostname + parser.pathname
+                    $scope.myurl = data.spec.source.git.uri
+                    if (data.spec.source.git.uri.substring(0,4).toLowerCase() === 'http' || data.spec.source.git.uri.substring(0,5).toLowerCase() === 'https') {
+                        $scope.canjump = true
+                    } else {
+                        $scope.canjump = false
                     }
 
                     if (data.spec && data.spec.completionDeadlineSeconds) {
@@ -102,7 +95,7 @@ angular.module('console.build.detail', [
                 });
             };
 
-             //复制事件
+            //复制事件
             // = () => copyblock(event)
             //复制方法
             $scope.gcopy = function (event) {
@@ -148,7 +141,7 @@ angular.module('console.build.detail', [
                                 WebhookHubDel.del({
                                     ns: $rootScope.namespace,
                                     bc: $stateParams.name,
-                                    id:$scope.webhookid
+                                    id: $scope.webhookid
                                 }, function (item1) {
 
                                 })
@@ -156,13 +149,13 @@ angular.module('console.build.detail', [
                                 WebhookLabDel.del({
                                     ns: $rootScope.namespace,
                                     bc: $stateParams.name,
-                                    id:$scope.webhookid
+                                    id: $scope.webhookid
                                 }, function (data2) {
 
                                 });
                             }
                         }
-                        $state.go("console.build",{namespace: $rootScope.namespace});
+                        $state.go("console.build", {namespace: $rootScope.namespace});
                         toastr.success('操作成功', {
                             timeOut: 2000,
                             closeButton: true
@@ -181,7 +174,7 @@ angular.module('console.build.detail', [
                 if (!bcName) {
                     return;
                 }
-                Build.remove({ namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + bcName }, function () {
+                Build.remove({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + bcName}, function () {
                     $log.info("remove builds of " + bcName + " success");
                 }, function (res) {
                     $log.info("remove builds of " + bcName + " error");
@@ -248,8 +241,8 @@ angular.module('console.build.detail', [
                 //    $scope.grid.checkedLocal = $scope.grid.checked;
 
 
-                    //deleteWebhook();
-                    //createWebhook();
+                //deleteWebhook();
+                //createWebhook();
 
                 //}, function (res) {
                 //    //todo 错误处理
@@ -287,9 +280,9 @@ angular.module('console.build.detail', [
 
             var getConfig = function (triggers, type) {
                 //console.log(triggers)
-                if(triggers==""){
+                if (triggers == "") {
                     return;
-                    }                    
+                }
                 var str = ''
                 if (type == 'github' && triggers[0].github) {
                     str = GLOBAL.host_webhooks + '/oapi/v1/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[0].github.secret + '/github'
@@ -318,10 +311,10 @@ angular.module('console.build.detail', [
                         bc: $stateParams.name
                     }, function (res) {
                         if (res.id) {
-                            $scope.webhookid=res.id
+                            $scope.webhookid = res.id
                             $scope.grid.checked = true;
                             $scope.grid.checkeds = true
-                        }else {
+                        } else {
                             $scope.grid.checked = false;
                             $scope.grid.checkeds = false;
                         }
@@ -343,10 +336,10 @@ angular.module('console.build.detail', [
                     }, function (res) {
 
                         if (res.id) {
-                            $scope.webhookid=res.id
+                            $scope.webhookid = res.id
                             $scope.grid.checked = true;
                             $scope.grid.checkeds = true
-                        }else {
+                        } else {
                             $scope.grid.checked = false;
                             $scope.grid.checkeds = false;
                         }
@@ -388,17 +381,17 @@ angular.module('console.build.detail', [
                         //}
                         //}
                         WebhookHub.check({
-                            ns:$rootScope.namespace,
-                            bc:$stateParams.name
-                        },{
-                            name:$scope.data.metadata.annotations.user+'/'+$stateParams.name,
-                            params:{
-                                    ns:$scope.data.metadata.annotations.user,
-                                    url:config,
-                                    repo: $scope.data.metadata.annotations.repo
-                                }
+                            ns: $rootScope.namespace,
+                            bc: $stateParams.name
+                        }, {
+                            name: $scope.data.metadata.annotations.user + '/' + $stateParams.name,
+                            params: {
+                                ns: $scope.data.metadata.annotations.user,
+                                url: config,
+                                repo: $scope.data.metadata.annotations.repo
+                            }
                         }, function (data) {
-                            $scope.webhookid=data.id;
+                            $scope.webhookid = data.id;
                             $scope.grid.pedding = false;
                             $scope.grid.checked = true
                         }, function (err) {
@@ -407,16 +400,16 @@ angular.module('console.build.detail', [
                     } else {
                         var config = getConfig(triggers, 'gitlab');
                         WebhookLab.check({
-                            ns:$rootScope.namespace,
-                            bc:$stateParams.name
-                        },{
-                            name:$scope.data.metadata.annotations.user+'/'+$stateParams.name,
-                            params:{
-                                id:$scope.data.metadata.annotations.id,
-                                url:config
+                            ns: $rootScope.namespace,
+                            bc: $stateParams.name
+                        }, {
+                            name: $scope.data.metadata.annotations.user + '/' + $stateParams.name,
+                            params: {
+                                id: $scope.data.metadata.annotations.id,
+                                url: config
                             }
                         }, function (data) {
-                            $scope.webhookid=data.id;
+                            $scope.webhookid = data.id;
                             $scope.grid.pedding = false;
                             $scope.grid.checked = true;
                             //console.log("test repo", $scope.data.metadata.annotations.repo)
@@ -433,7 +426,7 @@ angular.module('console.build.detail', [
                         WebhookHubDel.del({
                             ns: $rootScope.namespace,
                             bc: $stateParams.name,
-                            id:$scope.webhookid
+                            id: $scope.webhookid
                         }, function (item1) {
                             $scope.grid.pedding = false
                             $scope.grid.checked = false
@@ -444,7 +437,7 @@ angular.module('console.build.detail', [
                         WebhookLabDel.del({
                             ns: $rootScope.namespace,
                             bc: $stateParams.name,
-                            id:$scope.webhookid
+                            id: $scope.webhookid
                         }, function (data2) {
                             $scope.grid.pedding = false
                             $scope.grid.checked = false
@@ -458,7 +451,7 @@ angular.module('console.build.detail', [
             $scope.isshow = true;
             $scope.gitStore = {};
             $scope.databuild = {
-                items : []
+                items: []
             }
             //获取build记录
             var loadBuildHistory = function (name) {
@@ -471,12 +464,12 @@ angular.module('console.build.detail', [
                     //console.log(obj);
                     //res.items = res.items.sort(res.items, -1); //排序
                     //console.log("history", res);
-                    $scope.databuild.items=res.items
-                    var sortresv= function  (a,b){
+                    $scope.databuild.items = res.items
+                    var sortresv = function (a, b) {
                         return b.metadata.resourceVersion - a.metadata.resourceVersion
                     }
-                    $scope.databuild.items=$scope.databuild.items.sort(sortresv)
-                    $scope.databuild.items=Sort.sort($scope.databuild.items, -1)
+                    $scope.databuild.items = $scope.databuild.items.sort(sortresv)
+                    $scope.databuild.items = Sort.sort($scope.databuild.items, -1)
                     //console.log($scope.databuild);
                     //if ($stateParams.from == "create/new") {
                     //    $scope.databuild.items[0].showLog = true;
@@ -572,36 +565,36 @@ angular.module('console.build.detail', [
                 });
             };
             var watchBuildlog = function (name) {
-                var canlink= true;
+                var canlink = true;
                 angular.forEach($scope.websocklink, function (namelinked) {
                     if (namelinked === name) {
-                        canlink=false
+                        canlink = false
                     }
                 })
                 if (canlink) {
                     $scope.websocklink.push(name);
                     Ws.watch({
                         namespace: $rootScope.namespace,
-                        type: 'builds/'+name+'/log',
+                        type: 'builds/' + name + '/log',
                         protocols: 'base64.binary.k8s.io',
-                        follow:true
+                        follow: true
                     }, function (res) {
                         angular.forEach($scope.databuild.items, function (build) {
                             //console.log(res);
                             if (build.metadata.name === name) {
                                 //console.log(build.metadata.name,$base64.decode(res.data));
-                                build.baselog+=$base64.decode(res.data)
-                                var html ='';
+                                build.baselog += $base64.decode(res.data)
+                                var html = '';
                                 //console.log('build.baselog', build.baselog);
-                                if (build.baselog!=='undefined') {
-                                    build.baselog=build.baselog.replace('undefined','')
+                                if (build.baselog !== 'undefined') {
+                                    build.baselog = build.baselog.replace('undefined', '')
                                     html = ansi_ups.ansi_to_html(build.baselog)
                                     //html = ansi_ups.ansi_to_html('none')
-                                }else {
+                                } else {
                                     html = ansi_ups.ansi_to_html('暂无日志')
 
                                 }
-                                build.buildLog=$sce.trustAsHtml(html)
+                                build.buildLog = $sce.trustAsHtml(html)
 
 
                             }
@@ -663,13 +656,13 @@ angular.module('console.build.detail', [
 
                 if (data.type == 'ADDED') {
                     //data.object.showLog = true;
-                    if (data.object.metadata.labels&&data.object.metadata.labels.buildconfig) {
+                    if (data.object.metadata.labels && data.object.metadata.labels.buildconfig) {
                         if (data.object.metadata.labels.buildconfig === $stateParams.name) {
                             $scope.databuild.items.unshift(data.object)
-                           var sortresv= function  (a,b){
-                             return b.metadata.resourceVersion - a.metadata.resourceVersion
+                            var sortresv = function (a, b) {
+                                return b.metadata.resourceVersion - a.metadata.resourceVersion
                             }
-                            $scope.databuild.items=$scope.databuild.items.sort(sortresv)
+                            $scope.databuild.items = $scope.databuild.items.sort(sortresv)
 
                             $scope.$apply()
                         }
@@ -677,17 +670,17 @@ angular.module('console.build.detail', [
 
                 } else if (data.type == "MODIFIED") {
                     // console.log('build-data.type == "MODIFIED"', data);
-                    angular.forEach($scope.databuild.items, function (build,i) {
+                    angular.forEach($scope.databuild.items, function (build, i) {
                         if (build.metadata.name === data.object.metadata.name) {
                             // console.log('build.metadata.name', build.metadata.name);
                             openToastr(data.object);
-                            build.metadata.creationTimestamp=data.object.metadata.creationTimestamp;
-                            build.status.phase=data.object.status.phase;
-                            build.status.duration=data.object.status.duration;
-                            if (data.object.spec.revision&&data.object.spec.revision.git) {
-                                build.spec.revision={
-                                    git:{
-                                        commit:data.object.spec.revision.git.commit
+                            build.metadata.creationTimestamp = data.object.metadata.creationTimestamp;
+                            build.status.phase = data.object.status.phase;
+                            build.status.duration = data.object.status.duration;
+                            if (data.object.spec.revision && data.object.spec.revision.git) {
+                                build.spec.revision = {
+                                    git: {
+                                        commit: data.object.spec.revision.git.commit
                                     }
                                 };
                                 //build.spec.revision.git.commit=
@@ -755,7 +748,7 @@ angular.module('console.build.detail', [
                     return;
                 }
                 Confirm.open(title, msg, '', 'recycle').then(function () {
-                    Build.remove({ namespace: $rootScope.namespace, name: name }, function () {
+                    Build.remove({namespace: $rootScope.namespace, name: name}, function () {
                         $log.info("deleted");
                         toastr.success('操作成功', {
                             timeOut: 2000,
@@ -813,5 +806,5 @@ angular.module('console.build.detail', [
             });
 
         }])
-    ;
+;
 
