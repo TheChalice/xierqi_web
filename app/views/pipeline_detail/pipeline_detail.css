@@ -143,7 +143,7 @@
 
 .pipline_log{margin-left:30px;border-radius:2px;border:none;background:#F9FAFC;padding:16px 16px;border: 1px solid #E0E6ED;border-top:0px;
 height:auto;overflow:hidden;}
-.pipl_block{text-align:center;float:left;width:20%;}
+.pipl_block{text-align:center;float:left;width:21%;}
 .pip_b_l{float:left;width:78%;}
 .pipline_log .pipl_block:last-child .arrow_btn{display:none;}
 .pipl_block .file_name{font-size:12px;color: #475669;display:block;margin-bottom:8px;}
@@ -163,15 +163,15 @@ height:auto;overflow:hidden;}
 .load_Running{background:#47B2FB;}
 .load_Running .fa_set{background:#47B2FB;}
 .load_Running .fa_set i{color:#fff;position:relative;}
-.load_Running .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
-    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+.load_Running .fa_set i:before{content:"\f021";position:absolute;width:12px;height:12px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-10px;}
 
 /* 等待 */
 .load_IN_PROGRESS {background:#47B2FB;}
 .load_IN_PROGRESS .fa_set{background:#47B2FB;}
 .load_IN_PROGRESS .fa_set i{color:#fff;position:relative;}
-.load_IN_PROGRESS .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
-    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+.load_IN_PROGRESS .fa_set i:before{content:"\f021";position:absolute;width:12px;height:12px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-10px;}
 
 
     .load_IN_PROGRESS{background:#E5E9F2;animation:loadSUCCESS 1s linear forwards;}
@@ -189,15 +189,15 @@ height:auto;overflow:hidden;}
 .load_PAUSED_PENDING_INPUT {background:#f0ab00;}
 .load_PAUSED_PENDING_INPUT .fa_set{background:#f0ab00;}
 .load_PAUSED_PENDING_INPUT .fa_set i{color:#fff;position:relative;}
-.load_PAUSED_PENDING_INPUT .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
-    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+.load_PAUSED_PENDING_INPUT .fa_set i:before{content:"\f021";position:absolute;width:12px;height:12px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-10px;}
 
 /* 失败状态 */
 .load_Failed{background:#FB6362;}
 .load_Failed .fa_set{background:#FB6362;}
 .load_Failed .fa_set i{color:#fff;position:relative;}
-.load_Failed .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:14px;
-    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}    
+.load_Failed .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:12px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-10px;}
 
 
 /* 终止状态 */
@@ -214,8 +214,8 @@ height:auto;overflow:hidden;}
 .load_New{background:#47B2FB;}
 .load_New .fa_set{background:#47B2FB;}
 .load_New .fa_set i{color:#fff;position:relative;}
-.load_New .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
-    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+.load_New .fa_set i:before{content:"\f021";position:absolute;width:12px;height:12px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-10px;}
 /* 错误状态 */
 .load_FAILED{background:#E5E9F2;animation:loadfailed 1s linear forwards;}
 @keyframes loadfailed{
@@ -224,8 +224,8 @@ height:auto;overflow:hidden;}
 
 .load_FAILED .fa_set{background:#FB6362;}
 .load_FAILED .fa_set i{color:#fff;position:relative;}
-.load_FAILED .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:14px;
-    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+.load_FAILED .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:12px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-10px;}
 
 
 .FAILED_set .load_FAILED{background: #E5E9F2;}
@@ -238,8 +238,8 @@ height:auto;overflow:hidden;}
 .load_SUCCESS{background:#50E3C2;}
 .load_SUCCESS .fa_set{background:#50E3C2;}
 .load_SUCCESS .fa_set i{color:#fff;position:relative;}
-.load_SUCCESS .fa_set i:before{content:"\f00c";position:absolute;width:12px;height:14px;
-    left:50%;margin-left:-6px;top:50%;margin-top:-13px;
+.load_SUCCESS .fa_set i:before{content:"\f00c";position:absolute;width:12px;height:12px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-10px;
 }
 
 .load_SUCCESS{background:#E5E9F2;animation:loadSUCCESS 1s linear forwards;}
