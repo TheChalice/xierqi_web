@@ -328,7 +328,9 @@ input::-webkit-input-placeholder {
     border-radius: 0px;
     border-right:1px solid #ccd5e0!important;
 }
-
+.btn-default.active, .btn-default:active, .open>.dropdown-toggle.btn-default{
+    background: none;
+}
 
 
 
