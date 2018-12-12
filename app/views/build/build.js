@@ -8,8 +8,8 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['toastr','$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', 'Ws',
-        function (toastr,$rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort, Ws) {
+    .controller('BuildCtrl', ['toastr', '$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', 'Ws',
+        function (toastr, $rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort, Ws) {
 
             //分页
             $scope.grid = {
@@ -32,12 +32,16 @@ angular.module('console.build', [
                 $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
             };
             $scope.text = '您还没有代码构建';
-            $scope.begin_blank=true;
+            $scope.begin_blank = true;
             $scope.buildsearch = function (event) {
                 //if (event.keyCode === 13 || event === 'search') {
                 //console.log($scope.grid.txt);
                 if (!$scope.grid.txt) {
                     $scope.data = angular.copy($scope.copydata)
+                    $scope.text = '';
+                    $scope.uex_back = true;
+                    $scope.uex_front = false;
+                    $scope.grid.page = 1;
                     refresh(1);
                     $scope.grid.total = $scope.copydata.length;
                     return;
@@ -45,6 +49,8 @@ angular.module('console.build', [
                     var iarr = [];
                     var str = $scope.grid.txt;
                     str = str.toLocaleLowerCase();
+                    $scope.text = str;
+                    // console.log(str);
                     // console.log('$scope.copydata', $scope.copydata);
                     angular.forEach($scope.copydata, function (item, i) {
                         // console.log(item.build);
@@ -58,7 +64,7 @@ angular.module('console.build', [
                     $scope.isQuery = false;
                     if (iarr.length === 0) {
                         $scope.isQuery = true;
-                        $scope.begin_blank=false;
+                        $scope.begin_blank = false;
                         $scope.text = '没有查询到符合条件的数据';
                         // console.log($scope.items.length);
                     }
@@ -66,19 +72,21 @@ angular.module('console.build', [
                         $scope.text = '您还没有任何代码构建数据，现在就创建一个吧';
                     }
                     $scope.data = angular.copy(iarr);
+                    $scope.data_search = $scope.data;
                     refresh(1);
                     // console.log('$scope.data', $scope.data);
                     $scope.grid.total = $scope.data.length;
                 }
                 //}
             }
-            var loadbuildslist= function () {
-                Build.get({ namespace: $rootScope.namespace, region: $rootScope.region }, function (data) {
+            var loadbuildslist = function () {
+                Build.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
                     $log.info("builds", data);
                     watchBuilds(data.metadata.resourceVersion);
                 });
             }
-            function watchBuilds(resourceVersion){
+
+            function watchBuilds(resourceVersion) {
                 Ws.watch({
                     resourceVersion: resourceVersion,
                     namespace: $rootScope.namespace,
@@ -98,6 +106,7 @@ angular.module('console.build', [
                     //watchBuilds($scope.resourceVersion);
                 });
             }
+
             var updateBuilds = function (data) {
                 //console.log('ws状态', data);
                 if (data.type == 'ERROR') {
@@ -118,7 +127,7 @@ angular.module('console.build', [
                         if (!item.build) {
                             return;
                         }
-                        var bcname= item.metadata.name+'-'+item.status.lastVersion
+                        var bcname = item.metadata.name + '-' + item.status.lastVersion
                         if (bcname == data.object.metadata.name) {
 
                             $scope.items[i].build = data.object;
@@ -129,7 +138,7 @@ angular.module('console.build', [
                                     timeOut: 2000,
                                     closeButton: true
                                 });
-                            }else if(data.object.status.phase === 'Failed'){
+                            } else if (data.object.status.phase === 'Failed') {
                                 toastr.error(data.object.metadata.name + '构建失败', {
                                     timeOut: 2000,
                                     closeButton: true
@@ -143,12 +152,10 @@ angular.module('console.build', [
             };
             loadbuildslist()
             //获取buildConfig列表
-            var loadBuildConfigs = function ()  {
-                BuildConfig.get({ namespace: $rootScope.namespace, region: $rootScope.region }, function (data) {
+            var loadBuildConfigs = function () {
+                BuildConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
                     $log.info('buildConfigs', data);
                     data.items = Sort.sort(data.items, -1); //排序
-
-
                     // console.log('data.items', data.items);
                     //$scope.copydata = angular.copy(data.items);
                     $scope.data = [];
@@ -156,34 +163,32 @@ angular.module('console.build', [
                         if (item.spec.strategy.type !== "JenkinsPipeline" && item.spec.source.type !== "Binary") {
                             $scope.data.push(item)
                         }
-                    })
-
+                    });
                     $scope.grid.total = $scope.data.length;
-                    //console.log('$scope.data', $scope.data);
+                    console.log('$scope.data', $scope.data);
                     refresh(1);
                     loadBuilds($scope.data);
                     $scope.resourceVersion = data.metadata.resourceVersion;
                     watchBuildconfig(data.metadata.resourceVersion);
-
-
-
                     $scope.uex_back = true;
                     $scope.uex_front = false;
                     //列表排序
                     $scope.sortDetail = function () {
                         if ($scope.uex_back) {
                             // alert(1);
+                            //降序排列
                             data.items = Sort.sort(data.items, 1); //排序
                             $scope.uex_back = false;
                             $scope.uex_front = true;
                             $scope.data = [];
                             angular.forEach(data.items, function (item, i) {
+                                console.log(item)
                                 if (item.spec.strategy.type !== "JenkinsPipeline" && item.spec.source.type !== "Binary") {
                                     $scope.data.push(item)
                                 }
-                            })
+                            });
                             $scope.grid.total = $scope.data.length;
-                            refresh(1);
+                            refresh($scope.grid.page);
                         } else {
                             // alert(13);
                             data.items = Sort.sort(data.items, -1); //排序
@@ -194,13 +199,28 @@ angular.module('console.build', [
                                 if (item.spec.strategy.type !== "JenkinsPipeline" && item.spec.source.type !== "Binary") {
                                     $scope.data.push(item)
                                 }
-                            })
+                            });
                             $scope.grid.total = $scope.data.length;
-                            refresh(1);
+                            refresh($scope.grid.page);
                         }
+                            if ($scope.text &&$scope.uex_front) {
+                                // alert(1);
+                                $scope.data_search= Sort.sort( $scope.data_search, 1); //排序
+                                $scope.uex_back = false;
+                                $scope.uex_front = true;
+                                $scope.data= angular.copy( $scope.data_search);
+                                refresh($scope.grid.page);
+                            }
+                            if( $scope.text && $scope.uex_back){
+                                // alert(13);
+                                //默认降序
+                                $scope.data_search = Sort.sort( $scope.data_search, -1); //排序
+                                $scope.uex_back = true;
+                                $scope.uex_front = false;
+                                $scope.data  = angular.copy($scope.data_search);
+                                refresh($scope.grid.page);
+                            }
                     }
-
-
                 }, function (res) {
                     //todo 错误处理
                 });
@@ -217,9 +237,12 @@ angular.module('console.build', [
                     }
                     labelSelector = labelSelector.substring(0, labelSelector.length - 1) + ')';
                 }
-                Build.get({ namespace: $rootScope.namespace, labelSelector: labelSelector, region: $rootScope.region }, function (data) {
+                Build.get({
+                    namespace: $rootScope.namespace,
+                    labelSelector: labelSelector,
+                    region: $rootScope.region
+                }, function (data) {
                     //$log.info("builds", data);
-
 
 
                     fillBuildConfigs(data.items);
@@ -325,9 +348,13 @@ angular.module('console.build', [
                         name: name
                     }
                 };
-                BuildConfig.instantiate.create({ namespace: $rootScope.namespace, name: name, region: $rootScope.region }, buildRequest, function () {
+                BuildConfig.instantiate.create({
+                    namespace: $rootScope.namespace,
+                    name: name,
+                    region: $rootScope.region
+                }, buildRequest, function () {
                     $log.info("build instantiate success");
-                    $state.go('console.build_detail', { namespace: $rootScope.namespace, name: name, from: 'create' })
+                    $state.go('console.build_detail', {namespace: $rootScope.namespace, name: name, from: 'create'})
                 }, function (res) {
                     //todo 错误处理
                 });
@@ -338,7 +365,11 @@ angular.module('console.build', [
                     var build = $scope.items[idx].build;
                     build.status.cancelled = true;
                     //build.region=$rootScope.region
-                    Build.put({ namespace: $rootScope.namespace, name: build.metadata.name, region: $rootScope.region }, build, function (res) {
+                    Build.put({
+                        namespace: $rootScope.namespace,
+                        name: build.metadata.name,
+                        region: $rootScope.region
+                    }, build, function (res) {
                         bc.build.status.phase = 'Cancelled'
                         $log.info("stop build success");
                         //$scope.$apply()

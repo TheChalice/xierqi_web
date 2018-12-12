@@ -53,12 +53,55 @@ angular.module('console.repository-image', [
                         })
                     })
                     $scope.primage = Sort.sort($scope.primage, -1)
+                    console.log($scope.primage)
                     $scope.grid.ckTotal = $scope.primage.length;
                     ckRefresh(1);
+                    $scope.uex_back = true;
+                    $scope.uex_front = false;
+                    //列表排序
+                    $scope.sortDetail = function () {
+                        if ($scope.uex_back) {
+                            // alert(1);
+                            $scope.primage = Sort.sort($scope.primage, 1); //排序
+                            $scope.uex_back = false;
+                            $scope.uex_front = true;
+                            $scope.primage = angular.copy($scope.primage);
+                            ckRefresh($scope.grid.page);
+                        } else {
+                            // alert(13);
+                            //默认降序
+                            $scope.primage= Sort.sort($scope.primage, -1); //排序
+                            $scope.uex_back = true;
+                            $scope.uex_front = false;
+                            $scope.primage = angular.copy($scope.primage);
+                            ckRefresh($scope.grid.page);
+                        }
+
+                            if ($scope.text &&$scope.uex_front) {
+                                // alert(1);
+                                $scope.thisprimage= Sort.sort($scope.thisprimage, 1); //排序
+                                $scope.uex_back = false;
+                                $scope.uex_front = true;
+                                $scope.thisprimage= angular.copy($scope.thisprimage);
+                                ckRefresh($scope.grid.page, 'search');
+                            }
+                            if ($scope.text && $scope.uex_back) {
+                                // alert(13);
+                                //默认降序
+                                $scope.thisprimage = Sort.sort($scope.thisprimage, -1); //排序
+                                $scope.uex_back = true;
+                                $scope.uex_front = false;
+                                $scope.thisprimage= angular.copy($scope.thisprimage);
+                                ckRefresh($scope.grid.page, 'search');
+                            }
+
+
+
+                    }
                 })
             }
             registryp.query(function (date) {
-                // console.log('regdate', date);
+                console.log('regdate', date);
                 angular.forEach(date, function (time, i) {
                     date.metadata = { creationTimestamp: time.creation_time }
                 })
@@ -144,8 +187,12 @@ angular.module('console.repository-image', [
 
             //仓库镜像搜索
             $scope.cksearch = function (key, txt) {
+                $scope.text = txt;
                 if (!txt) {
                     $scope.grid.search = false;
+                    $scope.uex_back = true;
+                    $scope.uex_front = false;
+                    $scope.grid.ckPage=1;
                     ckRefresh(1);
                     return;
                 }
@@ -161,8 +208,8 @@ angular.module('console.repository-image', [
                     }
                 }
                 $scope.thisprimage = imagearr;
+                console.log($scope.thisprimage);
                 ckRefresh(1, 'search');
-
             };
 
             $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
