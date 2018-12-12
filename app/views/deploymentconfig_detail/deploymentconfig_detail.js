@@ -13,13 +13,14 @@ angular.module('console.deploymentconfig_detail', [
 ])
     .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 'Service',
         function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr, Service) {
-            $scope.dc = angular.copy(mydc);
+        $scope.dc = angular.copy(mydc);
             $scope.resourcesunit = {
-                    mincpu: 'millicores',
-                    maxcpu: 'millicores',
-                    minmem: 'MB',
-                    maxmem: 'MB'
+                mincpu: 'millicores',
+                maxcpu: 'millicores',
+                minmem: 'MB',
+                maxmem: 'MB'
             };
+
             $scope.institution = {
                 display: 1,
                 configregistry: false,
@@ -36,11 +37,11 @@ angular.module('console.deploymentconfig_detail', [
                     return num + 'G'
                 }
             }
+
             for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                 $scope.dc.spec.template.spec.containers[i].retract = true;
-                $scope.dc.spec.template.spec.containers[i].resourcesunit = $scope.resourcesunit;
             }
-            // console.log('-=-=-=',$scope.dc.spec.template.spec.containers);
+
             $scope.mytag = angular.copy(mytag);
             $scope.err = {
                 vol: {
@@ -224,7 +225,6 @@ angular.module('console.deploymentconfig_detail', [
                     name: dc.metadata.name,
                     region: $rootScope.region
                 }, dc, function (res) {
-                    // console.log('updatedcput',res);
                     toastr.success('操作成功', {
                         timeOut: 2000,
                         closeButton: true
@@ -309,6 +309,7 @@ angular.module('console.deploymentconfig_detail', [
                 });
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     // delete con.retract;   //清除自定义key值retract
+                    // console.log('$scope.updateDc',con);
                     //健康检查
                     if (con.livenessFlag) {
                         if (con.livenessProbe.httpGet) {
@@ -318,25 +319,20 @@ angular.module('console.deploymentconfig_detail', [
                             con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.tcpSocket.port)
 
                         }
-                        //console.log('con', con);
                         if (con.livenessProbe && con.livenesscheck === '命令'&& con.livenessProbe.exec) {
-                            // console.log('con.livenessProbe.exec.command', con.livenessProbe.exec.command);
                             angular.forEach(con.livenessProbe.exec.command, function (item, k) {
                                 con.livenessProbe.exec.command[k] = item.key
-
                             })
-                            // con.readinessProbe.exec.command = parseInt(con.readinessProbe.exec.command)
                         }
                         con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
                         con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
                     }
                     //配额检查
                     if (con.resourcesFlag) {
-                        con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu);
-                        con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem);
-                        con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu);
-                        con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem);
-                        //console.log('con.resources', con.resources);
+                        con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.maxcpu);
+                        con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.maxmem);
+                        con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.mincpu);
+                        con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.minmem);
                     } else {
                         delete con.resources
                     }
@@ -349,7 +345,6 @@ angular.module('console.deploymentconfig_detail', [
                             con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.tcpSocket.port)
 
                         }
-                        //console.log('con', con);
                         if (con.readinessProbe && con.dosetcon === '命令' && con.readinessProbe.exec) {
                             //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
                             angular.forEach(con.readinessProbe.exec.command, function (item, k) {
@@ -553,23 +548,12 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.openRc = function (idx) {
                         if ($scope.dc.spec.template.spec.containers[idx].resourcesFlag) {
                             $scope.dc.spec.template.spec.containers[idx].resourcesFlag = false;
-                            delete $scope.dc.spec.template.spec.containers[idx].resources;
+                            // delete $scope.dc.spec.template.spec.containers[idx].resources;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].resourcesFlag = true;
-                            $scope.dc.spec.template.spec.containers[idx].resources = {
-                                "limits": {
-                                    "cpu": "",
-                                    "memory": ""
-                                },
-                                "requests": {
-                                    "cpu": "",
-                                    "memory": ""
-                                }
-                            }
                         }
                     };
                     $scope.openLivePro = function (idx) {
-                        // console.log('$scope.dc.spec.template.spec.containers[idx].livenessFlag',$scope.dc.spec.template.spec.containers[idx].livenessFlag);
                         if ($scope.dc.spec.template.spec.containers[idx].livenessFlag) {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = false;
                             delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
@@ -610,7 +594,7 @@ angular.module('console.deploymentconfig_detail', [
                     };
                     $scope.addcon = function () {
                         var tmp = angular.copy($scope.dc.spec.template.spec.containers[$scope.dc.spec.template.spec.containers.length - 1]);
-                        //console.log(tmp);
+                        // console.log('$scope.addcon',tmp);
                         tmp.env = [];
                         tmp.doset = false;
                         tmp.volment = false;
@@ -828,12 +812,14 @@ angular.module('console.deploymentconfig_detail', [
                         } else {
                             con.display = !con.display
                         }
-                    }
+                    };
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                            con.resourcesunit = $scope.resourcesunit;
+                            // console.log('$scope.loaddirs.loadcon',con);
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
-                                con.regimage = ''
+                                con.regimage = '';
                                 con.annotate = {
                                     image: $scope.imagedockermap[con.image].image,
                                     tag: $scope.imagedockermap[con.image].tag,
@@ -849,15 +835,15 @@ angular.module('console.deploymentconfig_detail', [
                                 con.display = false;
                             }
                             //配额限制
-                            if(con.resources){
+                            if(JSON.stringify(con.resources) != '{}'){
                                 con.resourcesFlag = true;
                                 if(con.resources.limits){
                                     if(con.resources.limits.cpu){
                                         if(con.resources.limits.cpu.charAt(con.resources.limits.cpu.length-1) === 'm'){
-                                            con.resourcesunit.maxcpu = 'millcores';
+                                            con.resourcesunit.maxcpu = 'millicores';
                                             con.resources.limits.cpu = con.resources.limits.cpu.slice(0,-1);
-                                        }else{
-                                            con.resourcesunit.maxcpu = 'cores'
+                                        }else {
+                                            con.resourcesunit.maxcpu = 'cores';
                                         }
                                     }
 
@@ -874,23 +860,26 @@ angular.module('console.deploymentconfig_detail', [
                                 if(con.resources.requests){
                                     if(con.resources.requests.cpu){
                                         if(con.resources.requests.cpu.charAt(con.resources.requests.cpu.length-1) === 'm'){
-                                            con.resourcesunit.mincpu = 'millcores';
+                                            con.resourcesunit.mincpu = 'millicores';
                                             con.resources.requests.cpu = con.resources.requests.cpu.slice(0,-1);
                                         }else{
-                                            con.resourcesunit.mincpu = 'cores'
+                                            con.resourcesunit.mincpu = 'cores';
                                         }
                                     }
                                     if(con.resources.requests.memory){
                                         if(con.resources.requests.memory.charAt(con.resources.requests.memory.length-1) === 'm'){
-                                            con.resourcesunit.maxmem = 'MB';
+                                            con.resourcesunit.minmem = 'MB';
                                             con.resources.requests.memory = con.resources.requests.memory.slice(0,-1)
                                         }else if(con.resources.requests.memory.charAt(con.resources.requests.memory.length-1) === 'G'){
-                                            con.resourcesunit.maxmem = 'GB';
+                                            con.resourcesunit.minmem = 'GB';
                                             con.resources.requests.memory = con.resources.requests.memory.slice(0,-1)
                                         }
                                     }
                                 }
+                            }else{
+                                con.resourcesFlag = false;
                             }
+
                             //可用性探测&&就绪检查
                             if (con.readinessProbe) {
                                 con.doset = true;
@@ -1139,17 +1128,17 @@ angular.module('console.deploymentconfig_detail', [
                 }],
         };
     })
-    .directive('setQuota', function () {
+    .directive('setQuotaDetail', function () {
         return {
             restrict: 'E',
-            templateUrl: 'views/deploymentconfig_detail/tpl/setQuota.html',
+            templateUrl: 'views/deploymentconfig_detail/tpl/setQuotaDetail.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-                $scope.$watch('container.open.resources', function (n, o) {
+                $scope.$watch('container.resourcesFlag', function (n, o) {
                     // console.log('n', n);
                     // console.log('$scope.institution', $scope.institution);
-                    if ($scope.institution.rubustCheck&&n===false) {
-                        $scope.institution.rubustCheck=false
+                    if ($scope.institution.rubustCheck && n === false) {
+                        $scope.institution.rubustCheck = false
                     }
 
                 })
