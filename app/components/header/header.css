@@ -331,10 +331,13 @@
     border-radius: 10px;
 }
 .projectname{background:transparent!important;
-    overflow-x:hidden;
-    overflow-y:scroll;
+    /*overflow-x:hidden;*/
+    /*overflow-y:scroll;*/
 }
 
+.inner-container::-webkit-scrollbar {
+    display: none;
+}
 .tenants-box{
     float: left;
 }

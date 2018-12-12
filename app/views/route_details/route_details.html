@@ -80,21 +80,21 @@
                 </div>
                 <div class="img-detail">
                     <p class="img-tit">{{route.metadata.name}}
-                        <span ng-if="!route.status.ingress" class="route-status">{{route | routeLabel : null : true}}
-                            <status-icon status="'Pending'"></status-icon>
-                            The route is not accepting traffic yet because it has not been admitted by a router.
-                        </span>
-                        <span ng-if="!admittedCondition">Admission status unknown for router '{{ingress.routerName}}'</span>
-                        <span ng-if="admittedCondition.status === 'True'">
-                            <status-icon status="'Succeeded'"></status-icon>
-                            Exposed on router '{{ingress.routerName}}'
-                            <span>{{admittedCondition.lastTransitionTime | dateRelative}}</span>
-                        </span>
-                        <span ng-if="admittedCondition.status === 'False'">
-                            <status-icon status="'Error'"></status-icon>
-                            Rejected by router '{{ingress.routerName}}'
-                            <span>{{admittedCondition.lastTransitionTime | dateRelative}}</span>
-                        </span>
+                        <!--<span ng-if="!route.status.ingress" class="route-status">{{route | routeLabel : null : true}}-->
+                            <!--<status-icon status="'Pending'"></status-icon>-->
+                            <!--The route is not accepting traffic yet because it has not been admitted by a router.-->
+                        <!--</span>-->
+                        <!--<span ng-if="!admittedCondition">Admission status unknown for router '{{ingress.routerName}}'</span>-->
+                        <!--<span ng-if="admittedCondition.status === 'True'">-->
+                            <!--<status-icon status="'Succeeded'"></status-icon>-->
+                            <!--Exposed on router '{{ingress.routerName}}'-->
+                            <!--<span>{{admittedCondition.lastTransitionTime | dateRelative}}</span>-->
+                        <!--</span>-->
+                        <!--<span ng-if="admittedCondition.status === 'False'">-->
+                            <!--<status-icon status="'Error'"></status-icon>-->
+                            <!--Rejected by router '{{ingress.routerName}}'-->
+                            <!--<span>{{admittedCondition.lastTransitionTime | dateRelative}}</span>-->
+                        <!--</span>-->
                     </p>
                     <p class="img-time">
                         <span classs="module_tit">创建时间：</span>

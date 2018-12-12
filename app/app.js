@@ -3174,7 +3174,7 @@ define([
                         {name: '容器状态', url: 'console.pods@' + namespace, stateUrl: null, children: []},
                         {name: '服务地址', url: 'console.services@' + namespace, stateUrl: null, children: []},
                         {name: '域名管理', url: 'console.routes@' + namespace, stateUrl: null, children: []},
-                        {name: '有状态集', url: 'console.stateful-sets@' + namespace, stateUrl: null, children: []},
+                        //{name: '有状态集', url: 'console.stateful-sets@' + namespace, stateUrl: null, children: []},
                     ];
                     $rootScope.imageChild = [
                         {name: '构建镜像', url: 'console.private-image@' + namespace, stateUrl: null, children: []},
