@@ -595,6 +595,22 @@ angular.module("console.header", [{
                         
 
                     };
+                    $scope.logoutsso = function () {
+
+                            Cookie.clear('df_access_token');
+                            Cookie.clear('namespace');
+                            Cookie.clear('region');
+                            $rootScope.region = '';
+                            $scope.checked = '';
+                            $rootScope.user = null;
+                            $rootScope.namespace = "";
+                            ////clearInterval($scope.timer);
+                            //$state.go('login');
+
+
+
+
+                    };
                     $scope.change = false;
 
                     $scope.setNamespace = function (namespace) {
