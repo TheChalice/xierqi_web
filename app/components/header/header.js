@@ -29,6 +29,13 @@ angular.module("console.header", [{
                         );
                     })
 
+                    $scope.mouHoverOne = function(that){
+                        $(that.currentTarget).children('ul').show();
+                    }
+                    $scope.mouHoverTwo = function(that){
+                        $(that.currentTarget).children('ul').hide();
+                    }
+                    $scope.namespace = $rootScope.namespace;
                     //$scope.numbertotal=5
                     var cmHost = 'http://sso-cm.southbase.prd.dataos.io/';
                     var dacpHost = 'http://10.1.235.155:9089/dacp/';
