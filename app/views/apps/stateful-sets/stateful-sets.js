@@ -19,6 +19,46 @@ angular.module('console.stateful-sets', [{
                     $scope.resourceVersion = res.metadata.resourceVersion;
                     watchPc(res.metadata.resourceVersion);
                     refresh(1);
+                    $scope.uex_back = true;
+                    $scope.uex_front = false;
+                    // 排列 如果页数发生变化而且点击排序按钮，就refresh()
+                    $scope.sortDetail = function () {
+                        if ($scope.uex_back) {
+                            // alert(1);
+                            $scope.items= Sort.sort($scope.items, 1); //排序
+                            $scope.uex_back = false;
+                            $scope.uex_front = true;
+                            $scope.copySets = angular.copy($scope.items);
+                            refresh($scope.grid.page);
+                        } else {
+                            // alert(13);
+                            //默认降序
+                            $scope.items = Sort.sort($scope.items, -1); //排序
+                            $scope.uex_back = true;
+                            $scope.uex_front = false;
+                            $scope.copySets = angular.copy($scope.items);
+                            refresh($scope.grid.page);
+                        }
+
+                            if ($scope.text &&$scope.uex_front) {
+                                // alert(1);
+                                $scope.items_search= Sort.sort($scope.items_search, 1); //排序
+                                $scope.uex_back = false;
+                                $scope.uex_front = true;
+                                $scope.items  = angular.copy($scope.items_search);
+                                refresh($scope.grid.page);
+                            }
+                            if ( $scope.text && $scope.uex_back) {
+                                // alert(13);
+                                //默认降序
+                                $scope.items_search = Sort.sort($scope.items_search, -1); //排序
+                                $scope.uex_back = true;
+                                $scope.uex_front = false;
+                                $scope.items  = angular.copy($scope.items_search);
+                                refresh($scope.grid.page);
+                            }
+
+                    }
                 });
             };
             getStatefulsets();
@@ -99,6 +139,10 @@ angular.module('console.stateful-sets', [{
                 $scope.grid.page = 1;
                 if (!$scope.grid.txt) {
                     $scope.items = angular.copy($scope.copySets);
+                    $scope.uex_back = true;
+                    $scope.uex_front = false;
+                    $scope.grid.page =1;
+                    $scope.text='';
                     refresh(1);
                     $scope.grid.total = $scope.items.length;
                     return;
@@ -107,6 +151,7 @@ angular.module('console.stateful-sets', [{
                 var iarr = [];
                 var str = $scope.grid.txt;
                 str = str.toLocaleLowerCase();
+                $scope.text = str;
                 angular.forEach($scope.copySets, function (item, i) {
                     var nstr = item.metadata.name;
                     nstr = nstr.toLocaleLowerCase();
@@ -124,6 +169,7 @@ angular.module('console.stateful-sets', [{
                     $scope.text = '您还没有任何创建密钥卷数据，现在就创建一个吧';
                 }
                 $scope.items = angular.copy(iarr);
+                $scope.items_search = $scope.items;
                 refresh(1);
                 $scope.grid.total = $scope.items.length;
 

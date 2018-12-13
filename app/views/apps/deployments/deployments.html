@@ -51,8 +51,12 @@
                     <th class="col-lg-2 col-md-2 col-sm-1">版本</th>
                     <th class="col-lg-3 col-md-2 col-sm-1">状态</th>
                     <th class="col-lg-2 col-md-2 col-sm-1">创建时间
-                        <span class="sort_btn">
-                                    <i class="uex-icon-to-back"></i>
+                        <!--<span class="sort_btn">-->
+                                    <!--<i class="uex-icon-to-back"></i>-->
+                                <!--</span>-->
+                        <span class="sort_btn" style="cursor: pointer" ng-click="sortDetailFrist()">
+                                 <i class="uex-icon-to-back" ng-if="uex_back_Frist"></i>
+                                 <i class="uex-icon-to-front" ng-if="uex_front_Frist"></i>
                                 </span>
                     </th>
                     <th class="col-lg-2 col-md-2 col-sm-1">触发器</th>
@@ -69,7 +73,7 @@
                     </td>
                     <td data-title="版本">
                         <a ng-if="deployments.status.latestVersion >0" class="last_deploy"
-                           ui-sref="console.rc({namespace:namespace,name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</a>
+                           ui-sref="console.replication({namespace:namespace,name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</a>
                         <a ng-if="deployments.status.latestVersion ==0">No deployments</a>
                     </td>
                     <td data-title="状态">
@@ -142,8 +146,12 @@
                     <th class="col-lg-2 col-md-2 col-sm-1">版本</th>
                     <th class="col-lg-3 col-md-2 col-sm-1">副本</th>
                     <th class="col-lg-2 col-md-2 col-sm-1">创建时间
-                        <span class="sort_btn">
-                                    <i class="uex-icon-to-back"></i>
+                        <!--<span class="sort_btn">-->
+                                    <!--<i class="uex-icon-to-back"></i>-->
+                                <!--</span>-->
+                        <span class="sort_btn" style="cursor: pointer" ng-click="sortDetailTwo()">
+                                 <i class="uex-icon-to-back" ng-if="uex_back_Two"></i>
+                                 <i class="uex-icon-to-front" ng-if="uex_front_Two"></i>
                                 </span>
                     </th>
                     <th class="col-lg-2 col-md-2 col-sm-1">触发器</th>
@@ -159,7 +167,7 @@
                     <td data-title="Last Version">
                         <span>
                             <a class="href-orange"
-                               ui-sref="console.rs({namespace:namespace,name:deployment.rs.metadata.name})"
+                               ui-sref="console.replicaset({namespace:namespace,name:deployment.rs.metadata.name})"
                                style="cursor: pointer;">{{deployment | lastDeploymentRevision}}</a>
                         </span>
                     </td>
@@ -206,8 +214,12 @@
                     <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">版本</th>-->
                     <th class="col-lg-4 col-md-2 col-sm-1">副本</th>
                     <th class="col-lg-4 col-md-2 col-sm-1">创建时间
-                        <span class="sort_btn">
-                                    <i class="uex-icon-to-back"></i>
+                        <!--<span class="sort_btn">-->
+                                    <!--<i class="uex-icon-to-back"></i>-->
+                                <!--</span>-->
+                        <span class="sort_btn" style="cursor: pointer" ng-click="sortDetailThree()">
+                                 <i class="uex-icon-to-back" ng-if="uex_back_Three"></i>
+                                 <i class="uex-icon-to-front" ng-if="uex_front_Three"></i>
                                 </span>
                     </th>
                     <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">触发器</th>-->
@@ -216,7 +228,7 @@
                 <!--<tr ng-repeat="deployments in mydeploylist">-->
                 <tr ng-repeat="replicas in otherreplicasItem | orderObjectsByDate : true">
                     <td data-title="Name">
-                        <a class="href-orange" ui-sref="console.rc({namespace:namespace,name: replicas.metadata.name})">{{replicas.metadata.name}}</a>
+                        <a class="href-orange" ui-sref="console.replication({namespace:namespace,name: replicas.metadata.name})">{{replicas.metadata.name}}</a>
 
                     </td>
                     <!--<td data-title="Last Version">-->
@@ -266,8 +278,12 @@
                     <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">版本</th>-->
                     <th class="col-lg-4 col-md-2 col-sm-1">副本</th>
                     <th class="col-lg-4 col-md-2 col-sm-1">创建时间
-                        <span class="sort_btn">
-                                    <i class="uex-icon-to-back"></i>
+                        <!--<span class="sort_btn">-->
+                                    <!--<i class="uex-icon-to-back"></i>-->
+                                <!--</span>-->
+                        <span class="sort_btn" style="cursor: pointer" ng-click="sortDetailFour()">
+                                 <i class="uex-icon-to-back" ng-if="uex_back_Four"></i>
+                                 <i class="uex-icon-to-front" ng-if="uex_front_Four"></i>
                                 </span>
                     </th>
                     <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">触发器</th>-->
@@ -277,7 +293,7 @@
                 <tr ng-repeat="replicaset in otherreplicasetsItem | orderObjectsByDate : true">
                     <td data-title="Name">
                         <a class="href-orange"
-                           ui-sref="console.rs({namespace:namespace,name: replicaset.metadata.name})">{{replicaset.metadata.name}}</a>
+                           ui-sref="console.replicaset({namespace:namespace,name: replicaset.metadata.name})">{{replicaset.metadata.name}}</a>
 
                     </td>
                     <!--<td data-title="Last Version">-->

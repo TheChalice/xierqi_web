@@ -4,8 +4,8 @@ angular.module('home.uploadimage', [{
         'views/upload_image/upload_image.css'
     ]
 }])
-    .controller('uploadimageCtrl', ['$location', 'GLOBAL', 'Cookie', '$rootScope', '$state', 'ImageStream', '$scope','toastr', '$interval', 'Upload','uploadimageapi',
-        function ($location, GLOBAL, Cookie, $rootScope, $state, ImageStream, $scope, toastr, $interval, Upload,uploadimageapi) {
+    .controller('uploadimageCtrl', ['$location', 'GLOBAL', 'Cookie', '$rootScope', '$state', 'ImageStream', '$scope','toastr', '$interval', 'Upload','uploadimageapi','uploadinfo',
+        function ($location, GLOBAL, Cookie, $rootScope, $state, ImageStream, $scope, toastr, $interval, Upload,uploadimageapi,uploadinfo) {
             var host = '';
             var tokens = Cookie.get('df_access_token');
             var tokenarr = tokens.split(',');
@@ -65,17 +65,20 @@ angular.module('home.uploadimage', [{
                     $('#myModalBtn').click();
                     // progressBox.open($scope.grid.progress);
                     //console.log('md5',md5); // 97027eb624f85892c69c4bcec8ab0f11
+                    uploadinfo.get({namespace: $rootScope.namespace,secret:md5,total: $scope.file.data.size}, function (uuid) {
+                        console.log('uuid', uuid);
+                        $scope.upload($scope.file.data, $scope.grid.name, $scope.grid.tag, md5,uuid.uuid);
+                    })
 
-                    $scope.upload($scope.file.data, $scope.grid.name, $scope.grid.tag, md5);
                 });
             };
             // upload on file select or drop
-            $scope.upload = function (file, image, tag, md5) {
+            $scope.upload = function (file, image, tag, md5,uuid) {
                 Upload.upload({
-                    url: host + '/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
+                    url: host + '/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag+'?secret='+md5+ '&total=' + file.size+'&uuid=' + uuid,
                     data: {file: file, 'total': file.size},
                     headers: {'Authorization': "Bearer " + tokenarr[0]},
-                    resumeSizeUrl: host + '/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
+                    resumeSizeUrl: host + '/uploadimage/' + $rootScope.namespace + '/uuid?secret=' + md5,
                     resumeSizeResponseReader: function (data) {
                         //console.log('data', data);
 
@@ -86,7 +89,7 @@ angular.module('home.uploadimage', [{
                 }).then(function (resp) {
                     //$scope.grid.clickbtn = 'canclick'
                     $scope.timer = $interval(function () {
-                        uploadimageapi.get({namespace: $rootScope.namespace}, function (data) {
+                        uploadimageapi.get({namespace: $rootScope.namespace,secret:md5}, function (data) {
                             //console.log('data', data.msg);
                             if (data.status === 1) {
                                 toastr.success('上传成功', {

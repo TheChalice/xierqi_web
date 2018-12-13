@@ -26,7 +26,12 @@
                 <tr>
                     <div class="row">
                         <th class='col-lg-6 col-md-6 col-sm-1'>配置卷名称</th>
-                        <th class='col-lg-6 col-md-6 col-sm-2'>创建时间</th>
+                        <th class='col-lg-6 col-md-6 col-sm-2'>创建时间
+                            <span class="sort_btn" style="cursor: pointer" ng-click="sortDetail()">
+                                 <i class="uex-icon-to-back" ng-if="uex_back"></i>
+                                 <i class="uex-icon-to-front" ng-if="uex_front"></i>
+                                </span>
+                        </th>
                     </div>
                 </tr>
                 <tr ng-repeat="items in configitems">

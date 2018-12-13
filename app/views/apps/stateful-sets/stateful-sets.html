@@ -50,7 +50,12 @@
                 <tr>
                     <th class="col-lg-4 col-md-2 col-sm-1">名称</th>
                     <th class="col-lg-4 col-md-2 col-sm-1">副本</th>
-                    <th class="col-lg-4 col-md-2 col-sm-1">创建时间</th>
+                    <th class="col-lg-4 col-md-2 col-sm-1">创建时间
+                        <span class="sort_btn" style="cursor: pointer" ng-click="sortDetail()">
+                                 <i class="uex-icon-to-back" ng-if="uex_back"></i>
+                                 <i class="uex-icon-to-front" ng-if="uex_front"></i>
+                                </span>
+                    </th>
                 </tr>
                 <tr ng-if="items.length>0" ng-repeat="dc in setsItem">
                     <td data-title="Name"
