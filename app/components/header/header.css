@@ -547,3 +547,13 @@
   font-size: 12px;
     color: #FFFFFF;
 }
+.inner-container a{
+    color: #758395;
+}
+.inner-container a:hover{
+    color: #fff;
+}
+.active-user{
+    background: #171B24;
+    color: #fff !important;
+}

@@ -392,7 +392,7 @@
                             <ul class="projectname inner-container"
                                 style="display: none; width: 150px;max-height: 335px;background: #f7fafc;border-radius:0;border:0px;position: absolute;top:0px;left:-150px;padding:0px;overflow-x:hidden;overflow-y:scroll;">
                                 <li ng-repeat="project in projects" style="width: 150px;">
-                                    <a href="javascript:;" style="color: #758395;font-size: 12px;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;padding: 3px 20px 3px 18px;" ng-click="setNamespace(project.metadata.name)">
+                                    <a href="javascript:;" ng-class="{'active-user':project.metadata.name == namespace}" style="font-size: 12px;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;padding: 3px 20px 3px 18px;" ng-click="setNamespace(project.metadata.name)">
                                         <i class="uex_set uex-icon-group"></i>
                                 <span class="df_set_name"
                                       title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">
