@@ -65,6 +65,7 @@ define([
     DataFoundry.constant('GLOBAL', {
         size: 10,
         host: '/oapi/v1',
+        upload_url: '/uploadimage',
         host_k8s: '/api/v1',
         uploadimage: '/uploadimage',
         broker_apigroup: '/apis/prd.asiainfo.com/v1',
