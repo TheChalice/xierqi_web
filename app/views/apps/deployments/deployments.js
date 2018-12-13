@@ -93,7 +93,7 @@ angular.module('console.deployments', [{
                     $scope.otherreplicasets.push(rs);
                 }
             })
-            // console.log($scope.otherreplicasets);
+            console.log($scope.otherreplicasets);
             $scope.items = addrc($scope.dc.items);
             console.log($scope.dc.items)
             $scope.mydeploylist = addrs($scope.deployment.items);
@@ -230,6 +230,7 @@ angular.module('console.deployments', [{
                 }
             };
             $scope.otherreplicasetscopy = angular.copy($scope.otherreplicasets);
+            console.log($scope.otherreplicasetscopy);
             $scope.gridFour.total = $scope.otherreplicas.length;
             $scope.gridFour.page = 1;
             gridFour(1)
@@ -238,18 +239,23 @@ angular.module('console.deployments', [{
             $scope.sortDetailFour = function () {
                 if ($scope.uex_back_Four) {
                     // alert(1);
+                    $scope.otherreplicasetscopy = '';
+                    console.log( $scope.otherreplicasetscopy );
                     $scope.otherreplicasets = Sort.sort($scope.otherreplicasets, 1); //排序
                     $scope.uex_back_Four = false;
                     $scope.uex_front_Four = true;
                     $scope.otherreplicasetscopy = angular.copy($scope.otherreplicasets);
+                    console.log( $scope.otherreplicasetscopy );
                     gridFour($scope.gridFour.page);
                 } else {
                     // alert(13);
-                    //默认降序
+                    $scope.otherreplicasetscopy = '';
+                    console.log( $scope.otherreplicasetscopy );
                     $scope.deploymentOne = Sort.sort($scope.otherreplicasets, -1); //排序
                     $scope.uex_back_Four = true;
                     $scope.uex_front_Four = false;
                     $scope.otherreplicasetscopy = angular.copy($scope.otherreplicasets);
+                    console.log( $scope.otherreplicasetscopy );
                     gridFour($scope.gridFour.page);
                 }
 
@@ -399,13 +405,13 @@ angular.module('console.deployments', [{
                 $scope.gridThree.page = 1;
                 $scope.gridFour.page = 1;
                 if (!$scope.grid.txt) {
+                    $scope.uex_back = true;
+                    $scope.uex_front = false;
                     $scope.text_seach = '';
                     $scope.items = angular.copy($scope.dc.items);
                     $scope.mydeploylist = angular.copy($scope.deployment.items);
                     $scope.otherreplicas = angular.copy($scope.otherreplicas);
                     $scope.otherreplicasets = angular.copy($scope.otherreplicasetscopy);
-                    $scope.uex_back = true;
-                    $scope.uex_front = false;
                     $scope.grid.page = 1;
                     $scope.gridTwo.page = 1;
                     $scope.gridThree.page = 1;

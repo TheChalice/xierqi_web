@@ -109,7 +109,7 @@ angular.module('console.private-image', [
                     $scope.uex_back = true;
                     $scope.uex_front = false;
                     $scope.grid.page = 1;
-                    console.log($scope.grid.page);
+                    // console.log($scope.grid.page);
                     refresh(1);
                     return;
                 }
@@ -219,16 +219,15 @@ angular.module('console.private-image', [
                                     $scope.uex_front = true;
                                     $scope.grid.myimagecopy  = angular.copy($scope.grid.myimagecopy);
                                     // console.log($scope.grid.myimagecopy );
-                                    refresh($scope.grid.page, 'search');
+                                    refresh(1, 'search');
                                 }
                                     if( $scope.text_seach && $scope.uex_back){
                                     // alert(13);
-                                    //默认降序
-                                    $scope.grid.myimagecopy = Sort.sort($scope.grid.myimagecopy, -1); //排序
+                                    $scope.grid.myimagecopy = Sort.sort($scope.grid.myimagecopy, -1); //降序排序
                                     $scope.uex_back = true;
                                     $scope.uex_front = false;
                                     $scope.grid.myimagecopy  = angular.copy($scope.grid.myimagecopy);
-                                    refresh($scope.grid.page, 'search');
+                                    refresh(1, 'search');
                                 }
                             }
                         }, function (res) {
