@@ -905,6 +905,12 @@ define([
             });
             return recharge;
         }])
+        .factory('uploadinfo', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //充值
+            var uploadinfo = $resource(GLOBAL.upload_url + '/:namespace/info', {}, {
+                create: { method: 'POST' }
+            });
+            return uploadinfo;
+        }])
         .factory('redeem', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //充值优惠卷
             var redeem = $resource(GLOBAL.host_payment + '/redeem?region=:region', { region: '@region' }, {
                 create: { method: 'POST' }
