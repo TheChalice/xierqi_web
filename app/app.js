@@ -3160,7 +3160,7 @@ define([
                         },
                         {
                             name: '流水线',
-                            img: 'icon25 icon25-repository',
+                            img: 'icon25 icon25-pipeline',
                             url: 'console.pipeline@' + namespace,
                             stateUrl: null,
                             children: []
