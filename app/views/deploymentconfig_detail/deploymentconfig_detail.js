@@ -309,6 +309,7 @@ angular.module('console.deploymentconfig_detail', [
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     // console.log('updateDc',con)
                     // delete con.retract;   //清除自定义key值retract
+
                     //健康检查
                     if (con.livenessFlag) {
                         if (con.livenessProbe.httpGet) {
@@ -858,7 +859,7 @@ angular.module('console.deploymentconfig_detail', [
                     };
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-
+                            con.retract=true;
                             con.livenesshttpscheck = false;
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
