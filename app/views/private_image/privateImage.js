@@ -103,13 +103,13 @@ angular.module('console.private-image', [
             $scope.begin_blank = true;
             $scope.search = function (key, txt) {
                 // console.log(key,txt);
-                $scope.text = txt;
+                $scope.text_seach = txt;
                 if (!txt) {
                     $scope.grid.search = false;
                     $scope.uex_back = true;
                     $scope.uex_front = false;
                     $scope.grid.page = 1;
-                    console.log($scope.grid.page);
+                    // console.log($scope.grid.page);
                     refresh(1);
                     return;
                 }
@@ -212,23 +212,22 @@ angular.module('console.private-image', [
                                     $scope.testcopy = angular.copy(datalist.items);
                                     refresh($scope.grid.page);
                                 }
-                                if ($scope.text &&$scope.uex_front ){
+                                if ($scope.text_seach &&$scope.uex_front ){
                                     // alert(1);
                                     $scope.grid.myimagecopy= Sort.sort($scope.grid.myimagecopy, 1); //排序
                                     $scope.uex_back = false;
                                     $scope.uex_front = true;
                                     $scope.grid.myimagecopy  = angular.copy($scope.grid.myimagecopy);
-                                    console.log($scope.grid.myimagecopy );
-                                    refresh($scope.grid.page, 'search');
+                                    // console.log($scope.grid.myimagecopy );
+                                    refresh(1, 'search');
                                 }
-                                    if( $scope.text && $scope.uex_back){
+                                    if( $scope.text_seach && $scope.uex_back){
                                     // alert(13);
-                                    //默认降序
-                                    $scope.grid.myimagecopy = Sort.sort($scope.grid.myimagecopy, -1); //排序
+                                    $scope.grid.myimagecopy = Sort.sort($scope.grid.myimagecopy, -1); //降序排序
                                     $scope.uex_back = true;
                                     $scope.uex_front = false;
                                     $scope.grid.myimagecopy  = angular.copy($scope.grid.myimagecopy);
-                                    refresh($scope.grid.page, 'search');
+                                    refresh(1, 'search');
                                 }
                             }
                         }, function (res) {

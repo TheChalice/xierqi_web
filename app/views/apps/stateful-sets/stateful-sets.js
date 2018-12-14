@@ -40,7 +40,7 @@ angular.module('console.stateful-sets', [{
                             refresh($scope.grid.page);
                         }
 
-                            if ($scope.text &&$scope.uex_front) {
+                            if ($scope.text_seach &&$scope.uex_front) {
                                 // alert(1);
                                 $scope.items_search= Sort.sort($scope.items_search, 1); //排序
                                 $scope.uex_back = false;
@@ -48,7 +48,7 @@ angular.module('console.stateful-sets', [{
                                 $scope.items  = angular.copy($scope.items_search);
                                 refresh($scope.grid.page);
                             }
-                            if ( $scope.text && $scope.uex_back) {
+                            if ( $scope.text_seach && $scope.uex_back) {
                                 // alert(13);
                                 //默认降序
                                 $scope.items_search = Sort.sort($scope.items_search, -1); //排序
@@ -142,7 +142,7 @@ angular.module('console.stateful-sets', [{
                     $scope.uex_back = true;
                     $scope.uex_front = false;
                     $scope.grid.page =1;
-                    $scope.text='';
+                    $scope.text_seach='';
                     refresh(1);
                     $scope.grid.total = $scope.items.length;
                     return;
@@ -151,7 +151,7 @@ angular.module('console.stateful-sets', [{
                 var iarr = [];
                 var str = $scope.grid.txt;
                 str = str.toLocaleLowerCase();
-                $scope.text = str;
+                $scope.text_seach = str;
                 angular.forEach($scope.copySets, function (item, i) {
                     var nstr = item.metadata.name;
                     nstr = nstr.toLocaleLowerCase();
