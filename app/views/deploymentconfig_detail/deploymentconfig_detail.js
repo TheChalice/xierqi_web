@@ -307,18 +307,19 @@ angular.module('console.deploymentconfig_detail', [
                     }
                 });
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    // console.log('updateDc',con)
                     // delete con.retract;   //清除自定义key值retract
                     //健康检查
                     if (con.livenessFlag) {
                         if (con.livenessProbe.httpGet) {
-                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port)
+                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port);
                             if (con.livenesshttpscheck) {
                                 con.livenessProbe.httpGet.scheme = 'HTTPS';
+                            }else if(!con.livenesshttpscheck){
+                                con.livenessProbe.httpGet.scheme = 'HTTP';
                             }
-
                         } else if (con.livenessProbe.tcpSocket) {
                             con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.tcpSocket.port)
-
                         }
                         if (con.livenessProbe && con.livenesscheck === '命令' && con.livenessProbe.exec) {
                             angular.forEach(con.livenessProbe.exec.command, function (item, k) {
@@ -557,17 +558,24 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.openLivePro = function (idx) {
                         if ($scope.dc.spec.template.spec.containers[idx].livenessFlag) {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = false;
-                            delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
+                            // delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = true;
                             $scope.dc.spec.template.spec.containers[idx].livenesscheck = "HTTP";
-                            if ($scope.dc.spec.template.spec.containers[idx].livenesshttpscheck) {
-                                $scope.dc.spec.template.spec.containers[idx].livenessProbe.httpGet.scheme = 'HTTPS';
+                            if ($scope.dc.spec.template.spec.containers[idx].livenesshttpscheck = true) {
+                                $scope.dc.spec.template.spec.containers[idx].livenessProbe = {
+                                    "httpGet": {
+                                        "scheme": "HTTPS"
+                                    },
+                                    "initialDelaySeconds": '',
+                                    "timeoutSeconds": '',
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "failureThreshold": 3
+                                }
                             }
                             $scope.dc.spec.template.spec.containers[idx].livenessProbe = {
                                 "httpGet": {
-                                    "path": "",
-                                    "port": "",
                                     "scheme": "HTTP"
                                 },
                                 "initialDelaySeconds": '',
@@ -613,6 +621,7 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.name = 'container' + String($scope.dc.spec.template.spec.containers.length + num);
                         $scope.checkoutreg(tmp, true);
                         $scope.dc.spec.template.spec.containers.push(tmp);
+                        // console.log('addcon',$scope.dc.spec.template.spec.containers);
                     };
                     $scope.rmContainer = function (idx) {
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
@@ -823,12 +832,14 @@ angular.module('console.deploymentconfig_detail', [
                     };
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                            // console.log('$scope.loaddirs.loadcon',con);
                             con.resourcesunit = {
                                 mincpu: 'millicores',
                                 maxcpu: 'millicores',
                                 minmem: 'MB',
                                 maxmem: 'MB'
                             };
+                            con.livenesshttpscheck = false;
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
                                 con.regimage = '';
@@ -914,8 +925,10 @@ angular.module('console.deploymentconfig_detail', [
                                 con.livenessFlag = true;
                                 if (con.livenessProbe.httpGet) {
                                     con.livenesscheck = 'HTTP';
-                                    if (con.livenessProbe.httpGet.scheme = 'HTTPS') {
+                                    if (con.livenessProbe.httpGet.scheme == 'HTTPS') {
                                         con.livenesshttpscheck = true
+                                    }else if(con.livenessProbe.httpGet.scheme == 'HTTP'){
+                                        con.livenesshttpscheck = false
                                     }
                                 } else if (con.livenessProbe.tcpSocket) {
                                     con.livenesscheck = 'TCP'
