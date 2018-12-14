@@ -562,29 +562,6 @@ angular.module('console.deploymentconfig_detail', [
                             // delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = true;
-                            $scope.dc.spec.template.spec.containers[idx].livenesscheck = "HTTP";
-                            if ($scope.dc.spec.template.spec.containers[idx].livenesshttpscheck = true) {
-                                $scope.dc.spec.template.spec.containers[idx].livenessProbe = {
-                                    "httpGet": {
-                                        "scheme": "HTTPS"
-                                    },
-                                    "initialDelaySeconds": '',
-                                    "timeoutSeconds": '',
-                                    "periodSeconds": 10,
-                                    "successThreshold": 1,
-                                    "failureThreshold": 3
-                                }
-                            }
-                            $scope.dc.spec.template.spec.containers[idx].livenessProbe = {
-                                "httpGet": {
-                                    "scheme": "HTTP"
-                                },
-                                "initialDelaySeconds": '',
-                                "timeoutSeconds": '',
-                                "periodSeconds": 10,
-                                "successThreshold": 1,
-                                "failureThreshold": 3
-                            }
                         }
                     };
                     $scope.mustnum = function (e, num, quate) {
@@ -858,8 +835,8 @@ angular.module('console.deploymentconfig_detail', [
                     };
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-
-                            con.livenesshttpscheck = false;
+                            // console.log('loaddirs.loadcon',con);
+                            con.livenesshttpscheck = $scope.livenesshttpscheck;
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
                                 con.regimage = '';
