@@ -93,7 +93,7 @@ angular.module('console.deployments', [{
                     $scope.otherreplicasets.push(rs);
                 }
             })
-            // console.log($scope.otherreplicasets);
+            console.log($scope.otherreplicasets);
             $scope.items = addrc($scope.dc.items);
             console.log($scope.dc.items)
             $scope.mydeploylist = addrs($scope.deployment.items);
@@ -124,7 +124,7 @@ angular.module('console.deployments', [{
                 }
 
 
-                if ($scope.text &&$scope.uex_front_Frist) {
+                if ($scope.text_seach &&$scope.uex_front_Frist) {
                     // alert(1);
                     $scope.items_search= Sort.sort($scope.items_search, 1); //排序
                     $scope.uex_back_Frist = false;
@@ -132,7 +132,7 @@ angular.module('console.deployments', [{
                     $scope.testcopy  = angular.copy($scope.items_search);
                     refresh($scope.grid.page);
                 }
-                if ( $scope.text && $scope.uex_back_Frist) {
+                if ( $scope.text_seach && $scope.uex_back_Frist) {
                     // alert(13);
                     //默认降序
                     $scope.items_search = Sort.sort($scope.items_search, -1); //排序
@@ -168,7 +168,7 @@ angular.module('console.deployments', [{
                 }
 
 
-                if ($scope.text &&$scope.uex_front_Two) {
+                if ($scope.text_seach &&$scope.uex_front_Two) {
                     // alert(1);
                     $scope.mydeploylist_search= Sort.sort($scope.mydeploylist_search, 1); //排序
                     $scope.uex_back_Two = false;
@@ -176,7 +176,7 @@ angular.module('console.deployments', [{
                     $scope.deploymentTwo  = angular.copy($scope.mydeploylist_search);
                     refresh($scope.grid.page);
                 }
-                if ( $scope.text && $scope.uex_back_Two) {
+                if ( $scope.text_seach && $scope.uex_back_Two) {
                     // alert(13);
                     //默认降序
                     $scope.mydeploylist_search = Sort.sort($scope.mydeploylist_search, -1); //排序
@@ -211,16 +211,15 @@ angular.module('console.deployments', [{
                     gridThree($scope.gridThree.page);
                 }
 
-                if ($scope.text &&$scope.uex_front_Three) {
+                if ($scope.text_seach &&$scope.uex_front_Three) {
                     // alert(1);
-                    console.log($scope.text);
                     $scope.otherreplicas_search= Sort.sort($scope.otherreplicas_search, 1); //排序
                     $scope.uex_back_Three = false;
                     $scope.uex_front_Three = true;
                     $scope.otherreplicascopy  = angular.copy($scope.otherreplicas_search);
                     refresh($scope.grid.page);
                 }
-                if ( $scope.text && $scope.uex_back_Three) {
+                if ( $scope.text_seach && $scope.uex_back_Three) {
                     // alert(13);
                     //默认降序
                     $scope.otherreplicas_search = Sort.sort($scope.otherreplicas_search, -1); //排序
@@ -231,6 +230,7 @@ angular.module('console.deployments', [{
                 }
             };
             $scope.otherreplicasetscopy = angular.copy($scope.otherreplicasets);
+            console.log($scope.otherreplicasetscopy);
             $scope.gridFour.total = $scope.otherreplicas.length;
             $scope.gridFour.page = 1;
             gridFour(1)
@@ -239,22 +239,27 @@ angular.module('console.deployments', [{
             $scope.sortDetailFour = function () {
                 if ($scope.uex_back_Four) {
                     // alert(1);
+                    $scope.otherreplicasetscopy = '';
+                    console.log( $scope.otherreplicasetscopy );
                     $scope.otherreplicasets = Sort.sort($scope.otherreplicasets, 1); //排序
                     $scope.uex_back_Four = false;
                     $scope.uex_front_Four = true;
                     $scope.otherreplicasetscopy = angular.copy($scope.otherreplicasets);
+                    console.log( $scope.otherreplicasetscopy );
                     gridFour($scope.gridFour.page);
                 } else {
                     // alert(13);
-                    //默认降序
+                    $scope.otherreplicasetscopy = '';
+                    console.log( $scope.otherreplicasetscopy );
                     $scope.deploymentOne = Sort.sort($scope.otherreplicasets, -1); //排序
                     $scope.uex_back_Four = true;
                     $scope.uex_front_Four = false;
                     $scope.otherreplicasetscopy = angular.copy($scope.otherreplicasets);
+                    console.log( $scope.otherreplicasetscopy );
                     gridFour($scope.gridFour.page);
                 }
 
-                if ($scope.text &&$scope.uex_front_Four) {
+                if ($scope.text_seach &&$scope.uex_front_Four) {
                     // alert(1);
                     $scope.otherreplicasets_search= Sort.sort($scope.otherreplicasets_search, 1); //排序
                     $scope.uex_back_Four = false;
@@ -262,7 +267,7 @@ angular.module('console.deployments', [{
                     $scope.otherreplicasetscopy  = angular.copy($scope.otherreplicasets_search);
                     refresh($scope.grid.page);
                 }
-                if ( $scope.text && $scope.uex_back_Four) {
+                if ( $scope.text_seach && $scope.uex_back_Four) {
                     // alert(13);
                     //默认降序
                     $scope.otherreplicasets_search = Sort.sort($scope.otherreplicasets_search, -1); //排序
@@ -373,7 +378,7 @@ angular.module('console.deployments', [{
                 var iarr = [];
                 var str = $scope.grid.txt;
                 str = str.toLocaleLowerCase();
-                $scope.text = str;
+                $scope.text_seach = str;
                 angular.forEach(arr, function (item, i) {
                     var nstr = item.metadata.name;
                     nstr = nstr.toLocaleLowerCase();
@@ -400,13 +405,13 @@ angular.module('console.deployments', [{
                 $scope.gridThree.page = 1;
                 $scope.gridFour.page = 1;
                 if (!$scope.grid.txt) {
-                    $scope.text = '';
+                    $scope.uex_back = true;
+                    $scope.uex_front = false;
+                    $scope.text_seach = '';
                     $scope.items = angular.copy($scope.dc.items);
                     $scope.mydeploylist = angular.copy($scope.deployment.items);
                     $scope.otherreplicas = angular.copy($scope.otherreplicas);
                     $scope.otherreplicasets = angular.copy($scope.otherreplicasetscopy);
-                    $scope.uex_back = true;
-                    $scope.uex_front = false;
                     $scope.grid.page = 1;
                     $scope.gridTwo.page = 1;
                     $scope.gridThree.page = 1;

@@ -38,7 +38,7 @@ angular.module('console.build', [
                 //console.log($scope.grid.txt);
                 if (!$scope.grid.txt) {
                     $scope.data = angular.copy($scope.copydata)
-                    $scope.text = '';
+                    $scope.text_seach = '';
                     $scope.uex_back = true;
                     $scope.uex_front = false;
                     $scope.grid.page = 1;
@@ -49,7 +49,7 @@ angular.module('console.build', [
                     var iarr = [];
                     var str = $scope.grid.txt;
                     str = str.toLocaleLowerCase();
-                    $scope.text = str;
+                    $scope.text_seach = str;
                     // console.log(str);
                     // console.log('$scope.copydata', $scope.copydata);
                     angular.forEach($scope.copydata, function (item, i) {
@@ -182,7 +182,7 @@ angular.module('console.build', [
                             $scope.uex_front = true;
                             $scope.data = [];
                             angular.forEach(data.items, function (item, i) {
-                                console.log(item)
+                                // console.log(item)
                                 if (item.spec.strategy.type !== "JenkinsPipeline" && item.spec.source.type !== "Binary") {
                                     $scope.data.push(item)
                                 }
@@ -203,21 +203,31 @@ angular.module('console.build', [
                             $scope.grid.total = $scope.data.length;
                             refresh($scope.grid.page);
                         }
-                            if ($scope.text &&$scope.uex_front) {
+                            if ($scope.text_seach &&$scope.uex_front) {
                                 // alert(1);
                                 $scope.data_search= Sort.sort( $scope.data_search, 1); //排序
                                 $scope.uex_back = false;
                                 $scope.uex_front = true;
-                                $scope.data= angular.copy( $scope.data_search);
+                                $scope.data = [];
+                                angular.forEach($scope.data_search, function (item, i) {
+                                    if (item.spec.strategy.type !== "JenkinsPipeline" && item.spec.source.type !== "Binary") {
+                                        $scope.data.push(item)
+                                    }
+                                });
                                 refresh($scope.grid.page);
                             }
-                            if( $scope.text && $scope.uex_back){
+                            if( $scope.text_seach && $scope.uex_back){
                                 // alert(13);
                                 //默认降序
                                 $scope.data_search = Sort.sort( $scope.data_search, -1); //排序
                                 $scope.uex_back = true;
                                 $scope.uex_front = false;
-                                $scope.data  = angular.copy($scope.data_search);
+                                $scope.data = [];
+                                angular.forEach($scope.data_search, function (item, i) {
+                                    if (item.spec.strategy.type !== "JenkinsPipeline" && item.spec.source.type !== "Binary") {
+                                        $scope.data.push(item)
+                                    }
+                                });
                                 refresh($scope.grid.page);
                             }
                     }

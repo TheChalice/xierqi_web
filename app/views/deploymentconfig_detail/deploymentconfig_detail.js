@@ -1,25 +1,26 @@
 'use strict';
 angular.module('console.deploymentconfig_detail', [
-    'kubernetesUI',
-    {
-        files: [
-            'views/deploymentconfig_detail/deploymentconfig_detail.css',
-            'components/datepick/datepick.js',
-            'components/checkbox/checkbox.js',
-            'components/checkbox/checkbox_small.js',
-            'components/deploymentsevent/deploymentsevent.js'
-        ]
-    }
-])
+        'kubernetesUI',
+        {
+            files: [
+                'views/deploymentconfig_detail/deploymentconfig_detail.css',
+                'components/datepick/datepick.js',
+                'components/checkbox/checkbox.js',
+                'components/checkbox/checkbox_small.js',
+                'components/deploymentsevent/deploymentsevent.js'
+            ]
+        }
+    ])
     .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 'Service',
         function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr, Service) {
             $scope.dc = angular.copy(mydc);
             $scope.resourcesunit = {
-                    mincpu: 'millicores',
-                    maxcpu: 'millicores',
-                    minmem: 'MB',
-                    maxmem: 'MB'
+                mincpu: 'millicores',
+                maxcpu: 'millicores',
+                minmem: 'MB',
+                maxmem: 'MB'
             };
+            $scope.livenesshttpscheck = false;
             $scope.institution = {
                 display: 1,
                 configregistry: false,
@@ -36,11 +37,11 @@ angular.module('console.deploymentconfig_detail', [
                     return num + 'G'
                 }
             }
+
             for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                 $scope.dc.spec.template.spec.containers[i].retract = true;
-                $scope.dc.spec.template.spec.containers[i].resourcesunit = $scope.resourcesunit;
             }
-            // console.log('-=-=-=',$scope.dc.spec.template.spec.containers);
+
             $scope.mytag = angular.copy(mytag);
             $scope.err = {
                 vol: {
@@ -129,7 +130,6 @@ angular.module('console.deploymentconfig_detail', [
                 })
             };
             var delhor = function () {
-
                 horizontalpodautoscalers.delete({
                     namespace: $rootScope.namespace,
                     name: $scope.dc.metadata.name
@@ -224,7 +224,6 @@ angular.module('console.deploymentconfig_detail', [
                     name: dc.metadata.name,
                     region: $rootScope.region
                 }, dc, function (res) {
-                    // console.log('updatedcput',res);
                     toastr.success('操作成功', {
                         timeOut: 2000,
                         closeButton: true
@@ -308,35 +307,34 @@ angular.module('console.deploymentconfig_detail', [
                     }
                 });
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    // console.log('updateDc',con)
                     // delete con.retract;   //清除自定义key值retract
                     //健康检查
                     if (con.livenessFlag) {
                         if (con.livenessProbe.httpGet) {
-                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port)
-
-                        }else if (con.livenessProbe.tcpSocket) {
+                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port);
+                            if (con.livenesshttpscheck) {
+                                con.livenessProbe.httpGet.scheme = 'HTTPS';
+                            } else if (!con.livenesshttpscheck) {
+                                con.livenessProbe.httpGet.scheme = 'HTTP';
+                            }
+                        } else if (con.livenessProbe.tcpSocket) {
                             con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.tcpSocket.port)
-
                         }
-                        //console.log('con', con);
-                        if (con.livenessProbe && con.livenesscheck === '命令'&& con.livenessProbe.exec) {
-                            // console.log('con.livenessProbe.exec.command', con.livenessProbe.exec.command);
+                        if (con.livenessProbe && con.livenesscheck === '命令' && con.livenessProbe.exec) {
                             angular.forEach(con.livenessProbe.exec.command, function (item, k) {
                                 con.livenessProbe.exec.command[k] = item.key
-
                             })
-                            // con.readinessProbe.exec.command = parseInt(con.readinessProbe.exec.command)
                         }
                         con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
                         con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
                     }
                     //配额检查
                     if (con.resourcesFlag) {
-                        con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu);
-                        con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem);
-                        con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu);
-                        con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem);
-                        //console.log('con.resources', con.resources);
+                        con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.maxcpu);
+                        con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.maxmem);
+                        con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.mincpu);
+                        con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.minmem);
                     } else {
                         delete con.resources
                     }
@@ -349,7 +347,6 @@ angular.module('console.deploymentconfig_detail', [
                             con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.tcpSocket.port)
 
                         }
-                        //console.log('con', con);
                         if (con.readinessProbe && con.dosetcon === '命令' && con.readinessProbe.exec) {
                             //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
                             angular.forEach(con.readinessProbe.exec.command, function (item, k) {
@@ -365,6 +362,7 @@ angular.module('console.deploymentconfig_detail', [
                     if (con.imageChange) {
                         creatimageconfig(con)
                     }
+
                     if (con.volment) {
                         con.volumeMounts = [];
                         if (volerr(con.volments)) {
@@ -553,41 +551,17 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.openRc = function (idx) {
                         if ($scope.dc.spec.template.spec.containers[idx].resourcesFlag) {
                             $scope.dc.spec.template.spec.containers[idx].resourcesFlag = false;
-                            delete $scope.dc.spec.template.spec.containers[idx].resources;
+                            // delete $scope.dc.spec.template.spec.containers[idx].resources;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].resourcesFlag = true;
-                            $scope.dc.spec.template.spec.containers[idx].resources = {
-                                "limits": {
-                                    "cpu": "",
-                                    "memory": ""
-                                },
-                                "requests": {
-                                    "cpu": "",
-                                    "memory": ""
-                                }
-                            }
                         }
                     };
                     $scope.openLivePro = function (idx) {
-                        // console.log('$scope.dc.spec.template.spec.containers[idx].livenessFlag',$scope.dc.spec.template.spec.containers[idx].livenessFlag);
                         if ($scope.dc.spec.template.spec.containers[idx].livenessFlag) {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = false;
-                            delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
+                            // delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = true;
-                            $scope.dc.spec.template.spec.containers[idx].livenesscheck = "HTTP";
-                            $scope.dc.spec.template.spec.containers[idx].livenessProbe = {
-                                "httpGet": {
-                                    "path": "",
-                                    "port": "",
-                                    "scheme": "HTTP"
-                                },
-                                "initialDelaySeconds": '',
-                                "timeoutSeconds": '',
-                                "periodSeconds": 10,
-                                "successThreshold": 1,
-                                "failureThreshold": 3
-                            }
                         }
                     };
                     $scope.mustnum = function (e, num, quate) {
@@ -608,9 +582,11 @@ angular.module('console.deploymentconfig_detail', [
                             e.currentTarget.value = null
                         }
                     };
+
                     $scope.addcon = function () {
+                        //var num = 0;
+                        //num = num + 1;
                         var tmp = angular.copy($scope.dc.spec.template.spec.containers[$scope.dc.spec.template.spec.containers.length - 1]);
-                        //console.log(tmp);
                         tmp.env = [];
                         tmp.doset = false;
                         tmp.volment = false;
@@ -618,10 +594,12 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.retract = true;
                         tmp.livenessFlag = false;
                         tmp.resourcesFlag = false;
+                        tmp.livenesshttpscheck = false;
                         // delete tmp.readinessProbe;
-                        tmp.name = 'container' + $scope.dc.spec.template.spec.containers.length;
+                        tmp.name = 'container' + String($scope.dc.spec.template.spec.containers.length + 1);
                         $scope.checkoutreg(tmp, true);
                         $scope.dc.spec.template.spec.containers.push(tmp);
+                        // console.log('addcon',$scope.dc.spec.template.spec.containers);
                     };
                     $scope.rmContainer = function (idx) {
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
@@ -660,7 +638,7 @@ angular.module('console.deploymentconfig_detail', [
                                             "periodSeconds": 10,
                                             "successThreshold": 1,
                                             "failureThreshold": 3
-                                        }
+                                        };
                                     } else if (n[i].dosetcon == "命令") {
                                         $scope.dc.spec.template.spec.containers[i].readinessProbe = {
                                             "exec": {
@@ -687,7 +665,7 @@ angular.module('console.deploymentconfig_detail', [
                                         }
                                     }
                                 }
-                            //    健康检查
+                                //    健康检查
                                 if (n[i].livenesscheck != o[i].livenesscheck) {
                                     if (n[i].livenesscheck == "HTTP") {
                                         $scope.dc.spec.template.spec.containers[i].livenessProbe = {
@@ -701,7 +679,8 @@ angular.module('console.deploymentconfig_detail', [
                                             "periodSeconds": 10,
                                             "successThreshold": 1,
                                             "failureThreshold": 3
-                                        }
+                                        };
+
                                     } else if (n[i].livenesscheck == "命令") {
                                         $scope.dc.spec.template.spec.containers[i].livenessProbe = {
                                             "exec": {
@@ -813,6 +792,31 @@ angular.module('console.deploymentconfig_detail', [
                         return newarr
                     }
 
+                    function united(num, type) {
+                        var obj = {
+                            num: 0,
+                            unit: ''
+                        }
+                        if (type === 'cpu') {
+                            if (num.indexOf('m') !== -1) {
+                                obj.num = parseInt(num)
+                                obj.unit = 'millicores'
+                            } else {
+                                obj.num = parseInt(num)
+                                obj.unit = 'cores'
+                            }
+                        } else if (type === 'memory') {
+                            if (num.indexOf('m') !== -1) {
+                                obj.num = parseInt(num)
+                                obj.unit = 'MB'
+                            } else {
+                                obj.num = parseInt(num)
+                                obj.unit = 'GB'
+                            }
+                        }
+                        return obj
+                    }
+
                     $scope.checkoutreg = function (con, status) {
                         if (status === true && !con.annotate.image) {
                             //console.log($scope.mytag.items[0].metadata.name.split(':'));
@@ -828,12 +832,14 @@ angular.module('console.deploymentconfig_detail', [
                         } else {
                             con.display = !con.display
                         }
-                    }
+                    };
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                            con.retract=true;
+                            con.livenesshttpscheck = $scope.livenesshttpscheck;
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
-                                con.regimage = ''
+                                con.regimage = '';
                                 con.annotate = {
                                     image: $scope.imagedockermap[con.image].image,
                                     tag: $scope.imagedockermap[con.image].tag,
@@ -849,48 +855,34 @@ angular.module('console.deploymentconfig_detail', [
                                 con.display = false;
                             }
                             //配额限制
-                            if(con.resources){
-                                con.resourcesFlag = true;
-                                if(con.resources.limits){
-                                    if(con.resources.limits.cpu){
-                                        if(con.resources.limits.cpu.charAt(con.resources.limits.cpu.length-1) === 'm'){
-                                            con.resourcesunit.maxcpu = 'millcores';
-                                            con.resources.limits.cpu = con.resources.limits.cpu.slice(0,-1);
-                                        }else{
-                                            con.resourcesunit.maxcpu = 'cores'
-                                        }
-                                    }
 
-                                    if(con.resources.limits.memory){
-                                        if(con.resources.limits.memory.charAt(con.resources.limits.memory.length-1) === 'm'){
-                                            con.resourcesunit.maxmem = 'MB';
-                                            con.resources.limits.memory = con.resources.limits.memory.slice(0,-1);
-                                        }else if(con.resources.limits.memory.charAt(con.resources.limits.memory.length-1) === 'G'){
-                                            con.resourcesunit.maxmem = 'GB';
-                                            con.resources.limits.memory = con.resources.limits.memory.slice(0,-1);
-                                        }
-                                    }
+                            if (con.resources && con.resources.limits) {
+                                con.resourcesFlag = true;
+                                var conresources = {
+                                    mincpu: united(con.resources.requests.cpu, 'cpu'),
+                                    maxcpu: united(con.resources.limits.cpu, 'cpu'),
+                                    minmem: united(con.resources.requests.memory, 'memory'),
+                                    maxmem: united(con.resources.limits.memory, 'memory')
                                 }
-                                if(con.resources.requests){
-                                    if(con.resources.requests.cpu){
-                                        if(con.resources.requests.cpu.charAt(con.resources.requests.cpu.length-1) === 'm'){
-                                            con.resourcesunit.mincpu = 'millcores';
-                                            con.resources.requests.cpu = con.resources.requests.cpu.slice(0,-1);
-                                        }else{
-                                            con.resourcesunit.mincpu = 'cores'
-                                        }
-                                    }
-                                    if(con.resources.requests.memory){
-                                        if(con.resources.requests.memory.charAt(con.resources.requests.memory.length-1) === 'm'){
-                                            con.resourcesunit.maxmem = 'MB';
-                                            con.resources.requests.memory = con.resources.requests.memory.slice(0,-1)
-                                        }else if(con.resources.requests.memory.charAt(con.resources.requests.memory.length-1) === 'G'){
-                                            con.resourcesunit.maxmem = 'GB';
-                                            con.resources.requests.memory = con.resources.requests.memory.slice(0,-1)
-                                        }
+                                con.resourcesunit = {
+                                    mincpu: conresources.mincpu.unit,
+                                    maxcpu: conresources.maxcpu.unit,
+                                    minmem: conresources.minmem.unit,
+                                    maxmem: conresources.maxmem.unit
+                                };
+                                con.resources = {
+                                    limits: {
+                                        cpu: conresources.maxcpu.num,
+                                        memory: conresources.maxmem.num
+                                    },
+                                    requests: {
+                                        cpu: conresources.mincpu.num,
+                                        memory: conresources.minmem.num
                                     }
                                 }
                             }
+
+
                             //可用性探测&&就绪检查
                             if (con.readinessProbe) {
                                 con.doset = true;
@@ -912,7 +904,12 @@ angular.module('console.deploymentconfig_detail', [
                             if (con.livenessProbe) {
                                 con.livenessFlag = true;
                                 if (con.livenessProbe.httpGet) {
-                                    con.livenesscheck = 'HTTP'
+                                    con.livenesscheck = 'HTTP';
+                                    if (con.livenessProbe.httpGet.scheme == 'HTTPS') {
+                                        con.livenesshttpscheck = true
+                                    } else if (con.livenessProbe.httpGet.scheme == 'HTTP') {
+                                        con.livenesshttpscheck = false
+                                    }
                                 } else if (con.livenessProbe.tcpSocket) {
                                     con.livenesscheck = 'TCP'
                                 } else if (con.livenessProbe.exec) {
@@ -1139,17 +1136,17 @@ angular.module('console.deploymentconfig_detail', [
                 }],
         };
     })
-    .directive('setQuota', function () {
+    .directive('setQuotaDetail', function () {
         return {
             restrict: 'E',
-            templateUrl: 'views/deploymentconfig_detail/tpl/setQuota.html',
+            templateUrl: 'views/deploymentconfig_detail/tpl/setQuotaDetail.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-                $scope.$watch('container.open.resources', function (n, o) {
+                $scope.$watch('container.resourcesFlag', function (n, o) {
                     // console.log('n', n);
                     // console.log('$scope.institution', $scope.institution);
-                    if ($scope.institution.rubustCheck&&n===false) {
-                        $scope.institution.rubustCheck=false
+                    if ($scope.institution.rubustCheck && n === false) {
+                        $scope.institution.rubustCheck = false
                     }
 
                 })
