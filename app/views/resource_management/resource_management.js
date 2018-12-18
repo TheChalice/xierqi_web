@@ -66,7 +66,7 @@ angular.module('console.resource_management', [
                     }, function (resdc) {
                         console.log('dc', resdc);
                         $scope.grid.constantlyvolume = false;
-                        console.log(res.items, 1);
+                        //console.log(res.items, 1);
                         angular.forEach(res.items, function (volitem, i) {
                             res.items[i].arr = [];
                             angular.forEach(resdc.items, function (dcitem, k) {
