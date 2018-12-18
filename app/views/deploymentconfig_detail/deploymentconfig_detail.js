@@ -316,7 +316,8 @@ angular.module('console.deploymentconfig_detail', [
                     con.livenessProbeFlag = {
                         httpPort : false,
                         tcpPort : false,
-                        execFlag : false
+                        execFlag : false,
+                        errorText: false
                     };
                     //健康检查
                     if (con.livenessFlag) {
@@ -325,7 +326,13 @@ angular.module('console.deploymentconfig_detail', [
                         // var tcpSocket = livenessProbe.tcpSocket || {};
                         // var exec = livenessProbe.exec || {};
                             if (con.livenessProbe.httpGet) {
-                                if(!con.livenessProbe.httpGet.port){
+                                if(con.livenessProbe.httpGet.port){
+                                    if (con.livenessProbe.httpGet.port < 0 || con.livenessProbe.httpGet.port > 65535) {
+                                        con.livenessProbeFlag.errorText = true;
+                                        isAllowed = false;
+                                        return;
+                                    }
+                                }else {
                                     con.livenessProbeFlag.httpPort = true;
                                     isAllowed = false;
                                     return;
@@ -338,7 +345,13 @@ angular.module('console.deploymentconfig_detail', [
                                     con.livenessProbe.httpGet.scheme = 'HTTP';
                                 }
                             }else if (con.livenesscheck=== 'TCP') {
-                                if(!con.livenessProbe.tcpSocket.port){
+                                if(con.livenessProbe.tcpSocket.port){
+                                    if (con.livenessProbe.tcpSocket.port < 0 || con.livenessProbe.tcpSocket.port > 65535) {
+                                        con.livenessProbeFlag.errorText = true;
+                                        isAllowed = false;
+                                        return;
+                                    }
+                                }else {
                                     con.livenessProbeFlag.tcpPort = true;
                                     isAllowed = false;
                                     return;
