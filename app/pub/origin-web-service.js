@@ -6,12 +6,12 @@ define(['angular',
 
         return angular.module('myApp.origin-web-service', ['angular-clipboard', 'base64', 'ngResource'])
             // .factory('DataService', function($cacheFactory, $http, $ws, $rootScope, $q, API_CFG, APIService, Logger, $timeout, base64, base64util) {
-
         .constant("API_CFG", _.get(window.OPENSHIFT_CONFIG, "api", {}))
 
         .constant("APIS_CFG", _.get(window.OPENSHIFT_CONFIG, "apis", {}))
 
         .factory('Constants', function() {
+            console.log('window.OPENSHIFT_CONFIG', window.OPENSHIFT_VERSION);
             var constants = _.clone(window.OPENSHIFT_CONSTANTS || {});
             var version = _.clone(window.OPENSHIFT_VERSION || {});
             constants.VERSION = version;
@@ -1402,8 +1402,8 @@ define(['angular',
             }
         ])
 
-        .factory('APIService',['API_CFG','APIS_CFG','$resource','Constants','Cookie','$q','$http','$filter','$window', function(
-                     API_CFG, APIS_CFG, $resource, Constants, Cookie, $q, $http, $filter, $window) {
+        .factory('APIService',['API_CFG','$resource','Constants','Cookie','$q','$http','$filter','$window', function(
+                     API_CFG, $resource, Constants, Cookie, $q, $http, $filter, $window) {
             // Set the default api versions the console will use if otherwise unspecified
             var defaultVersion = {
                 "": "v1",
@@ -1414,10 +1414,11 @@ define(['angular',
             var tokenarr = tokens.split(',');
             var region = regions.split('-')[2];
             var token = tokenarr[region - 1];
+
             var API_CFG = _.get(window.OPENSHIFT_CONFIG, "api", {})
             var APIS_CFG = _.get(window.OPENSHIFT_CONFIG, "apis", {})
 
-
+            //console.log('APIS_CFG', APIS_CFG);
             // toResourceGroupVersion() returns a ResourceGroupVersion.
             // If resource is already a ResourceGroupVersion, returns itself.
             //

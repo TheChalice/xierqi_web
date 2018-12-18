@@ -453,8 +453,8 @@ angular.module('console.service.create', [
                     return
                 }
                 if (!n) {
-                    
-                   $scope.containersImagesIsNull = true
+
+                    $scope.containersImagesIsNull = true
                 }else{
                     $scope.containersImagesIsNull = false
                 }
@@ -974,10 +974,7 @@ angular.module('console.service.create', [
                         item.containerPort = parseInt(item.containerPort);
                         item.hostPort = parseInt(item.hostPort);
                         item.err.containerPortnan = false;
-                        item.err.containerPortNull = false;
                         item.err.hostPortnan = false;
-                        item.err.hostPortNull = false;
-                        // var reg = /^\d[0-9]$/;
                         if (item.containerPort) {
                             if (item.containerPort < 0 || item.containerPort > 65535) {
                                 item.err.containerPortnan = true;
@@ -992,23 +989,23 @@ angular.module('console.service.create', [
                         }else{
                             item.err.hostPortNull = true;
                         }
-                        // angular.forEach($scope.portsArr, function (initem, k) {
-                        //     if (i !== k) {
-                        //         if (item.containerPort === initem.containerPort) {
-                        //             portcan = false;
-                        //             item.err.containerPort = true
-                        //             initem.err.containerPort = true
-                        //         }
-                        //     }
-                        //     if (i !== k) {
-                        //         if (item.hostPort === initem.hostPort) {
-                        //             portcan = false;
-                        //             item.err.hostPort = true
-                        //             initem.err.hostPort = true
-                        //         }
-                        //     }
-                        //
-                        // })
+                        angular.forEach($scope.portsArr, function (initem, k) {
+                            if (i !== k) {
+                                if (item.containerPort === initem.containerPort) {
+                                    portcan = false;
+                                    item.err.containerPort = true
+                                    initem.err.containerPort = true
+                                }
+                            }
+                            if (i !== k) {
+                                if (item.hostPort === initem.hostPort) {
+                                    portcan = false;
+                                    item.err.hostPort = true
+                                    initem.err.hostPort = true
+                                }
+                            }
+
+                        })
                     })
                 }
                 if (!portcan) {
