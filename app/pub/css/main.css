@@ -1080,7 +1080,14 @@ a {
     border: 1px solid #ec6941 !important;
     background: #fbe1d9;
 }
-
+.inputError {
+    border: 1px solid #ec6941 !important;
+}
+.err-position{
+    position: absolute;
+    top:30px;
+    left: 0;
+}
 .input-small {
     width: 70px;
     border: 1px solid #c9c9c9;
