@@ -305,7 +305,7 @@ angular.module('console.deploymentconfig_detail', [
                         $scope.dc.spec.triggers.splice(i, 1)
                     }
                 });
-                console.log('updateDc0000',$scope.dc.spec.template.spec.containers);
+                // console.log('updateDc0000',$scope.dc.spec.template.spec.containers);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     // console.log('updateDc',con)
                     // delete con.retract;   //清除自定义key值retract
@@ -878,8 +878,7 @@ angular.module('console.deploymentconfig_detail', [
                     };
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                            console.log('loaddirs.loadcon',con);
-                            // console.log('loaddirs.loadcon=-=-',i);
+                            // console.log('loaddirs.loadcon',con);
                             con.retract=true;
                             con.livenesshttpscheck = $scope.livenesshttpscheck;
                             if ($scope.imagedockermap[con.image]) {
