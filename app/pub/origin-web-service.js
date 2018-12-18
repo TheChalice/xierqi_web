@@ -1414,6 +1414,7 @@ define(['angular',
             var tokenarr = tokens.split(',');
             var region = regions.split('-')[2];
             var token = tokenarr[region - 1];
+
             var API_CFG = _.get(window.OPENSHIFT_CONFIG, "api", {})
             var APIS_CFG = _.get(window.OPENSHIFT_CONFIG, "apis", {})
 
