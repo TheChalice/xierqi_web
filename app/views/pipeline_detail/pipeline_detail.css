@@ -58,9 +58,6 @@
 #pipeline{
     background:#fff;padding:20px 40px 40px;
 }
-#pipeline .panel_marginBottom{
-    margin-bottom: 50px;
-}
 #pipeline .btn_a{
     padding: 5px 10px;
     margin-left: 15px;
@@ -253,11 +250,35 @@ height:auto;overflow:hidden;}
             } 
 
 /* *************配置信息模块********************* */
-.tit_details{font-size:14px;color:#1F2D3D;font-weight:bold;}
-#pipeline-detail .dl_list{margin-bottom:4px;clear:both;overflow:hidden;}
-.pz_l{float:left;width:160px;font-weight:normal}
-.pip_block{overflow:hidden;margin-bottom:14px;}
-.pit_left{float:left;width:160px;}
+.tit_details {
+    font-size: 12px;
+    color: #1F2D3D;
+    font-weight: bold;
+}
+
+#pipeline-detail .dl_list {
+    margin-bottom: 4px;
+    clear: both;
+    overflow: hidden;
+    padding: 0 15px;
+}
+
+.pz_l {
+    float: left;
+    width: 120px;
+    font-weight: normal
+}
+
+.pip_block {
+    padding: 0 15px;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+.pit_left {
+    float: left;
+    width: 160px;
+}
 
 .pip_btn{border-radius: 4px;
     cursor: pointer;
