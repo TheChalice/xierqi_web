@@ -1,16 +1,16 @@
 'use strict';
 angular.module('console.deploymentconfig_detail', [
-        'kubernetesUI',
-        {
-            files: [
-                'views/deploymentconfig_detail/deploymentconfig_detail.css',
-                'components/datepick/datepick.js',
-                'components/checkbox/checkbox.js',
-                'components/checkbox/checkbox_small.js',
-                'components/deploymentsevent/deploymentsevent.js'
-            ]
-        }
-    ])
+    'kubernetesUI',
+    {
+        files: [
+            'views/deploymentconfig_detail/deploymentconfig_detail.css',
+            'components/datepick/datepick.js',
+            'components/checkbox/checkbox.js',
+            'components/checkbox/checkbox_small.js',
+            'components/deploymentsevent/deploymentsevent.js'
+        ]
+    }
+])
     .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 'Service',
         function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr, Service) {
             $scope.dc = angular.copy(mydc);
@@ -314,62 +314,58 @@ angular.module('console.deploymentconfig_detail', [
                     con.requestOfMemory = false;
                     con.limitOfMemory = false;
                     con.livenessProbeFlag = {
-                        httpPort : false,
-                        tcpPort : false,
-                        execFlag : false,
+                        httpPort: false,
+                        tcpPort: false,
+                        execFlag: false,
                         errorText: false
                     };
                     //健康检查
                     if (con.livenessFlag) {
-                        // var livenessProbe = con.livenessProbe || {};
-                        // var httpGet = livenessProbe.httpGet || {};
-                        // var tcpSocket = livenessProbe.tcpSocket || {};
-                        // var exec = livenessProbe.exec || {};
-                            if (con.livenessProbe.httpGet) {
-                                if(con.livenessProbe.httpGet.port){
-                                    if (con.livenessProbe.httpGet.port < 0 || con.livenessProbe.httpGet.port > 65535) {
-                                        con.livenessProbeFlag.errorText = true;
-                                        isAllowed = false;
-                                        return;
-                                    }
-                                }else {
-                                    con.livenessProbeFlag.httpPort = true;
+                        if (con.livenessProbe.httpGet) {
+                            if (con.livenessProbe.httpGet.port) {
+                                if (con.livenessProbe.httpGet.port < 0 || con.livenessProbe.httpGet.port > 65535) {
+                                    con.livenessProbeFlag.errorText = true;
                                     isAllowed = false;
                                     return;
                                 }
-                                con.livenessProbe.httpGet.path = parseInt(con.livenessProbe.httpGet.path);
-                                con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port);
-                                if (con.livenesshttpscheck) {
-                                    con.livenessProbe.httpGet.scheme = 'HTTPS';
-                                } else if (!con.livenesshttpscheck) {
-                                    con.livenessProbe.httpGet.scheme = 'HTTP';
-                                }
-                            }else if (con.livenesscheck=== 'TCP') {
-                                if(con.livenessProbe.tcpSocket.port){
-                                    if (con.livenessProbe.tcpSocket.port < 0 || con.livenessProbe.tcpSocket.port > 65535) {
-                                        con.livenessProbeFlag.errorText = true;
-                                        isAllowed = false;
-                                        return;
-                                    }
-                                }else {
-                                    con.livenessProbeFlag.tcpPort = true;
-                                    isAllowed = false;
-                                    return;
-                                }
-                                con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.tcpSocket.port)
-                            }else if (con.livenessProbe && con.livenesscheck === '命令' && con.livenessProbe.exec) {
-
-                                angular.forEach(con.livenessProbe.exec.command, function (item, k) {
-                                    con.livenessProbe.exec.command[k] = item.key;
-                                    if(!con.livenessProbe.exec.command[k]){
-                                        con.livenessProbeFlag.execFlag = true;
-                                        isAllowed = false;
-                                        return;
-                                    }
-                                })
+                            } else {
+                                con.livenessProbeFlag.httpPort = true;
+                                isAllowed = false;
+                                return;
                             }
-                            con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
-                            con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
+                            con.livenessProbe.httpGet.path = parseInt(con.livenessProbe.httpGet.path);
+                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port);
+                            if (con.livenesshttpscheck) {
+                                con.livenessProbe.httpGet.scheme = 'HTTPS';
+                            } else if (!con.livenesshttpscheck) {
+                                con.livenessProbe.httpGet.scheme = 'HTTP';
+                            }
+                        } else if (con.livenesscheck === 'TCP') {
+                            if (con.livenessProbe.tcpSocket.port) {
+                                if (con.livenessProbe.tcpSocket.port < 0 || con.livenessProbe.tcpSocket.port > 65535) {
+                                    con.livenessProbeFlag.errorText = true;
+                                    isAllowed = false;
+                                    return;
+                                }
+                            } else {
+                                con.livenessProbeFlag.tcpPort = true;
+                                isAllowed = false;
+                                return;
+                            }
+                            con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.tcpSocket.port)
+                        } else if (con.livenessProbe && con.livenesscheck === '命令' && con.livenessProbe.exec) {
+
+                            angular.forEach(con.livenessProbe.exec.command, function (item, k) {
+                                con.livenessProbe.exec.command[k] = item.key;
+                                if (!con.livenessProbe.exec.command[k]) {
+                                    con.livenessProbeFlag.execFlag = true;
+                                    isAllowed = false;
+                                    return;
+                                }
+                            })
+                        }
+                        con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
+                        con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
                     }
                     //配额检查
                     if (con.resourcesFlag) {
@@ -377,20 +373,20 @@ angular.module('console.deploymentconfig_detail', [
                         var requests = resources.requests || {};
                         var limits = resources.limits || {};
 
-                        if(!requests.cpu || !limits.cpu || !requests.memory || !limits.memory){
+                        if (!requests.cpu || !limits.cpu || !requests.memory || !limits.memory) {
                             con.requestOfCpu = !requests.cpu;
                             con.limitOfCpu = !limits.cpu;
                             con.requestOfMemory = !requests.memory;
                             con.limitOfMemory = !limits.memory;
                             isValid = false;
                             return;
-                        }else {
+                        } else {
                             con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.maxcpu);
                             con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.maxmem);
                             con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.mincpu);
                             con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.minmem);
                         }
-                    }else {
+                    } else {
                         delete con.resources
                     }
                     //可用性探测
@@ -655,7 +651,7 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.name = 'container' + String($scope.dc.spec.template.spec.containers.length + 1);
                         $scope.checkoutreg(tmp, true);
                         $scope.dc.spec.template.spec.containers.push(tmp);
-                        console.log('addcon',$scope.dc.spec.template.spec.containers);
+                        console.log('addcon', $scope.dc.spec.template.spec.containers);
                     };
                     $scope.rmContainer = function (idx) {
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
@@ -892,7 +888,7 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                             // console.log('loaddirs.loadcon',con);
-                            con.retract=true;
+                            con.retract = true;
                             con.livenesshttpscheck = $scope.livenesshttpscheck;
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
@@ -935,7 +931,7 @@ angular.module('console.deploymentconfig_detail', [
                                         memory: conresources.minmem.num
                                     }
                                 }
-                            }else {
+                            } else {
                                 con.resourcesunit = $scope.resourcesunit
                             }
 
@@ -1222,6 +1218,6 @@ angular.module('console.deploymentconfig_detail', [
                 }
             }]
         };
-    })
+    });
 
 
