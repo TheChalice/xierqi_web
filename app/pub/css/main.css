@@ -2933,7 +2933,7 @@ td a:hover, a:focus {
 #toast-container .toast {
     margin-top: 70px;
     margin-right: 20px;
-    padding: 5px 15px 5px 70px;
+    padding: 10px 15px 5px 70px;
     width: 240px;
     /*height: 60px;*/
 }
