@@ -15,12 +15,12 @@ angular.module('console.pipeline.detail', [
                     if (item.metadata.name === $rootScope.namespace) {
                         $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' || !item.metadata.annotations['openshift.io/display-name'] ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
                     }
-                })
+                });
                 $scope.BuildConfig = angular.copy(BuildConfigs);
             });
             $scope.databuild={
                 items : []
-            }
+            };
 
             //获取pipline记录
             var loadPiplineHistory = function (name) {
@@ -31,7 +31,7 @@ angular.module('console.pipeline.detail', [
                     labelSelector: 'buildconfig=' + name,
                     region: $rootScope.region
                 }, function (data) {
-                    $scope.databuild.items=data.items
+                    $scope.databuild.items=data.items;
                     var sortresv= function  (a,b){
                         return b.metadata.resourceVersion - a.metadata.resourceVersion
                     }
@@ -51,7 +51,7 @@ angular.module('console.pipeline.detail', [
                             //console.log('item.metadata.name', item.metadata.name);
 
 
-                    })
+                    });
                     //emit(imageEnable(data.items));
                     $scope.resourceVersion = data.metadata.resourceVersion;
                     watchBuilds(data.metadata.resourceVersion);
@@ -127,7 +127,7 @@ angular.module('console.pipeline.detail', [
                             //console.log('item.metadata.name', item.metadata.name);
                             console.log('item.stages', item.stages);
                         }
-                    })
+                    });
                     $scope.$apply()
 
                 }
