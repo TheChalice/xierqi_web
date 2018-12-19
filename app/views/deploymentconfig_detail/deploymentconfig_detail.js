@@ -333,7 +333,7 @@ angular.module('console.deploymentconfig_detail', [
                                 isAllowed = false;
                                 return;
                             }
-                            con.livenessProbe.httpGet.path = parseInt(con.livenessProbe.httpGet.path);
+                            // con.livenessProbe.httpGet.path = parseInt(con.livenessProbe.httpGet.path);
                             con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port);
                             if (con.livenesshttpscheck) {
                                 con.livenessProbe.httpGet.scheme = 'HTTPS';
@@ -366,6 +366,8 @@ angular.module('console.deploymentconfig_detail', [
                         }
                         con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
                         con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
+                    }else {
+                        delete con.livenessProbe
                     }
                     //配额检查
                     if (con.resourcesFlag) {
@@ -614,6 +616,9 @@ angular.module('console.deploymentconfig_detail', [
                             // delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = true;
+                            if(!$scope.dc.spec.template.spec.containers[idx].livenessProbe){
+                                $scope.dc.spec.template.spec.containers[idx].livenesscheck = "HTTP";
+                            }
                         }
                     };
                     $scope.mustnum = function (e, num, quate) {
@@ -651,7 +656,7 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.name = 'container' + String($scope.dc.spec.template.spec.containers.length + 1);
                         $scope.checkoutreg(tmp, true);
                         $scope.dc.spec.template.spec.containers.push(tmp);
-                        console.log('addcon', $scope.dc.spec.template.spec.containers);
+                        // console.log('addcon', $scope.dc.spec.template.spec.containers);
                     };
                     $scope.rmContainer = function (idx) {
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
