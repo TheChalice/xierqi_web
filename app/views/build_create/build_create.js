@@ -250,7 +250,8 @@ angular.module('console.build_create', [
                 $scope.privateErr = {
                     urlerr: false,
                     usernameerr: false,
-                    pwderr: false
+                    pwderr: false,
+                    pwdNull : false
                 };
                 $scope.publicErr = {
                     urlerror: false
@@ -389,6 +390,10 @@ angular.module('console.build_create', [
                         // }
                         if (!$scope.sername.name) {
                             $scope.privateErr.usernameerr = true;
+                            return;
+                        }
+                        if (!$scope.sername.pwd) {
+                            $scope.privateErr.pwdNull = true;
                             return;
                         }
 
