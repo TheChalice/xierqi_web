@@ -383,10 +383,10 @@ angular.module('console.build_create', [
                         // console.log('$scope.selectCodeBase.status==2');
                         //校验私有代码库仓库地址、用户名、口令
 
-                        if (nameRegExp.test($scope.sername.name) === false) {
-                            $scope.privateErr.usernameerr = true;
-                            return;
-                        }
+                        // if (nameRegExp.test($scope.sername.name) === false) {
+                        //     $scope.privateErr.usernameerr = true;
+                        //     return;
+                        // }
                         if (!$scope.sername.name) {
                             $scope.privateErr.usernameerr = true;
                             return;
