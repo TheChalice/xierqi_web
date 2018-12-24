@@ -1,16 +1,16 @@
 'use strict';
 angular.module('console.deploymentconfig_detail', [
-        'kubernetesUI',
-        {
-            files: [
-                'views/deploymentconfig_detail/deploymentconfig_detail.css',
-                'components/datepick/datepick.js',
-                'components/checkbox/checkbox.js',
-                'components/checkbox/checkbox_small.js',
-                'components/deploymentsevent/deploymentsevent.js'
-            ]
-        }
-    ])
+    'kubernetesUI',
+    {
+        files: [
+            'views/deploymentconfig_detail/deploymentconfig_detail.css',
+            'components/datepick/datepick.js',
+            'components/checkbox/checkbox.js',
+            'components/checkbox/checkbox_small.js',
+            'components/deploymentsevent/deploymentsevent.js'
+        ]
+    }
+])
     .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 'Service',
         function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr, Service) {
             $scope.dc = angular.copy(mydc);
@@ -172,7 +172,7 @@ angular.module('console.deploymentconfig_detail', [
                     angular.forEach(item, function (ovolment, k) {
                         ovolment.id = cunt;
                         ovolment.index = k;
-                        ovolment.type = i
+                        ovolment.type = i;
                         cunt = cunt + 1;
                         copyarr.push(ovolment)
                     })
@@ -195,23 +195,22 @@ angular.module('console.deploymentconfig_detail', [
                                     $scope.err.vol.mountPath = true;
                                 }
                             }
-                        })
+                        });
                         if (ovolment.name || ovolment.secretName || ovolment.claimName) {
 
                         } else {
-                            volerr = true
+                            volerr = true;
                             ovolment.nameerr = true;
                             $scope.err.vol[i] = true
                         }
 
                         if (!ovolment.mountPath) {
                             ovolment.mountPatherr = true;
-                            volerr = true
+                            volerr = true;
                             $scope.err.vol.mountPath = true
                         }
                     })
-
-                })
+                });
                 if (volerr) {
                     return true
                 } else {
@@ -239,7 +238,6 @@ angular.module('console.deploymentconfig_detail', [
                 });
             };
             var creatvol = function (con, vol) {
-
                 angular.forEach(vol, function (item, i) {
                     if (item.length > 0) {
                         //console.log(item, i);
@@ -259,7 +257,6 @@ angular.module('console.deploymentconfig_detail', [
                         })
                     }
                 })
-
             };
             var creatimageconfig = function (con) {
                 // console.log('con', con);
@@ -276,7 +273,6 @@ angular.module('console.deploymentconfig_detail', [
                         }
                     }
                 };
-
                 $scope.dc.spec.triggers.push(tpl)
             };
             //var volrepeat= function (vols) {
@@ -300,41 +296,98 @@ angular.module('console.deploymentconfig_detail', [
             $scope.updateDc = function () {
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true;
+                var isValid = true;
+                var isAllowed = true;
+
                 angular.forEach($scope.dc.spec.triggers, function (tri, i) {
                     // console.log(tri);
                     if (tri.type !== "ConfigChange") {
                         $scope.dc.spec.triggers.splice(i, 1)
                     }
                 });
+                // console.log('updateDc0000',$scope.dc.spec.template.spec.containers);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     // console.log('updateDc',con)
                     // delete con.retract;   //清除自定义key值retract
+                    con.requestOfCpu = false;
+                    con.limitOfCpu = false;
+                    con.requestOfMemory = false;
+                    con.limitOfMemory = false;
+                    con.livenessProbeFlag = {
+                        httpPort: false,
+                        tcpPort: false,
+                        execFlag: false,
+                        errorText: false
+                    };
                     //健康检查
                     if (con.livenessFlag) {
                         if (con.livenessProbe.httpGet) {
+                            if (con.livenessProbe.httpGet.port) {
+                                if (con.livenessProbe.httpGet.port < 0 || con.livenessProbe.httpGet.port > 65535) {
+                                    con.livenessProbeFlag.errorText = true;
+                                    isAllowed = false;
+                                    return;
+                                }
+                            } else {
+                                con.livenessProbeFlag.httpPort = true;
+                                isAllowed = false;
+                                return;
+                            }
+                            // con.livenessProbe.httpGet.path = parseInt(con.livenessProbe.httpGet.path);
                             con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port);
                             if (con.livenesshttpscheck) {
                                 con.livenessProbe.httpGet.scheme = 'HTTPS';
                             } else if (!con.livenesshttpscheck) {
                                 con.livenessProbe.httpGet.scheme = 'HTTP';
                             }
-                        } else if (con.livenessProbe.tcpSocket) {
+                        } else if (con.livenesscheck === 'TCP') {
+                            if (con.livenessProbe.tcpSocket.port) {
+                                if (con.livenessProbe.tcpSocket.port < 0 || con.livenessProbe.tcpSocket.port > 65535) {
+                                    con.livenessProbeFlag.errorText = true;
+                                    isAllowed = false;
+                                    return;
+                                }
+                            } else {
+                                con.livenessProbeFlag.tcpPort = true;
+                                isAllowed = false;
+                                return;
+                            }
                             con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.tcpSocket.port)
-                        }
-                        if (con.livenessProbe && con.livenesscheck === '命令' && con.livenessProbe.exec) {
+                        } else if (con.livenessProbe && con.livenesscheck === '命令' && con.livenessProbe.exec) {
+
                             angular.forEach(con.livenessProbe.exec.command, function (item, k) {
-                                con.livenessProbe.exec.command[k] = item.key
+                                con.livenessProbe.exec.command[k] = item.key;
+                                if (!con.livenessProbe.exec.command[k]) {
+                                    con.livenessProbeFlag.execFlag = true;
+                                    isAllowed = false;
+                                    return;
+                                }
                             })
                         }
                         con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
                         con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
+                    }else {
+                        delete con.livenessProbe
                     }
                     //配额检查
                     if (con.resourcesFlag) {
-                        con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.maxcpu);
-                        con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.maxmem);
-                        con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.mincpu);
-                        con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.minmem);
+                        var resources = con.resources || {};
+                        var requests = resources.requests || {};
+                        var limits = resources.limits || {};
+
+                        if (!requests.cpu || !limits.cpu || !requests.memory || !limits.memory) {
+                            con.requestOfCpu = !requests.cpu;
+                            con.limitOfCpu = !limits.cpu;
+                            con.requestOfMemory = !requests.memory;
+                            con.limitOfMemory = !limits.memory;
+                            isValid = false;
+                            return;
+                        } else {
+                            con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.maxcpu);
+                            con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.maxmem);
+                            con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.mincpu);
+                            con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.minmem);
+                        }
                     } else {
                         delete con.resources
                     }
@@ -345,14 +398,12 @@ angular.module('console.deploymentconfig_detail', [
 
                         } else if (con.readinessProbe.tcpSocket) {
                             con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.tcpSocket.port)
-
                         }
                         if (con.readinessProbe && con.dosetcon === '命令' && con.readinessProbe.exec) {
                             //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
                             angular.forEach(con.readinessProbe.exec.command, function (item, k) {
                                 //console.log(item.key);
                                 con.readinessProbe.exec.command[k] = item.key
-
                             })
                         }
                         con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
@@ -367,9 +418,7 @@ angular.module('console.deploymentconfig_detail', [
                         con.volumeMounts = [];
                         if (volerr(con.volments)) {
                             cancreat = false;
-
                             toastr.error('操作失败,请重试', {
-
                                 timeOut: 2000,
                                 closeButton: true
                             });
@@ -399,17 +448,22 @@ angular.module('console.deploymentconfig_detail', [
                         }
                         angular.forEach(con.emptyDir, function (vol, i) {
                             con.volumeMounts.push(vol.volumeMounts)
-                        })
+                        });
                         angular.forEach(con.emptyDir, function (vol, i) {
                             $scope.dc.spec.template.spec.volumes.push(vol.volumes)
                         })
                     }
-
                 });
+
+                if (!isValid) {
+                    return
+                }
                 if (!cancreat) {
                     return
                 }
-                //console.log('$scope.dc.spec.template.spec', $scope.dc.spec.template.spec);
+                if (!isAllowed) {
+                    return
+                }
 
                 DeploymentConfig.get({
                     namespace: $rootScope.namespace,
@@ -471,13 +525,13 @@ angular.module('console.deploymentconfig_detail', [
                             }, function (data) {
 
                             }
-                        )
+                        );
                         horizontalpodautoscalers.delete({
                             namespace: $rootScope.namespace,
                             name: $stateParams.name
                         }, function (data) {
 
-                        })
+                        });
                         $state.go('console.deployments', {namespace: $rootScope.namespace});
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
@@ -562,6 +616,9 @@ angular.module('console.deploymentconfig_detail', [
                             // delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = true;
+                            if(!$scope.dc.spec.template.spec.containers[idx].livenessProbe){
+                                $scope.dc.spec.template.spec.containers[idx].livenesscheck = "HTTP";
+                            }
                         }
                     };
                     $scope.mustnum = function (e, num, quate) {
@@ -599,7 +656,7 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.name = 'container' + String($scope.dc.spec.template.spec.containers.length + 1);
                         $scope.checkoutreg(tmp, true);
                         $scope.dc.spec.template.spec.containers.push(tmp);
-                        // console.log('addcon',$scope.dc.spec.template.spec.containers);
+                        // console.log('addcon', $scope.dc.spec.template.spec.containers);
                     };
                     $scope.rmContainer = function (idx) {
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
@@ -773,22 +830,22 @@ angular.module('console.deploymentconfig_detail', [
                         con.annotate.image = i
                         con.annotate.tag = item[0].tag
                         con.annotate.tags = item;
-                    }
+                    };
                     $scope.selecttag = function (idx, con) {
                         //console.log(con.annotate.tags[idx]);
                         con.annotate.tag = con.annotate.tags[idx].tag;
                         con.image = con.annotate.tags[idx].dockerImageReference;
                         //con.image=
-                    }
+                    };
                     function cleararr(arr) {
-                        var newarr = []
+                        var newarr = [];
                         angular.forEach(arr, function (item, i) {
                             if (item == null) {
 
                             } else {
                                 newarr.push(item)
                             }
-                        })
+                        });
                         return newarr
                     }
 
@@ -796,21 +853,21 @@ angular.module('console.deploymentconfig_detail', [
                         var obj = {
                             num: 0,
                             unit: ''
-                        }
+                        };
                         if (type === 'cpu') {
                             if (num.indexOf('m') !== -1) {
-                                obj.num = parseInt(num)
+                                obj.num = parseInt(num);
                                 obj.unit = 'millicores'
                             } else {
-                                obj.num = parseInt(num)
+                                obj.num = parseInt(num);
                                 obj.unit = 'cores'
                             }
                         } else if (type === 'memory') {
                             if (num.indexOf('m') !== -1) {
-                                obj.num = parseInt(num)
+                                obj.num = parseInt(num);
                                 obj.unit = 'MB'
                             } else {
-                                obj.num = parseInt(num)
+                                obj.num = parseInt(num);
                                 obj.unit = 'GB'
                             }
                         }
@@ -835,7 +892,8 @@ angular.module('console.deploymentconfig_detail', [
                     };
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                            con.retract=true;
+                            // console.log('loaddirs.loadcon',con);
+                            con.retract = true;
                             con.livenesshttpscheck = $scope.livenesshttpscheck;
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
@@ -848,14 +906,12 @@ angular.module('console.deploymentconfig_detail', [
                                     regimage: ''
                                 }
                             } else {
-
                                 con.annotate = {
                                     regimage: con.image
-                                }
+                                };
                                 con.display = false;
                             }
                             //配额限制
-
                             if (con.resources && con.resources.limits) {
                                 con.resourcesFlag = true;
                                 var conresources = {
@@ -863,7 +919,7 @@ angular.module('console.deploymentconfig_detail', [
                                     maxcpu: united(con.resources.limits.cpu, 'cpu'),
                                     minmem: united(con.resources.requests.memory, 'memory'),
                                     maxmem: united(con.resources.limits.memory, 'memory')
-                                }
+                                };
                                 con.resourcesunit = {
                                     mincpu: conresources.mincpu.unit,
                                     maxcpu: conresources.maxcpu.unit,
@@ -880,6 +936,8 @@ angular.module('console.deploymentconfig_detail', [
                                         memory: conresources.minmem.num
                                     }
                                 }
+                            } else {
+                                con.resourcesunit = $scope.resourcesunit
                             }
 
 
@@ -1133,7 +1191,7 @@ angular.module('console.deploymentconfig_detail', [
                         }
                     };
                     loadRcs($scope.dc.metadata.name);
-                }],
+                }]
         };
     })
     .directive('setQuotaDetail', function () {
@@ -1165,6 +1223,6 @@ angular.module('console.deploymentconfig_detail', [
                 }
             }]
         };
-    })
+    });
 
 
