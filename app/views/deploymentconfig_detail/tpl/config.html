@@ -52,7 +52,17 @@
                 <span class="config_tit">执行</span>
             </div>
             <div class="col-md-10">
-                <checkbox-small checked="quota.rubustCheck"></checkbox-small>
+                <!--<checkbox-small checked="quota.rubustCheck"></checkbox-small>-->
+                <div class="col-sm-12" style="padding-left: 0;">
+                    <span class="my-checkbox">
+                        <span class="checkbox-check" ng-class="{active: institution.rubustCheck}" ng-click="creathoriz(institution.rubustCheck)" >
+                            <span class="check-btn"></span>
+                        </span>
+                    </span>
+                    <small ng-if="err.horiz.openerr" class="fa fa-info-circle err-tip err">
+                        请确保加入配额
+                    </small>
+                </div>
             </div>
 
         </div>
@@ -61,25 +71,25 @@
             <div class="col-md-10">
                 <div class="podlist" style="margin-left: 0;">
                     <p class="tit_num">Pod数量</p>
-                    <input class="podnum" ng-model="dc.spec.replicas" name="cdm" type="text" placeholder="数字必须为正整数">
+                    <input class="podnum" ng-model="dc.spec.replicas" name="cdm" min="1" max="10" type="text"
+                           ng-keyup="mustnum($event,dc.spec.replicas,10)">
                 </div>
                 <!-- placeholder="{{dc.spec.replicas}}" -->
-                <div class="podlist" ng-show="quota.rubustCheck">
+                <div class="podlist" ng-show="institution.rubustCheck">
                     <p class="tit_num">Pod最大数量</p>
-                    <input class="podnum" ng-model="horiz.spec.maxReplicas"
-                           onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                           onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                           value="{{dc.spec.replicas}}"
-                           type="text"
-                           placeholder="数字必须为正整数" style="">
+                    <input class="podnum"
+                           ng-model="horiz.spec.maxReplicas"
+                           ng-class="{'input-error':err.horiz.maxerr}"
+                           ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)"
+                           type="text" class="form-control" placeholder="{{dc.spec.replicas}}">
 
                 </div>
-                <div class="podlist" ng-show="quota.rubustCheck">
+                <div class="podlist" ng-show="institution.rubustCheck">
                     <p class="tit_num">CPU阀值</p>
                     <input class="podnum" ng-model="horiz.spec.targetCPUUtilizationPercentage"
                            ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
-                           type="text" placeholder="数字必须为正整数" style="">
-                    <span class="baifen">%</span>
+                           type="text" placeholder="80">
+                    <span class="baifen" ng-show="institution.rubustCheck">%</span>
 
                 </div>
             </div>

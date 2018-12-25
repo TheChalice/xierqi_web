@@ -13,11 +13,65 @@ angular.module('console.deployment_detail', [
 ])
     .controller('DeploymentDetailCtrl', ['Deployments', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', 'myreplicaSet',
         function (Deployments, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, myreplicaSet) {
-            $scope.dc = angular.copy(mydc)
+            $scope.dc = angular.copy(mydc);
+            $scope.resourcesunit = {
+                mincpu: 'millicores',
+                maxcpu: 'millicores',
+                minmem: 'MB',
+                maxmem: 'MB'
+            };
+            $scope.institution = {
+                display: 1,
+                configregistry: false,
+                rubustCheck: false
+            };
+            $scope.livenesshttpscheck = false;
+            $scope.err = {
+                horiz: {
+                    openerr: false,
+                    maxerr: false
+                }
+            };
+            function unit(num, unit) {
+                if (unit === 'millicores') {
+                    return num + 'm'
+                } else if (unit === 'cores') {
+                    return num
+                } else if (unit === 'MB') {
+                    return num + 'm'
+                } else if (unit === 'GB') {
+                    return num + 'G'
+                }
+            }
+            function united(num, type) {
+                var obj = {
+                    num: 0,
+                    unit: ''
+                };
+                if (type === 'cpu') {
+                    if (num.indexOf('m') !== -1) {
+                        obj.num = parseInt(num);
+                        obj.unit = 'millicores'
+                    } else {
+                        obj.num = parseInt(num);
+                        obj.unit = 'cores'
+                    }
+                } else if (type === 'memory') {
+                    if (num.indexOf('m') !== -1) {
+                        obj.num = parseInt(num);
+                        obj.unit = 'MB'
+                    } else {
+                        obj.num = parseInt(num);
+                        obj.unit = 'GB'
+                    }
+                }
+                return obj
+            }
             for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                 $scope.dc.spec.template.spec.containers[i].retract = true;
-                console.log()
+                // console.log()
             }
+
             // console.log('dp', mydc);
             $scope.replicaset = [];
             //console.log('myreplicaSet.items', myreplicaSet.items);
@@ -137,7 +191,7 @@ angular.module('console.deployment_detail', [
                     region: $rootScope.region
                 }, dc, function (res) {
                     $scope.dc = angular.copy(res);
-                    console.log('$scope.dc', $scope.dc);
+                    // console.log('$scope.dc', $scope.dc);
                     $scope.loaddirs.loadcon()
                 }, function (res) {
 
@@ -183,12 +237,137 @@ angular.module('console.deployment_detail', [
                 }
 
             };
+            function preparehoriz(dc) {
+                var name = dc.metadata.name;
+                $scope.horiz.metadata.name = name;
+                $scope.horiz.metadata.labels.app = name;
+                $scope.horiz.spec.scaleTargetRef.name = name;
+                $scope.horiz.spec.minReplicas = dc.spec.replicas;
+
+            }
+
+            $scope.creathoriz = function () {
+                $scope.err.horiz.openerr = false;
+                var cancreat = false;
+                angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    if (con.resourcesFlag) {
+                        cancreat = true
+                    }
+                });
+                if (cancreat) {
+                    $scope.institution.rubustCheck = !$scope.institution.rubustCheck
+                } else {
+                    $scope.err.horiz.openerr = true
+                }
+
+            };
             $scope.updateDc = function () {
+                $scope.err.horiz.maxerr = false;
+                if ($scope.institution.rubustCheck) {
+                    if ($scope.horiz.spec.maxReplicas < $scope.dc.spec.replicas) {
+                        $scope.err.horiz.maxerr = true;
+                        return
+                    }
+                    if ($scope.horiz.spec.maxReplicas === '') {
+                        $scope.horiz.spec.maxReplicas = $scope.dc.spec.replicas
+                    }
+                    if ($scope.horiz.spec.targetCPUUtilizationPercentage === '') {
+                        $scope.horiz.spec.targetCPUUtilizationPercentage = 80;
+                    }
+                    preparehoriz($scope.dc);
+                }
+
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true;
+                var isValid = true;
+                var isAllowed = true;
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    // console.log('updateDc',con);
                     delete con.retract;   //清除自定义key值retract
                     //console.log(con.dosetcon.doset);
+                    con.requestOfCpu = false;
+                    con.limitOfCpu = false;
+                    con.requestOfMemory = false;
+                    con.limitOfMemory = false;
+                    con.livenessProbeFlag = {
+                        httpPort: false,
+                        tcpPort: false,
+                        execFlag: false,
+                        errorText: false
+                    };
+                    //配额检查
+                    if (con.resourcesFlag) {
+                        var resources = con.resources || {};
+                        var requests = resources.requests || {};
+                        var limits = resources.limits || {};
+
+                        if (!requests.cpu || !limits.cpu || !requests.memory || !limits.memory) {
+                            con.requestOfCpu = !requests.cpu;
+                            con.limitOfCpu = !limits.cpu;
+                            con.requestOfMemory = !requests.memory;
+                            con.limitOfMemory = !limits.memory;
+                            isValid = false;
+                            return;
+                        } else {
+                            con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.maxcpu);
+                            con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.maxmem);
+                            con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.mincpu);
+                            con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.minmem);
+                        }
+                    } else {
+                        delete con.resources
+                    }
+                    //健康检查
+                    if (con.livenessFlag) {
+                        if (con.livenessProbe.httpGet) {
+                            if (con.livenessProbe.httpGet.port) {
+                                if (con.livenessProbe.httpGet.port < 0 || con.livenessProbe.httpGet.port > 65535) {
+                                    con.livenessProbeFlag.errorText = true;
+                                    isAllowed = false;
+                                    return;
+                                }
+                            } else {
+                                con.livenessProbeFlag.httpPort = true;
+                                isAllowed = false;
+                                return;
+                            }
+                            // con.livenessProbe.httpGet.path = parseInt(con.livenessProbe.httpGet.path);
+                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.httpGet.port);
+                            if (con.livenesshttpscheck) {
+                                con.livenessProbe.httpGet.scheme = 'HTTPS';
+                            } else if (!con.livenesshttpscheck) {
+                                con.livenessProbe.httpGet.scheme = 'HTTP';
+                            }
+                        } else if (con.livenesscheck === 'TCP') {
+                            if (con.livenessProbe.tcpSocket.port) {
+                                if (con.livenessProbe.tcpSocket.port < 0 || con.livenessProbe.tcpSocket.port > 65535) {
+                                    con.livenessProbeFlag.errorText = true;
+                                    isAllowed = false;
+                                    return;
+                                }
+                            } else {
+                                con.livenessProbeFlag.tcpPort = true;
+                                isAllowed = false;
+                                return;
+                            }
+                            con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.tcpSocket.port)
+                        } else if (con.livenessProbe && con.livenesscheck === '命令' && con.livenessProbe.exec) {
+
+                            angular.forEach(con.livenessProbe.exec.command, function (item, k) {
+                                con.livenessProbe.exec.command[k] = item.key;
+                                if (!con.livenessProbe.exec.command[k]) {
+                                    con.livenessProbeFlag.execFlag = true;
+                                    isAllowed = false;
+                                    return;
+                                }
+                            })
+                        }
+                        con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
+                        con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
+                    }else {
+                        delete con.livenessProbe
+                    }
+                    //可用性探测
                     if (con.doset) {
                         if (con.readinessProbe.httpGet) {
                             con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.httpGet.port)
@@ -227,6 +406,12 @@ angular.module('console.deployment_detail', [
                 if (!cancreat) {
                     return
                 }
+                if (!isValid) {
+                    return
+                }
+                if (!isAllowed) {
+                    return
+                }
                 //console.log('$scope.dc.spec.template.spec', $scope.dc.spec.template.spec);
 
                 Deployments.get({
@@ -239,7 +424,7 @@ angular.module('console.deployment_detail', [
                     $scope.dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
                     //console.log($scope.envs);
 
-                    if ($scope.quota.rubustCheck) {
+                    if ($scope.institution.rubustCheck) {
                         creathor()
                     } else {
                         delhor()
@@ -288,7 +473,7 @@ angular.module('console.deployment_detail', [
                 function (persistent, configmaps, Secret, $scope, horizontalpodautoscalers, $rootScope, GLOBAL, ImageStreamTag, ImageStream) {
                     var gethor = function (name) {
                         horizontalpodautoscalers.get({namespace: $rootScope.namespace, name: name}, function (hor) {
-                            $scope.quota.rubustCheck = true;
+                            $scope.institution.rubustCheck = true;
                             $scope.horiz = hor;
                         })
                     }
@@ -324,7 +509,28 @@ angular.module('console.deployment_detail', [
                                 "failureThreshold": 3
                             }
                         }
-                    }
+                    };
+                    //配额限制
+                    $scope.openRc = function (idx) {
+                        if ($scope.dc.spec.template.spec.containers[idx].resourcesFlag) {
+                            $scope.dc.spec.template.spec.containers[idx].resourcesFlag = false;
+                            // delete $scope.dc.spec.template.spec.containers[idx].resources;
+                        } else {
+                            $scope.dc.spec.template.spec.containers[idx].resourcesFlag = true;
+                        }
+                    };
+                    //健康检查
+                    $scope.openLivePro = function (idx) {
+                        if ($scope.dc.spec.template.spec.containers[idx].livenessFlag) {
+                            $scope.dc.spec.template.spec.containers[idx].livenessFlag = false;
+                            // delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
+                        } else {
+                            $scope.dc.spec.template.spec.containers[idx].livenessFlag = true;
+                            if(!$scope.dc.spec.template.spec.containers[idx].livenessProbe){
+                                $scope.dc.spec.template.spec.containers[idx].livenesscheck = "HTTP";
+                            }
+                        }
+                    };
                     $scope.addvol = function (idx) {
                         if ($scope.dc.spec.template.spec.containers[idx].volment) {
                             $scope.dc.spec.template.spec.containers[idx].volment = false;
@@ -348,6 +554,9 @@ angular.module('console.deployment_detail', [
                         tmp.volment = false;
                         tmp.display = true;
                         tmp.retract = true;
+                        tmp.livenessFlag = false;
+                        tmp.resourcesFlag = false;
+                        tmp.livenesshttpscheck = false;
                         delete tmp.readinessProbe
                         tmp.name = 'container' + $scope.dc.spec.template.spec.containers.length;
                         $scope.checkoutreg(tmp, true)
@@ -374,6 +583,7 @@ angular.module('console.deployment_detail', [
                             $scope.uex_up = true;
                         }
                     };
+
                     $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
                         if (n == o) {
                             return;
@@ -409,6 +619,48 @@ angular.module('console.deployment_detail', [
                                         }
                                     } else if (n[i].dosetcon == "TCP") {
                                         $scope.dc.spec.template.spec.containers[i].readinessProbe = {
+                                            "tcpSocket": {
+                                                "port": ""
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        }
+                                    }
+                                }
+                                //    健康检查
+                                if (n[i].livenesscheck != o[i].livenesscheck) {
+                                    if (n[i].livenesscheck == "HTTP") {
+                                        $scope.dc.spec.template.spec.containers[i].livenessProbe = {
+                                            "httpGet": {
+                                                "path": "",
+                                                "port": "",
+                                                "scheme": "HTTP"
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        };
+
+                                    } else if (n[i].livenesscheck == "命令") {
+                                        $scope.dc.spec.template.spec.containers[i].livenessProbe = {
+                                            "exec": {
+                                                "command": [
+                                                    {key: ''}
+                                                ]
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        }
+                                    } else if (n[i].livenesscheck == "TCP") {
+                                        $scope.dc.spec.template.spec.containers[i].livenessProbe = {
                                             "tcpSocket": {
                                                 "port": ""
                                             },
@@ -501,9 +753,12 @@ angular.module('console.deployment_detail', [
                         } else {
                             con.display = !con.display
                         }
-                    }
+                    };
                     $scope.loaddirs.loadcon = function () {
                         angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                            // console.log('loadcon',con);
+                            con.retract = true;
+                            con.livenesshttpscheck = $scope.livenesshttpscheck;
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
                                 con.regimage = '';
@@ -536,6 +791,55 @@ angular.module('console.deployment_detail', [
                                     })
                                     con.dosetcon = '命令'
 
+                                }
+                            }
+                            //配额限制
+                            if (con.resources && con.resources.limits) {
+                                con.resourcesFlag = true;
+                                var conresources = {
+                                    mincpu: united(con.resources.requests.cpu, 'cpu'),
+                                    maxcpu: united(con.resources.limits.cpu, 'cpu'),
+                                    minmem: united(con.resources.requests.memory, 'memory'),
+                                    maxmem: united(con.resources.limits.memory, 'memory')
+                                };
+                                con.resourcesunit = {
+                                    mincpu: conresources.mincpu.unit,
+                                    maxcpu: conresources.maxcpu.unit,
+                                    minmem: conresources.minmem.unit,
+                                    maxmem: conresources.maxmem.unit
+                                };
+                                con.resources = {
+                                    limits: {
+                                        cpu: conresources.maxcpu.num,
+                                        memory: conresources.maxmem.num
+                                    },
+                                    requests: {
+                                        cpu: conresources.mincpu.num,
+                                        memory: conresources.minmem.num
+                                    }
+                                }
+                            } else {
+                                con.resourcesunit = $scope.resourcesunit
+                            }
+                            //健康检查
+                            if (con.livenessProbe) {
+                                con.livenessFlag = true;
+                                if (con.livenessProbe.httpGet) {
+                                    con.livenesscheck = 'HTTP';
+                                    if (con.livenessProbe.httpGet.scheme == 'HTTPS') {
+                                        con.livenesshttpscheck = true
+                                    } else if (con.livenessProbe.httpGet.scheme == 'HTTP') {
+                                        con.livenesshttpscheck = false
+                                    }
+                                } else if (con.livenessProbe.tcpSocket) {
+                                    con.livenesscheck = 'TCP'
+                                } else if (con.livenessProbe.exec) {
+                                    // console.log('con.livenessProbe.exec',con.livenessProbe.exec);
+                                    var copyexec = angular.copy(con.livenessProbe.exec.command)
+                                    angular.forEach(copyexec, function (exec, k) {
+                                        con.livenessProbe.exec.command[k] = {key: exec};
+                                    })
+                                    con.livenesscheck = '命令'
                                 }
                             }
                             if (con.volumeMounts) {
@@ -576,7 +880,7 @@ angular.module('console.deployment_detail', [
                             }
                         });
                     };
-                    $scope.loaddirs.loadcon()
+                    $scope.loaddirs.loadcon();
 
                     gethor($scope.dc.metadata.name);
                 }]
@@ -591,7 +895,24 @@ angular.module('console.deployment_detail', [
                 function ($scope, ReplicationController, $rootScope, Ws, Sort) {
 
 
-                }],
+                }]
+        };
+    })
+    .directive('deploymentSetQuota', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/deployment_detail/tpl/deploymentSetQuota.html',
+            scope: false,
+            controller: ['$scope', function ($scope) {
+                $scope.$watch('container.resourcesFlag', function (n, o) {
+                    // console.log('n', n);
+                    // console.log('$scope.institution', $scope.institution);
+                    if ($scope.institution.rubustCheck && n === false) {
+                        $scope.institution.rubustCheck = false
+                    }
+
+                })
+            }]
         };
     });
 

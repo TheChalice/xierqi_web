@@ -149,7 +149,7 @@ input::-webkit-input-placeholder {
 
 .service-config .podlist {
     display: inline-block;
-    margin-left: 30px;
+    margin-right: 25px;
 }
 
 .service-config .podnum {
