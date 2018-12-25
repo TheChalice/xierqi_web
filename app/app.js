@@ -90,7 +90,7 @@ define([
         signin_uri: '/signin',
         //host_webhooks: 'https://lab.new.dataos.io',
         host_webhooks: '<WEBHOOK_PREFIX>',
-        // service_url: '.new.dataos.io',
+         //service_url: '.prd.dataos.io',
         service_url: '<ROUTER_DOMAIN_SUFFIX>',
         //internal_registry:'docker-registry.default.svc:5000',
         internal_registry: '<INTERNAL_REGISTRY_ADDR>',
@@ -145,72 +145,71 @@ define([
         }])
         .run(['$rootScope', 'account', '$state', 'Cookie','User','$http',
             function ($rootScope, account, $state, Cookie,User,$http) {
-                //var req = {
-                //    method: 'GET',
-                //    url: "/apis",
-                //};
-                var allapi= {
-                    apis:{
-                        "hostPort": "127.0.0.1:8080",
-                        "prefix": "/apis",
-                        "groups": {}
-                    },
-                    api:{
-                        openshift:{
-                            "hostPort": "127.0.0.1:8080",
-                            "prefix": "/oapi",
-                            "resources":{
-                                v1:{}
-                            }
-                        },
-                        k8s:{ "hostPort": "127.0.0.1:8080",
-                            "prefix": "/api",
-                            "resources": {
-                                v1:{}
-                            }
-                        }
-                    }
+
+                //var allapi= {
+                //    apis:{
+                //        "hostPort": "127.0.0.1:8080",
+                //        "prefix": "/apis",
+                //        "groups": {}
+                //    },
+                //    api:{
+                //        openshift:{
+                //            "hostPort": "127.0.0.1:8080",
+                //            "prefix": "/oapi",
+                //            "resources":{
+                //                v1:{}
+                //            }
+                //        },
+                //        k8s:{ "hostPort": "127.0.0.1:8080",
+                //            "prefix": "/api",
+                //            "resources": {
+                //                v1:{}
+                //            }
+                //        }
+                //    }
+                //
+                //
+                //}
+                //function getapis (getstr){
+                //    var promise = new Promise(function (resolve, reject) {
+                //        $http({
+                //            method: 'GET',
+                //            url: getstr,
+                //        }).success(function (apis) {
+                //            //var arrstr = data.join(',');
+                //            resolve(apis)
+                //        })
+                //    })
+                //    return promise
+                //}
+                //function arr2map (arr,key){
+                //    var map ={}
+                //    angular.forEach(arr,function (item) {
+                //        map[item[key]]=item
+                //    })
+                //    return map
+                //}
+                //getapis ("/apis").then(function (apis) {
+                //    //console.log('apis', apis);
+                //    allapi.apis.groups=arr2map(apis.groups,'name');
+                //    angular.forEach(allapi.apis.groups, function (item) {
+                //        item.preferredVersion=item.preferredVersion.version;
+                //        item.versions = arr2map(item.versions,'version');
+                //    })
+                //    //console.log('allapi.apis.groups', allapi.apis.groups);
+                //    return getapis ("/api/v1")
+                //}).then(function (api) {
+                //
+                //    allapi.api.k8s.resources.v1=arr2map(api.resources,'name');
+                //
+                //    return getapis ("/oapi/v1")
+                //}).then(function (oapi) {
+                //    allapi.api.openshift.resources.v1=arr2map(oapi.resources,'name');
+                //    //console.log('allapi', allapi);
+                //    window.OPENSHIFT_CONFIG=allapi
+                //})
 
 
-                }
-                function getapis (getstr){
-                    var promise = new Promise(function (resolve, reject) {
-                        $http({
-                            method: 'GET',
-                            url: getstr,
-                        }).success(function (apis) {
-                            //var arrstr = data.join(',');
-                            resolve(apis)
-                        })
-                    })
-                    return promise
-                }
-                function arr2map (arr,key){
-                    var map ={}
-                    angular.forEach(arr,function (item) {
-                        map[item[key]]=item
-                    })
-                    return map
-                }
-                getapis ("/apis").then(function (apis) {
-                    //console.log('apis', apis);
-                    allapi.apis.groups=arr2map(apis.groups,'name');
-                    angular.forEach(allapi.apis.groups, function (item) {
-                        item.preferredVersion=item.preferredVersion.version;
-                        item.versions = arr2map(item.versions,'version');
-                    })
-                    //console.log('allapi.apis.groups', allapi.apis.groups);
-                    return getapis ("/api/v1")
-                }).then(function (api) {
-
-                    allapi.api.k8s.resources.v1=arr2map(api.resources,'name');
-
-                    return getapis ("/oapi/v1")
-                }).then(function (oapi) {
-                    allapi.api.openshift.resources.v1=arr2map(oapi.resources,'name');
-                    //console.log('allapi', allapi);
-                    window.OPENSHIFT_CONFIG=allapi
-                })
 
                 window.OPENSHIFT_VERSION = {
                     openshift: "dev-mode",
@@ -384,9 +383,9 @@ define([
                         }
 
                     ];
-                    console.log('toState.name', toState.name);
+                    //console.log('toState.name', toState.name);
                     if (toState && toState.name) {
-                        console.log("toState.name.indexOf('_configMap')", toState.name.indexOf('_configMap'));
+                        //console.log("toState.name.indexOf('_configMap')", toState.name.indexOf('_configMap'));
                         $rootScope.console.state = toState.name;
                         if(toState.name == "login"){
                             User.get({name: '~', region: $rootScope.region}, function (res) {
