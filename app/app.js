@@ -90,8 +90,8 @@ define([
         signin_uri: '/signin',
         //host_webhooks: 'https://lab.new.dataos.io',
         host_webhooks: '<WEBHOOK_PREFIX>',
-        // service_url: '.new.dataos.io',
-        service_url: '<ROUTER_DOMAIN_SUFFIX>',
+         service_url: '.prd.dataos.io',
+        //service_url: '<ROUTER_DOMAIN_SUFFIX>',
         //internal_registry:'docker-registry.default.svc:5000',
         internal_registry: '<INTERNAL_REGISTRY_ADDR>',
         //service_url:'.cloud.new.dataos.io',
@@ -383,9 +383,9 @@ define([
                         }
 
                     ];
-                    console.log('toState.name', toState.name);
+                    //console.log('toState.name', toState.name);
                     if (toState && toState.name) {
-                        console.log("toState.name.indexOf('_configMap')", toState.name.indexOf('_configMap'));
+                        //console.log("toState.name.indexOf('_configMap')", toState.name.indexOf('_configMap'));
                         $rootScope.console.state = toState.name;
                         if(toState.name == "login"){
                             User.get({name: '~', region: $rootScope.region}, function (res) {
