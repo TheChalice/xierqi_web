@@ -43,30 +43,7 @@ angular.module('console.deployment_detail', [
                     return num + 'G'
                 }
             }
-            function united(num, type) {
-                var obj = {
-                    num: 0,
-                    unit: ''
-                };
-                if (type === 'cpu') {
-                    if (num.indexOf('m') !== -1) {
-                        obj.num = parseInt(num);
-                        obj.unit = 'millicores'
-                    } else {
-                        obj.num = parseInt(num);
-                        obj.unit = 'cores'
-                    }
-                } else if (type === 'memory') {
-                    if (num.indexOf('m') !== -1) {
-                        obj.num = parseInt(num);
-                        obj.unit = 'MB'
-                    } else {
-                        obj.num = parseInt(num);
-                        obj.unit = 'GB'
-                    }
-                }
-                return obj
-            }
+
             for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                 $scope.dc.spec.template.spec.containers[i].retract = true;
                 // console.log()
@@ -237,6 +214,7 @@ angular.module('console.deployment_detail', [
                 }
 
             };
+
             function preparehoriz(dc) {
                 var name = dc.metadata.name;
                 $scope.horiz.metadata.name = name;
@@ -364,7 +342,7 @@ angular.module('console.deployment_detail', [
                         }
                         con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
                         con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
-                    }else {
+                    } else {
                         delete con.livenessProbe
                     }
                     //可用性探测
@@ -476,19 +454,46 @@ angular.module('console.deployment_detail', [
                             $scope.institution.rubustCheck = true;
                             $scope.horiz = hor;
                         })
+                    };
+
+                    function united(num, type) {
+                        var obj = {
+                            num: 0,
+                            unit: ''
+                        };
+                        if (type === 'cpu') {
+                            if (num.indexOf('m') !== -1) {
+                                obj.num = parseInt(num);
+                                obj.unit = 'millicores'
+                            } else {
+                                obj.num = parseInt(num);
+                                obj.unit = 'cores'
+                            }
+                        } else if (type === 'memory') {
+                            if (num.indexOf('m') !== -1) {
+                                obj.num = parseInt(num);
+                                obj.unit = 'MB'
+                            } else {
+                                obj.num = parseInt(num);
+                                obj.unit = 'GB'
+                            }
+                        }
+                        return obj
                     }
+
                     Secret.get({namespace: $rootScope.namespace}, function (secrts) {
                         //console.log('secrts', secrts);
                         $scope.SecretList = angular.copy(secrts.items)
-                    })
+                    });
                     configmaps.get({namespace: $rootScope.namespace}, function (configs) {
                         //console.log('configs', configs);
                         $scope.ConfigMapList = angular.copy(configs.items)
-                    })
+                    });
                     persistent.get({namespace: $rootScope.namespace}, function (persistents) {
                         //console.log('persistents', persistents);
                         $scope.PersistentVolumeClaimList = angular.copy(persistents.items)
-                    })
+                    });
+
                     $scope.survey = function (idx) {
                         if ($scope.dc.spec.template.spec.containers[idx].doset) {
                             $scope.dc.spec.template.spec.containers[idx].doset = false;
@@ -526,7 +531,7 @@ angular.module('console.deployment_detail', [
                             // delete $scope.dc.spec.template.spec.containers[idx].livenessProbe;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].livenessFlag = true;
-                            if(!$scope.dc.spec.template.spec.containers[idx].livenessProbe){
+                            if (!$scope.dc.spec.template.spec.containers[idx].livenessProbe) {
                                 $scope.dc.spec.template.spec.containers[idx].livenesscheck = "HTTP";
                             }
                         }
