@@ -333,6 +333,7 @@ define(['angular'], function (angular) {
 
                             // check for invalid and unsupported object kind and version
                             var resourceGroupVersion = APIService.objectToResourceGroupVersion(item);
+                            console.log('resourceGroupVersion', resourceGroupVersion);
                             if (!resourceGroupVersion) {
                                 $scope.errorOccurred = true;
                                 $scope.error = {message: APIService.invalidObjectKindOrVersion(item)};
