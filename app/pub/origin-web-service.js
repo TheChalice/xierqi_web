@@ -4290,7 +4290,7 @@ define(['angular',
             var API_CFG = _.get(window.OPENSHIFT_CONFIG, "api", {})
             var APIS_CFG = _.get(window.OPENSHIFT_CONFIG, "apis", {})
 
-            console.log('window.OPENSHIFT_CONFIG', JSON.stringify(window.OPENSHIFT_CONFIG));
+            // console.log('window.OPENSHIFT_CONFIG', JSON.stringify(window.OPENSHIFT_CONFIG));
             // toResourceGroupVersion() returns a ResourceGroupVersion.
             // If resource is already a ResourceGroupVersion, returns itself.
             //
