@@ -997,7 +997,7 @@ angular.module('console.service.create', [
 
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
-                prepareEnv($scope.dc)
+                //prepareEnv($scope.dc)
                 $scope.err.horiz.maxerr = false;
                 $scope.err.port.null = false;
                 $scope.err.port.repeat = false;
