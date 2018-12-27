@@ -17,6 +17,28 @@ angular.module('console.pipeline', [
                 size: GLOBAL.size,
                 txt: ''
             };
+            const getJSON = function(url) {
+                const promise = new Promise(function(resolve, reject){
+                    const handler = function() {
+                        if (this.readyState !== 4) {
+                            return;
+                        }
+                        if (this.status === 200) {
+                            resolve(this.response);
+                        } else {
+                            reject(new Error(this.statusText));
+                        }
+                    };
+                    BuildConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+
+                    }, function (res) {
+
+                    });
+
+                });
+
+                return promise;
+            };
 
             $scope.$watch('grid.page', function (newVal, oldVal) {
                 if (newVal != oldVal) {
