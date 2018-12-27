@@ -102,14 +102,14 @@
                         <a ng-if="container.env.envArr.length>1" class="fa fa-times-circle fa-lg del-margin" ng-click="delenv(container,$index)" style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
                     </div>
                 </div>
-                <div  class="col-sm-12" ng-repeat="form in container.env.valueFormArr" ng-init="enterIndex = $index" style="padding-bottom: 10px;">
+                <div  class="col-sm-12" ng-repeat="form in container.env.valueFromArr" ng-init="enterIndex = $index" style="padding-bottom: 10px;">
                     <div class="col-sm-3 service-small-input">
                         <input ng-model="form.name" class="form-control service-small-input" type="text" placeholder="请输入“键”">
                     </div>
                     <div class="col-sm-4 service-small-input" style="margin-left:20px;">
                         <div class="dropdown dropdown-select col-sm-4" style="width:167px;height: 26px;">
                             <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;line-height:26px;padding: 0px 12px;">
-                                <span style="color: #333333;display: inline-block;width: 135px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ng-show="form.valueForm.secretKeyRef.name || form.valueForm.configMapKeyRef.name">{{form.valueForm.secretKeyRef.name || form.valueForm.configMapKeyRef.name}}</span>
+                                <span style="color: #333333;display: inline-block;width: 135px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ng-show="form.valueFrom.secretKeyRef.name || form.valueFrom.configMapKeyRef.name">{{form.valueFrom.secretKeyRef.name || form.valueFrom.configMapKeyRef.name}}</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu"
@@ -126,7 +126,7 @@
                     <div class="col-sm-4 service-small-input" style="margin-left:20px;">
                         <div class="dropdown dropdown-select col-sm-4" style="width:167px;height: 26px;">
                             <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;line-height:26px;padding: 0px 12px;">
-                                <span style="color: #333333;display: inline-block;width: 135px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ng-show="form.valueForm.secretKeyRef.key || form.valueForm.configMapKeyRef.key">{{form.valueForm.secretKeyRef.key || form.valueForm.configMapKeyRef.key}}</span>
+                                <span style="color: #333333;display: inline-block;width: 135px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ng-show="form.valueFrom.secretKeyRef.key || form.valueFrom.configMapKeyRef.key">{{form.valueFrom.secretKeyRef.key || form.valueFrom.configMapKeyRef.key}}</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu"
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                     <div class="col-sm-1" style="padding-left:15px">
-                        <a ng-if="container.env.valueFormArr.length>1" class="fa fa-times-circle fa-lg del-margin" ng-click="delenvSecret(container,$index)" style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
+                        <a ng-if="container.env.valueFromArr.length>1" class="fa fa-times-circle fa-lg del-margin" ng-click="delenvSecret(container,$index)" style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
                     </div>
                 </div>
 

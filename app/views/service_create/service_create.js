@@ -98,7 +98,7 @@ angular.module('console.service.create', [
                     "name": '',
                     "image": '',
                     //'env': [],
-                    'env': {envArr:[{name: '', value: ''}],valueFormArr:[{name:'',valueForm:{secretKeyRef:{name:'',key:''}}}]},
+                    'env': {envArr:[{name: '', value: ''}],valueFromArr:[{name:'',valueFrom:{secretKeyRef:{name:'',key:''}}}]},
                     volments: {
                         //secret: [{secretName: '', mountPath: ''}],
                         //configMap: [{name: '', mountPath: ''}],
@@ -295,18 +295,18 @@ angular.module('console.service.create', [
             $scope.hasport = false;
             $scope.changeEnvSectrt = function(con,list,idx){
                 if(list.type == 'ConfigMap'){
-                    con.env.valueFormArr[idx].valueForm = {configMapKeyRef:{name:list.metadata.name,key:''}}
+                    con.env.valueFromArr[idx].valueFrom = {configMapKeyRef:{name:list.metadata.name,key:''}}
                 }else{
-                    con.env.valueFormArr[idx].valueForm = {secretKeyRef:{name:list.metadata.name,key:''}}
+                    con.env.valueFromArr[idx].valueFrom = {secretKeyRef:{name:list.metadata.name,key:''}}
                 }
                 $scope.secretsListData = list.data;
 
             }
             $scope.changeEnvData = function(con,key,idx){
-                if(con.env.valueFormArr[idx].valueForm.configMapKeyRef){
-                    con.env.valueFormArr[idx].valueForm.configMapKeyRef.key = key
+                if(con.env.valueFromArr[idx].valueFrom.configMapKeyRef){
+                    con.env.valueFromArr[idx].valueFrom.configMapKeyRef.key = key
                 }else{
-                    con.env.valueFormArr[idx].valueForm.secretKeyRef.key = key
+                    con.env.valueFromArr[idx].valueFrom.secretKeyRef.key = key
                 }
             }
             $scope.dc = {
@@ -341,7 +341,7 @@ angular.module('console.service.create', [
                                 retract: true,
                                 "name": '',
                                 "image": '',
-                                'env': {envArr:[{name: '', value: ''}],valueFormArr:[{name:'',valueForm:{secretKeyRef:{name:'',key:''}}}]},
+                                'env': {envArr:[{name: '', value: ''}],valueFromArr:[{name:'',valueFrom:{secretKeyRef:{name:'',key:''}}}]},
                                 volments: {
                                     //secret: [{secretName: '', mountPath: ''}],
                                     //configMap: [{name: '', mountPath: ''}],
@@ -768,26 +768,26 @@ angular.module('console.service.create', [
             function prepareEnv(dc) {
                 angular.forEach(dc.spec.template.spec.containers, function (item, i) {
                     var envs = item.env.envArr;
-                    var valueForm = item.env.valueFormArr;
+                    var valueFrom = item.env.valueFromArr;
                     for(var i=envs.length-1;i>=0;i--){
                         if (!envs[i].name || !envs[i].value) {
                             envs.splice(i, 1);
                         }
                     }
-                    for(var i=valueForm.length-1;i>=0;i--){
-                        if(valueForm[i].valueForm.secretKeyRef){
-                            if (!valueForm[i].name ||!valueForm[i].valueForm.secretKeyRef.key||!valueForm[i].valueForm.secretKeyRef.name) {
-                                valueForm.splice(i, 1);
+                    for(var i=valueFrom.length-1;i>=0;i--){
+                        if(valueFrom[i].valueFrom.secretKeyRef){
+                            if (!valueFrom[i].name ||!valueFrom[i].valueFrom.secretKeyRef.key||!valueFrom[i].valueFrom.secretKeyRef.name) {
+                                valueFrom.splice(i, 1);
                             }
                         }
-                        if(valueForm[i].valueForm.configMapKeyRef){
-                            if (!valueForm[i].name ||!valueForm[i].valueForm.configMapKeyRef.key||!valueForm[i].valueForm.configMapKeyRef.name) {
-                                valueForm.splice(i, 1);
+                        if(valueFrom[i].valueFrom.configMapKeyRef){
+                            if (!valueFrom[i].name ||!valueFrom[i].valueFrom.configMapKeyRef.key||!valueFrom[i].valueFrom.configMapKeyRef.name) {
+                                valueFrom.splice(i, 1);
                             }
                         }
 
                     }
-                    item.env = item.env.envArr.concat(item.env.valueFormArr);
+                    item.env = item.env.envArr.concat(item.env.valueFromArr);
                     if (item.env.length <= 0) {
                         delete item.env
                     }
@@ -1303,14 +1303,14 @@ angular.module('console.service.create', [
                         con.env.envArr.push({name: '', value: ''})
                     }
                     $scope.addenvSecret = function (con) {
-                        con.env.valueFormArr.push({name:'',valueForm:{secretKeyRef:{name:'',key:''}}})
+                        con.env.valueFromArr.push({name:'',valueFrom:{secretKeyRef:{name:'',key:''}}})
                     }
 
                     $scope.delenv = function (con, idx) {
                         con.env.envArr.splice(idx, 1);
                     }
                     $scope.delenvSecret = function (con, idx) {
-                        con.env.valueFormArr.splice(idx, 1);
+                        con.env.valueFromArr.splice(idx, 1);
                     }
                 }],
         };
