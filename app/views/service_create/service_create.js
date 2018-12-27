@@ -775,12 +775,12 @@ angular.module('console.service.create', [
                         }
                     }
                     for(var i=valueFrom.length-1;i>=0;i--){
-                        if(valueFrom[i].valueFrom.secretKeyRef){
+                        if(valueFrom[i] && valueFrom[i].valueFrom.secretKeyRef){
                             if (!valueFrom[i].name ||!valueFrom[i].valueFrom.secretKeyRef.key||!valueFrom[i].valueFrom.secretKeyRef.name) {
                                 valueFrom.splice(i, 1);
                             }
                         }
-                        if(valueFrom[i].valueFrom.configMapKeyRef){
+                        if(valueFrom[i] && valueFrom[i].valueFrom.configMapKeyRef){
                             if (!valueFrom[i].name ||!valueFrom[i].valueFrom.configMapKeyRef.key||!valueFrom[i].valueFrom.configMapKeyRef.name) {
                                 valueFrom.splice(i, 1);
                             }
