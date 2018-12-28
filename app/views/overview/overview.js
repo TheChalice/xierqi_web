@@ -49,7 +49,12 @@ angular.module('overview', [
             $scope.deploymentItem = Sort.sort($scope.deploymentItem, -1)
             ServiceTenant.query({tenantId: Cookie.get('namespace')}, function (data) {
                 console.log('ServiceTenant', data);
-                $scope.ServiceTenant = data;
+               $scope.ServiceTenant = [];
+                angular.forEach(data, function (item,i) {
+                    if (item.category && item.category !== 'tool') {
+                        $scope.ServiceTenant.push(item)
+                    }
+                })
             }, function (res) {
                 //todo 错误处理
             });
