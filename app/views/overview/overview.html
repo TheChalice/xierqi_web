@@ -129,7 +129,7 @@
                             <th class="table-name">限额</th>
                             <th class="table-name">访问</th>
                         </tr>
-                        <tr ng-repeat="service in ServiceTenant">
+                        <tr ng-repeat="service in toolTenant">
                             <td data-title="名称" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
                                 <div>{{service.instanceName}}</div>
                             </td>
@@ -143,7 +143,7 @@
                             </td>
                             <td data-title="限额">
                                 <div>
-                                    {{service.status}}
+                                    {{service.quota}}
                                 </div>
                             </td>
                             <td data-title="访问">
@@ -151,7 +151,7 @@
                             </td>
                         </tr>
                         <tr class="df_blank">
-                            <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="ServiceTenant.length===0">
+                            <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="toolTenant.length===0">
                                 <div class="blank_block" style="width: 50%;"> <span class="blank_pic"></span> <span class="blank_tit">暂无数据 </span>
                                 </div>
                             </td>
