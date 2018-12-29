@@ -59,7 +59,7 @@ angular.module('overview', [
                 //todo 错误处理
             });
             ToolTenant.query({tenantId: Cookie.get('namespace')}, function (data) {
-                console.log('ToolTenant', data);
+                $scope.toolTenant = data;
             }, function (res) {
                 //todo 错误处理
             });
