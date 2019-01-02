@@ -588,6 +588,9 @@ angular.module('console.deploymentconfig_detail', [
                 })
 
             };
+            $scope.editYamlFun = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.dc.metadata.name,type: 'deploymentconfigs'});
+            };
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });

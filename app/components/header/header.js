@@ -497,6 +497,8 @@ angular.module("console.header", [{
                 return "镜像详情";
             case "console.import_from_file":
                 return "导入yaml";
+            case "console.edit_yaml_file":
+                return "编辑yaml";
             case "console.replication":
                 return "rc详情";
             case "console.replicaset":

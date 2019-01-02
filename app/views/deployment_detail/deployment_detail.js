@@ -11,8 +11,8 @@ angular.module('console.deployment_detail', [
         ]
     }
 ])
-    .controller('DeploymentDetailCtrl', ['Deployments', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', 'myreplicaSet',
-        function (Deployments, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, myreplicaSet) {
+    .controller('DeploymentDetailCtrl', ['$state','Deployments', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', 'myreplicaSet',
+        function ($state,Deployments, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, myreplicaSet) {
             $scope.dc = angular.copy(mydc);
             $scope.resourcesunit = {
                 mincpu: 'millicores',
@@ -409,6 +409,9 @@ angular.module('console.deployment_detail', [
                     }
                     updatedcput($scope.dc)
                 })
+            };
+            $scope.editYamlFun = function () {
+                    $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.dc.metadata.name,type: 'deployment'});
             };
             $scope.deployDc = function () {
                 var sendobj = {
