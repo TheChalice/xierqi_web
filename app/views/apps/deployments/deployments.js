@@ -303,10 +303,12 @@ angular.module('console.deployments', [{
 
             function addrs(dc) {
                 if (dc) {
-                    angular.forEach(dc, function(item, i) {
-                        angular.forEach(ReplicaSet.items, function(replics) {
-                            if (item.metadata.annotations['deployment.kubernetes.io/revision'] === replics.metadata.annotations['deployment.kubernetes.io/revision']) {
-                                item.rs = replics || {}
+                    angular.forEach(dc, function (item, i) {
+                        angular.forEach(ReplicaSet.items, function (replics) {
+                            if (item.metadata.annotations && replics.metadata.annotations){
+                                if (item.metadata.annotations['deployment.kubernetes.io/revision'] === replics.metadata.annotations['deployment.kubernetes.io/revision']) {
+                                    item.rs = replics || {}
+                                }
                             }
                         })
                     })
