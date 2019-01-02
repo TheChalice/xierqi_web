@@ -296,7 +296,7 @@ define(['angular'], function (angular) {
                                     }
                                 );
                             }
-                            $state.go("console.dashboard", {namespace: $rootScope.namespace});
+                            $state.go("console.import_to_file", {namespace: $rootScope.namespace});
                         }
 
                         // Redirect to newFromTemplate page in case the resource type is Template and user wants to process it.

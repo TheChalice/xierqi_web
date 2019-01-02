@@ -1,0 +1,9 @@
+pre.code {
+    border: none;
+    border-left: 2px solid #ccc;
+    background-color: #fff;
+}
+code, div.code, kbd, pre, samp {
+    font-family: Menlo,Monaco,Consolas,monospace;
+}
+
