@@ -888,11 +888,22 @@ define([
                         ]
                     }
                 })//ok
-
-
-
-
-
+                //导入成功
+                .state('console.import_to_file', {
+                    url: '/:namespace/import',
+                    templateUrl: 'views/import_to_file/import_to_file.html',
+                    controller: 'ImportToFileCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/import_to_file/import_to_file.js'])
+                        }],
+                        project: ['Project', 'Cookie',
+                            function (Project, Cookie) {
+                                return Project.get({name: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })//ok
                 //resource management
                 .state('console.create_pipeline', {
                     url: '/:namespace/create_pipeline',
