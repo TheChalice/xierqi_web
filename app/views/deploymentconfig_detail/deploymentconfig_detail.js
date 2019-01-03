@@ -38,21 +38,23 @@ angular.module('console.deploymentconfig_detail', [
                     return num + 'G'
                 }
             }
-
-            for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
-                $scope.dc.spec.template.spec.containers[i].env = {envArr:[],valueFromArr:[]}
-                if(mydc.spec.template.spec.containers[i].env){
-                    for (var x = 0; x < mydc.spec.template.spec.containers[i].env.length; x++) {
-                        if(mydc.spec.template.spec.containers[i].env[x].valueFrom){
-                            $scope.dc.spec.template.spec.containers[i].env.valueFromArr.push(mydc.spec.template.spec.containers[i].env[x])
-                        }else{
-                            $scope.dc.spec.template.spec.containers[i].env.envArr.push(mydc.spec.template.spec.containers[i].env[x])
+            var checkedEnv = function(curDc){
+                for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
+                    $scope.dc.spec.template.spec.containers[i].env = {envArr:[],valueFromArr:[]}
+                    if(curDc.spec.template.spec.containers[i].env){
+                        for (var x = 0; x < curDc.spec.template.spec.containers[i].env.length; x++) {
+                            if(curDc.spec.template.spec.containers[i].env[x].valueFrom){
+                                $scope.dc.spec.template.spec.containers[i].env.valueFromArr.push(curDc.spec.template.spec.containers[i].env[x])
+                            }else{
+                                $scope.dc.spec.template.spec.containers[i].env.envArr.push(curDc.spec.template.spec.containers[i].env[x])
+                            }
                         }
                     }
-                }
 
-                $scope.dc.spec.template.spec.containers[i].retract = true;
+                    $scope.dc.spec.template.spec.containers[i].retract = true;
+                }
             }
+            checkedEnv(mydc)
             console.log('$scope.dc-----', $scope.dc);
             $scope.mytag = angular.copy(mytag);
             $scope.err = {
@@ -244,6 +246,7 @@ angular.module('console.deploymentconfig_detail', [
                     //     item.spec.template.spec.containers[i].retract = true;
                     // })
                     $scope.dc = angular.copy(res);
+                    checkedEnv(res)
                     $scope.loaddirs.loadcon()
                 }, function (res) {
 
@@ -305,7 +308,36 @@ angular.module('console.deploymentconfig_detail', [
             //    }
             //
             //}
+            function prepareEnv(dc) {
+                angular.forEach(dc.spec.template.spec.containers, function (item, i) {
+                    var envs = item.env.envArr;
+                    var valueFrom = item.env.valueFromArr;
+                    for (var i = envs.length - 1; i >= 0; i--) {
+                        if (!envs[i].name || !envs[i].value) {
+                            envs.splice(i, 1);
+                        }
+                    }
+                    for (var i = valueFrom.length - 1; i >= 0; i--) {
+                        if (valueFrom[i] && valueFrom[i].valueFrom.secretKeyRef) {
+                            if (!valueFrom[i].name || !valueFrom[i].valueFrom.secretKeyRef.key || !valueFrom[i].valueFrom.secretKeyRef.name) {
+                                valueFrom.splice(i, 1);
+                            }
+                        }
+                        if (valueFrom[i] && valueFrom[i].valueFrom.configMapKeyRef) {
+                            if (!valueFrom[i].name || !valueFrom[i].valueFrom.configMapKeyRef.key || !valueFrom[i].valueFrom.configMapKeyRef.name) {
+                                valueFrom.splice(i, 1);
+                            }
+                        }
+
+                    }
+                    item.env = item.env.envArr.concat(item.env.valueFromArr);
+                    if (item.env.length <= 0) {
+                        delete item.env
+                    }
+                })
+            }
             $scope.updateDc = function () {
+                prepareEnv($scope.dc)
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true;
                 var isValid = true;
@@ -672,7 +704,7 @@ angular.module('console.deploymentconfig_detail', [
                         //var num = 0;
                         //num = num + 1;
                         var tmp = angular.copy($scope.dc.spec.template.spec.containers[$scope.dc.spec.template.spec.containers.length - 1]);
-                        tmp.env = [];
+                        tmp.env = {envArr:[{name: '', value: ''}],valueFromArr:[{name:'',valueFrom:{secretKeyRef:{name:'',key:''}}}]};
                         tmp.doset = false;
                         tmp.volment = false;
                         tmp.display = true;
