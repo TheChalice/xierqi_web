@@ -330,10 +330,10 @@
 
 .load_IN_PROGRESS {
     background: #E5E9F2;
-    animation: loadSUCCESS 1s linear forwards;
+    animation: loadINPROGRESS 1s linear forwards;
 }
 
-@keyframes loadSUCCESS {
+@keyframes loadINPROGRESS {
     to {
         background-color: #47B2FB
     }

@@ -4,44 +4,40 @@
     <div class="tittle">
         <h3 class="df_tit">部署详情</h3>
     </div>
-
     <div class="row condigmaarginbottom" style="margin-left:0px;font-size:12px;">
-        <div class="col-md-12 bushu_marginBottom">
+        <div class="col-md-12" style="padding-left: 0;">
             <div class="col-md-2 col-md-2_padding df_jl_set">选择器:</div>
             <div class="col-md-10 df_jl_pd">app = {{dc.metadata.name}}
                 <br/> deployment = {{dc.metadata.name}}
             </div>
         </div>
-        <div class="col-md-12 bushu_marginBottom">
+        <div class="col-md-12" style="padding-left: 0;">
             <div class="col-md-2 col-md-2_padding df_jl_set">策略:</div>
             <div class="col-md-10 df_jl_pd">{{dc.spec.strategy.type}}</div>
         </div>
-        <!--<div class="col-md-12 bushu_marginBottom">-->
-        <!--<div class="col-md-2 col-md-2_padding">Max Unavailable:</div>-->
-        <!--<div class="col-md-10">{{dc.spec.strategy.rollingUpdate.maxUnavailable}}</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-12">-->
-        <!--<div class="col-md-2 col-md-2_padding">Max Surge:</div>-->
-        <!--<div class="col-md-10">{{dc.spec.strategy.rollingUpdate.maxSurge}}</div>-->
-        <!--</div>-->
     </div>
     <div class="row condigmaarginbottom">
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding-left: 0;">
             <div class="col-md-2 col-md-2_padding tittle">
                 <h3 class="df_tit">弹性伸缩设置</h3>
             </div>
-            <!-- <div class="col-md-10">
-                <checkbox-small checked="quota.rubustCheck"></checkbox-small>
-            </div> -->
-            <!--<h3>弹性伸缩 </h3>-->
-
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding-left: 0;">
             <div class="col-md-2 col-md-2_padding tittle" style="width:120px;">
                 <span class="config_tit">执行</span>
             </div>
             <div class="col-md-10">
-                <checkbox-small checked="quota.rubustCheck"></checkbox-small>
+                <!--<checkbox-small checked="quota.rubustCheck"></checkbox-small>-->
+                <div class="col-sm-12" style="padding-left: 0;">
+                    <span class="my-checkbox">
+                        <span class="checkbox-check" ng-class="{active: institution.rubustCheck}" ng-click="creathoriz(institution.rubustCheck)" >
+                            <span class="check-btn"></span>
+                        </span>
+                    </span>
+                    <small ng-if="err.horiz.openerr" class="fa fa-info-circle err-tip err">
+                        请确保加入配额
+                    </small>
+                </div>
             </div>
 
         </div>
@@ -50,51 +46,43 @@
         <div class="config_main">
             <div class="col-md-2 col-md-2_padding tittle" style="width: 120px;"></div>
             <div class="col-md-10">
-                <div class="podlist" style="margin-left: 0;">
+                <div class="podlist">
                     <p class="tit_num">Pod数量</p>
-                    <input class="podnum" ng-model="dc.spec.replicas" name="cdm" type="text" placeholder="数字必须为正整数"
-                           style="">
+                    <input class="podnum"
+                           ng-model="dc.spec.replicas"
+                           ng-class="{'input-error':err.horiz.maxerr}"
+                           ng-keyup="mustnum($event,horiz.spec.replicas,10)"
+                           type="text" placeholder="{{dc.spec.replicas}}">
                 </div>
 
-                <div class="podlist" ng-show="quota.rubustCheck">
+                <div class="podlist" ng-show="institution.rubustCheck">
                     <p class="tit_num">Pod最大数量</p>
-                    <input class="podnum" ng-model="horiz.spec.maxReplicas" value="{{dc.spec.replicas}}" type="text"
-                           placeholder="数字必须为正整数" style="">
+                    <input class="podnum" ng-model="horiz.spec.maxReplicas"
+                           ng-class="{'input-error':err.horiz.maxerr}"
+                           ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)"
+                           type="text" placeholder="{{dc.spec.replicas}}">
 
                 </div>
 
-                <div class="podlist" ng-show="quota.rubustCheck">
+                <div class="podlist" ng-show="institution.rubustCheck">
                     <p class="tit_num">CPU阀值</p>
-                    <input class="podnum" ng-model="horiz.spec.targetCPUUtilizationPercentage"
+                    <input class="podnum"
+                           ng-model="horiz.spec.targetCPUUtilizationPercentage"
                            ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
-                           type="text" placeholder="数字必须为正整数" style="">
-                    <span class="baifen">%</span>
-
+                           style="width: 100%;display: inline-block"
+                           type="text" placeholder="80">
                 </div>
-
-
+                <span class="baifen" ng-show="institution.rubustCheck">%</span>
             </div>
-
-
         </div>
-
-
     </div>
-
     <div class="row condigmaarginbottom">
         <div class="col-sm-12">
             <div class="tittle">
                 <h3 class="df_tit">自动部署</h3>
             </div>
-            <!-- <label ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange"
-                   style="cursor: pointer;">
-                <i class="faa faa-check"></i>
-                &nbsp;&nbsp;配置变化触发自动部署
-            </label> -->
-            <!--<i class="faa faa-check"></i>-->
-            <!--&nbsp;&nbsp;配置变化触发自动部署-->
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding-left: 0;">
             <div class="col-md-2 col-md-2_padding tittle" style="width:120px;">
                 <span class="config_tit">部署执行</span>
             </div>
@@ -105,7 +93,6 @@
                     配置变化触发自动部署
                 </label>
             </div>
-
         </div>
     </div>
     <div class="continerboxs">
@@ -152,14 +139,6 @@
                                     &nbsp;&nbsp;公有
                                 </label>
                             </div>
-
-
-                            <!-- <div style="display: inline-block; float: right;" ng-show="dc.spec.template.spec.containers.length>1">
-                    <a class="fa fa-lg fa-times-circle" style="color: #9fa7b7;" ng-click="rmContainer($index)"
-                       href="javascript:;"></a>
-                </div> -->
-
-
                             <div ng-show="container.display">
                                 <div class="dropdown dropdown-select" style="min-width:170px;height: 26px;">
                                     <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -174,7 +153,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <span class="biaodian">
+                                <span class="biaodian" style="float: left;">
                                     :
                                 </span>
                                 <div class="dropdown dropdown-select" style="min-width:170px;height: 26px;">
@@ -197,8 +176,6 @@
                                        ng-model="container.annotate.regimage"
                                        class="form-control input-block foucsinput" name="name" class="form-control">
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -217,34 +194,10 @@
                                     </span>
                                 </span>
 
-                            <div ng-if="container.doset" class="row">
-                                <div class="mt10" style="padding-left: 0; float:left;">
+                            <div ng-if="container.doset" class="row" style="margin-left: 0;">
+                                <div class="mt10" style="padding-left: 0; float:left;margin-left: 0;">
                                     <div>
-                                        <!-- <br/> -->
-                                        <!-- <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
-                                        <!-- <br/> -->
                                         <p class="df_config_tit">类型</p>
-                                        <!-- <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                            <div class="dropdown dropdown-select open" style="width: 627px;">
-                                <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                    <span>{{container.dosetcon}}</span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="javascript:;" ng-click="container.dosetcon = 'HTTP'">{{'HTTP'}}</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" ng-click="container.dosetcon = '命令'">{{'命令'}}</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" ng-click="container.dosetcon = 'TCP'">{{'TCP'}}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div> -->
-
-
                                         <div class="" style="padding-top: 5px;padding-left:0px;">
                                             <div class="dropdown dropdown-select open" style="width:167px;">
                                                 <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -264,26 +217,12 @@
                                                 </ul>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
-
-
                                 <div class="dohttp" ng-if="container.dosetcon === 'HTTP'" style="float:left;">
                                     <div class=" mt10" style="padding-left: 0;float:left;">
                                         <div style="float:left;">
-
-                                            <!-- <label style="font-size: 14px; font-weight: normal;padding-left: 0;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
                                             <p class="df_config_tit">路径</p>
-                                            <!-- <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                <input type="text" name="candopath"
-                                       class="form-control" style="width: 627px;font-size: 12px;"
-                                       ng-model="container.readinessProbe.httpGet.path"
-                                       required
-                                       placeholder="/"/>
-                            </div> -->
-
                                             <div class="" style="padding-top: 5px;padding-left:0px;">
                                                 <input type="text" name="candopath" class="form-control"
                                                        style="font-size: 12px;width:167px;height:26px;"
@@ -296,20 +235,7 @@
                                     </div>
                                     <div class=" mt10" style="padding-left: 0;float:left;">
                                         <div>
-
-                                            <!-- <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
                                             <p class="df_config_tit">端口</p>
-                                            <!-- <div class="col-md-11" style="padding-left: 0;">
-                                <input type="text" name="candopath"
-                                       class="form-control" style="width: 627px;font-size: 12px;"
-                                       ng-model="container.readinessProbe.httpGet.port"
-                                       min="0"
-                                       max="65535"
-                                       ng-pattern="/^\d+$/"
-                                       required
-                                       placeholder=""/>
-                            </div> -->
-
                                             <div class="" style="padding-left: 0;padding-top:5px;">
                                                 <input type="text" name="candopath" class="form-control"
                                                        style="font-size: 12px;width:167px;height:26px;"
@@ -317,8 +243,6 @@
                                                        min="0" max="65535" ng-pattern="/^\d+$/" required
                                                        placeholder=""/>
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -333,7 +257,7 @@
                                                  ng-init="innerindex=$index">
                                                 <div class="col-md-12" style="padding-top: 5px;">
                                                     <input type="text" name="candoname" class="form-control"
-                                                           style="width: 627px;font-size: 12px;" ng-model=com.key
+                                                           style="width: 167px;font-size: 12px;" ng-model=com.key
                                                            required
                                                            placeholder=""/>
 
@@ -351,20 +275,7 @@
                                 <div class="dohttp" ng-if="container.dosetcon === 'TCP'" style="float:left;">
                                     <div class=" mt10" style="padding-left: 0;">
                                         <div>
-
-                                            <!-- <label style="font-size: 14px; font-weight: normal;padding-left: 0;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
                                             <p class="df_config_tit">端口</p>
-                                            <!-- <div class="col-md-11" style="padding-left: 0;">
-                                <input type="text" name="candopath"
-                                       class="form-control" style="width: 627px;font-size: 12px;"
-                                       ng-model="container.readinessProbe.tcpSocket.port"
-                                       min="0"
-                                       max="65535"
-                                       ng-pattern="/^\d+$/"
-                                       required
-                                       placeholder=""/>
-                            </div> -->
-
                                             <div style="padding-left:0px;padding-top: 5px;">
                                                 <input type="text" name="candopath" class="form-control"
                                                        style="font-size: 12px;width:167px;height:26px;"
@@ -372,10 +283,7 @@
                                                        min="0" max="65535" ng-pattern="/^\d+$/" required
                                                        placeholder=""/>
                                             </div>
-
-
                                             <br>
-
                                         </div>
                                     </div>
                                 </div>
@@ -384,7 +292,159 @@
                         </div>
                     </div>
                 </div>
-                <!--  -->
+                <!--配额限制   -->
+                <div class="clear"></div>
+                <div style="margin-top: 10px">
+                    <div class="df_block_set">
+                        <div class="df_block_left">
+                            配额限制
+                        </div>
+                        <deployment-set-quota></deployment-set-quota>
+                    </div>
+                </div>
+                <!-- 健康检查-->
+                <div class="clear"></div>
+                <div style="margin-top: 10px">
+                    <div class="df_block_set">
+                        <div class="df_block_left">
+                            健康检查
+                        </div>
+                        <div class="df_block_right" style="width: 700px;">
+                            <span class="my-checkbox" style="margin-bottom:4px;">
+                                <span class="checkbox-check usetest" ng-class="{active: container.livenessFlag}"
+                                      ng-click="openLivePro(outerIndex)">
+                                    <span class="check-btn"></span>
+                                </span>
+                             </span>
+                            <div ng-show="container.livenessFlag" class="row" style="margin-left: 0;">
+                                <div class="" style="float:left;width: 700px;">
+                                    <div class="col-sm-3" style="padding:0px; width:167px;">
+                                        <p style="margin:5px 0px">类型</p>
+                                        <div class="dropdown dropdown-select" style="width:100%">
+                                            <span class="btn dropdown-toggle" data-toggle="dropdown" ng-blur="false">
+                                                 <span>{{container.livenesscheck}}</span>
+                                                 <span class="caret"></span>
+                                            </span>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       ng-click="container.livenesscheck= 'HTTP'">{{'HTTP'}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       ng-click="container.livenesscheck= 'TCP'">{{'TCP'}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       ng-click="container.livenesscheck = '命令'">{{'命令'}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-3" style="width:105px;padding: 0;margin-left: 25px;"
+                                         ng-show="container.livenesscheck=== 'HTTP'">
+                                        <p>&nbsp;</p>
+                                        <p>
+                                            <label ng-class="{'active':container.livenesshttpscheck}"
+                                                   ng-click="container.livenesshttpscheck = !container.livenesshttpscheck"
+                                                   style="cursor: pointer;">
+                                                <i class="faa faa-check"></i>
+                                            </label>
+                                            <span>使用HTTPS</span>
+                                        </p>
+
+                                    </div>
+                                    <div class="col-sm-3" style="width:167px;padding:0px;position: relative;"
+                                         ng-show="container.livenesscheck=== 'HTTP'">
+                                        <p style="margin:5px 0px">路径</p>
+                                        <p>
+                                            <input class="form-control" style="font-size: 12px;width:167px;height:26px;"
+                                                   ng-model="container.livenessProbe.httpGet.path"
+                                                   type="text"
+                                                   placeholder="/">
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-3" style="width:167px;padding-left: 0;margin-left: 25px;"
+                                         ng-if="container.livenesscheck=== 'HTTP' ">
+                                        <p style="margin:5px 0px">端口</p>
+                                        <p style="position: relative;">
+                                            <input class="form-control"
+                                                   style="font-size: 12px;width:167px;height:26px;"
+                                                   onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)"
+                                                   ng-model="container.livenessProbe.httpGet.port"
+                                                   type="text"
+                                                   ng-class="{'inputError':container.livenessProbeFlag.httpPort || container.livenessProbeFlag.errorText}"
+                                                   placeholder="">
+                                            <small ng-if="container.livenessProbeFlag.httpPort"
+                                                   class="fa fa-info-circle err-tip err-position">不能为空
+                                            </small>
+                                            <small ng-if="container.livenessProbeFlag.errorText"
+                                                   class="fa fa-info-circle err-tip err-position">端口不合法
+                                            </small>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-3" style="width:167px;padding-left: 0;margin-left: 25px;"
+                                         ng-if="container.livenesscheck=== 'TCP'">
+                                        <p style="margin:5px 0px">端口</p>
+                                        <p style="position: relative;">
+                                            <input class="form-control" style="font-size: 12px;width:167px;height:26px;"
+                                                   ng-model="container.livenessProbe.tcpSocket.port"
+                                                   type="text"
+                                                   onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)"
+                                                   ng-class="{'inputError':container.livenessProbeFlag.tcpPort || container.livenessProbeFlag.errorText}"
+                                                   placeholder="">
+                                            <small ng-if="container.livenessProbeFlag.tcpPort"
+                                                   class="fa fa-info-circle err-tip err-position">不能为空
+                                            </small>
+                                            <small ng-if="container.livenessProbeFlag.errorText"
+                                                   class="fa fa-info-circle err-tip err-position">端口不合法
+                                            </small>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-3" style="width:167px;padding-left: 0;margin-left: 25px;"
+                                         ng-if="container.livenesscheck=== '命令'">
+                                        <p style="margin:5px 0px">命令</p>
+                                        <div style="position: relative">
+                                            <div ng-repeat="com in container.livenessProbe.exec.command">
+                                                <input type="text" name="candoname"
+                                                       class="form-control"
+                                                       style="font-size: 12px;width:167px;height:26px;border: solid 1px #ccd5e0;margin-bottom: 5px;"
+                                                       ng-model=com.key required
+                                                       ng-class="{'inputError':container.livenessProbeFlag.execFlag}"
+                                                       placeholder=""/>
+                                            </div>
+                                            <small ng-if="container.livenessProbeFlag.execFlag"
+                                                   class="fa fa-info-circle err-tip err-position">不能为空
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="" style="float:left;width: 700px;">
+                                    <div class="col-sm-3" style="width:167px;padding: 0px;">
+                                        <p style="margin:5px 0px">初始延迟</p>
+                                        <p><input class="form-control"
+                                                  ng-model="container.livenessProbe.initialDelaySeconds"
+                                                  onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)"
+                                                  type="text" placeholder="1"
+                                                  style="width: 85%;margin-right:10px;display: inline-block;font-size: 12px;height:26px;">秒
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-3" style="width:167px;padding: 0px;margin-left:25px">
+                                        <p style="margin:5px 0px">超时</p>
+                                        <p><input class="form-control" ng-model="container.livenessProbe.timeoutSeconds"
+                                                  onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)"
+                                                  type="num" placeholder="1"
+                                                  style="width: 85%;margin-right:10px;display: inline-block;font-size: 12px;height:26px;">秒
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -->
                 <div class="clear"></div>
                 <div style="margin-top: 5px">
                     <div class="df_block_set">
@@ -557,7 +617,7 @@
                     <div class="df_block_set">
                         <div class="df_block_left">环境变量</div>
                         <div class="df_block_right" style="margin-bottom:20px;">
-                                    <span style="font-size: 14px;font-weight: 300; cursor: pointer; color:#47B2FB;margin-left: 10px;"
+                                    <span style="font-size: 14px;font-weight: 300; cursor: pointer; color:#47B2FB;"
                                           ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
                                         <i style="font-style: normal;font-size:12px;"
                                            ng-show="!container.annotate.isShowEnv">展开</i>
@@ -671,7 +731,7 @@
 
     #service_config .dropdown-toggle {
         height: 26px;
-        padding-top: 3px;
+        /*padding-top: 3px;*/
     }
 
     #service_config .dropdown-select > .btn .caret {
@@ -684,7 +744,7 @@
 
     .service-config .podnum {
         width: 168px;
-        height: 30px;
+        height: 26px;
         padding: 6px 12px;
         margin-left: 10px;
         border-radius: 4px;

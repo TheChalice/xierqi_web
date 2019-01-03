@@ -291,6 +291,21 @@ define([
 
             return Deployments;
         }])
+        //edit yaml
+        .factory('EditYamlDeployment', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var EditYamlDeployment = $resource(GLOBAL.host_newk8s1 + '/namespaces/:namespace/deployments/:name', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {});
+            return EditYamlDeployment;
+        }])
+        .factory('EditYamlDeploymentConfigs', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var EditYamlDeploymentConfigs = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {});
+            return EditYamlDeploymentConfigs;
+        }])
         .factory('ScaleRs', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ScaleRs = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/deployments/:name/scale', {
                 name: '@name',
@@ -1033,5 +1048,4 @@ define([
             }, { create: { method: 'POST' }});
             return tempipline;
         }])
-
 });

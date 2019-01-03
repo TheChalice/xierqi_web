@@ -888,7 +888,47 @@ define([
                         ]
                     }
                 })//ok
-
+                //导入成功
+                .state('console.import_to_file', {
+                    url: '/:namespace/import',
+                    templateUrl: 'views/import_to_file/import_to_file.html',
+                    controller: 'ImportToFileCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/import_to_file/import_to_file.js'])
+                        }],
+                        project: ['Project', 'Cookie',
+                            function (Project, Cookie) {
+                                return Project.get({name: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })//ok
+                .state('console.edit_yaml_file', {
+                    url: '/:namespace/:type/edit/yaml/:name',
+                    templateUrl: 'views/edit_yaml/edit_yaml.html',
+                    controller: 'EditYamlCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/edit_yaml/edit_yaml.js')
+                        }],
+                        project: ['Project', 'Cookie',
+                            function (Project, Cookie) {
+                                return Project.get({name: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                        // DcEditYaml: ['$stateParams', 'Edityaml', 'Cookie', '$rootScope',
+                        //     function ($stateParams, Edityaml, Cookie, $rootScope) {
+                        //         console.log('$stateParams', $stateParams);
+                        //         return Edityaml.get({
+                        //             namespace: Cookie.get('namespace'),
+                        //             name: $stateParams.name,
+                        //             type: $stateParams.type
+                        //         }).$promise;
+                        //     }
+                        // ]
+                    }
+                })
 
 
 

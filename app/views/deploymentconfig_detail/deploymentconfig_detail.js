@@ -14,7 +14,6 @@ angular.module('console.deploymentconfig_detail', [
     .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 'Service',
         function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr, Service) {
             $scope.dc = angular.copy(mydc);
-
             $scope.resourcesunit = {
                 mincpu: 'millicores',
                 maxcpu: 'millicores',
@@ -63,6 +62,10 @@ angular.module('console.deploymentconfig_detail', [
                     configMap: false,
                     persistentVolumeClaim: false,
                     mountPath: false
+                },
+                horiz: {
+                    openerr: false,
+                    maxerr: false
                 }
             };
             var cont = 0;
@@ -336,8 +339,49 @@ angular.module('console.deploymentconfig_detail', [
                     }
                 })
             }
+            function preparehoriz(dc) {
+                var name = dc.metadata.name;
+                $scope.horiz.metadata.name = name;
+                $scope.horiz.metadata.labels.app = name;
+                $scope.horiz.spec.scaleTargetRef.name = name;
+                $scope.horiz.spec.minReplicas = dc.spec.replicas;
+
+            }
+
+            $scope.creathoriz = function () {
+                $scope.err.horiz.openerr = false;
+                var cancreat = false;
+                angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    // console.log('$scope.creathoriz',con);
+                    if (con.resourcesFlag) {
+                        cancreat = true
+                    }
+                });
+                if (cancreat) {
+                    $scope.institution.rubustCheck = !$scope.institution.rubustCheck
+                } else {
+                    $scope.err.horiz.openerr = true
+                }
+
+            };
+
             $scope.updateDc = function () {
                 prepareEnv($scope.dc)
+                $scope.err.horiz.maxerr = false;
+                if ($scope.institution.rubustCheck) {
+                    if ($scope.horiz.spec.maxReplicas < $scope.dc.spec.replicas) {
+                        $scope.err.horiz.maxerr = true;
+                        return
+                    }
+                    if ($scope.horiz.spec.maxReplicas === '') {
+                        $scope.horiz.spec.maxReplicas = $scope.dc.spec.replicas
+                    }
+                    if ($scope.horiz.spec.targetCPUUtilizationPercentage === '') {
+                        $scope.horiz.spec.targetCPUUtilizationPercentage = 80;
+                    }
+                    preparehoriz($scope.dc);
+                }
+
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true;
                 var isValid = true;
@@ -519,7 +563,7 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
                     //console.log($scope.envs);
 
-                    if ($scope.quota.rubustCheck) {
+                    if ($scope.institution.rubustCheck) {
                         horizontalpodautoscalers.get({
                             namespace: $rootScope.namespace,
                             name: $stateParams.name
@@ -587,6 +631,9 @@ angular.module('console.deploymentconfig_detail', [
                 })
 
             };
+            $scope.editYamlFun = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.dc.metadata.name,type: 'deploymentconfigs'});
+            };
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
@@ -600,7 +647,7 @@ angular.module('console.deploymentconfig_detail', [
                 function (persistent, configmaps, Secret, $scope, horizontalpodautoscalers, $rootScope, GLOBAL, ImageStreamTag, ImageStream) {
                     var gethor = function (name) {
                         horizontalpodautoscalers.get({namespace: $rootScope.namespace, name: name}, function (hor) {
-                            $scope.quota.rubustCheck = true;
+                            $scope.institution.rubustCheck = true;
                             $scope.horiz = hor;
                         })
                     };
@@ -695,7 +742,7 @@ angular.module('console.deploymentconfig_detail', [
                         if (patrn.test(num)) {
                             // console.log('t', e.currentTarget.value);
                         } else {
-                            //console.log('f',num);
+                            // console.log('f',num);
                             e.currentTarget.value = null
                         }
                     };
@@ -734,7 +781,7 @@ angular.module('console.deploymentconfig_detail', [
                             $scope.uex_down = false;
                             $scope.uex_up = true;
                         }
-                    }
+                    };
 
                     $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
                         if (n == o) {
