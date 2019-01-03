@@ -110,6 +110,16 @@ angular.module('console.service.create', [
                             "protocol": "TCP"
                         }
                     ],
+                    quates: {
+                        cpu: {
+                            min: '',
+                            max: ''
+                        },
+                        mem: {
+                            min: '',
+                            max: ''
+                        }
+                    },
                     "resources": {
                         "limits": {
                             "cpu": "",
@@ -338,6 +348,16 @@ angular.module('console.service.create', [
                                         "protocol": "TCP"
                                     }
                                 ],
+                                quates: {
+                                    cpu: {
+                                        min: '',
+                                        max: ''
+                                    },
+                                    mem: {
+                                        min: '',
+                                        max: ''
+                                    }
+                                },
                                 "resources": {
                                     "limits": {
                                         "cpu": "",
@@ -453,9 +473,9 @@ angular.module('console.service.create', [
                     return
                 }
                 if (!n) {
-                    
-                   $scope.containersImagesIsNull = true
-                }else{
+
+                    $scope.containersImagesIsNull = true
+                } else {
                     $scope.containersImagesIsNull = false
                 }
 
@@ -774,6 +794,7 @@ angular.module('console.service.create', [
                 $scope.horiz.spec.minReplicas = dc.spec.replicas;
 
             }
+
             $scope.containersImagesIsNull = false;
             function invrepname() {
                 var norep = true
@@ -814,6 +835,7 @@ angular.module('console.service.create', [
                     return num + 'G'
                 }
             }
+
             function invEnv() {
                 var envs = angular.copy($scope.dc.spec.template.spec.containers[0].env)
                 angular.forEach(envs, function (env) {
@@ -1026,7 +1048,7 @@ angular.module('console.service.create', [
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     //console.log('con.open', con.name);
                     if (con.name.indexOf('_')) {
-                        con.name = con.name.replace('_','-')
+                        con.name = con.name.replace('_', '-')
                     }
                     if (con.open) {
                         if (con.open.readinessProbe) {
@@ -1105,10 +1127,11 @@ angular.module('console.service.create', [
                         }
 
                         if (con.open.resources) {
-                            con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu)
-                            con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
-                            con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
-                            con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
+                            console.log('con.quates', con.quates);
+                            con.resources.limits.cpu = unit(con.quates.cpu.max, con.resourcesunit.maxcpu)
+                            con.resources.limits.memory = unit(con.quates.mem.max, con.resourcesunit.maxmem)
+                            con.resources.requests.cpu = unit(con.quates.cpu.min, con.resourcesunit.mincpu)
+                            con.resources.requests.memory = unit(con.quates.mem.min, con.resourcesunit.minmem)
                         } else {
                             delete con.resources
                         }
@@ -1400,8 +1423,8 @@ angular.module('console.service.create', [
                 $scope.$watch('container.open.resources', function (n, o) {
                     //console.log('n', n);
                     //console.log('$scope.institution', $scope.institution);
-                    if ($scope.institution.rubustCheck&&n===false) {
-                        $scope.institution.rubustCheck=false
+                    if ($scope.institution.rubustCheck && n === false) {
+                        $scope.institution.rubustCheck = false
                     }
 
                 })

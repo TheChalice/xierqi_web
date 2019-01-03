@@ -9,7 +9,7 @@
                     <input class="form-control quota-input"
                            placeholder="最小值"
                            onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)"
-                           ng-model="container.resources.requests.cpu"
+                           ng-model="container.quates.cpu.min"
                            style="display: inline-block;border-top-left-radius: 4px;border-bottom-left-radius: 4px;"
                            type="text"
                            name="num">
@@ -32,7 +32,7 @@
                            ng-class="{'input-error':quotaerr.cpuminbig}"
                            placeholder="最大值"
                            onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)"
-                           ng-model="container.resources.limits.cpu"
+                           ng-model="container.quates.cpu.max"
                            style="display: inline-block;border-top-left-radius: 4px;border-bottom-left-radius: 4px;"
                            type="text"
                            name="num">
@@ -60,7 +60,7 @@
                     <input class="form-control quota-input"
                            placeholder="最小值"
                            onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)"
-                           ng-model="container.resources.requests.memory"
+                           ng-model="container.quates.mem.min"
                            style="display: inline-block;border-top-left-radius: 4px;border-bottom-left-radius: 4px;"
                            type="text"
                            name="num">
@@ -86,7 +86,7 @@
                            ng-class="{'input-error':quotaerr.memoryminbig}"
                            placeholder="最大值"
                            onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)"
-                           ng-model="container.resources.limits.memory"
+                           ng-model="container.quates.mem.max"
                            style="display: inline-block;border-top-left-radius: 4px;border-bottom-left-radius: 4px;"
                            type="text"
                            name="num">
