@@ -296,14 +296,18 @@ define([
             var EditYamlDeployment = $resource(GLOBAL.host_newk8s1 + '/namespaces/:namespace/deployments/:name', {
                 name: '@name',
                 namespace: '@namespace'
-            }, {});
+            }, {
+                put: { method: 'PUT' }
+            });
             return EditYamlDeployment;
         }])
         .factory('EditYamlDeploymentConfigs', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var EditYamlDeploymentConfigs = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {
                 name: '@name',
                 namespace: '@namespace'
-            }, {});
+            }, {
+                put: { method: 'PUT' }
+            });
             return EditYamlDeploymentConfigs;
         }])
         .factory('ScaleRs', ['$resource', 'GLOBAL', function($resource, GLOBAL) {

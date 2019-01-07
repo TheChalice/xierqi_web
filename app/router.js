@@ -917,16 +917,6 @@ define([
                                 return Project.get({name: Cookie.get('namespace')}).$promise
                             }
                         ]
-                        // DcEditYaml: ['$stateParams', 'Edityaml', 'Cookie', '$rootScope',
-                        //     function ($stateParams, Edityaml, Cookie, $rootScope) {
-                        //         console.log('$stateParams', $stateParams);
-                        //         return Edityaml.get({
-                        //             namespace: Cookie.get('namespace'),
-                        //             name: $stateParams.name,
-                        //             type: $stateParams.type
-                        //         }).$promise;
-                        //     }
-                        // ]
                     }
                 })
 
