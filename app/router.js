@@ -905,7 +905,7 @@ define([
                     }
                 })//ok
                 .state('console.edit_yaml_file', {
-                    url: '/:namespace/:type/edit/yaml/:name',
+                    url: '/:namespace/:kind/edit/yaml/:name',
                     templateUrl: 'views/edit_yaml/edit_yaml.html',
                     controller: 'EditYamlCtrl',
                     resolve: {

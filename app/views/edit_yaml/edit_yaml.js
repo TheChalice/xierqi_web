@@ -6,8 +6,8 @@ angular.module('console.edit_yaml_file', [
     }])
     .controller('EditYamlCtrl', ['$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
         function ($location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
-            // console.log('EditYamlCtrl---type', $location.path().split('/')[4]);
-            var findType = $location.path().split('/')[4];
+            console.log('EditYamlCtrl---type', $stateParams.kind);
+            // var findType = $stateParams.kind;
             $scope.textError = false;
             function setData(data) {
                 if (!data) return;
@@ -18,7 +18,7 @@ angular.module('console.edit_yaml_file', [
                 $scope.newData.resource = angular.copy(data);
                 // console.log('$scope.newData.resource', $scope.newData.resource);
             }
-            function saveUpdateData(dataResource,type) {
+            function saveUpdateData(dataResource,kind) {
                 if ($scope.newData.resource.kind !== $scope.original.kind){
                     $scope.textError = true;
                     $scope.textErrorMessage = 'kind 不能修改'
@@ -33,25 +33,25 @@ angular.module('console.edit_yaml_file', [
                     $scope.textErrorMessage = 'namespace 不能修改'
                 }else {
                     dataResource.put({
-                        namespace: $rootScope.namespace,
-                        name: $scope.original.metadata.name,
-                        type: type
+                        namespace: $stateParams.namespace,
+                        name: $stateParams.name
+                        // kind: $stateParams.kind
                     }, $scope.newData.resource, function (response) {
-                        // console.log('resres', response);
+                        console.log('resres', response);
                         toastr.success('编辑成功', {
                             timeOut: 2000,
                             closeButton: true
                         });
                         $scope.resource = response;
-                        if(type === 'deployment'){
+                        if(kind === 'Deployment'){
                             $state.go('console.deployment_detail', {
-                                namespace: $scope.original.metadata.namespace,
-                                name: $scope.original.metadata.name
+                                namespace: $stateParams.namespace,
+                                name: $stateParams.name
                             });
-                        }else if (type === 'deploymentconfigs'){
+                        }else if (kind === 'DeploymentConfig'){
                             $state.go('console.deploymentconfig_detail', {
-                                namespace: $scope.original.metadata.namespace,
-                                name: $scope.original.metadata.name
+                                namespace: $stateParams.namespace,
+                                name: $stateParams.name
                             });
                         }
 
@@ -64,46 +64,38 @@ angular.module('console.edit_yaml_file', [
                     })
                 }
             }
-            function cancelUpdateData(type) {
-                if(type === 'deployment'){
+            function cancelUpdateData(kind) {
+                if(kind === 'Deployment'){
                     $state.go('console.deployment_detail', {
-                        namespace: $scope.original.metadata.namespace,
-                        name: $scope.original.metadata.name
+                        namespace: $stateParams.namespace,
+                        name: $stateParams.name
                     });
-                }else if (type === 'deploymentconfigs'){
+                }else if (kind === 'DeploymentConfig'){
                     $state.go('console.deploymentconfig_detail', {
-                        namespace: $scope.original.metadata.namespace,
-                        name: $scope.original.metadata.name
+                        namespace: $stateParams.namespace,
+                        name: $stateParams.name
                     });
                 }
             }
 
-            if (findType == 'deploymentconfigs') {
-                EditYamlDeploymentConfigs.get({
+            function typeOfData(dataType,kind) {
+                dataType.get({
                     namespace: $rootScope.namespace,
-                    name: $location.path().split('/')[7]
+                    name: $stateParams.name
                 }, function (result) {
                     setData(result);
                     $scope.save = function () {
-                        saveUpdateData(EditYamlDeploymentConfigs,'deploymentconfigs');
+                        saveUpdateData(dataType,kind);
                     };
                     $scope.cancel = function () {
-                        cancelUpdateData('deploymentconfigs')
+                        cancelUpdateData(kind)
                     };
                 });
+            }
+            if ($stateParams.kind == 'DeploymentConfig') {
+                typeOfData(EditYamlDeploymentConfigs,$stateParams.kind);
+            } else if ($stateParams.kind == 'Deployment') {
+                typeOfData(EditYamlDeployment,$stateParams.kind);
 
-            } else if (findType == 'deployment') {
-                EditYamlDeployment.get({
-                    namespace: $rootScope.namespace,
-                    name: $location.path().split('/')[7]
-                }, function (result) {
-                    setData(result);
-                    $scope.save = function () {
-                        saveUpdateData(EditYamlDeployment,'deployment');
-                    };
-                    $scope.cancel = function () {
-                        cancelUpdateData('deployment')
-                    };
-                });
             }
         }]);
