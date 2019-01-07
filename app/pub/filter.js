@@ -835,7 +835,7 @@ define(['angular', 'moment'], function(angular, moment) {
         .filter('piplineStatusFilter', [function() {
             return function(phase) {
                 if (phase == "New" || phase == "Pending" || phase == "Running") {
-                    return "正在部署"
+                    return "正在构建"
                 } else if (phase == "Complete") {
                     return "流程完成"
                 } else if (phase == "Failed") {

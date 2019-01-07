@@ -1,6 +1,6 @@
 <div id="pipeline-detail" class="pipeline-detail df_frame" style="color: #475669; font-size: 12px;">
     <div>
-        <div class="panel panel-default panel_marginBottom" style="">
+        <div class="panel-default">
             <div class="module-heading">
                 <div class="module_block_l">
                     <div class="img-block">
@@ -19,17 +19,9 @@
                         <!-- <i class="fa fa-trash-o fa-lg"></i> -->
                         <span class="df_close"><i class="uex-icon-delete"></i></span>
                     </a>
-                    <a class="btn btn-green pull-right df_build" ng-click="startBuild()"> 部署</a>
+                    <a class="btn btn-green pull-right df_build" ng-click="startBuild()"> 构建</a>
                 </div>
             </div>
-
-
-
-
-
-
-
-
             <!--<div class="panel-heading">-->
                 <!--<span class="panel-title">-->
                     <!--<span class="icon25 icon25-panel"></span>&nbsp;&nbsp; {{BuildConfig.metadata.name}}-->
@@ -125,7 +117,8 @@
                     配置信息
                 </uib-tab-heading>
                 <div class="resource-details">
-                    <p class="tit_details">详细信息   <a class="btn btn-green pull-right" style="float: right" ng-click="saveBuild()">保存</a></p>
+                    <h3 class="tit_details df_tit">详细信息
+                        <a class="btn df_build_btn pull-right" style="float: right" ng-click="saveBuild()">保存</a></h3>
                     <dl class="dl_list">
                         <dt class="pz_l">Build Strategy:</dt>
                         <dd>{{BuildConfig.spec.strategy.type}}</dd>
@@ -158,7 +151,7 @@
                 </div>
 
 
-                <p class="tit_details trig_tp">Triggers</p>
+                <h3 class="tit_details trig_tp df_tit">Triggers</h3>
                 <div ng-repeat="trigger in BuildConfig.spec.triggers | orderBy : 'type' : false : compareTriggers">
                     <div ng-switch="trigger.type">
                         <div ng-switch-when="Generic">
