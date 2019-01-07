@@ -4,8 +4,8 @@ angular.module('console.edit_yaml_file', [
     {
         files: []
     }])
-    .controller('EditYamlCtrl', ['$location', '$stateParams', '$filter', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
-        function ($location, $stateParams, $filter, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
+    .controller('EditYamlCtrl', ['$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
+        function ($location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
             // console.log('EditYamlCtrl---type', $location.path().split('/')[4]);
             var findType = $location.path().split('/')[4];
             $scope.textError = false;
@@ -38,6 +38,10 @@ angular.module('console.edit_yaml_file', [
                         type: type
                     }, $scope.newData.resource, function (response) {
                         // console.log('resres', response);
+                        toastr.success('编辑成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                         $scope.resource = response;
                         if(type === 'deployment'){
                             $state.go('console.deployment_detail', {
@@ -51,6 +55,12 @@ angular.module('console.edit_yaml_file', [
                             });
                         }
 
+                    },function (err) {
+                        console.log(err);
+                        toastr.error('修改有误，请检查重试', {
+                            closeButton: true,
+                            timeOut: 2000
+                        });
                     })
                 }
             }
