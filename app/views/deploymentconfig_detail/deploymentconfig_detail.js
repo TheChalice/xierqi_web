@@ -37,11 +37,24 @@ angular.module('console.deploymentconfig_detail', [
                     return num + 'G'
                 }
             }
+            var checkedEnv = function(curDc){
+                for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
+                    $scope.dc.spec.template.spec.containers[i].env = {envArr:[],valueFromArr:[]}
+                    if(curDc.spec.template.spec.containers[i].env){
+                        for (var x = 0; x < curDc.spec.template.spec.containers[i].env.length; x++) {
+                            if(curDc.spec.template.spec.containers[i].env[x].valueFrom){
+                                $scope.dc.spec.template.spec.containers[i].env.valueFromArr.push(curDc.spec.template.spec.containers[i].env[x])
+                            }else{
+                                $scope.dc.spec.template.spec.containers[i].env.envArr.push(curDc.spec.template.spec.containers[i].env[x])
+                            }
+                        }
+                    }
 
-            for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
-                $scope.dc.spec.template.spec.containers[i].retract = true;
+                    $scope.dc.spec.template.spec.containers[i].retract = true;
+                }
             }
-
+            checkedEnv(mydc)
+            console.log('$scope.dc-----', $scope.dc);
             $scope.mytag = angular.copy(mytag);
             $scope.err = {
                 vol: {
@@ -236,6 +249,7 @@ angular.module('console.deploymentconfig_detail', [
                     //     item.spec.template.spec.containers[i].retract = true;
                     // })
                     $scope.dc = angular.copy(res);
+                    checkedEnv(res)
                     $scope.loaddirs.loadcon()
                 }, function (res) {
 
@@ -297,6 +311,34 @@ angular.module('console.deploymentconfig_detail', [
             //    }
             //
             //}
+            function prepareEnv(dc) {
+                angular.forEach(dc.spec.template.spec.containers, function (item, i) {
+                    var envs = item.env.envArr;
+                    var valueFrom = item.env.valueFromArr;
+                    for (var i = envs.length - 1; i >= 0; i--) {
+                        if (!envs[i].name || !envs[i].value) {
+                            envs.splice(i, 1);
+                        }
+                    }
+                    for (var i = valueFrom.length - 1; i >= 0; i--) {
+                        if (valueFrom[i] && valueFrom[i].valueFrom.secretKeyRef) {
+                            if (!valueFrom[i].name || !valueFrom[i].valueFrom.secretKeyRef.key || !valueFrom[i].valueFrom.secretKeyRef.name) {
+                                valueFrom.splice(i, 1);
+                            }
+                        }
+                        if (valueFrom[i] && valueFrom[i].valueFrom.configMapKeyRef) {
+                            if (!valueFrom[i].name || !valueFrom[i].valueFrom.configMapKeyRef.key || !valueFrom[i].valueFrom.configMapKeyRef.name) {
+                                valueFrom.splice(i, 1);
+                            }
+                        }
+
+                    }
+                    item.env = item.env.envArr.concat(item.env.valueFromArr);
+                    if (item.env.length <= 0) {
+                        delete item.env
+                    }
+                })
+            }
             function preparehoriz(dc) {
                 var name = dc.metadata.name;
                 $scope.horiz.metadata.name = name;
@@ -324,6 +366,7 @@ angular.module('console.deploymentconfig_detail', [
             };
 
             $scope.updateDc = function () {
+                prepareEnv($scope.dc)
                 $scope.err.horiz.maxerr = false;
                 if ($scope.institution.rubustCheck) {
                     if ($scope.horiz.spec.maxReplicas < $scope.dc.spec.replicas) {
@@ -588,6 +631,9 @@ angular.module('console.deploymentconfig_detail', [
                 })
 
             };
+            $scope.editYamlFun = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.dc.metadata.name,type: 'deploymentconfigs'});
+            };
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
@@ -605,13 +651,29 @@ angular.module('console.deploymentconfig_detail', [
                             $scope.horiz = hor;
                         })
                     };
-                    Secret.get({namespace: $rootScope.namespace}, function (secrts) {
-                        //console.log('secrts', secrts);
-                        $scope.SecretList = angular.copy(secrts.items)
-                    });
+
                     configmaps.get({namespace: $rootScope.namespace}, function (configs) {
                         //console.log('configs', configs);
-                        $scope.ConfigMapList = angular.copy(configs.items)
+                        $scope.ConfigMapList = angular.copy(configs.items);
+                        var envConfigMapList = [];
+                        angular.forEach(configs.items, function (item, i) {
+                            if(item.data){
+                                item.type='ConfigMap';
+                                envConfigMapList.push(item);
+                            }
+                        })
+                        Secret.get({namespace: $rootScope.namespace}, function (secrts) {
+                            //console.log('secrts', secrts);
+                            $scope.SecretList = angular.copy(secrts.items);
+                            var envSecretList = [];
+                            angular.forEach(secrts.items, function (item, i) {
+                                if(item.data){
+                                    item.type='Secret'
+                                    envSecretList.push(item);
+                                }
+                            })
+                            $scope.envAllList = envConfigMapList.concat(envSecretList)
+                        });
                     });
                     persistent.get({namespace: $rootScope.namespace}, function (persistents) {
                         //console.log('persistents', persistents);
@@ -689,7 +751,7 @@ angular.module('console.deploymentconfig_detail', [
                         //var num = 0;
                         //num = num + 1;
                         var tmp = angular.copy($scope.dc.spec.template.spec.containers[$scope.dc.spec.template.spec.containers.length - 1]);
-                        tmp.env = [];
+                        tmp.env = {envArr:[{name: '', value: ''}],valueFromArr:[{name:'',valueFrom:{secretKeyRef:{name:'',key:''}}}]};
                         tmp.doset = false;
                         tmp.volment = false;
                         tmp.display = true;
@@ -820,17 +882,39 @@ angular.module('console.deploymentconfig_detail', [
                         }
                     };
                     $scope.delcontainerEnv = function (outerIndex, innerIndex) {
-                        $scope.dc.spec.template.spec.containers[outerIndex].env.splice(innerIndex, 1);
+                        $scope.dc.spec.template.spec.containers[outerIndex].env.envArr.splice(innerIndex, 1);
                     };
 
                     $scope.addContainerEnv = function (outerIndex, innerIndex) {
                         if ($scope.dc.spec.template.spec.containers[outerIndex].env) {
 
                         } else {
-                            $scope.dc.spec.template.spec.containers[outerIndex].env = []
+                            $scope.dc.spec.template.spec.containers[outerIndex].env.envArr = []
                         }
-                        $scope.dc.spec.template.spec.containers[outerIndex].env.push({name: '', value: ''});
+                        $scope.dc.spec.template.spec.containers[outerIndex].env.envArr.push({name: '', value: ''});
                     };
+                    $scope.addenvSecret = function (outidx) {
+                        $scope.dc.spec.template.spec.containers[outidx].env.valueFromArr.push({name:'',valueFrom:{secretKeyRef:{name:'',key:''}}})
+                    }
+                    $scope.delenvSecret = function (outidx, idx) {
+                        $scope.dc.spec.template.spec.containers[outidx].env.valueFromArr.splice(idx, 1);
+                    }
+                    $scope.changeEnvSectrt = function(outidx,list,idx){
+                        if(list.type == 'ConfigMap'){
+                            $scope.dc.spec.template.spec.containers[outidx].env.valueFromArr[idx].valueFrom = {configMapKeyRef:{name:list.metadata.name,key:''}}
+                        }else{
+                            $scope.dc.spec.template.spec.containers[outidx].env.valueFromArr[idx].valueFrom = {secretKeyRef:{name:list.metadata.name,key:''}}
+                        }
+                        $scope.secretsListData = list.data;
+
+                    }
+                    $scope.changeEnvData = function(outidx,key,idx){
+                        if($scope.dc.spec.template.spec.containers[outidx].env.valueFromArr[idx].valueFrom.configMapKeyRef){
+                            $scope.dc.spec.template.spec.containers[outidx].env.valueFromArr[idx].valueFrom.configMapKeyRef.key = key
+                        }else{
+                            $scope.dc.spec.template.spec.containers[outidx].env.valueFromArr[idx].valueFrom.secretKeyRef.key = key
+                        }
+                    }
 
                     $scope.addconvol = function (outerIndex, obj, key) {
                         // if($scope.dc.spec.template.spec.containers[outerIndex].volments.secret.secretName)

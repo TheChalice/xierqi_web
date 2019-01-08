@@ -1,0 +1,22 @@
+<div class="container-fluid" style="padding: 0;">
+    <h4 style="margin:20px;font-size: 12px;">Edit &nbsp;<span>{{deployment.kind}}</span>&nbsp;&nbsp;{{deployment.metadata.name}}</h4>
+    <form name="editor.form">
+        <ui-ace-yaml resource="updated.resource" ng-required="true"></ui-ace-yaml>
+        <div class="buttons gutter-bottom" style="margin: 25px;">
+            <button type="submit"
+                    class="btn btn-orange pull-right"
+                    ng-disabled="updatingNow"
+                    ng-click="cancel()"
+                    style="margin-left: 20px;">
+                取消
+            </button>
+            <button type="submit"
+                    ng-click="save()"
+                    ng-disabled="editor.form.$pristine || editor.form.$invalid || resourceChanged || resourceDeleted || updatingNow"
+                    class="btn btn-orange pull-right">
+                保存
+            </button>
+        </div>
+    </form>
+</div>
+

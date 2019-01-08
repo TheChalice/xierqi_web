@@ -585,8 +585,8 @@
                     </span>
                             <div ng-show="container.annotate.isShowEnv" style="margin-top:10px;">
                                 <div class="service-ctrl" style="">
-                                    <div ng-if="container.env.length > 0" style="margin-bottom: 10px;"
-                                         ng-repeat="env in container.env" ng-init="innerIndex = $index">
+                                    <div  style="margin-bottom: 10px;"
+                                         ng-repeat="env in container.env.envArr" ng-init="innerIndex = $index">
                                         <div class="envlist">
                                             <!--<span style="margin-right:12px;">键</span>-->
                                             <input type="text" ng-model="env.name" placeholder="键"
@@ -610,11 +610,82 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="" ng-click="addContainerEnv(outerIndex)"
-                                         style="cursor: pointer;margin-top: 10px; font-size: 14px;">
-                                        <i class="fa fa-plus-circle fa-lg uex-icon-add"
-                                           style="cursor:pointer;margin-top:9px;"></i>
-                                        <span style="color: #47B2FB;font-size:12px;">增加环境变量</span>
+
+
+
+
+                                    <div  style="margin-bottom: 10px;"
+                                          ng-repeat="form in container.env.valueFromArr" ng-init="enterIndex = $index">
+                                        <div class="envlist">
+                                            <!--<span style="margin-right:12px;">键</span>-->
+                                            <input type="text" ng-model="form.name" placeholder="键"
+                                                   style="width: 167px;height: 26px;padding:6px 12px;border-radius:4px;float: left;">
+                                        </div>
+                                        <div class="envlist" style="width: 22px;">
+                                        </div>
+                                        <div class="envlist" style="width: 167px;">
+                                            <div class="dropdown dropdown-select col-sm-4" style="width:167px;height: 26px;padding: 0px;">
+                                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;line-height:26px;padding: 0px 12px;">
+                                                    <span style="color: #333333;display: inline-block;width: 135px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ng-show="form.valueFrom.secretKeyRef.name || form.valueFrom.configMapKeyRef.name">{{form.valueFrom.secretKeyRef.name || form.valueFrom.configMapKeyRef.name}}</span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu"
+                                                    style="max-height: 250px;overflow-y:auto;width:167px;;border-color: #c9c9c9">
+                                                    <li ng-repeat="list in envAllList" style="font-size: 12px;line-height: 26px;"
+                                                        ng-click="changeEnvSectrt(outerIndex,list,enterIndex)">
+                                                        <a href="javascript:;">{{list.metadata.name}}</a>
+
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                        <div class="envlist" style="width: 20px;">
+                                        </div>
+                                        <div class="envlist">
+                                            <div class="dropdown dropdown-select col-sm-4" style="width:167px;height: 26px;padding: 0px;">
+                                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;line-height:26px;padding: 0px 12px;">
+                                                    <span style="color: #333333;display: inline-block;width: 135px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ng-show="form.valueFrom.secretKeyRef.key || form.valueFrom.configMapKeyRef.key">{{form.valueFrom.secretKeyRef.key || form.valueFrom.configMapKeyRef.key}}</span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu"
+                                                    style="max-height: 250px;overflow-y:auto;width:167px;;border-color: #c9c9c9">
+                                                    <li ng-repeat="(key, val) in secretsListData" style="font-size: 12px;line-height: 26px;"
+                                                        ng-click="changeEnvData(outerIndex,key,enterIndex)">
+                                                        <a href="javascript:;">{{key}}</a>
+
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                        <div class="envlist" style="width: 13px;">
+
+                                        </div>
+                                        <div class="envlist" style="padding-left:0;">
+                                            <a href="javascript:;" style='color: #9fa7b7;'
+                                               ng-click="delenvSecret(outerIndex,$index)"
+                                               class="fa fa-lg fa-times-circle uex-icon-cross">
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+                                    <div class="" style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                                       <span ng-click="addContainerEnv(outerIndex)">
+                                            <i class="fa fa-plus-circle fa-lg uex-icon-add" style="cursor:pointer;margin-top:9px;"></i>
+                                            <span style="color: #47B2FB;font-size:12px;">增加环境变量</span>
+                                       </span>
+                                        <span ng-click="addenvSecret(outerIndex)">
+                                            <i class="fa fa-plus-circle fa-lg uex-icon-add" style="cursor:pointer;margin-top:9px;"></i>
+                                            <span style="color: #47B2FB;font-size:12px;">添加挂载卷</span>
+                                       </span>
                                     </div>
 
                                 </div>
