@@ -3054,7 +3054,8 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 hideHint:'<',
                 resource: '=',
                 ngRequired: '<?',
-                showFileInput: '<?'
+                showFileInput: '<?',
+                error:'='
             },
             templateUrl: 'views/directives/ui-ace-yaml.html'
         })
@@ -3096,6 +3097,9 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 type: severity
             };
             session.setAnnotations([annotation]);
+
+            ctrl.error = ctrl.annotations
+            //console.log(ctrl);
             $scope.$evalAsync(function () {
                 ctrl.annotations = {};
                 ctrl.annotations[severity] = [annotation];

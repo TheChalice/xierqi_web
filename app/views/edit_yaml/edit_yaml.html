@@ -3,7 +3,7 @@
     <parse-error error="error" ng-if="error"></parse-error>
     <form name="editor.form">
         <div ng-if="newData.resource">
-            <ui-ace-yaml resource="newData.resource" hide-hint="true" ng-required="true"></ui-ace-yaml>
+            <ui-ace-yaml resource="newData.resource" error="lineerror.err" hide-hint="true" ng-required="true"></ui-ace-yaml>
             <div class="buttons gutter-bottom" style="margin: 25px;">
                 <button type="submit"
                         class="btn btn-orange pull-right"

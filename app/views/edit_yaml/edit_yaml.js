@@ -7,38 +7,41 @@ angular.module('console.edit_yaml_file', [
     .controller('EditYamlCtrl', ['yaml','$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
         function (yaml,$location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
             // console.log('EditYamlCtrl---type', $stateParams);
-            $scope.$on('yaml-update-result',function (event,data) {
-                switch (data.type) {
-                    case 'success': {
-                        $scope.syntaxError = null;
-                        break;
-                    }
-                    case 'error': {
-                        $scope.syntaxError = {
-                            type: data.type,
-                            message: data.info.message
-                        };
-                        break;
-                    }
-                    case 'warning': {
-                        $scope.syntaxError = {
-                            type: data.type,
-                            message: data.info.message
-                        };
-                        break;
-                    }
-                    default:
-                        break;
-                }
+            $scope.lineerror={};
 
-            });
+            //$scope.$on('yaml-update-result',function (event,data) {
+            //    //console.log(event, data);
+            //    switch (data.type) {
+            //        case 'success': {
+            //            $scope.syntaxError = null;
+            //            break;
+            //        }
+            //        case 'error': {
+            //            $scope.syntaxError = {
+            //                type: data.type,
+            //                message: data.info.message
+            //            };
+            //            break;
+            //        }
+            //        case 'warning': {
+            //            $scope.syntaxError = {
+            //                type: data.type,
+            //                message: data.info.message
+            //            };
+            //            break;
+            //        }
+            //        default:
+            //            break;
+            //    }
+            //
+            //});
 
             function setData(data) {
                 if (!data) return;
                 delete data.$promise;
                 delete data.$resolved;
                 $scope.original = data;
-                // console.log('data====', data);
+                 //console.log('data====', data);
                 $scope.newData = {};
                 $scope.newData.resource = angular.copy(data);
             }
@@ -109,6 +112,7 @@ angular.module('console.edit_yaml_file', [
                 }, function (result) {
                     setData(result);
                     $scope.save = function () {
+                        console.log('$scope.lineerror', $scope.lineerror);
                         saveUpdateData(dataType,kind);
                     };
                     $scope.cancel = function () {
