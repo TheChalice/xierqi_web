@@ -4,38 +4,12 @@ angular.module('console.edit_yaml_file', [
     {
         files: []
     }])
-    .controller('EditYamlCtrl', ['yaml','$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
-        function (yaml,$location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
+    .controller('EditYamlCtrl', ['$filter','$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
+        function ($filter,$location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
             // console.log('EditYamlCtrl---type', $stateParams);
             $scope.lineerror={};
-
-            //$scope.$on('yaml-update-result',function (event,data) {
-            //    //console.log(event, data);
-            //    switch (data.type) {
-            //        case 'success': {
-            //            $scope.syntaxError = null;
-            //            break;
-            //        }
-            //        case 'error': {
-            //            $scope.syntaxError = {
-            //                type: data.type,
-            //                message: data.info.message
-            //            };
-            //            break;
-            //        }
-            //        case 'warning': {
-            //            $scope.syntaxError = {
-            //                type: data.type,
-            //                message: data.info.message
-            //            };
-            //            break;
-            //        }
-            //        default:
-            //            break;
-            //    }
-            //
-            //});
-
+            $scope.resourceChanged = false;
+            var humanizeKind = $filter('humanizeKind');
             function setData(data) {
                 if (!data) return;
                 delete data.$promise;
@@ -45,20 +19,23 @@ angular.module('console.edit_yaml_file', [
                 $scope.newData = {};
                 $scope.newData.resource = angular.copy(data);
             }
-            function saveUpdateData(dataResource,kind) {
-                if ($scope.syntaxError) {
-                    $scope.error = {
-                        message: $scope.syntaxError.message
-                    };
-                    return;
-                }
 
-                if ($scope.newData.resource.kind !== $scope.original.kind
-                    || $scope.newData.resource.apiVersion !== $scope.original.apiVersion
-                    || $scope.newData.resource.metadata.name !== $scope.original.metadata.name
-                    || $scope.newData.resource.metadata.namespace !== $scope.original.metadata.namespace){
+            function saveUpdateData(dataResource,kind) {
+                if ($scope.newData.resource.kind !== $scope.original.kind) {
                     $scope.error = {
-                        message: '不能修改这个属性'
+                        message: '不能修 kind 属性'
+                    };
+                }else if($scope.newData.resource.apiVersion !== $scope.original.apiVersion){
+                    $scope.error = {
+                        message: '不能修 apiVersion 属性'
+                    };
+                }else if($scope.newData.resource.name !== $scope.original.name){
+                    $scope.error = {
+                        message: '不能修 name 属性'
+                    };
+                }else if($scope.newData.resource.namespace !== $scope.original.namespace){
+                    $scope.error = {
+                        message: '不能修 namespace 属性'
                     };
                 }else {
                     dataResource.put({
@@ -83,13 +60,13 @@ angular.module('console.edit_yaml_file', [
                         }
 
                     },function (err) {
-                        console.log(err);
-                        toastr.error('修改有误，请检查重试', {
-                            closeButton: true,
-                            timeOut: 2000
-                        });
+                        console.log('err',err);
+                        $scope.error = {
+                            message: err.data.message
+                        };
                     })
                 }
+
             }
             function cancelUpdateData(kind) {
                 if(kind === 'Deployment'){
@@ -112,7 +89,13 @@ angular.module('console.edit_yaml_file', [
                 }, function (result) {
                     setData(result);
                     $scope.save = function () {
-                        console.log('$scope.lineerror', $scope.lineerror);
+                        // console.log('$scope.lineerror', $scope.lineerror);
+                        if ($scope.lineerror.err) {
+                            $scope.error = {
+                                message: $scope.lineerror.err.error[0].text
+                            };
+                            return;
+                        }
                         saveUpdateData(dataType,kind);
                     };
                     $scope.cancel = function () {

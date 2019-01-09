@@ -3098,8 +3098,8 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             };
             session.setAnnotations([annotation]);
 
-            ctrl.error = ctrl.annotations
-            //console.log(ctrl);
+            ctrl.error = ctrl.annotations;
+            // console.log('ctrl.annotations',ctrl.error);
             $scope.$evalAsync(function () {
                 ctrl.annotations = {};
                 ctrl.annotations[severity] = [annotation];
@@ -3127,23 +3127,12 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 try {
                     parseYAML(true);
                     clearAnnotations();
-                    $rootScope.$broadcast('yaml-update-result',{
-                        type: 'success'
-                    });
                 } catch (e) {
-                    $rootScope.$broadcast('yaml-update-result',{
-                        type: 'warning',
-                        info: e
-                    });
+                    // console.log('warning',e);
                     setAnnotation(e, 'warning');
                 }
             } catch (e) {
-                $rootScope.$broadcast('yaml-update-result',{
-                    type: 'error',
-                    info: e
-                });
-                // console.log('eeeeeee',e);
-                setAnnotation(e, 'error');
+                // setAnnotation(e, 'error');
                 setValid(false);
             }
         };
