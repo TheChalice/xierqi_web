@@ -3132,7 +3132,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     setAnnotation(e, 'warning');
                 }
             } catch (e) {
-                // setAnnotation(e, 'error');
+                setAnnotation(e, 'error');
                 setValid(false);
             }
         };
