@@ -63,19 +63,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 }
             };
         }])
-        .component('uiAceYaml', {
-            controller: [
-                '$scope',
-                UIAceYAML
-            ],
-            controllerAs: '$ctrl',
-            bindings: {
-                resource: '=',
-                ngRequired: '<?',
-                showFileInput: '<?'
-            },
-            templateUrl: 'views/directives/ui-ace-yaml.html'
-        })
+
         .service('Confirm', ['$uibModal', function ($uibModal) {
             this.open = function (title, txt, tip, tp, iscf, nonstop) {
                 return $uibModal.open({
@@ -3055,7 +3043,22 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             };
         }]
         )
-    function UIAceYAML($scope) {
+        .component('uiAceYaml', {
+            controller: [
+                '$scope',
+                '$rootScope',
+                UIAceYAML
+            ],
+            controllerAs: '$ctrl',
+            bindings: {
+                hideHint:'<',
+                resource: '=',
+                ngRequired: '<?',
+                showFileInput: '<?'
+            },
+            templateUrl: 'views/directives/ui-ace-yaml.html'
+        })
+    function UIAceYAML($scope,$rootScope) {
         var ctrl = this;
         var aceEditor;
         var parseYAML = function (strict) {
@@ -3114,17 +3117,28 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
 
                 // Only update `ctrl.resource` if the value has changed.
                 if (current !== previous) {
-                    //console.log('resource', resource)
                     ctrl.resource = resource;
                 }
                 // Check for warnings.
                 try {
                     parseYAML(true);
                     clearAnnotations();
+                    $rootScope.$broadcast('yaml-update-result',{
+                        type: 'success'
+                    });
                 } catch (e) {
+                    $rootScope.$broadcast('yaml-update-result',{
+                        type: 'warning',
+                        info: e
+                    });
                     setAnnotation(e, 'warning');
                 }
             } catch (e) {
+                $rootScope.$broadcast('yaml-update-result',{
+                    type: 'error',
+                    info: e
+                });
+                // console.log('eeeeeee',e);
                 setAnnotation(e, 'error');
                 setValid(false);
             }
