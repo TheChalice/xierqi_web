@@ -11,6 +11,12 @@
                         <p class="img-time">
                             <span classs="module_tit">创建时间：</span><span class="module_time">{{BuildConfig.metadata.creationTimestamp | dateRelative}}</span>
                         </p>
+                        <p class="img-time">
+                            <span classs="module_tit">查看日志：</span>
+                            <a class="href-orange"
+                               ng-href="databuild.items[0].metadata.annotations['openshift.io/jenkins-console-log-url']"
+                               tooltip-placement="top">{{databuild.items[0].metadata.annotations['openshift.io/jenkins-console-log-url']}}</a>
+                        </p>
                     </div>
 
                 </div>
