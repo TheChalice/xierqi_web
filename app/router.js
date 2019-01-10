@@ -905,7 +905,7 @@ define([
                     }
                 })//ok
                 .state('console.edit_yaml_file', {
-                    url: '/:namespace/:type/edit/yaml/:name',
+                    url: '/:namespace/:kind/edit/yaml/:name',
                     templateUrl: 'views/edit_yaml/edit_yaml.html',
                     controller: 'EditYamlCtrl',
                     resolve: {
@@ -917,16 +917,6 @@ define([
                                 return Project.get({name: Cookie.get('namespace')}).$promise
                             }
                         ]
-                        // DcEditYaml: ['$stateParams', 'Edityaml', 'Cookie', '$rootScope',
-                        //     function ($stateParams, Edityaml, Cookie, $rootScope) {
-                        //         console.log('$stateParams', $stateParams);
-                        //         return Edityaml.get({
-                        //             namespace: Cookie.get('namespace'),
-                        //             name: $stateParams.name,
-                        //             type: $stateParams.type
-                        //         }).$promise;
-                        //     }
-                        // ]
                     }
                 })
 
