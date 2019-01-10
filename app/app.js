@@ -413,7 +413,7 @@ define([
                             $rootScope.app[0].stateUrl = toState.name;
                         } else if (toState.name.indexOf('stateful-sets') != -1) {
                             $rootScope.app[4].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('pods') != -1) {
+                        } else if (toState.name.indexOf('pod') != -1) {
                             $rootScope.app[1].stateUrl = toState.name;
                         } else if (toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1) {
                             $rootScope.app[2].stateUrl = toState.name;
