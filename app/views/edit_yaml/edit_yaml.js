@@ -4,93 +4,15 @@ angular.module('console.edit_yaml_file', [
     {
         files: []
     }])
-    .controller('EditYamlCtrl', ['$filter','$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
-        function ($filter,$location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
-            // console.log('EditYamlCtrl---type', $stateParams);
-            $scope.lineerror={};
-            $scope.resourceChanged = false;
-            var humanizeKind = $filter('humanizeKind');
-            function setData(data) {
-                if (!data) return;
-                delete data.$promise;
-                delete data.$resolved;
-                $scope.original = data;
-                 //console.log('data====', data);
-                $scope.newData = {};
-                $scope.newData.resource = angular.copy(data);
+    .controller('EditYamlCtrl', ['$filter', '$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
+        function ($filter, $location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
+            $scope.lineerror = {};
+            if ($stateParams.kind == 'DeploymentConfig') {
+                typeOfData(EditYamlDeploymentConfigs, $stateParams.kind);
+            } else if ($stateParams.kind == 'Deployment') {
+                typeOfData(EditYamlDeployment, $stateParams.kind);
             }
-            function iserror (type,property){
-                var haserr = false;
-                var message =''
-                if (property) {
-                    if ($scope.newData.resource[type][property] !== $scope.original[type][property]) {
-                       haserr=true;
-                        message='不能修改'+property+'属性'
-                    }
-                }else {
-                    if ($scope.newData.resource[type] !== $scope.original[type]) {
-                        haserr=true;
-                        message='不能修改'+type+'属性'
-                    }
-                }
-                if (haserr) {
-                    $scope.error = {
-                        message: message
-                    };
-                    return true
-                }else {
-                    return false
-                }
-
-            }
-            function saveUpdateData(dataResource,kind) {
-                if (iserror('kind') || iserror('apiVersion') || iserror('name') || iserror('namespace')) {
-                    return
-                }
-                    dataResource.put({
-                        namespace: $rootScope.namespace,
-                        name: $stateParams.name
-                    }, $scope.newData.resource, function (response) {
-                        toastr.success('编辑成功', {
-                            timeOut: 2000,
-                            closeButton: true
-                        });
-                        $scope.newData.resource = response;
-                        if(kind === 'Deployment'){
-                            $state.go('console.deployment_detail', {
-                                namespace: $rootScope.namespace,
-                                name: $stateParams.name
-                            });
-                        }else if (kind === 'DeploymentConfig'){
-                            $state.go('console.deploymentconfig_detail', {
-                                namespace: $rootScope.namespace,
-                                name: $stateParams.name
-                            });
-                        }
-
-                    },function (err) {
-                        console.log('err',err);
-                        $scope.error = {
-                            message: err.data.message
-                        };
-                    })
-
-            }
-            function cancelUpdateData(kind) {
-                if(kind === 'Deployment'){
-                    $state.go('console.deployment_detail', {
-                        namespace: $rootScope.namespace,
-                        name: $stateParams.name
-                    });
-                }else if (kind === 'DeploymentConfig'){
-                    $state.go('console.deploymentconfig_detail', {
-                        namespace: $rootScope.namespace,
-                        name: $stateParams.name
-                    });
-                }
-            }
-
-            function typeOfData(dataType,kind) {
+            function typeOfData(dataType, kind) {
                 dataType.get({
                     namespace: $rootScope.namespace,
                     name: $stateParams.name
@@ -104,16 +26,90 @@ angular.module('console.edit_yaml_file', [
                             };
                             return;
                         }
-                        saveUpdateData(dataType,kind);
+                        saveUpdateData(dataType, kind);
                     };
                     $scope.cancel = function () {
                         cancelUpdateData(kind)
                     };
                 });
             }
-            if ($stateParams.kind == 'DeploymentConfig') {
-                typeOfData(EditYamlDeploymentConfigs,$stateParams.kind);
-            } else if ($stateParams.kind == 'Deployment') {
-                typeOfData(EditYamlDeployment,$stateParams.kind);
+            function setData(data) {
+                if (!data) return;
+                delete data.$promise;
+                delete data.$resolved;
+                $scope.original = data;
+                $scope.newData = {};
+                $scope.newData.resource = angular.copy(data);
+            }
+
+            function iserror(type, property) {
+                var haserr = false;
+                var message = '';
+                if (property) {
+                    if ($scope.newData.resource[type][property] !== $scope.original[type][property]) {
+                        haserr = true;
+                        message = '不能修改' + property + '属性'
+                    }
+                } else {
+                    if ($scope.newData.resource[type] !== $scope.original[type]) {
+                        haserr = true;
+                        message = '不能修改' + type + '属性'
+                    }
+                }
+                if (haserr) {
+                    $scope.error = {
+                        message: message
+                    };
+                    return true
+                } else {
+                    return false
+                }
+
+            }
+            function kindOfData(kind) {
+                switch(kind){
+                    case 'Deployment':{
+                        $state.go('console.deployment_detail', {
+                            namespace: $rootScope.namespace,
+                            name: $stateParams.name
+                        });
+                        break;
+                    }
+                    case 'DeploymentConfig':{
+                        $state.go('console.deploymentconfig_detail', {
+                        namespace: $rootScope.namespace,
+                        name: $stateParams.name
+                    });
+                        break;
+                    }
+                    default:
+                        break;
+
+                }
+            }
+            function saveUpdateData(dataResource, kind) {
+                if (iserror('kind') || iserror('apiVersion') || iserror('name') || iserror('namespace')) {
+                    return
+                }
+                dataResource.put({
+                    namespace: $rootScope.namespace,
+                    name: $stateParams.name
+                }, $scope.newData.resource, function (response) {
+                    toastr.success('编辑成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                    $scope.newData.resource = response;
+                    kindOfData(kind);
+                }, function (err) {
+                    console.log('err', err);
+                    $scope.error = {
+                        message: err.data.message
+                    };
+                })
+
+            }
+            function cancelUpdateData(kind) {
+                kindOfData(kind);
             }
         }]);
