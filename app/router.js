@@ -562,8 +562,8 @@ define([
                         }]
                     }
                 })//ok
-                .state('console.pods_detail', {
-                    url: '/:namespace/pods/:name',
+                .state('console.pod_detail', {
+                    url: '/:namespace/pod/:name',
                     templateUrl: 'views/pods_detail/pods_detail.html',
                     controller: 'podsdetailCtrl',
                     resolve: {
