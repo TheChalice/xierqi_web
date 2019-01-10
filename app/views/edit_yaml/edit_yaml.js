@@ -19,25 +19,34 @@ angular.module('console.edit_yaml_file', [
                 $scope.newData = {};
                 $scope.newData.resource = angular.copy(data);
             }
-
-            function saveUpdateData(dataResource,kind) {
-                if ($scope.newData.resource.kind !== $scope.original.kind) {
-                    $scope.error = {
-                        message: '不能修 kind 属性'
-                    };
-                }else if($scope.newData.resource.apiVersion !== $scope.original.apiVersion){
-                    $scope.error = {
-                        message: '不能修 apiVersion 属性'
-                    };
-                }else if($scope.newData.resource.name !== $scope.original.name){
-                    $scope.error = {
-                        message: '不能修 name 属性'
-                    };
-                }else if($scope.newData.resource.namespace !== $scope.original.namespace){
-                    $scope.error = {
-                        message: '不能修 namespace 属性'
-                    };
+            function iserror (type,property){
+                var haserr = false;
+                var message =''
+                if (property) {
+                    if ($scope.newData.resource[type][property] !== $scope.original[type][property]) {
+                       haserr=true;
+                        message='不能修改'+property+'属性'
+                    }
                 }else {
+                    if ($scope.newData.resource[type] !== $scope.original[type]) {
+                        haserr=true;
+                        message='不能修改'+type+'属性'
+                    }
+                }
+                if (haserr) {
+                    $scope.error = {
+                        message: message
+                    };
+                    return true
+                }else {
+                    return false
+                }
+
+            }
+            function saveUpdateData(dataResource,kind) {
+                if (iserror('kind') || iserror('apiVersion') || iserror('name') || iserror('namespace')) {
+                    return
+                }
                     dataResource.put({
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
@@ -65,7 +74,6 @@ angular.module('console.edit_yaml_file', [
                             message: err.data.message
                         };
                     })
-                }
 
             }
             function cancelUpdateData(kind) {
