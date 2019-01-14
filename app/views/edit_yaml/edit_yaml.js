@@ -73,37 +73,10 @@ angular.module('console.edit_yaml_file', [
 
             }
             function kindOfData(kind) {
+                var kind = kind.toLowerCase();
                 switch(kind){
-                    case 'Deployment':{
-                        $state.go('console.deployment_detail', {
-                            namespace: $rootScope.namespace,
-                            name: $stateParams.name
-                        });
-                        break;
-                    }
-                    case 'DeploymentConfig':{
-                        $state.go('console.deploymentconfig_detail', {
-                        namespace: $rootScope.namespace,
-                        name: $stateParams.name
-                    });
-                        break;
-                    }
-                    case 'Pod':{
-                        $state.go('console.pod_detail', {
-                        namespace: $rootScope.namespace,
-                        name: $stateParams.name
-                    });
-                        break;
-                    }
-                    case 'Service':{
-                        $state.go('console.service_details', {
-                        namespace: $rootScope.namespace,
-                        name: $stateParams.name
-                    });
-                        break;
-                    }
-                    case 'Route':{
-                        $state.go('console.route_detail', {
+                    case kind:{
+                        $state.go('console.'+ kind + '_detail', {
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
                     });
@@ -126,6 +99,7 @@ angular.module('console.edit_yaml_file', [
                         timeOut: 2000,
                         closeButton: true
                     });
+                    console.log('response',response);
                     $scope.newData.resource = response;
                     kindOfData(kind);
                 }, function (err) {

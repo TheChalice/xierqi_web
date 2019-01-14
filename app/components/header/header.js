@@ -575,7 +575,7 @@ angular.module("console.header", [{
                 return "容器组详情";
             case "console.services":
                 return "服务端口";
-            case "console.service_details":
+            case "console.service_detail":
                 return "服务端口详情";
             case "console.resource_persistentVolume":
                 return "存储卷";

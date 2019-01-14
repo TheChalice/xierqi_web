@@ -594,7 +594,7 @@ define([
                         }]
                     }
                 })//ok
-                .state('console.service_details', {
+                .state('console.service_detail', {
                     url: '/:namespace/services/:name',
                     params: {
                         from: null
