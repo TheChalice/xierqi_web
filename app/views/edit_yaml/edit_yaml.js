@@ -4,13 +4,19 @@ angular.module('console.edit_yaml_file', [
     {
         files: []
     }])
-    .controller('EditYamlCtrl', ['$filter', '$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
-        function ($filter, $location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
+    .controller('EditYamlCtrl', ['$filter', '$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs','EditYamlOfPod', 'EditYamlOfService', 'EditYamlOfRoute',
+        function ($filter, $location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs, EditYamlOfPod, EditYamlOfService, EditYamlOfRoute) {
             $scope.lineerror = {};
             if ($stateParams.kind == 'DeploymentConfig') {
                 typeOfData(EditYamlDeploymentConfigs, $stateParams.kind);
             } else if ($stateParams.kind == 'Deployment') {
                 typeOfData(EditYamlDeployment, $stateParams.kind);
+            } else if ($stateParams.kind == 'Pod') {
+                typeOfData(EditYamlOfPod, $stateParams.kind);
+            } else if ($stateParams.kind == 'Service') {
+                typeOfData(EditYamlOfService, $stateParams.kind);
+            } else if ($stateParams.kind == 'Route') {
+                typeOfData(EditYamlOfRoute, $stateParams.kind);
             }
             function typeOfData(dataType, kind) {
                 dataType.get({
@@ -67,16 +73,10 @@ angular.module('console.edit_yaml_file', [
 
             }
             function kindOfData(kind) {
+                var kind = kind.toLowerCase();
                 switch(kind){
-                    case 'Deployment':{
-                        $state.go('console.deployment_detail', {
-                            namespace: $rootScope.namespace,
-                            name: $stateParams.name
-                        });
-                        break;
-                    }
-                    case 'DeploymentConfig':{
-                        $state.go('console.deploymentconfig_detail', {
+                    case kind:{
+                        $state.go('console.'+ kind + '_detail', {
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
                     });
@@ -99,6 +99,7 @@ angular.module('console.edit_yaml_file', [
                         timeOut: 2000,
                         closeButton: true
                     });
+                    console.log('response',response);
                     $scope.newData.resource = response;
                     kindOfData(kind);
                 }, function (err) {

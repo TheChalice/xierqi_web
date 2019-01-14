@@ -9,8 +9,8 @@ angular.module('console.services', [
         ]
     }
 ])
-    .controller('ServicesDetailCtrl', ['$scope', 'serviceDetails', 'Service', 'routes', 'pods', 'endpoints', 'Cookie',
-        function ($scope, serviceDetails, Service, routes, pods, endpoints, Cookie) {
+    .controller('ServicesDetailCtrl', ['$rootScope','$state','$scope', 'serviceDetails', 'Service', 'routes', 'pods', 'endpoints', 'Cookie',
+        function ($rootScope,$state,$scope, serviceDetails, Service, routes, pods, endpoints, Cookie) {
             $scope.text = "无";
             $scope.routenamespace = Cookie.get('namespace')
             if (serviceDetails) {
@@ -22,7 +22,9 @@ angular.module('console.services', [
                 $scope.podFailureReasons = {
                     "Pending": "This pod will not receive traffic until all of its containers have been created."
                 };
-
+                $scope.editYaml = function () {
+                    $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.service.metadata.name,kind: $scope.service.kind});
+                };
                 var getPodsForService = function (podsList) {
                     if (!$scope.service.spec.selector) return;
 
@@ -97,6 +99,7 @@ angular.module('console.services', [
                         region: Cookie.get('region')
                     })
                 };
+
                 $scope.delete = function () {
                     if ($scope.service) {
                         deleteService();

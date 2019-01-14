@@ -1,5 +1,7 @@
 <div class="container-fluid" style="padding: 0;">
-    <h4 style="margin:20px;font-size: 12px;color: #1f2d3d;">Edit &nbsp;<span>{{original.kind}}</span>&nbsp;&nbsp;{{original.metadata.name}}</h4>
+    <div ng-if="newData.resource">
+        <h4 style="margin:20px;font-size: 12px;color: #1f2d3d;">Edit &nbsp;<span>{{original.kind}}</span>&nbsp;&nbsp;{{original.metadata.name}}</h4>
+    </div>
     <parse-error error="error" ng-if="error"></parse-error>
     <form name="editor.form">
         <div ng-if="newData.resource">
@@ -19,7 +21,6 @@
                 </button>
             </div>
         </div>
-
     </form>
 </div>
 
