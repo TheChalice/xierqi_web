@@ -4,13 +4,19 @@ angular.module('console.edit_yaml_file', [
     {
         files: []
     }])
-    .controller('EditYamlCtrl', ['$filter', '$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs',
-        function ($filter, $location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs) {
+    .controller('EditYamlCtrl', ['$filter', '$location', '$stateParams', 'toastr', '$rootScope', '$scope', '$state', 'EditYamlDeployment', 'EditYamlDeploymentConfigs','EditYamlOfPod', 'EditYamlOfService', 'EditYamlOfRoute',
+        function ($filter, $location, $stateParams, toastr, $rootScope, $scope, $state, EditYamlDeployment, EditYamlDeploymentConfigs, EditYamlOfPod, EditYamlOfService, EditYamlOfRoute) {
             $scope.lineerror = {};
             if ($stateParams.kind == 'DeploymentConfig') {
                 typeOfData(EditYamlDeploymentConfigs, $stateParams.kind);
             } else if ($stateParams.kind == 'Deployment') {
                 typeOfData(EditYamlDeployment, $stateParams.kind);
+            } else if ($stateParams.kind == 'Pod') {
+                typeOfData(EditYamlOfPod, $stateParams.kind);
+            } else if ($stateParams.kind == 'Service') {
+                typeOfData(EditYamlOfService, $stateParams.kind);
+            } else if ($stateParams.kind == 'Route') {
+                typeOfData(EditYamlOfRoute, $stateParams.kind);
             }
             function typeOfData(dataType, kind) {
                 dataType.get({
@@ -77,6 +83,27 @@ angular.module('console.edit_yaml_file', [
                     }
                     case 'DeploymentConfig':{
                         $state.go('console.deploymentconfig_detail', {
+                        namespace: $rootScope.namespace,
+                        name: $stateParams.name
+                    });
+                        break;
+                    }
+                    case 'Pod':{
+                        $state.go('console.pod_detail', {
+                        namespace: $rootScope.namespace,
+                        name: $stateParams.name
+                    });
+                        break;
+                    }
+                    case 'Service':{
+                        $state.go('console.service_details', {
+                        namespace: $rootScope.namespace,
+                        name: $stateParams.name
+                    });
+                        break;
+                    }
+                    case 'Route':{
+                        $state.go('console.route_detail', {
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
                     });

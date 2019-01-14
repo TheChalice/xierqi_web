@@ -60,7 +60,8 @@
                     <span class="df_close"><i class="uex-icon-delete"></i></span>
                 </a>
                 <a class="btn pull-right btn-orange df_build"
-                   ui-sref="console.create_routes({namespace:namespace,name:route.metadata.name})">修改</a>
+                   ui-sref="console.create_routes({namespace:namespace,name:route.metadata.name})" style="margin-left: 10px;">修改</a>
+                <a class="btn pull-right btn-orange df_build" ng-click="editYaml()">编辑YAML</a>
             </div>
         </div>
         <!-- module common 公共-->
