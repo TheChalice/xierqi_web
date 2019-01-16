@@ -1,21 +1,25 @@
 <div class="container-fluid" style="padding: 0;">
-    <h4 style="margin:20px;font-size: 12px;">Edit &nbsp;<span>{{deployment.kind}}</span>&nbsp;&nbsp;{{deployment.metadata.name}}</h4>
+    <div ng-if="newData.resource">
+        <h4 style="margin:20px;font-size: 12px;color: #1f2d3d;">Edit &nbsp;<span>{{original.kind}}</span>&nbsp;&nbsp;{{original.metadata.name}}</h4>
+    </div>
+    <parse-error error="error" ng-if="error"></parse-error>
     <form name="editor.form">
-        <ui-ace-yaml resource="updated.resource" ng-required="true"></ui-ace-yaml>
-        <div class="buttons gutter-bottom" style="margin: 25px;">
-            <button type="submit"
-                    class="btn btn-orange pull-right"
-                    ng-disabled="updatingNow"
-                    ng-click="cancel()"
-                    style="margin-left: 20px;">
-                取消
-            </button>
-            <button type="submit"
-                    ng-click="save()"
-                    ng-disabled="editor.form.$pristine || editor.form.$invalid || resourceChanged || resourceDeleted || updatingNow"
-                    class="btn btn-orange pull-right">
-                保存
-            </button>
+        <div ng-if="newData.resource">
+            <ui-ace-yaml resource="newData.resource" error="lineerror.err" hide-hint="true" ng-required="true"></ui-ace-yaml>
+            <div class="buttons gutter-bottom" style="margin: 25px;">
+                <button type="submit"
+                        class="btn btn-orange pull-right"
+                        ng-click="cancel()"
+                        style="margin-left: 20px;">
+                    取消
+                </button>
+                <button type="submit"
+                        ng-click="save()"
+                        ng-disabled="editor.form.$pristine || editor.form.$invalid"
+                        class="btn btn-orange pull-right">
+                    保存
+                </button>
+            </div>
         </div>
     </form>
 </div>
