@@ -41,6 +41,9 @@ angular.module('console.routes', [{
                     });
                 } )
             };
+            $scope.editYaml = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.route.metadata.name,kind: $scope.route.kind});
+            };
             $scope.delete =function (val) {
                 if ($scope.route) {
                     delTip.open("删除Route", val, true).then(function(){

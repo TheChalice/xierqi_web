@@ -296,15 +296,30 @@ define([
             var EditYamlDeployment = $resource(GLOBAL.host_newk8s1 + '/namespaces/:namespace/deployments/:name', {
                 name: '@name',
                 namespace: '@namespace'
-            }, {});
+            }, {
+                put: { method: 'PUT' }
+            });
             return EditYamlDeployment;
         }])
-        .factory('EditYamlDeploymentConfigs', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
-            var EditYamlDeploymentConfigs = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {
+        .factory('EditYamlOfDcAndRoute', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var EditYamlOfDcAndRoute = $resource(GLOBAL.host + '/namespaces/:namespace/:type/:name', {
                 name: '@name',
-                namespace: '@namespace'
-            }, {});
-            return EditYamlDeploymentConfigs;
+                namespace: '@namespace',
+                type: '@type'
+            }, {
+                put: { method: 'PUT' }
+            });
+            return EditYamlOfDcAndRoute;
+        }])
+        .factory('EditYamlOfPodAndService', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var EditYamlOfPodAndService = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/:type/:name', {
+                name: '@name',
+                namespace: '@namespace',
+                type: '@type'
+            }, {
+                put: { method: 'PUT' }
+            });
+            return EditYamlOfPodAndService;
         }])
         .factory('ScaleRs', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ScaleRs = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/deployments/:name/scale', {

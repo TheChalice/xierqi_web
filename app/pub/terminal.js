@@ -114,9 +114,28 @@ define(['angular'], function (angular) {
                             makeconarr(name)
                             connect()
                         }
+                        var str='';
+                        var termarr = [];
                         term.on('data', function (data) {
+                            if (str === '') {
+                                str = data
+                            }else {
+                                str = str+data
+                            }
                             if (ws && ws.readyState === 1)
-                                ws.send("0" + window.btoa(data));
+                                console.log('data', data);
+                            if (data.indexOf(';8R') > -1) {
+                                    str=str.replace(/\[\d+;8R$/,'');
+                                    console.log(str);
+                                    if (str !== '') {
+                                        termarr.push(str)
+                                    }
+                                    str =''
+                                }
+
+
+                            console.log('termarr', termarr);
+                            ws.send("0" + window.btoa(data));
                         });
 
                         function connect() {
@@ -175,7 +194,7 @@ define(['angular'], function (angular) {
                             }
 
                             //console.log('$location', $location);
-                            //url='ws://localhost:8080/ws'+url;
+                            url='ws://localhost:8080/ws'+url;
                             //console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),
                                 function resolved(socket) {

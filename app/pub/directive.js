@@ -395,7 +395,8 @@ define(['angular'], function (angular) {
                         //console.log('$scope.podContainer',$scope.podContainer);
                         $scope.savelog = function () {
                             var filename = _.get($scope, 'object.metadata.name', 'openshift') + '.log';
-                            var blob = new Blob([$scope.result], { type: "text/plain;charset=utf-8" });
+                            //var blob = new Blob([$scope.result], { type: "application/octet-stream;" });
+                            var blob = new Blob([$scope.result], { type: "application/json;charset=utf-8" });
                             saveAs(blob, filename);
                             //console.log('$scope.result', $scope.result);
                         }
@@ -706,4 +707,18 @@ define(['angular'], function (angular) {
 
             }
         }])
+        .directive('parseError', function() {
+            return {
+                restrict: 'E',
+                scope: {
+                    error: '='
+                },
+                templateUrl: 'views/directives/_parse-error.html',
+                link: function($scope) {
+                    $scope.$watch('error', function() {
+                        $scope.hidden = false;
+                    });
+                }
+            };
+        });
 });
