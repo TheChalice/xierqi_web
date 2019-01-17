@@ -37,6 +37,14 @@ angular.module('console.deploymentconfig_detail', [
                     return num + 'G'
                 }
             }
+            angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    if(con.args){
+                        con.cmd = con.args.join(' ');
+                    }
+                    if(con.command){
+                        con.entrypoint = con.command.join(' ');
+                    }
+            })
             var checkedEnv = function(curDc){
                 for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                     $scope.dc.spec.template.spec.containers[i].env = {envArr:[],valueFromArr:[]}
@@ -525,6 +533,19 @@ angular.module('console.deploymentconfig_detail', [
 
                     if (!con.display) {
                         con.image = con.annotate.regimage
+                    }
+
+                    if (con.entrypoint) {
+                        con.command = con.entrypoint.split(' ')
+
+                    } else {
+                        delete con.command
+                    }
+
+                    if (con.cmd) {
+                        con.args = con.cmd.split(' ')
+                    } else {
+                        delete con.args
                     }
                     //addemptyDir
                     if (con.emptyDir.length > 0) {
