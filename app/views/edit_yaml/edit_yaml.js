@@ -85,7 +85,7 @@ angular.module('console.edit_yaml_file', [
             function kindOfData(kind) {
                 var editKind = kind.toLowerCase();
                 kind = editKind.slice(0, kind.length - 1);
-                // console.log('kindOfData', kind);
+                console.log('kindOfData', kind);
                 switch (kind) {
                     case kind: {
                         $state.go('console.' + kind + '_detail', {

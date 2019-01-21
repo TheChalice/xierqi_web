@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.secret_secret', [
+angular.module('console.secret_detail', [
     {
         files: []
     }

@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.constantly_persistentVolume', [
+angular.module('console.persistentvolumeclaim_detail', [
     {
         files: []
     }
