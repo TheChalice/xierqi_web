@@ -14,7 +14,7 @@ angular.module('console.edit_yaml_file', [
                     typeOfData(EditYamlOfDcAndRoute, kind);
                 } else if ($stateParams.kind == 'Deployment') {
                     typeOfData(EditYamlDeployment, kind);
-                } else if ($stateParams.kind == 'Pod' || $stateParams.kind == 'Service') {
+                } else if ($stateParams.kind == 'Pod' || $stateParams.kind == 'Service' || $stateParams.kind == 'Secret' || $stateParams.kind == 'ConfigMap' || $stateParams.kind =='PersistentVolumeClaim') {
                     typeOfData(EditYamlOfPodAndService, kind);
                 }
             }

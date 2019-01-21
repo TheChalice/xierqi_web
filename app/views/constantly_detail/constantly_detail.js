@@ -75,4 +75,7 @@ angular.module('console.constantly_persistentVolume', [
                     }
                 })
             }
+            $scope.editYaml = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.persistents.metadata.name,kind: $scope.persistents.kind});
+            };
         }]);
