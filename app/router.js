@@ -762,7 +762,8 @@ define([
                         }]
                     }
                 })
-                .state('console.config_configMap', {
+                //配置卷详情
+                .state('console.configmap_detail', {
                     url: '/:namespace/configmaps/:name',
                     templateUrl: 'views/config_detail/config_detail.html',
                     controller: 'configDetailCtrl',
@@ -793,7 +794,8 @@ define([
                         }]
                     }
                 })
-                .state('console.constantly_persistentVolume', {
+                //存储卷详情
+                .state('console.persistentvolumeclaim_detail', {
                     url: '/:namespace/storage/:name',
                     templateUrl: 'views/constantly_detail/constantly_detail.html',
                     controller: 'constDetailCtrl',
@@ -824,7 +826,8 @@ define([
                         }]
                     }
                 })
-                .state('console.secret_secret', {
+                //密钥卷详情
+                .state('console.secret_detail', {
                     url: '/:namespace/secrets/:name',
                     templateUrl: 'views/secret_detail/secret_detail.html',
                     controller: 'secretDetailCtrl',

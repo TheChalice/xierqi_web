@@ -131,7 +131,7 @@
                     <div class="row matgin-bt">
                         <div class="col-md-2 width150 color666">卷名称:</div>
                         <div class="col-md-10"><a class="href-orange"
-                                                  ui-sref="console.secret_secret({namespace:namespace,name: volume.secret.secretName})">{{volume.secret.secretName}}</a>
+                                                  ui-sref="console.secret_detail({namespace:namespace,name: volume.secret.secretName})">{{volume.secret.secretName}}</a>
                         </div>
                     </div>
                     <div class="row matgin-bt" ng-repeat="item in volume.secret.items">
@@ -147,7 +147,7 @@
                     <div class="row matgin-bt">
                         <div class="col-md-2 width150 color666">卷名称:</div>
                         <div class="col-md-10"><a class="href-orange"
-                                                  ui-sref="console.config_configMap({namespace:namespace,name: volume.configMap.name})">{{volume.configMap.name}}</a>
+                                                  ui-sref="console.configmap_detail({namespace:namespace,name: volume.configMap.name})">{{volume.configMap.name}}</a>
                         </div>
                     </div>
                     <div class="row matgin-bt" ng-repeat="item in volume.configMap.items">
@@ -163,7 +163,7 @@
                     <div class="row matgin-bt">
                         <div class="col-md-2 width150 color666">卷名称:</div>
                         <div class="col-md-10"><a class="href-orange"
-                                                  ui-sref="console.constantly_persistentVolume({namespace:namespace,name:volume.persistentVolumeClaim.claimName})">{{volume.persistentVolumeClaim.claimName}}</a>
+                                                  ui-sref="console.persistentvolumeclaim_detail({namespace:namespace,name:volume.persistentVolumeClaim.claimName})">{{volume.persistentVolumeClaim.claimName}}</a>
                         </div>
                     </div>
                     <!--<div class="row matgin-bt">-->

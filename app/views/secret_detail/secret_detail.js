@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.secret_secret', [
+angular.module('console.secret_detail', [
     {
         files: []
     }
@@ -237,4 +237,7 @@ angular.module('console.secret_secret', [
 
                 })
             }
+            $scope.editYaml = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.item.metadata.name,kind: $scope.item.kind});
+            };
         }]);
