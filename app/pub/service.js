@@ -2189,6 +2189,22 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 }).result;
             }
         }])
+        .service('quotaInfo', ['$uibModal', function ($uibModal) {
+            this.open = function (name,quota) {
+                return $uibModal.open({
+                    backdrop: 'static',
+                    templateUrl: 'pub/tpl/quotaInfo.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                        $scope.name = name;
+                        $scope.quota = quota;
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            };
+        }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
             var CODE_MAPPING = {
                 401: AUTH_EVENTS.loginNeeded,
