@@ -3,6 +3,11 @@
 define(['angular', 'moment'], function(angular, moment) {
     moment.locale('zh-cn');
     return angular.module('myApp.filter', [])
+        .config(function($sceProvider) {
+            // Completely disable SCE.  For demonstration purposes only!
+            // Do not use in new projects.
+            $sceProvider.enabled(false);
+        })
         .filter('imageSHA', function() {
             // Returns the trailing @sha:`...` if present from an image name.
             return function(imageName) {
