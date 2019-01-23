@@ -11,7 +11,8 @@ angular.module('overview', [
     .controller('overviewCtrl', ['GLOBAL','$scope', '$rootScope', 'Cookie', 'user', 'dclist', 'ServiceTenant', 'ToolTenant', 'AcessInformation','Sort','quotaInfo',
         function (GLOBAL,$scope, $rootScope, Cookie, user, dclist, ServiceTenant, ToolTenant, AcessInformation,Sort,quotaInfo) {
             $scope.quotaInfo = function(name,quota){
-                quotaInfo.open(name,quota);
+
+                quotaInfo.open(name,JSON.parse(quota));
             }
             if ($rootScope.user) {
                 console.log('$rootScope.user', $rootScope.user.metadata.name);
