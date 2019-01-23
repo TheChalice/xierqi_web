@@ -451,6 +451,8 @@ define(['angular'], function (angular) {
                             var w_h_set = function () {
                                 var wid_height = $(window).height();
                                 $("#sc").height(wid_height - 320);
+                                $scope.curheight = $("#sc").height();
+
                             }
                             $(window).resize(function () {
                                 w_h_set();
@@ -461,10 +463,15 @@ define(['angular'], function (angular) {
                             // console.log('wsobj', wsobj);
                             Ws.watch(wsobj, function (res) {
                                 if (res.data && typeof res.data == "string") {
-                                    $scope.result += $base64.decode(res.data);
-                                    var html = ansi_ups.ansi_to_html($scope.result);
-                                    $scope.log = $sce.trustAsHtml(html);
+                                    //$scope.result += $base64.decode(res.data);
+                                    //var html = ansi_ups.ansi_to_html($scope.result);
+                                    //$scope.log = $sce.trustAsHtml(html);
                                     //console.log('$scope.log ', html);
+                                    if(!$scope.isPlay){
+                                        $scope.result += $base64.decode(res.data);
+                                        var html = ansi_ups.ansi_to_html($scope.result);
+                                        $scope.log = $sce.trustAsHtml(html);
+                                    }
                                     $scope.$apply();
 
                                 }
@@ -478,6 +485,23 @@ define(['angular'], function (angular) {
                                 }
                             });
                         };
+                        $scope.isPlay = false;
+                        $scope.playLog = function(){
+                            if($scope.isPlay){
+                                $scope.isPlay = false;
+                            }else{
+                                $scope.isPlay = true;
+                            }
+                        }
+                        $("#sc").scroll(function(e) {
+                            $scope.curScrollTop = $("#sc").scrollTop();
+                            if(($scope.curheight + $scope.curScrollTop+100) >  e.target.scrollHeight || $scope.curScrollTop == 0){
+                                $scope.isPlay = false;
+                            }else{
+                                $scope.isPlay = true;
+                            }
+                            $scope.$apply();
+                        });
                         watchpod($scope.podResourceVersion, $scope.podContainername, $scope.podName, $scope.api)
                     }]
             };
