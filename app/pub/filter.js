@@ -1589,4 +1589,39 @@ define(['angular', 'moment'], function(angular, moment) {
                 return ageLessThanFilter(timestamp, 5, 'minutes');
             };
         }])
+        .filter('parseJSON', function() {
+            return function(json) {
+                // return original value if its null or undefined
+                if (!json) {
+                    return null;
+                }
+
+                // return the parsed obj if its valid
+                try {
+                    var jsonObj = JSON.parse(json);
+                    if (typeof jsonObj === "object") {
+                        return jsonObj;
+                    }
+                    else {
+                        return null;
+                    }
+                }
+                catch (e) {
+                    // it wasn't valid json
+                    return null;
+                }
+            };
+        })
+        .filter('prettifyJSON', ["parseJSONFilter", function(parseJSONFilter) {
+            return function(json) {
+                var jsonObj = parseJSONFilter(json);
+                if (jsonObj) {
+                    return JSON.stringify(jsonObj, null, 4);
+                }
+                else {
+                    // it wasn't a json object, return the original value
+                    return json;
+                }
+            };
+        }])
 });

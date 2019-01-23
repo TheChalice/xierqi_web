@@ -1,6 +1,6 @@
 .build-detail .form-group {
-    padding-bottom: 30px;
-    border-bottom: 1px solid #c9c9c9;
+    /*padding-bottom: 30px;*/
+    /*border-bottom: 1px solid #c9c9c9;*/
 }
 .build-detail .form-group:last-child {
     border-bottom: none;
@@ -167,3 +167,5 @@
 #build-detail .trig_tp{margin-top:16px;}
 #build-detail .pip_tit{width: 320px;display:block;float:left;height:26px;line-height:26px;border:1px solid #CCD5E0;overflow:hidden;
     padding-left:10px;padding-right:4px;white-space:nowrap;font-size:12px;color: #A2B0C4;border-radius: 4px;}
+#build-detail .table.key-value-table>tbody>tr>td.key{font-size: 12px;}
+#build-detail .table.key-value-table>tbody>tr>td.value{font-size: 12px;}
