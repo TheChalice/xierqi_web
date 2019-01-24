@@ -574,6 +574,99 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 }).result;
             };
         }])
+        //新增project
+        .service('AddProject', ['errcode', '$uibModal', function (errcode, $uibModal) {
+            this.open = function (title, txt, tip, orgId, isaddpeople) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/addProject.html',
+                    size: 'default',
+                    controller: ['addperpleOrg', 'createOrg', '$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
+                        function (addperpleOrg, createOrg, $state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+                            $scope.isaddpeople = isaddpeople;
+                            $scope.level = false;
+                            $scope.title = title;
+                            $scope.txt = txt;
+                            $scope.tip = tip;
+                            $scope.orgName = null;
+                            var canok = true;
+                            $scope.ok = function () {
+                                if (canok) {
+                                    canok = false;
+                                    if (isaddpeople == 'people') {
+                                        if (!$scope.orgName) {
+                                            $scope.tip = '邮箱不能为空';
+                                            return;
+                                        } else {
+                                            addperpleOrg.put({
+                                                namespace: $rootScope.namespace,
+                                                region: $rootScope.region
+                                            }, {
+                                                member_name: $scope.orgName,
+                                                admin: $scope.level
+                                            }, function (item) {
+                                                $uibModalInstance.close(item);
+                                            }, function (err) {
+                                                //console.log('err.code', err);
+                                                $scope.tip = errcode.open(err.data.code)
+                                            })
+
+                                        }
+                                    } else if (isaddpeople == 'org') {
+                                        if (!$scope.orgName) {
+                                            $scope.tip = '名称不能为空';
+                                            return;
+                                        } else {
+
+                                            createOrg.create({
+                                                region: $rootScope.region,
+                                                name: $scope.orgName
+                                            }, function (item) {
+                                                //$state.go('console.org', {useorg: item.id})
+                                                $uibModalInstance.close(item);
+                                                //$rootScope.delOrgs = true;
+                                            }, function (err) {
+                                                //console.log(err);
+
+                                                if (err.data.code === 400) {
+                                                    $scope.tip = '同一账号只可创建一个组织'
+                                                } else {
+                                                    $scope.tip = errcode.open(err.code)
+                                                }
+
+                                            });
+                                            //$http.post('/lapi/orgs', {
+                                            //    name: $scope.orgName
+                                            //}).success(function (item) {
+                                            //    //$state.go()
+                                            //    $state.go('console.org', {useorg: item.id})
+                                            //    $uibModalInstance.close(item);
+                                            //
+                                            //    $rootScope.delOrgs = true;
+                                            //}).error(function (res) {
+                                            //    //console.log(res);
+                                            //    $scope.tip = errcode.open(res.code)
+                                            //    //if(res.code >= 500){
+                                            //    //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                                            //    //}else{
+                                            //    //  $scope.tip = res.message;
+                                            //    //}
+                                            //})
+                                        }
+                                    } else {
+                                        $uibModalInstance.close($scope.orgName);
+                                    }
+                                }
+
+
+                            };
+                            $scope.cancel = function () {
+                                $uibModalInstance.dismiss();
+                            };
+                        }
+                    ]
+                }).result;
+            };
+        }])
         .service('Alert', ['$uibModal', function ($uibModal) {
             this.open = function (title, txt, err, regist, active) {
                 return $uibModal.open({

@@ -1097,6 +1097,35 @@ define([
                         ]
                     }
                 })
+                //新增project
+                .state('console.project', {
+                    url: '/:namespace/project/:name',
+                    templateUrl: 'views/project/project.html',
+                    params: {
+                        name: null
+                    },
+                    controller: 'CreateRouteCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/project/project.js')
+                        }],
+                        createRoutes: ['Route', 'Cookie', '$stateParams',
+                            function (Route, Cookie, $stateParams) {
+                                return Route.get({namespace: Cookie.get('namespace'), name: $stateParams.name}).$promise
+                            }
+                        ],
+                        routesList: ['Route', 'Cookie', '$stateParams',
+                            function (Route, Cookie) {
+                                return Route.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        ServiceList: ['Service', 'Cookie',
+                            function (Service, Cookie) {
+                                return Service.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })
                 .state('console.events', {
                     url: '/:namespace/events',
                     templateUrl: 'views/events/events.html',
