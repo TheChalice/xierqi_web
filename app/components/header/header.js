@@ -476,6 +476,7 @@ angular.module("console.header", [{
                                 }
                             });
                             $scope.projects = data.items;
+                            console.log('------------',$scope.projects);
                             $rootScope.projects = data.items;
 
                         }, function (res) {
@@ -621,8 +622,8 @@ angular.module("console.header", [{
                     $scope.change = false;
 
                     $scope.setNamespace = function (namespace) {
-                        //console.log(namespace);
                         $rootScope.activeNode = $rootScope.dataForTheTree[0];
+                        $scope.namespace = namespace
                         $rootScope.namespace = namespace;
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                         //$state.reload();
