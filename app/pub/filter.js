@@ -3,11 +3,6 @@
 define(['angular', 'moment'], function(angular, moment) {
     moment.locale('zh-cn');
     return angular.module('myApp.filter', [])
-        .config(function($sceProvider) {
-            // Completely disable SCE.  For demonstration purposes only!
-            // Do not use in new projects.
-            $sceProvider.enabled(false);
-        })
         .filter('imageSHA', function() {
             // Returns the trailing @sha:`...` if present from an image name.
             return function(imageName) {
@@ -18,7 +13,6 @@ define(['angular', 'moment'], function(angular, moment) {
                 return parts.length > 1 ? parts[1] : '';
             };
         })
-
         .filter('dateRelative', [function() {
             // dropSuffix will tell moment whether to include the "ago" text
             console.log('timestamp', 1);
