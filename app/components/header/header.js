@@ -9,8 +9,8 @@ angular.module("console.header", [{
         restrict: 'EA',
         replace: true,
         templateUrl: 'components/header/header.html',
-        controller: ['GLOBAL','$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-            function(GLOBAL,$timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+        controller: ['GLOBAL','$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal','AddProject', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+            function(GLOBAL,$timeout, $log, Project, account, regions, Toast, Addmodal,AddProject, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                 ///////分区
                 if (navigator.userAgent.indexOf("Firefox") > 0) {
                     $('#testjt').unbind('DOMMouseScroll');
@@ -295,6 +295,23 @@ angular.module("console.header", [{
                     })
 
                 }
+                //创建project
+                $scope.createProject = function() {
+                    AddProject.open('创建组织', '组织名称', '', '', 'org').then(function(res) {
+                        //orgList.get({}, function (org) {
+                        // console.log(org);
+                        //console.log(1);
+
+                        Toast.open('创建成功')
+                        $timeout(function() {
+                            loadProject()
+                        }, 2000)
+
+                        //    $scope.userorgs = org.orgnazitions;
+                        //})
+                    })
+
+                }
 
                 $scope.back = function() {
                     //console.log($state);
@@ -477,6 +494,8 @@ angular.module("console.header", [{
                 return "流水线详情";
             case "console.pipeline":
                 return "流水线";
+            case "console.project":
+                return "Project";
             case "console.dashboard":
                 return "仪表盘";
             case "console.build":
@@ -571,11 +590,11 @@ angular.module("console.header", [{
                 return "镜像部署 详情";
             case "console.pods":
                 return "容器组";
-            case "console.pods_detail":
+            case "console.pod_detail":
                 return "容器组详情";
             case "console.services":
                 return "服务端口";
-            case "console.service_details":
+            case "console.service_detail":
                 return "服务端口详情";
             case "console.resource_persistentVolume":
                 return "存储卷";

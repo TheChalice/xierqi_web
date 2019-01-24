@@ -562,8 +562,8 @@ define([
                         }]
                     }
                 })//ok
-                .state('console.pods_detail', {
-                    url: '/:namespace/pods/:name',
+                .state('console.pod_detail', {
+                    url: '/:namespace/pod/:name',
                     templateUrl: 'views/pods_detail/pods_detail.html',
                     controller: 'podsdetailCtrl',
                     resolve: {
@@ -594,7 +594,7 @@ define([
                         }]
                     }
                 })//ok
-                .state('console.service_details', {
+                .state('console.service_detail', {
                     url: '/:namespace/services/:name',
                     params: {
                         from: null
@@ -905,7 +905,7 @@ define([
                     }
                 })//ok
                 .state('console.edit_yaml_file', {
-                    url: '/:namespace/:type/edit/yaml/:name',
+                    url: '/:namespace/:kind/edit/yaml/:name',
                     templateUrl: 'views/edit_yaml/edit_yaml.html',
                     controller: 'EditYamlCtrl',
                     resolve: {
@@ -917,16 +917,6 @@ define([
                                 return Project.get({name: Cookie.get('namespace')}).$promise
                             }
                         ]
-                        // DcEditYaml: ['$stateParams', 'Edityaml', 'Cookie', '$rootScope',
-                        //     function ($stateParams, Edityaml, Cookie, $rootScope) {
-                        //         console.log('$stateParams', $stateParams);
-                        //         return Edityaml.get({
-                        //             namespace: Cookie.get('namespace'),
-                        //             name: $stateParams.name,
-                        //             type: $stateParams.type
-                        //         }).$promise;
-                        //     }
-                        // ]
                     }
                 })
 
@@ -1103,6 +1093,35 @@ define([
                         monitoringBuild: ['Build', 'Cookie','Build',
                             function (Build, Cookie) {
                                 return Build.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })
+                //新增project
+                .state('console.project', {
+                    url: '/:namespace/project/:name',
+                    templateUrl: 'views/project/project.html',
+                    params: {
+                        name: null
+                    },
+                    controller: 'CreateRouteCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/project/project.js')
+                        }],
+                        createRoutes: ['Route', 'Cookie', '$stateParams',
+                            function (Route, Cookie, $stateParams) {
+                                return Route.get({namespace: Cookie.get('namespace'), name: $stateParams.name}).$promise
+                            }
+                        ],
+                        routesList: ['Route', 'Cookie', '$stateParams',
+                            function (Route, Cookie) {
+                                return Route.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        ServiceList: ['Service', 'Cookie',
+                            function (Service, Cookie) {
+                                return Service.get({namespace: Cookie.get('namespace')}).$promise
                             }
                         ]
                     }

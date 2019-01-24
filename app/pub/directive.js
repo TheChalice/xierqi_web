@@ -707,4 +707,18 @@ define(['angular'], function (angular) {
 
             }
         }])
+        .directive('parseError', function() {
+            return {
+                restrict: 'E',
+                scope: {
+                    error: '='
+                },
+                templateUrl: 'views/directives/_parse-error.html',
+                link: function($scope) {
+                    $scope.$watch('error', function() {
+                        $scope.hidden = false;
+                    });
+                }
+            };
+        });
 });
