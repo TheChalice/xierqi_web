@@ -11,12 +11,6 @@
                         <p class="img-time">
                             <span classs="module_tit">创建时间：</span><span class="module_time">{{BuildConfig.metadata.creationTimestamp | dateRelative}}</span>
                         </p>
-                        <p class="img-time">
-                            <span classs="module_tit">查看日志：</span>
-                            <a class="href-orange"
-                               ng-href="databuild.items[0].metadata.annotations['openshift.io/jenkins-console-log-url']"
-                               tooltip-placement="top">{{databuild.items[0].metadata.annotations['openshift.io/jenkins-console-log-url']}}</a>
-                        </p>
                     </div>
 
                 </div>
@@ -75,8 +69,13 @@
                                            ui-sref="console.pipelinetag_detail({namespace:namespace,name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
                                             #{{item.metadata.annotations['openshift.io/build.number']}}</a>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-2">
                                         <span>状态：{{item.status.phase | piplineStatusFilter}}</span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        查看日志：<a class="href-orange"
+                                           ng-href="databuild.items[0].metadata.annotations['openshift.io/jenkins-console-log-url']"
+                                           tooltip-placement="top">{{item.metadata.annotations['openshift.io/jenkins-console-log-url']}}</a>
                                     </div>
                                     <div class="col-sm-2 text-right">
                                         <!-- <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
