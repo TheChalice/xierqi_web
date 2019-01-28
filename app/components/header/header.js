@@ -9,8 +9,8 @@ angular.module("console.header", [{
         restrict: 'EA',
         replace: true,
         templateUrl: 'components/header/header.html',
-        controller: ['GLOBAL','$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal','AddProject', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-            function(GLOBAL,$timeout, $log, Project, account, regions, Toast, Addmodal,AddProject, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+        controller: ['GLOBAL','$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+            function(GLOBAL,$timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                 ///////分区
                 if (navigator.userAgent.indexOf("Firefox") > 0) {
                     $('#testjt').unbind('DOMMouseScroll');
@@ -281,23 +281,6 @@ angular.module("console.header", [{
 
                 $scope.createOrg = function() {
                     Addmodal.open('创建组织', '组织名称', '', '', 'org').then(function(res) {
-                        //orgList.get({}, function (org) {
-                        // console.log(org);
-                        //console.log(1);
-
-                        Toast.open('创建成功')
-                        $timeout(function() {
-                            loadProject()
-                        }, 2000)
-
-                        //    $scope.userorgs = org.orgnazitions;
-                        //})
-                    })
-
-                }
-                //创建project
-                $scope.createProject = function() {
-                    AddProject.open('创建组织', '组织名称', '', '', 'org').then(function(res) {
                         //orgList.get({}, function (org) {
                         // console.log(org);
                         //console.log(1);
