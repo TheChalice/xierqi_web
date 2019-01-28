@@ -381,14 +381,14 @@ define([
                             stateUrl: null,
                             children: []
                         }
-                        ,
-                        {
-                            name: 'project',
-                            img: 'icon25 icon25-repository',
-                            url: 'console.project@' + namespace,
-                            stateUrl: null,
-                            children: []
-                        }
+                        // ,
+                        // {
+                        //     name: 'project',
+                        //     img: 'icon25 icon25-repository',
+                        //     url: 'console.project@' + namespace,
+                        //     stateUrl: null,
+                        //     children: []
+                        // }
 
                     ];
                     //console.log('toState.name', toState.name);
@@ -427,17 +427,18 @@ define([
                         }
                         else if (toState.name.indexOf('route') != -1) {
                             $rootScope.app[3].stateUrl = toState.name;
-                        }else if (toState.name.indexOf('project') != -1) {
-                            $rootScope.dataForTheTree[7].stateUrl = toState.name;
                         }
+                        // else if (toState.name.indexOf('project') != -1) {
+                        //     $rootScope.dataForTheTree[7].stateUrl = toState.name;
+                        // }
                         // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
                         //     $rootScope.dataForTheTree[4].stateUrl = toState.name;
                         // }
-                        else if (toState.name.indexOf('_persistentVolume') != -1) {
+                        else if (toState.name.indexOf('_persistentVolume') != -1 || toState.name.indexOf('persistentvolumeclaim_detail') != -1 || toState.name.indexOf('create_constantly_persistentVolume') != -1) {
                             $rootScope.resources[0].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('_configMap') != -1) {
+                        } else if (toState.name.indexOf('_configMap') != -1 || toState.name.indexOf('configmap_detail') != -1 || toState.name.indexOf('create_config_configMap') != -1) {
                             $rootScope.resources[1].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('_secret') != -1) {
+                        } else if (toState.name.indexOf('_secret') != -1 || toState.name.indexOf('secret_detail') != -1 || toState.name.indexOf('create_secret') != -1) {
                             $rootScope.resources[2].stateUrl = toState.name;
                         }
                         $rootScope.transfering = false;
