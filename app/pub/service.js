@@ -582,47 +582,31 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     size: 'default',
                     controller: ['addperpleOrg', 'createOrg', '$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
                         function (addperpleOrg, createOrg, $state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
-                        $scope.status = {
-                            isNull : false,
-                            displayNameOfNull:false,
-                            descriptionOfNull:false,
-                            tipOfName : 'name不能为空',
-                            tipOfDisplayName : 'DisplayName不能为空',
-                            tipOfDescription : 'Description不能为空',
-                        };
+
+                            $scope.inputarr=[{
+                                name:'',
+                                isnull:false,
+                                key:'name'
+                            },{
+                                name:'',
+                                isnull:false,
+                                key:'displayName'
+                            },{
+                                name:'',
+                                isnull:false,
+                                key:'description'
+                            }]
 
 
-                            $scope.changeOfName1 = function () {
-                                if($scope.name){
-                                    $scope.status.isNull = false
-                                }
-                            };
-                            $scope.changeOfName2 = function () {
-                                if($scope.name){
-                                    $scope.status.displayNameOfNull = false
-                                }
-                            };
-                            $scope.changeOfName3 = function () {
-                                if($scope.name){
-                                    $scope.status.descriptionOfNull = false
-                                }
-                            };
 
                             $scope.ok = function () {
-                                if(!$scope.name){
-                                    $scope.status.isNull = true;
-                                    return;
-                                }else {
-
-                                }
-                                if(!$scope.displayName){
-                                    $scope.status.displayNameOfNull = true;
-                                    return;
-                                }
-                                if(!$scope.Description){
-                                    $scope.status.descriptionOfNull = true;
-                                    return;
-                                }
+                                angular.forEach($scope.inputarr, function (item,i) {
+                                    //console.log(item.name);
+                                    item.isnull=false
+                                    if (item.name === '') {
+                                        item.isnull=true
+                                    }
+                                })
 
 
                             };
