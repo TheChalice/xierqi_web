@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.services', [
+angular.module('console.service', [
     'kubernetesUI',
     {
         files: [
