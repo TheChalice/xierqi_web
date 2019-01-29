@@ -477,6 +477,8 @@ angular.module("console.header", [{
                 return "流水线详情";
             case "console.pipeline":
                 return "流水线";
+            case "console.project":
+                return "Project";
             case "console.dashboard":
                 return "仪表盘";
             case "console.build":

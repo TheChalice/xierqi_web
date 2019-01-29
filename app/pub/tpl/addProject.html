@@ -1,0 +1,39 @@
+<div>
+    <div class="modal-header">
+        <h5 class="modal-title">
+            Create New Project
+            <a ng-click="cancel()" href="javascript:;" class="modal-close">
+                <i class="fa fa-times-circle pull-right"></i>
+            </a>
+        </h5>
+    </div>
+    <div class="modal-body">
+        <div ng-repeat="item in inputarr">
+            <p class="modal-msg" style="padding-left: 15px;text-align: left;font-size: 14px;color: #5a6378;">{{item.key}}
+                <small class="modal-tip" style="float: right;" ng-if="item.isnull">
+                    <span class="icon12 icon12-tip"></span>{{item.key}}不能为空
+                </small>
+            </p>
+            <div class="row">
+                <div class="col-md-12" style="padding-left: 30px;">
+                    <div>
+                        <input type="text" class="form-control" ng-model="item.name">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-gray cancel" ng-click="cancel()">取消</button>
+        <button class="btn btn-orange" id="confirm" ng-click="ok()">确认</button>
+    </div>
+    <style>
+        #confirm {
+            color: white;
+        }
+    </style>
+
+</div>

@@ -574,6 +574,50 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 }).result;
             };
         }])
+        //新增project
+        .service('AddProject', ['errcode', '$uibModal', function (errcode, $uibModal) {
+            this.open = function (title, txt, tip, orgId, isaddpeople) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/addProject.html',
+                    size: 'default',
+                    controller: ['addperpleOrg', 'createOrg', '$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
+                        function (addperpleOrg, createOrg, $state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+
+                            $scope.inputarr=[{
+                                name:'',
+                                isnull:false,
+                                key:'name'
+                            },{
+                                name:'',
+                                isnull:false,
+                                key:'displayName'
+                            },{
+                                name:'',
+                                isnull:false,
+                                key:'description'
+                            }]
+
+
+
+                            $scope.ok = function () {
+                                angular.forEach($scope.inputarr, function (item,i) {
+                                    //console.log(item.name);
+                                    item.isnull=false
+                                    if (item.name === '') {
+                                        item.isnull=true
+                                    }
+                                })
+
+
+                            };
+                            $scope.cancel = function () {
+                                $uibModalInstance.dismiss();
+                            };
+                        }
+                    ]
+                }).result;
+            };
+        }])
         .service('Alert', ['$uibModal', function ($uibModal) {
             this.open = function (title, txt, err, regist, active) {
                 return $uibModal.open({

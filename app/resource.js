@@ -721,6 +721,13 @@ define([
             })
             return createOrg;
         }])
+        //创建project
+        .factory('createProject', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var createProject = $resource(GLOBAL.host_lapi + '/v1/orgs?region=:region', { region: '@region' }, {
+                create: { method: 'POST' }
+            })
+            return createProject;
+        }])
         .factory('addperpleOrg', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var addperpleOrg = $resource(GLOBAL.host_lapi + '/v1/orgs/:namespace/invite?region=:region', {
                 namespace: '@namespace',
