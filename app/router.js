@@ -584,7 +584,7 @@ define([
                     }
                 })//ok
 
-                .state('console.services', {
+                .state('console.service', {
                     url: '/:namespace/services',
                     templateUrl: 'views/apps/services/services.html',
                     controller: 'ServicesCtrl',
