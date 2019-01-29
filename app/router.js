@@ -1093,9 +1093,28 @@ define([
                                 return statefulsets.get({namespace: Cookie.get('namespace')}).$promise
                             }
                         ],
-                        monitoringBuild: ['Build', 'Cookie','Build',
+                        monitoringBuild: ['Build', 'Cookie', 'Build',
                             function (Build, Cookie) {
                                 return Build.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })
+                //新增project
+                .state('console.project', {
+                    url: '/:namespace/projectlist',
+                    templateUrl: 'views/project/project.html',
+                    params: {
+                        name: null
+                    },
+                    controller: 'ProjectCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/project/project.js')
+                        }],
+                        projectlist: ['Project', 'Cookie', '$stateParams',
+                            function (Project, Cookie, $stateParams) {
+                                return Project.get().$promise
                             }
                         ]
                     }
@@ -1110,13 +1129,11 @@ define([
                         }]
                     }
                 })
-                //pods详情
+            //pods详情
 
-                //新建routes
+            //新建routes
 
-                //新建deployment
-
-
+            //新建deployment
 
 
             //过期route
