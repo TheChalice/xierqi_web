@@ -32,6 +32,7 @@ angular.module("console.sidebar", [
                     }
                 }
                 $scope.state = $state;
+                console.log('$scope.state', $scope.state.current.name);
                 //$(".nav_top_li").addClass("nav_top_toggle");
                 $scope.goUrl = function (url) {
                     if (url) {

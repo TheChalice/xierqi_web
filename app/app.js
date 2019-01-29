@@ -3204,7 +3204,7 @@ define([
                             name: '镜像仓库',
                             img: 'icon25 icon25-repository',
                             url: null,
-                            stateUrl: null,
+                            stateUrl: 'image',
                             children: $rootScope.imageChild
                         },
                         // { name: '流水线', img: 'icon25 icon25-pipeline', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },

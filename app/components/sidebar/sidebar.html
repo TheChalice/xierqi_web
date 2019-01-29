@@ -69,15 +69,11 @@
     </style>
     <a href="javascript:void(0);" class="zx_set_btn" ng-click="sidebaerWidth()"></a>
     <div ng-show="activeStyle">
-        <div class="node-wrop-box" ng-class="{'select':state.includes(node.stateUrl)}" ng-repeat="node in dataForTheTree" ng-mouseenter="mouHoverOne($event)" ng-mouseleave="mouHoverTwo($event)" style="width: 100%;height: 40px;-webkit-background-size: 16px;background-size: 16px;">
+        <div class="node-wrop-box" ng-class="{'select':console.state.indexOf(node.stateUrl)>-1}" ng-repeat="node in dataForTheTree" ng-mouseenter="mouHoverOne($event)" ng-mouseleave="mouHoverTwo($event)" style="width: 100%;height: 40px;-webkit-background-size: 16px;background-size: 16px;">
             <a class="{{node.img}}" style="position: absolute;left: 31px;top: 14px;display: inline-block;"></a>
-            <!--<ul style="" class=".box-ul">-->
-                <!--<li style=" border-bottom: 1px solid #e8e9ec;" ng-class="{'url-isnull':!node.url}" ng-click="nodeUrlGo(node.url)">{{node.name}}</li>-->
-                <!--<li ng-repeat="child in node.children" ng-click="nodeUrlGo(child.url)" style="cursor: pointer">{{child.name}}</li>-->
-            <!--</ul>-->
             <ul style="" class="box-ul">
                 <li class="show-li" style=" border-bottom: 1px solid #e8e9ec;" ng-click="nodeUrlGo(node.url)">
-                    <a ng-class="{'select':state.includes(node.stateUrl)}">{{node.name}}</a>
+                    <a ng-class="{'select':state.includes(node.stateUrl)}">{{console.state.indexOf(node.stateUrl)>-1}}{{node.name}}</a>
                 </li>
                 <li class="hide-left-li" ng-repeat="child in node.children" ng-click="nodeUrlGo(child.url)" style="cursor: pointer;">
                     <a ng-class="{'select':state.includes(child.stateUrl)}">{{child.name}}</a>
@@ -107,116 +103,6 @@
         </div>
     </div>
 
-    <!--<ul class="nav nav-pills nav-stacked nav-jia-pills">-->
 
-        <!--&lt;!&ndash;<li class="side_change">&ndash;&gt;-->
-
-
-                <!--&lt;!&ndash;<div class="sidebar_jia_per">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div uib-dropdown on-toggle="toggled(open)">&ndash;&gt;-->
-
-                        <!--&lt;!&ndash;<a href="javascript:;" id="user-menu" class="sidebar_jia_block" uib-dropdown-toggle>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<span class="sidebar_current" style="display:inline-block;">当前项目：</span>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<span class="header_jia_per_tit" title="{{projectname}}">{{projectname}}</span>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<b class="h_caret sidebar_h_caret"></b>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<ul class="projectname" uib-dropdown-menu&ndash;&gt;-->
-                            <!--&lt;!&ndash;aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;min-height:156px;top:0px;left:187px;z-index:9999;background: #f7fafc;border-radius:0;">&ndash;&gt;-->
-                            <!--&lt;!&ndash;&lt;!&ndash;personal account&ndash;&gt;&ndash;&gt;-->
-                            <!--&lt;!&ndash;<li ng-if="projects" class='personal'>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<span>查看[ 个人账户 ]</span>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</li>&ndash;&gt;-->
-
-
-                            <!--&lt;!&ndash;<li ng-repeat="project in projects">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<a href="javascript:;"&ndash;&gt;-->
-                                   <!--&lt;!&ndash;ng-click="setNamespace(project.metadata.name)">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span class="df_set_name" title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">&ndash;&gt;-->
-                            <!--&lt;!&ndash;切换项目 [ {{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}} ]&ndash;&gt;-->
-                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<li>&ndash;&gt;-->
-
-                                <!--&lt;!&ndash;<a href="javascript:;" ng-click="createOrg()">创建组织</a>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                            <!--&lt;!&ndash;&lt;!&ndash;<li style="border-bottom: none;">&ndash;&gt;&ndash;&gt;-->
-                                <!--&lt;!&ndash;&lt;!&ndash;<a href="javascript:;" ng-click="logout()">退出登录</a>&ndash;&gt;&ndash;&gt;-->
-                            <!--&lt;!&ndash;&lt;!&ndash;</li>&ndash;&gt;&ndash;&gt;-->
-                        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-
-        <!--&lt;!&ndash;</li>&ndash;&gt;-->
-
-
-        <!--<li ui-sref-active="active">-->
-            <!--<a ui-sref="console.dashboard">-->
-                <!--<i class="fa fa-caret-left"></i>-->
-                <!--<span class="icon25 icon25-dashboard"></span>&nbsp;&nbsp;-->
-                <!--仪表盘-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--<li ui-sref-active="active"-->
-            <!--ng-class="{'active':$state.includes('console.build_create')||$state.includes('console.build_detail')}">-->
-            <!--<a ui-sref="console.build">-->
-                <!--<i class="fa fa-caret-left"></i>-->
-                <!--<span class="icon25 icon25-build"></span>&nbsp;&nbsp;-->
-                <!--代码构建-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--<li ui-sref-active="active"-->
-            <!--ng-class="{'active':$state.includes('console.image_detail')}">-->
-            <!--<a ui-sref="console.image">-->
-                <!--<i class="fa fa-caret-left"></i>-->
-                <!--<span class="icon25 icon25-repository"></span>&nbsp;&nbsp;-->
-                <!--镜像仓库-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--<li ui-sref-active="active"-->
-            <!--ng-class="{'active':$state.includes('console.service_create')||$state.includes('console.service_detail')}">-->
-            <!--<a ui-sref="console.service">-->
-                <!--<i class="fa fa-caret-left"></i>-->
-                <!--<span class="icon25 icon25-deployment"></span>&nbsp;&nbsp;-->
-                <!--服务部署-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--&lt;!&ndash;<li ui-sref-active="active"&ndash;&gt;-->
-            <!--&lt;!&ndash;ng-class="{'active':$state.includes('console.apply_instance')}">&ndash;&gt;-->
-            <!--&lt;!&ndash;<a ui-sref="console.backing_service">&ndash;&gt;-->
-                <!--&lt;!&ndash;<i class="fa fa-caret-left"></i>&ndash;&gt;-->
-                <!--&lt;!&ndash;<span class="icon25 icon25-service"></span>&nbsp;&nbsp;&ndash;&gt;-->
-                <!--&lt;!&ndash;后端服务&ndash;&gt;-->
-            <!--&lt;!&ndash;</a>&ndash;&gt;-->
-        <!--&lt;!&ndash;</li>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;-->
-        <!--<li ui-sref-active="active">-->
-            <!--<a ui-sref="console.foobar">-->
-                <!--<i class="fa fa-caret-left"></i>-->
-                <!--<span class="icon25 icon25-make"></span>&nbsp;&nbsp;应用编排-->
-            <!--</a>-->
-        <!--</li>-->
-         <!--&ndash;&gt;-->
-        <!--<li ui-sref-active="active">-->
-            <!--<a ui-sref="console.resource_management">-->
-                <!--<i class="fa fa-caret-left"></i>-->
-                <!--<span class="icon25 icon25-resource"></span>&nbsp;&nbsp;-->
-                <!--资源管理-->
-            <!--</a>-->
-        <!--</li>-->
-        <!--&lt;!&ndash;<li ui-sref-active="active"&ndash;&gt;-->
-            <!--&lt;!&ndash;ng-class="{'active':$state.includes('console.Integration')}">&ndash;&gt;-->
-            <!--&lt;!&ndash;<a ui-sref="console.Integration">&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-caret-left"></i>&ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash;<span class="icon25 icon25-Integration"></span>&nbsp;&nbsp;&ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;数据集成&ndash;&gt;-->
-            <!--&lt;!&ndash;</a>&ndash;&gt;-->
-        <!--&lt;!&ndash;</li>&ndash;&gt;-->
-    <!--</ul>-->
 </div>
 
