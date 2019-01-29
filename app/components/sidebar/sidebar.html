@@ -15,6 +15,9 @@
         .node-wrop-box:hover{
             box-shadow: 1px 1px 5px #d3d3d3;
         }
+        .node-wrop-box.select{
+            background: #8D9AAD;
+        }
         .node-wrop-box ul{
             position: absolute;
             top:0px;
@@ -28,15 +31,26 @@
         .node-wrop-box ul li:hover{
             color: #1f2d3d;
         }
-        .node-wrop-box li.url-isnull{
+        .node-wrop-box .box-ul li.url-isnull{
             cursor: default;
         }
-        .node-wrop-box li{
+        .node-wrop-box .box-ul li{
             height: 41px;
             line-height: 40px;
             background: #F5F6F9;
-            text-align: center;
+            /*text-align: center;*/
             color: #475669;
+        }
+        .node-wrop-box .box-ul li a {
+            padding: 0 30px!important;
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            width: 100%;
+        }
+        .node-wrop-box .box-ul li a.select{
+            background: #8D9AAD;
+            color:#fff!important;
         }
         #sidebar .tree-light li a {
             display: inline-block;
@@ -55,11 +69,19 @@
     </style>
     <a href="javascript:void(0);" class="zx_set_btn" ng-click="sidebaerWidth()"></a>
     <div ng-show="activeStyle">
-        <div class="node-wrop-box {{node.img}}" ng-repeat="node in dataForTheTree" ng-mouseenter="mouHoverOne($event)" ng-mouseleave="mouHoverTwo($event)" style="width: 100%;height: 40px;-webkit-background-size: 16px;background-size: 16px;">
-
-            <ul style="">
-                <li style=" border-bottom: 1px solid #e8e9ec;" ng-class="{'url-isnull':!node.url}" ng-click="nodeUrlGo(node.url)">{{node.name}}</li>
-                <li ng-repeat="child in node.children" ng-click="nodeUrlGo(child.url)" style="cursor: pointer">{{child.name}}</li>
+        <div class="node-wrop-box" ng-class="{'select':state.includes(node.stateUrl)}" ng-repeat="node in dataForTheTree" ng-mouseenter="mouHoverOne($event)" ng-mouseleave="mouHoverTwo($event)" style="width: 100%;height: 40px;-webkit-background-size: 16px;background-size: 16px;">
+            <a class="{{node.img}}" style="position: absolute;left: 31px;top: 14px;display: inline-block;"></a>
+            <!--<ul style="" class=".box-ul">-->
+                <!--<li style=" border-bottom: 1px solid #e8e9ec;" ng-class="{'url-isnull':!node.url}" ng-click="nodeUrlGo(node.url)">{{node.name}}</li>-->
+                <!--<li ng-repeat="child in node.children" ng-click="nodeUrlGo(child.url)" style="cursor: pointer">{{child.name}}</li>-->
+            <!--</ul>-->
+            <ul style="" class="box-ul">
+                <li class="show-li" style=" border-bottom: 1px solid #e8e9ec;" ng-click="nodeUrlGo(node.url)">
+                    <a ng-class="{'select':state.includes(node.stateUrl)}">{{node.name}}</a>
+                </li>
+                <li class="hide-left-li" ng-repeat="child in node.children" ng-click="nodeUrlGo(child.url)" style="cursor: pointer;">
+                    <a ng-class="{'select':state.includes(child.stateUrl)}">{{child.name}}</a>
+                </li>
             </ul>
         </div>
 
