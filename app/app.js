@@ -3170,10 +3170,10 @@ define([
                     //console.log("Cookie.get('namespace')",Cookie.get('namespace'));
                     var namespace = Cookie.get('namespace')
                     $rootScope.app = [
-                        {name: '部署镜像', url: 'console.deployments@' + namespace, stateUrl: null, children: []},
-                        {name: '容器状态', url: 'console.pods@' + namespace, stateUrl: null, children: []},
-                        {name: '服务地址', url: 'console.services@' + namespace, stateUrl: null, children: []},
-                        {name: '域名管理', url: 'console.routes@' + namespace, stateUrl: null, children: []},
+                        {name: '部署镜像', url: 'console.deployments@' + namespace, type:'dc', stateUrl: null, children: []},
+                        {name: '容器状态', url: 'console.pods@' + namespace, type:'dc', stateUrl: null, children: []},
+                        {name: '服务地址', url: 'console.services@' + namespace, type:'dc', stateUrl: null, children: []},
+                        {name: '域名管理', url: 'console.routes@' + namespace, type:'dc', stateUrl: null, children: []},
                         //{name: '有状态集', url: 'console.stateful-sets@' + namespace, stateUrl: null, children: []},
                     ];
                     $rootScope.imageChild = [
@@ -3184,11 +3184,12 @@ define([
                         {
                             name: '存储卷',
                             url: 'console.resource_persistentVolume@' + namespace,
+                            type:'resource',
                             stateUrl: null,
                             children: []
                         },
-                        {name: '配置卷', url: 'console.resource_configMap@' + namespace, stateUrl: null, children: []},
-                        {name: '密钥卷', url: 'console.resource_secret@' + namespace, stateUrl: null, children: []}
+                        {name: '配置卷', url: 'console.resource_configMap@' + namespace, type:'resource', stateUrl: null, children: []},
+                        {name: '密钥卷', url: 'console.resource_secret@' + namespace, type:'resource', stateUrl: null, children: []}
                     ];
 
                     $rootScope.dataForTheTree = [
@@ -3198,6 +3199,7 @@ define([
                             img: 'icon25 icon25-build',
                             url: 'console.build@' + namespace,
                             stateUrl: null,
+                            type:'build',
                             children: []
                         },
                         {
