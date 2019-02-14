@@ -1,0 +1,8 @@
+<div ng-show="error && !hidden" class="alert alert-danger animate-show" style="margin: 0 20px;">
+    <button ng-click="hidden = true" type="button" class="close" aria-hidden="true" style="font-size: 0;">
+        <span class="pficon pficon-close uex-icon-cross" style="color: red!important;background: red;"></span>
+    </button>
+    <span class="pficon pficon-error-circle-o uex-icon-cross" style="color: red;"></span>
+    <strong>Failed to process the resource.</strong>
+    <div class="pre-wrap" ng-if="error.message">{{error.message}}</div>
+</div>

@@ -387,7 +387,7 @@ angular.module("console.header", [{
 
                 $scope.hasBack = function(){
 
-                    if ($state.current.name == "console.repository-image"||$state.current.name == "console.private-image"||$state.current.name == "console.pipeline"||$state.current.name == "console.resource_configMap"||$state.current.name == "console.resource_persistentVolume"||$state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management"|| $state.current.name == "console.resource_secret"|| $state.current.name == "console.monitoring") {
+                    if ($state.current.name == "console.repository-image"||$state.current.name == "console.private-image"||$state.current.name == "console.pipeline"||$state.current.name == "console.resource_configMap"||$state.current.name == "console.resource_persistentVolume"||$state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.service"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management"|| $state.current.name == "console.resource_secret"|| $state.current.name == "console.monitoring") {
 
                         return false
                     }
@@ -477,6 +477,8 @@ angular.module("console.header", [{
                 return "流水线详情";
             case "console.pipeline":
                 return "流水线";
+            case "console.project":
+                return "Project";
             case "console.dashboard":
                 return "仪表盘";
             case "console.build":
@@ -535,11 +537,11 @@ angular.module("console.header", [{
                 return "新建配置卷";
             case "console.create_secret":
                 return "新建密钥卷";
-            case "console.config_configMap":
+            case "console.configmap_detail":
                 return "配置卷详情";
-            case "console.secret_secret":
+            case "console.secret_detail":
                 return "密钥卷详情";
-            case "console.constantly_persistentVolume":
+            case "console.persistentvolumeclaim_detail":
                 return "存储卷详情";
             case "console.create_saas":
                 return "新建服务实例";
@@ -571,11 +573,11 @@ angular.module("console.header", [{
                 return "镜像部署 详情";
             case "console.pods":
                 return "容器组";
-            case "console.pods_detail":
+            case "console.pod_detail":
                 return "容器组详情";
-            case "console.services":
+            case "console.service":
                 return "服务端口";
-            case "console.service_details":
+            case "console.service_detail":
                 return "服务端口详情";
             case "console.resource_persistentVolume":
                 return "存储卷";

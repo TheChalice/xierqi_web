@@ -411,7 +411,7 @@ angular.module('console.deployment_detail', [
                 })
             };
             $scope.editYamlFun = function () {
-                    $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.dc.metadata.name,type: 'deployment'});
+                    $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.dc.metadata.name,kind: $scope.dc.kind});
             };
             $scope.deployDc = function () {
                 var sendobj = {

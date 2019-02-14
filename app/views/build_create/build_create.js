@@ -425,6 +425,13 @@ angular.module('console.build_create_new', [
                     //     return
 
                     // }
+                    if ($scope.buildConfig.metadata.annotations.repo === '') {
+                        $scope.buildConfig.spec.source.git.uri=$scope.buildConfig.spec.source.git.uri.replace('.git','')
+                        console.log('$scope.buildConfig.spec.source.git.uri.split().length',$scope.buildConfig.spec.source.git.uri.split('/').length);
+                        var repo=$scope.buildConfig.spec.source.git.uri.split('/')[$scope.buildConfig.spec.source.git.uri.split('/').length-1]
+                        $scope.buildConfig.metadata.annotations.repo=repo
+                    }
+
                     if (urlRegExp.test($scope.buildConfig.spec.source.git.uri) === false) {
                         $scope.privateErr.urlerr = true;
                         return;

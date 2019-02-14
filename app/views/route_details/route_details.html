@@ -60,7 +60,8 @@
                     <span class="df_close"><i class="uex-icon-delete"></i></span>
                 </a>
                 <a class="btn pull-right btn-orange df_build"
-                   ui-sref="console.create_routes({namespace:namespace,name:route.metadata.name})">修改</a>
+                   ui-sref="console.create_routes({namespace:namespace,name:route.metadata.name})" style="margin-left: 10px;">修改</a>
+                <a class="btn pull-right btn-orange df_build" ng-click="editYaml()">编辑YAML</a>
             </div>
         </div>
         <!-- module common 公共-->
@@ -94,7 +95,7 @@
                                 <dt>服务:</dt>
                                 <dd>
                                     <a class="href-orange"
-                                       ui-sref="console.service_details({namespace:namespace,name: route.spec.to.name})">{{route.spec.to.name}}</a>
+                                       ui-sref="console.service_detail({namespace:namespace,name: route.spec.to.name})">{{route.spec.to.name}}</a>
                                 </dd>
                                 <dt>目标端口:</dt>
                                 <dd>
@@ -137,7 +138,7 @@
                                         <tr>
                                             <td>
                                                 <a class="href-orange"
-                                                   ui-sref="console.service_details({namespace:namespace,name: route.spec.to.name})">{{route.spec.to.name}}</a>
+                                                   ui-sref="console.service_detail({namespace:namespace,name: route.spec.to.name})">{{route.spec.to.name}}</a>
                                                 <!--<a ng-href="{{route.spec.to.name | navigateResourceURL : route.spec.to.kind : route.metadata.namespace}}">{{route.spec.to.name}}</a> -->
                                             </td>
                                             <td>
@@ -148,7 +149,7 @@
                                             <td>
                                                 <!-- <a ng-href="{{alternate.name | navigateResourceURL : alternate.kind : route.metadata.namespace}}">{{alternate.name}}</a> -->
                                                 <a class="href-orange"
-                                                   ui-sref="console.service_details({namespace:namespace,name: route.spec.to.name})">{{alternate.name}}</a>
+                                                   ui-sref="console.service_detail({namespace:namespace,name: route.spec.to.name})">{{alternate.name}}</a>
                                             </td>
                                             <td>
                                                 {{alternate.weight}}

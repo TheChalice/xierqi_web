@@ -37,7 +37,7 @@
                 <tr ng-repeat="items in configitems">
                     <td class="td_borderBottom .td_textOverflow">
 
-                        <a ui-sref="console.config_configMap({namespace:namespace,name: items.metadata.name})" uib-tooltip="{{items.metadata.name}}"
+                        <a ui-sref="console.configmap_detail({namespace:namespace,name: items.metadata.name})" uib-tooltip="{{items.metadata.name}}"
                            tooltip-placement="top" style="color:#47B2FB">{{items.metadata.name}}</a>
                     </td>
                     <td class="td_borderBottom">

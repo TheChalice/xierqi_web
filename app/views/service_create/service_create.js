@@ -676,7 +676,9 @@ angular.module('console.service.create', [
 
                 dcname($scope.dc.metadata.name, $scope.imagetext)
                 prepareLabel($scope.dc)
-                prepareEnv($scope.dc)
+                if ($scope.advancedConfig){
+                    prepareEnv($scope.dc)
+                }
                 DeploymentConfig.get({
                     namespace: $rootScope.namespace,
                     region: $rootScope.region,

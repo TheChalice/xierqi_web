@@ -562,8 +562,8 @@ define([
                         }]
                     }
                 })//ok
-                .state('console.pods_detail', {
-                    url: '/:namespace/pods/:name',
+                .state('console.pod_detail', {
+                    url: '/:namespace/pod/:name',
                     templateUrl: 'views/pods_detail/pods_detail.html',
                     controller: 'podsdetailCtrl',
                     resolve: {
@@ -584,7 +584,7 @@ define([
                     }
                 })//ok
 
-                .state('console.services', {
+                .state('console.service', {
                     url: '/:namespace/services',
                     templateUrl: 'views/apps/services/services.html',
                     controller: 'ServicesCtrl',
@@ -594,7 +594,7 @@ define([
                         }]
                     }
                 })//ok
-                .state('console.service_details', {
+                .state('console.service_detail', {
                     url: '/:namespace/services/:name',
                     params: {
                         from: null
@@ -762,7 +762,8 @@ define([
                         }]
                     }
                 })
-                .state('console.config_configMap', {
+                //配置卷详情
+                .state('console.configmap_detail', {
                     url: '/:namespace/configmaps/:name',
                     templateUrl: 'views/config_detail/config_detail.html',
                     controller: 'configDetailCtrl',
@@ -793,7 +794,8 @@ define([
                         }]
                     }
                 })
-                .state('console.constantly_persistentVolume', {
+                //存储卷详情
+                .state('console.persistentvolumeclaim_detail', {
                     url: '/:namespace/storage/:name',
                     templateUrl: 'views/constantly_detail/constantly_detail.html',
                     controller: 'constDetailCtrl',
@@ -824,7 +826,8 @@ define([
                         }]
                     }
                 })
-                .state('console.secret_secret', {
+                //密钥卷详情
+                .state('console.secret_detail', {
                     url: '/:namespace/secrets/:name',
                     templateUrl: 'views/secret_detail/secret_detail.html',
                     controller: 'secretDetailCtrl',
@@ -905,7 +908,7 @@ define([
                     }
                 })//ok
                 .state('console.edit_yaml_file', {
-                    url: '/:namespace/:type/edit/yaml/:name',
+                    url: '/:namespace/:kind/edit/yaml/:name',
                     templateUrl: 'views/edit_yaml/edit_yaml.html',
                     controller: 'EditYamlCtrl',
                     resolve: {
@@ -917,16 +920,6 @@ define([
                                 return Project.get({name: Cookie.get('namespace')}).$promise
                             }
                         ]
-                        // DcEditYaml: ['$stateParams', 'Edityaml', 'Cookie', '$rootScope',
-                        //     function ($stateParams, Edityaml, Cookie, $rootScope) {
-                        //         console.log('$stateParams', $stateParams);
-                        //         return Edityaml.get({
-                        //             namespace: Cookie.get('namespace'),
-                        //             name: $stateParams.name,
-                        //             type: $stateParams.type
-                        //         }).$promise;
-                        //     }
-                        // ]
                     }
                 })
 
@@ -1100,9 +1093,28 @@ define([
                                 return statefulsets.get({namespace: Cookie.get('namespace')}).$promise
                             }
                         ],
-                        monitoringBuild: ['Build', 'Cookie','Build',
+                        monitoringBuild: ['Build', 'Cookie', 'Build',
                             function (Build, Cookie) {
                                 return Build.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })
+                //新增project
+                .state('console.project', {
+                    url: '/:namespace/projectlist',
+                    templateUrl: 'views/project/project.html',
+                    params: {
+                        name: null
+                    },
+                    controller: 'ProjectCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/project/project.js')
+                        }],
+                        projectlist: ['Project', 'Cookie', '$stateParams',
+                            function (Project, Cookie, $stateParams) {
+                                return Project.get().$promise
                             }
                         ]
                     }
@@ -1117,13 +1129,11 @@ define([
                         }]
                     }
                 })
-                //pods详情
+            //pods详情
 
-                //新建routes
+            //新建routes
 
-                //新建deployment
-
-
+            //新建deployment
 
 
             //过期route

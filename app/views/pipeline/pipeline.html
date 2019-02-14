@@ -21,11 +21,12 @@
             <tr>
                 <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
                     <th class='col-lg-3 col-md-3 col-sm-3'>流水线名称</th>
-                    <th class='col-lg-3 col-md-3 col-sm-3'>版本</th>
-                    <th class='col-lg-3 col-md-3 col-sm-3'>最近构建时间</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>版本</th>
+                    <th class='col-lg-3 col-md-3 col-sm-3'>查看日志</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
                     <!--<th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>-->
                     <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
-                    <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style='text-align: center;'>操作</th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 table_headOperating" style='text-align: center;'>操作</th>
                 </div>
 
             </tr>
@@ -41,6 +42,12 @@
                     <a class="href-orange"
                        ui-sref="console.pipelinetag_detail({namespace:namespace,name: bc.metadata.name,tag:bc.build.metadata.annotations['openshift.io/build.number']})"
                        tooltip-placement="top">{{bc.build.metadata.annotations['openshift.io/build.number']}}</a>
+
+                </td>
+                <td>
+                    <a class="href-orange"
+                       ng-href="bc.build.metadata.annotations['openshift.io/jenkins-console-log-url']"
+                       tooltip-placement="top">{{bc.build.metadata.annotations['openshift.io/jenkins-console-log-url']}}</a>
 
                 </td>
                 <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>

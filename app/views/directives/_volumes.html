@@ -27,7 +27,7 @@
             </dt>
             <dd>
                 <span ng-if="'secrets'">
-                    <span id="dt_set" ui-sref="console.secret_secret({namespace:name,name: volume.secret.secretName})">{{volume.secret.secretName}}</span>
+                    <span id="dt_set" ui-sref="console.secret_detail({namespace:name,name: volume.secret.secretName})">{{volume.secret.secretName}}</span>
                 </span>
                 <span ng-if="!('secrets')">
                     {{volume.secret.secretName}}
@@ -53,7 +53,7 @@
             </dt>
             <dd>
                 <span id="dt_set"
-                      ui-sref="console.constantly_persistentVolume({namespace:name,name:volume.persistentVolumeClaim.claimName})">
+                      ui-sref="console.persistentvolumeclaim_detail({namespace:name,name:volume.persistentVolumeClaim.claimName})">
                     {{volume.persistentVolumeClaim.claimName}}</span>
             </dd>
             <dt>
@@ -130,7 +130,7 @@
             </dd>
             <dt>卷名称:</dt>
             <dd>
-                <span id="dt_set" ui-sref="console.config_configMap({namespace:name,name:volume.configMap.name})">
+                <span id="dt_set" ui-sref="console.configmap_detail({namespace:name,name:volume.configMap.name})">
                     {{volume.configMap.name}}</span>
             </dd>
             <div ng-repeat="item in volume.configMap.items">

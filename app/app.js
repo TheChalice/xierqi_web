@@ -143,8 +143,8 @@ define([
                 toastClass: 'toast'
             });
         }])
-        .run(['$rootScope', 'account', '$state', 'Cookie','User','$http',
-            function ($rootScope, account, $state, Cookie,User,$http) {
+        .run(['$rootScope', 'account', '$state', 'Cookie','User','$http','$stateParams',
+            function ($rootScope, account, $state, Cookie,User,$http,$stateParams) {
 
                 //var allapi= {
                 //    apis:{
@@ -311,7 +311,7 @@ define([
                     $rootScope.app = [
                         {name: '部署镜像', url: 'console.deployments@' + namespace, stateUrl: null, children: []},
                         {name: '容器状态', url: 'console.pods@' + namespace, stateUrl: null, children: []},
-                        {name: '服务地址', url: 'console.services@' + namespace, stateUrl: null, children: []},
+                        {name: '服务地址', url: 'console.service@' + namespace, stateUrl: null, children: []},
                         {name: '域名管理', url: 'console.routes@' + namespace, stateUrl: null, children: []},
                         {name: '有状态集', url: 'console.stateful-sets@' + namespace, stateUrl: null, children: []},
                     ];
@@ -381,9 +381,19 @@ define([
                             stateUrl: null,
                             children: []
                         }
+                        // ,
+                        // {
+                        //     name: 'project',
+                        //     img: 'icon25 icon25-repository',
+                        //     url: 'console.project@' + namespace,
+                        //     stateUrl: null,
+                        //     children: []
+                        // }
 
                     ];
-                    //console.log('toState.name', toState.name);
+                    // console.log('toState', toState);
+                    // console.log('stateParams', $stateParams.kind);
+                    // console.log('toState.name', toState.name);
                     if (toState && toState.name) {
                         //console.log("toState.name.indexOf('_configMap')", toState.name.indexOf('_configMap'));
                         $rootScope.console.state = toState.name;
@@ -409,26 +419,29 @@ define([
                             $rootScope.dataForTheTree[6].stateUrl = toState.name;
                         }
 
-                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1 || toState.name.indexOf('replication') != -1|| toState.name.indexOf('replicaset') != -1) {
+                        else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1 || toState.name.indexOf('replication') != -1|| toState.name.indexOf('replicaset') != -1 || $stateParams.kind == 'DeploymentConfig' || $stateParams.kind =='Deployment') {
                             $rootScope.app[0].stateUrl = toState.name;
                         } else if (toState.name.indexOf('stateful-sets') != -1) {
                             $rootScope.app[4].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('pods') != -1) {
+                        } else if (toState.name.indexOf('pod') != -1 || $stateParams.kind == 'Pod') {
                             $rootScope.app[1].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1) {
+                        } else if (toState.name.indexOf('service') != -1 || $stateParams.kind == 'Service') {
                             $rootScope.app[2].stateUrl = toState.name;
                         }
-                        else if (toState.name.indexOf('route') != -1) {
+                        else if (toState.name.indexOf('route') != -1 || $stateParams.kind == 'Route') {
                             $rootScope.app[3].stateUrl = toState.name;
                         }
+                        // else if (toState.name.indexOf('project') != -1) {
+                        //     $rootScope.dataForTheTree[7].stateUrl = toState.name;
+                        // }
                         // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
                         //     $rootScope.dataForTheTree[4].stateUrl = toState.name;
                         // }
-                        else if (toState.name.indexOf('_persistentVolume') != -1) {
+                        else if (toState.name.indexOf('_persistentVolume') != -1 || toState.name.indexOf('persistentvolumeclaim_detail') != -1 || toState.name.indexOf('create_constantly_persistentVolume') != -1 || $stateParams.kind == 'PersistentVolumeClaim') {
                             $rootScope.resources[0].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('_configMap') != -1) {
+                        } else if (toState.name.indexOf('_configMap') != -1 || toState.name.indexOf('configmap_detail') != -1 || toState.name.indexOf('create_config_configMap') != -1 || $stateParams.kind == 'ConfigMap') {
                             $rootScope.resources[1].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('_secret') != -1) {
+                        } else if (toState.name.indexOf('_secret') != -1 || toState.name.indexOf('secret_detail') != -1 || toState.name.indexOf('create_secret') != -1 || $stateParams.kind == 'Secret') {
                             $rootScope.resources[2].stateUrl = toState.name;
                         }
                         $rootScope.transfering = false;

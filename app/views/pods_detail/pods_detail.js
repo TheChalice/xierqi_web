@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.pods_detail', [
+angular.module('console.pod_detail', [
     'kubernetesUI',
     {
         files: [
@@ -59,7 +59,10 @@ angular.module('console.pods_detail', [
                     //$scope.rows=24;
                 }
 
-            }
+            };
+            $scope.editYaml = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.pod.metadata.name,kind: $scope.pod.kind});
+            };
             $scope.delete = function(name){
                 delTip.open("删除Pod", name, true).then(function () {
                     Pod.delete({ namespace: $scope.namespace,name:name }, function (res) {

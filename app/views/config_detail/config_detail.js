@@ -155,4 +155,7 @@ angular.module('console.config_detail', [
                     })
                 })
             };
+            $scope.editYaml = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.volume.metadata.name,kind: $scope.volume.kind});
+            };
         }]);
