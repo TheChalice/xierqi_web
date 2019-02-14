@@ -3170,26 +3170,25 @@ define([
                     //console.log("Cookie.get('namespace')",Cookie.get('namespace'));
                     var namespace = Cookie.get('namespace')
                     $rootScope.app = [
-                        {name: '部署镜像', url: 'console.deployments@' + namespace, type:'dc', stateUrl: null, children: []},
-                        {name: '容器状态', url: 'console.pods@' + namespace, type:'dc', stateUrl: null, children: []},
-                        {name: '服务地址', url: 'console.services@' + namespace, type:'dc', stateUrl: null, children: []},
-                        {name: '域名管理', url: 'console.routes@' + namespace, type:'dc', stateUrl: null, children: []},
+                        {name: '部署镜像', url: 'console.deployments@' + namespace, stateUrl: null, children: []},
+                        {name: '容器状态', url: 'console.pods@' + namespace, stateUrl: null, children: []},
+                        {name: '服务地址', url: 'console.services@' + namespace, stateUrl: null, children: []},
+                        {name: '域名管理', url: 'console.routes@' + namespace, stateUrl: null, children: []},
                         //{name: '有状态集', url: 'console.stateful-sets@' + namespace, stateUrl: null, children: []},
                     ];
                     $rootScope.imageChild = [
-                        {name: '构建镜像', url: 'console.private-image@' + namespace, type:'image', stateUrl: null, children: []},
-                        {name: '仓库镜像', url: 'console.repository-image@' + namespace, type:'image', stateUrl: null, children: []},
+                        {name: '构建镜像', url: 'console.private-image@' + namespace, stateUrl: null, children: []},
+                        {name: '仓库镜像', url: 'console.repository-image@' + namespace, stateUrl: null, children: []},
                     ];
                     $rootScope.resources = [
                         {
                             name: '存储卷',
                             url: 'console.resource_persistentVolume@' + namespace,
-                            type:'resource',
                             stateUrl: null,
                             children: []
                         },
-                        {name: '配置卷', url: 'console.resource_configMap@' + namespace, type:'resource', stateUrl: null, children: []},
-                        {name: '密钥卷', url: 'console.resource_secret@' + namespace, type:'resource', stateUrl: null, children: []}
+                        {name: '配置卷', url: 'console.resource_configMap@' + namespace, stateUrl: null, children: []},
+                        {name: '密钥卷', url: 'console.resource_secret@' + namespace, stateUrl: null, children: []}
                     ];
 
                     $rootScope.dataForTheTree = [
@@ -3230,7 +3229,7 @@ define([
                         }
                     ];
                     if (toState && toState.name) {
-                        // console.log('toState----', toState);
+                        // console.log('toState.name----', toState.name);
                         $rootScope.console.state = toState.name;
                         //$rootScope.console.class = toState.name;
 
@@ -3251,7 +3250,7 @@ define([
                         // else if (toState.name.indexOf('pipeline') !== -1) {
                         //     $rootScope.dataForTheTree[3].stateUrl = toState.name;
                         // }
-                        else if (toState.name.indexOf('deployment') !== -1 || toState.name.indexOf('quick_deploy') !== -1 || toState.name.indexOf('service_create') !== -1) {
+                        else if (toState.name.indexOf('deployment') !== -1 || toState.name.indexOf('quick_deploy') !== -1 || toState.name.indexOf('service_create') !== -1 || toState.name.indexOf('console.rc') !== -1 || toState.name.indexOf('console.rs') !== -1) {
                             $rootScope.app[0].stateUrl = toState.name;
                             $rootScope.console.class='dc';
                         } else if (toState.name.indexOf('stateful-sets') !== -1) {
