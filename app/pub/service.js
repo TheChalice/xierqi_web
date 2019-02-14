@@ -2252,6 +2252,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         //console.log('token错误');
                     }
                     //console.log(tokens,token, regions);
+                    token='DdDo_PP3zwq4X4EUyv0bTQ9CntljNkP3laQ1efp4K8Y'
                     if (config.headers && token) {
                         //console.log('window.location.pathname', window.location);
                         config.headers["Authorization"] = "Bearer " + token;

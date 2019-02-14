@@ -3177,8 +3177,8 @@ define([
                         //{name: '有状态集', url: 'console.stateful-sets@' + namespace, stateUrl: null, children: []},
                     ];
                     $rootScope.imageChild = [
-                        {name: '构建镜像', url: 'console.private-image@' + namespace, stateUrl: null, children: []},
-                        {name: '仓库镜像', url: 'console.repository-image@' + namespace, stateUrl: null, children: []},
+                        {name: '构建镜像', url: 'console.private-image@' + namespace, type:'image', stateUrl: null, children: []},
+                        {name: '仓库镜像', url: 'console.repository-image@' + namespace, type:'image', stateUrl: null, children: []},
                     ];
                     $rootScope.resources = [
                         {
@@ -3205,6 +3205,7 @@ define([
                             img: 'icon25 icon25-repository',
                             url: null,
                             stateUrl: 'image',
+                            type:'image',
                             children: $rootScope.imageChild
                         },
                         // { name: '流水线', img: 'icon25 icon25-pipeline', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
@@ -3227,16 +3228,21 @@ define([
                     if (toState && toState.name) {
                         // console.log('toState----', toState);
                         $rootScope.console.state = toState.name;
+                        //$rootScope.console.class = toState.name;
+
                         // if (toState.name.indexOf('dashboard') !== -1) {
                         //     $rootScope.dataForTheTree[0].stateUrl = toState.name
                         // } else
                         if (toState.name.indexOf('build') !== -1) {
                             $rootScope.dataForTheTree[0].stateUrl = toState.name;
+                            $rootScope.console.class='build'
                         } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
                             $rootScope.imageChild[0].stateUrl = toState.name;
+                            $rootScope.console.class='image'
                         }
                         else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage') !== -1) {
                             $rootScope.imageChild[1].stateUrl = toState.name;
+                            $rootScope.console.class='image'
                         }
                         // else if (toState.name.indexOf('pipeline') !== -1) {
                         //     $rootScope.dataForTheTree[3].stateUrl = toState.name;
@@ -3262,7 +3268,7 @@ define([
                         } else if (toState.name.indexOf('_secret') !== -1) {
                             $rootScope.resources[2].stateUrl = toState.name;
                         }
-
+                        //console.log('$rootScope.console.class', $rootScope.console.class);
 
                         $rootScope.transfering = false;
                     }

@@ -148,6 +148,7 @@ angular.module("console.sidebar", [
                                 $rootScope.dataForTheTree[i].children = $rootScope.imageChild
                             }
                         });
+                        console.log('$rootScope.dataForTheTree', $rootScope.dataForTheTree);
                         //$rootScope.dataForTheTree[4].children = $rootScope.app
                         //$rootScope.dataForTheTree[5].children = $rootScope.resources
 
