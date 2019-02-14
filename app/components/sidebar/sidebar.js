@@ -32,6 +32,7 @@ angular.module("console.sidebar", [
                     }
                 }
                 $scope.state = $state;
+                console.log('$scope.state', $scope.state.current.name);
                 //$(".nav_top_li").addClass("nav_top_toggle");
                 $scope.goUrl = function (url) {
                     if (url) {
@@ -147,6 +148,7 @@ angular.module("console.sidebar", [
                                 $rootScope.dataForTheTree[i].children = $rootScope.imageChild
                             }
                         });
+                        console.log('$rootScope.dataForTheTree', $rootScope.dataForTheTree);
                         //$rootScope.dataForTheTree[4].children = $rootScope.app
                         //$rootScope.dataForTheTree[5].children = $rootScope.resources
 
