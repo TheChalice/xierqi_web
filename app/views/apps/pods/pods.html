@@ -24,6 +24,17 @@
             clear: both;
             overflow: hidden;
         }
+        .dropdown-select:hover{
+            color: #47b2fb;
+        }
+        .pod-menu>li{
+            text-align: center;
+            border-bottom: solid 1px #E0E6ED;
+        }
+        .pod-menu>li>a{
+            font-size: 12px;
+            color: #5a6378;
+        }
     </style>
     <div class="loader" ng-if="!items">
         <div class="loader-inner ball-clip-rotate-multiple">
@@ -51,7 +62,22 @@
             <table class="table table-hover table-default df_table">
                 <tr>
                     <th class="col-lg-3 col-md-2 col-sm-1">名称</th>
-                    <th class="col-lg-2 col-md-2 col-sm-1">状态</th>
+                    <th class="col-lg-2 col-md-2 col-sm-1">
+                        <div style="position: absolute;">
+                            <div class="dropdown dropdown-select" style="display: block;">
+                                <button class="dropdown-toggle" data-toggle="dropdown"
+                                        style="border: none;background: #E5E9F2;">
+                                    <span>{{podStatusName}}</span>
+                                    <span class="uex-icon-caret-bottom"></span>
+                                </button>
+                                <ul class="dropdown-menu pod-menu">
+                                    <li ng-repeat="name in statusList">
+                                        <a href="javascript:;" ng-click="changePodStatus(name)">{{name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </th>
                     <th class="col-lg-3 col-md-2 col-sm-1">就绪</th>
                     <th class="col-lg-2 col-md-2 col-sm-1">重启</th>
                     <th class="col-lg-2 col-md-2 col-sm-1">时长</th>

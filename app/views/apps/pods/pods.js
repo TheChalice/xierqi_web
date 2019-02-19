@@ -13,6 +13,9 @@ angular.module('console.pods', [{
                 size: 10,
                 txt: ''
             };
+            $scope.podStatusName = '状态';
+            $scope.statusList = ['All','Running','Pending','Terminating','CrashLoopBackOff','Completed','Failed','Unknown'];
+
             Pod.get({namespace: $scope.namespace}, function (res) {
                 $scope.items = res.items;
                 $scope.items = Sort.sort(res.items, -1)
@@ -23,7 +26,56 @@ angular.module('console.pods', [{
                 $scope.grid.txt = '';
                 refresh(1);
             });
+            var getPodStatus = function(pod) {
+                if (!pod) {
+                    return '';
+                }
 
+                if (pod.metadata && pod.metadata.deletionTimestamp) {
+                    return 'Terminating';
+                }
+
+                var status = pod.status || {};
+                if (!status) {
+                    return '';
+                }
+                var reason = status.reason || status.phase;
+                if (!reason) {
+                    reason = (function () {
+                        var containerStatuses = status.containerStatuses || [];
+                        for (var i = 0; i < containerStatuses.length; i++) {
+                            var item = containerStatuses[i];
+                            var state = item.state || {};
+                            if (!!state.waiting) {
+                                return state.waiting.reason;
+                            } else if (!!state.terminated) {
+                                return state.terminated.reason;
+                            }
+                        }
+                    })() || '';
+                }
+
+                if(reason == 'Running' || reason == 'Pending' || reason == 'Failed' || reason == 'Terminating' || reason == 'CrashLoopBackOff' || reason == 'Completed' || reason == 'Unknown'){
+                    return reason;
+                }
+            };
+            $scope.changePodStatus = function (name) {
+                $scope.podStatusName = name;
+                // console.log('choosePodStatus',name);
+                var podList = [];
+                angular.forEach($scope.copyPod, function (item, i) {
+                    // console.log('podStatus(item)',podStatus(item));
+                    if(getPodStatus(item) === name){
+                        podList.push(item)
+                    }else if(name === 'All'){
+                        podList = $scope.copyPod;
+                        $scope.podStatusName = '状态';
+                    }
+                });
+                $scope.items = angular.copy(podList);
+                refresh(1);
+                $scope.grid.total = $scope.items.length;
+            };
             //websocket
             var watchpod = function (resourceVersion) {
                 Ws.watch({
