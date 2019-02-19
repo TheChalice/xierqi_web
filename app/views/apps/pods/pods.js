@@ -40,7 +40,7 @@ angular.module('console.pods', [{
                     return '';
                 }
                 var reason = status.reason || status.phase;
-                if (!reason) {
+                if (reason != 'Pending' && reason != 'Failed') {
                     reason = (function () {
                         var containerStatuses = status.containerStatuses || [];
                         for (var i = 0; i < containerStatuses.length; i++) {
@@ -50,6 +50,8 @@ angular.module('console.pods', [{
                                 return state.waiting.reason;
                             } else if (!!state.terminated) {
                                 return state.terminated.reason;
+                            }else {
+                                return status.reason || status.phase;
                             }
                         }
                     })() || '';
@@ -64,7 +66,7 @@ angular.module('console.pods', [{
                 // console.log('choosePodStatus',name);
                 var podList = [];
                 angular.forEach($scope.copyPod, function (item, i) {
-                    // console.log('podStatus(item)',podStatus(item));
+                    // console.log('getPodStatus(item)',getPodStatus(item));
                     if(getPodStatus(item) === name){
                         podList.push(item)
                     }else if(name === 'All'){
