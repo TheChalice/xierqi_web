@@ -67,7 +67,9 @@
                             <div class="dropdown dropdown-select" style="display: block;">
                                 <button class="dropdown-toggle" data-toggle="dropdown"
                                         style="border: none;background: #E5E9F2;">
-                                    <span>{{podStatusName}}</span>
+                                    <!--<span ng-model="podStatusName" ng-if="podStatusName === 'All'">状态</span>-->
+                                    <!--<span ng-model="podStatusName" ng-if="podStatusName !== 'All'">{{podStatusName}}</span>-->
+                                    <span ng-model="podStatusName">{{podStatusName == 'All'? '状态':podStatusName}}</span>
                                     <span class="uex-icon-caret-bottom"></span>
                                 </button>
                                 <ul class="dropdown-menu pod-menu">
