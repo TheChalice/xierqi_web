@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.services', [{
+angular.module('console.service', [{
     files: [
         'components/searchbar/searchbar.js',
         'views/apps/apps.css'
