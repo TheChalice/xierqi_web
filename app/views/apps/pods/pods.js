@@ -76,17 +76,18 @@ angular.module('console.pods', [{
                     if (getPodStatus(item) === status && name.indexOf(searchText) > -1) {
                         podList.push(item)
                     } else if (status === 'All' && name.indexOf(searchText) > -1) {
-                        if(!$scope.pageStatus){
-                            podList.push(item);
-                            $scope.grid.page = 1;
-                        }else {
-                            podList.push(item);
-                        }
+                        podList.push(item);
                     }
                 });
 
                 $scope.items = angular.copy(podList);
-                refresh(1);
+                // refresh(1);
+                if(!$scope.pageStatus){
+                    $scope.grid.page = 1;
+                    refresh(1);
+                }else {
+                    refresh($scope.grid.page);
+                }
                 $scope.grid.total = $scope.items.length;
             };
 
