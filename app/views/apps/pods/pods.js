@@ -62,6 +62,7 @@ angular.module('console.pods', [{
             };
             $scope.changePodStatus = function (status) {
                 $scope.podStatusName = status;
+                $scope.pageStatus = false;
                 filterByStatusAndSearchText();
             };
             var filterByStatusAndSearchText = function () {
@@ -75,8 +76,12 @@ angular.module('console.pods', [{
                     if (getPodStatus(item) === status && name.indexOf(searchText) > -1) {
                         podList.push(item)
                     } else if (status === 'All' && name.indexOf(searchText) > -1) {
-                        podList.push(item);
-                        $scope.grid.page = 1;
+                        if(!$scope.pageStatus){
+                            podList.push(item);
+                            $scope.grid.page = 1;
+                        }else {
+                            podList.push(item);
+                        }
                     }
                 });
 
@@ -84,6 +89,7 @@ angular.module('console.pods', [{
                 refresh(1);
                 $scope.grid.total = $scope.items.length;
             };
+
             //websocket
             var watchpod = function (resourceVersion) {
                 Ws.watch({
@@ -117,6 +123,7 @@ angular.module('console.pods', [{
                 if (data.type == 'ADDED') {
                     $scope.originalItems.unshift(data.object);
                     $scope.$apply();
+                    $scope.pageStatus = true;
                     filterByStatusAndSearchText();
                 } else if (data.type == "MODIFIED") {
                     angular.forEach($scope.originalItems, function (item, i) {
@@ -125,6 +132,7 @@ angular.module('console.pods', [{
                             $scope.$apply();
                         }
                     });
+                    $scope.pageStatus = true;
                     filterByStatusAndSearchText();
                 } else if (data.type == "DELETED") {
                     angular.forEach($scope.originalItems, function (item, i) {
@@ -133,6 +141,7 @@ angular.module('console.pods', [{
                             $scope.$apply();
                         }
                     });
+                    $scope.pageStatus = true;
                     filterByStatusAndSearchText();
                 }
             };
@@ -153,6 +162,7 @@ angular.module('console.pods', [{
             };
             $scope.search = function (event) {
                 $scope.grid.page = 1;
+                $scope.pageStatus = false;
                 filterByStatusAndSearchText();
                 $scope.isQuery = false;
                 if ($scope.items.length === 0) {
