@@ -330,6 +330,16 @@ define([
                         ]
                     }
                 })//ok
+                .state('console.imagetag_detail', {
+                    url: '/:namespace/images/:name/:tag',
+                    templateUrl: 'views/imageTag_detail/imageTag_detail.html',
+                    controller: 'imageTagDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/imageTag_detail/imageTag_detail.js')
+                        }]
+                    }
+                })
                 //app
                 .state('console.deployments', {
                     url: '/:namespace/deployments',

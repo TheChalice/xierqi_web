@@ -2220,7 +2220,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     } else {
                         //console.log('token错误');
                     }
-                    token='g28V0xEsmPzBF_ALUZ99QDEl63Oz0lHkyA2sWPFvUNE'
+                    // token='g28V0xEsmPzBF_ALUZ99QDEl63Oz0lHkyA2sWPFvUNE'
                     //console.log(tokens,token, regions);
                     if (config.headers && token) {
                         //console.log('window.location.pathname', window.location);
