@@ -13,16 +13,83 @@ angular.module('console.pods', [{
                 size: 10,
                 txt: ''
             };
+            $scope.podStatusName = 'All';
+            $scope.statusList = ['All', 'Running', 'Pending', 'Terminating', 'CrashLoopBackOff', 'Completed', 'Failed', 'Unknown'];
+
             Pod.get({namespace: $scope.namespace}, function (res) {
-                $scope.items = res.items;
-                $scope.items = Sort.sort(res.items, -1)
-                $scope.copyPod = angular.copy($scope.items);
+                $scope.originalItems = Sort.sort(res.items, -1);
+                $scope.items = angular.copy($scope.originalItems);
                 $scope.grid.total = $scope.items.length;
                 watchpod(res.metadata.resourceVersion);
                 $scope.grid.page = 1;
                 $scope.grid.txt = '';
                 refresh(1);
             });
+            var getPodStatus = function (pod) {
+                if (!pod) {
+                    return '';
+                }
+
+                if (pod.metadata && pod.metadata.deletionTimestamp) {
+                    return 'Terminating';
+                }
+
+                var status = pod.status || {};
+                if (!status) {
+                    return '';
+                }
+                var reason = status.reason || status.phase;
+                if (reason != 'Pending' && reason != 'Failed') {
+                    reason = (function () {
+                            var containerStatuses = status.containerStatuses || [];
+                            for (var i = 0; i < containerStatuses.length; i++) {
+                                var item = containerStatuses[i];
+                                var state = item.state || {};
+                                if (!!state.waiting) {
+                                    return state.waiting.reason;
+                                } else if (!!state.terminated) {
+                                    return state.terminated.reason;
+                                } else {
+                                    return status.reason || status.phase;
+                                }
+                            }
+                        })() || '';
+                }
+
+                if (reason == 'Running' || reason == 'Pending' || reason == 'Failed' || reason == 'Terminating' || reason == 'CrashLoopBackOff' || reason == 'Completed' || reason == 'Unknown') {
+                    return reason;
+                }
+            };
+            $scope.changePodStatus = function (status) {
+                $scope.podStatusName = status;
+                $scope.pageStatus = false;
+                filterByStatusAndSearchText();
+            };
+            var filterByStatusAndSearchText = function () {
+                var status = $scope.podStatusName;
+                var searchText = $scope.grid.txt;
+                var podList = [];
+                // console.log('searchText',searchText);
+                angular.forEach($scope.originalItems, function (item, i) {
+                    var name = item.metadata.name || '';
+                    // console.log('getPodStatus(item)',name,status);
+                    if (getPodStatus(item) === status && name.indexOf(searchText) > -1) {
+                        podList.push(item)
+                    } else if (status === 'All' && name.indexOf(searchText) > -1) {
+                        podList.push(item);
+                    }
+                });
+
+                $scope.items = angular.copy(podList);
+                // refresh(1);
+                if(!$scope.pageStatus){
+                    $scope.grid.page = 1;
+                    refresh(1);
+                }else {
+                    refresh($scope.grid.page);
+                }
+                $scope.grid.total = $scope.items.length;
+            };
 
             //websocket
             var watchpod = function (resourceVersion) {
@@ -55,29 +122,30 @@ angular.module('console.pods', [{
                 }
                 $scope.resourceVersion = data.object.metadata.resourceVersion;
                 if (data.type == 'ADDED') {
-                    $scope.items.unshift(data.object)
-                    refresh(1);
+                    $scope.originalItems.unshift(data.object);
                     $scope.$apply();
-
+                    $scope.pageStatus = true;
+                    filterByStatusAndSearchText();
                 } else if (data.type == "MODIFIED") {
-                    angular.forEach($scope.items, function (item, i) {
+                    angular.forEach($scope.originalItems, function (item, i) {
                         if (item.metadata.name == data.object.metadata.name) {
-                            $scope.items[i] = data.object;
-                            refresh(1);
+                            $scope.originalItems[i] = data.object;
                             $scope.$apply();
                         }
-                    })
-
+                    });
+                    $scope.pageStatus = true;
+                    filterByStatusAndSearchText();
                 } else if (data.type == "DELETED") {
-                    angular.forEach($scope.items, function (item, i) {
+                    angular.forEach($scope.originalItems, function (item, i) {
                         if (item.metadata.name == data.object.metadata.name) {
-                            $scope.items.splice(i, 1)
-                            refresh(1);
+                            $scope.originalItems.splice(i, 1);
                             $scope.$apply();
                         }
-                    })
+                    });
+                    $scope.pageStatus = true;
+                    filterByStatusAndSearchText();
                 }
-            }
+            };
 
 
             $scope.$watch('grid.page', function (newVal, oldVal) {
@@ -85,6 +153,7 @@ angular.module('console.pods', [{
                     refresh(newVal);
                 }
             });
+
             var refresh = function (page) {
                 $(document.body).animate({
                     scrollTop: 0
@@ -94,25 +163,10 @@ angular.module('console.pods', [{
             };
             $scope.search = function (event) {
                 $scope.grid.page = 1;
-                if (!$scope.grid.txt) {
-                    $scope.items = angular.copy($scope.copyPod);
-                    refresh(1);
-                    $scope.grid.total = $scope.items.length;
-                    return;
-                }
-                $scope.items = [];
-                var iarr = [];
-                var str = $scope.grid.txt;
-                str = str.toLocaleLowerCase();
-                angular.forEach($scope.copyPod, function (item, i) {
-                    var nstr = item.metadata.name;
-                    nstr = nstr.toLocaleLowerCase();
-                    if (nstr.indexOf(str) !== -1) {
-                        iarr.push(item)
-                    }
-                })
+                $scope.pageStatus = false;
+                filterByStatusAndSearchText();
                 $scope.isQuery = false;
-                if (iarr.length === 0) {
+                if ($scope.items.length === 0) {
                     $scope.isQuery = true;
                     $scope.text = '没有查询到符合条件的数据';
                     // console.log($scope.items.length);
@@ -120,10 +174,6 @@ angular.module('console.pods', [{
                 else {
                     $scope.text = '您还没有任何创建密钥卷数据';
                 }
-                $scope.items = angular.copy(iarr);
-                refresh(1);
-                $scope.grid.total = $scope.items.length;
-
             };
 
         }
