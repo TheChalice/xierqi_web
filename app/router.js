@@ -245,7 +245,7 @@ define([
                     }
                 })
                 .state('console.imagestream_detail', {
-                    url: '/:namespace/imagestream/:bc:name',
+                    url: '/:namespace/imagestream/:bc/:name',
                     templateUrl: 'views/imageStream_detail/imageStream_detail.html',
                     controller: 'imageStreamDetailCtrl',
                     resolve: {
