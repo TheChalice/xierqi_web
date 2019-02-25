@@ -3,16 +3,16 @@
         <div class="col-lg-12">
             <dl id="dl_details">
                 <dt><span>Author:</span></dt>
-                <dd><span >{{imageTagsDetails.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.author']}}</span></dd>
+                <dd><span>{{imageTagsDetails.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.author'] || 'Unknown'}}</span></dd>
                 <dt><span>Built:</span></dt>
-                <dd><span>{{imageTagsDetails.image.metadata.creationTimestamp | timescon}}</span></dd>
+                <dd><span>{{imageTagsDetails.image.metadata.creationTimestamp|| 'Unknown' | timescon}}</span></dd>
                 <dt><span>Digest:</span></dt>
-                <dd><span>{{imageTagsDetails.image.metadata.name}}</span></dd>
+                <dd><span>{{imageTagsDetails.image.metadata.name|| 'Unknown'}}</span></dd>
                 <dt><span>Identifier:</span></dt>
-                <dd><span>{{imageTagsDetails.image.dockerImageMetadata.Config.Image}}</span></dd>
+                <dd><span>{{imageTagsDetails.image.dockerImageMetadata.Config.Image|| 'Unknown'}}</span></dd>
                 <div><annotations annotations="imageTagsDetails.metadata.annotations"></annotations></div>
                 <dt><span>Docker Version:</span></dt>
-                <dd><span>{{imageTagsDetails.image.dockerImageMetadata.DockerVersion}}</span></dd>
+                <dd><span>{{imageTagsDetails.image.dockerImageMetadata.DockerVersion|| 'Unknown'}}</span></dd>
             </dl>
         </div>
     </div>
