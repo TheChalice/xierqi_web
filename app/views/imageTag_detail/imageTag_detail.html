@@ -1,1 +1,47 @@
-<div>123</div>
+<div id="imageTag_detail" class="df_frame" confull-height>
+    <!-- module common 公共-->
+    <div class="module-heading">
+        <div class="module_block_l">
+            <div class="img-block">
+                <svg class="icon svg_img" viewBox="0 0 64 64">
+                    <path d="M32-.08a32,32,0,1,0,32,32A32,32,0,0,0,32-.08ZM30.23,52.16,11.72,42.39v-22l18.51,6.67ZM13.56,17.44,32,11.69l18.63,6L32.07,24.22ZM52.19,42.39,33.68,52.16V27.21l18.51-6.67Z"/></svg>
+            </div>
+            <div class="img-detail">
+                <p class="img-tit">{{imageTagsDetails.metadata.name}}</p>
+                <p class="img-time">
+                    <span classs="module_tit">创建时间：</span>
+                    <span class="module_time">{{imageTagsDetails.metadata.creationTimestamp | timescon}}</span>
+                </p>
+            </div>
+        </div>
+        <!--<div class="module_block_r">-->
+            <!--<a class="btn btn-gray pull-right df_del" ng-click="delete(imageTagsDetails.metadata.name)">-->
+                <!--<span class="df_close">-->
+                    <!--<i class="uex-icon-delete"></i>-->
+                <!--</span>-->
+            <!--</a>-->
+        <!--</div>-->
+
+    </div>
+
+    <uib-tabset class="tab-default tab-pods">
+        <uib-tab index="1">
+            <uib-tab-heading>
+                详情
+            </uib-tab-heading>
+            <div ng-include="'views/imageTag_detail/imageDetails.html'"></div>
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
+                环境变量
+            </uib-tab-heading>
+            <div ng-include="'views/imageTag_detail/configurationDetails.html'"></div>
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                指标
+            </uib-tab-heading>
+            <div ng-include="'views/imageTag_detail/layersDetails.html'"></div>
+        </uib-tab>
+    </uib-tabset>
+</div>

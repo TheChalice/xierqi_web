@@ -1,0 +1,28 @@
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <dl id="dl_details">
+                <dt><span>Author:</span></dt>
+                <dd><span >{{imageTagsDetails.metadata.name}}</span></dd>
+                <dt><span>Built:</span></dt>
+                <dd><span>{{imageTagsDetails.image.metadata.creationTimestamp | timescon}}</span></dd>
+                <dt><span>Digest:</span></dt>
+                <dd><span>{{imageTagsDetails.image.metadata.name}}</span></dd>
+                <dt><span>Identifier:</span></dt>
+                <dd><span>{{imageTagsDetails.image.dockerImageMetadata.Config.Image}}</span></dd>
+                <div><annotations annotations="imageTagsDetails.metadata.annotations"></annotations></div>
+                <dt><span>Docker Version:</span></dt>
+                <dd><span>{{imageTagsDetails.image.dockerImageMetadataVersion}}</span></dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<style >
+    #dl_details dt{
+        width: 160px;
+        float: left;
+    }
+    #dl_details dd{
+        margin-left: 180px
+    }
+</style>
