@@ -16,10 +16,11 @@ angular.module('console.imagetag.detail', [
             name: $scope.name,
             tag: $scope.tag,
         }, function (data) {
+            console.log(data);
             $scope.imageTagsDetails = data;
             $scope.sizeList = $scope.imageTagsDetails.image.dockerImageLayers;
             $scope.ports =  $scope.imageTagsDetails.image.dockerImageMetadata.Config.ExposedPorts;
-            // console.log($scope.ports);
+            // console.log( $scope.imageTagsDetails.image.dockerImageMetadata.DockerVersion);
             var p = $scope.ports;
             for(var key in p){
                 $scope.port =key;
