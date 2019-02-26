@@ -196,6 +196,21 @@ define([
                         }]
                     }
                 })//ok
+                .state('console.buildtag_detail', {
+                    url: '/:namespace/buildtag/:name',
+                    params: {
+                        from: null
+                    },
+                    templateUrl: 'views/buildtag_detail/buildtag_detail.html',
+                    controller: 'BuildTagDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/buildtag_detail/buildtag_detail.js')
+                        }]
+                    }
+                })//ok
+
+
                 //image
                 .state('console.image', {
                     url: '/:namespace/image',
