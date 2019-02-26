@@ -802,15 +802,30 @@ angular.module('console.build.detail', [
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
-            $scope.SatusOfValue = true;
-            $scope.addValue = function () {
-            console.log('addValue');
 
+            $scope.valueOfResource = false;
+            $scope.env = [{name: '', value: ''}];
+            $scope.addValue = function () {
+                $scope.env.push({name: '', value: ''});
             } ;
-            $scope.addValueOfResource = function () {
-                console.log('addValueOfResource');
+            $scope.deleteEnv = function (idx) {
+                if($scope.env.length > 1){
+                    $scope.env.splice(idx, 1);
+                }else {
+                    $scope.env.slice(0,1);
+                    $scope.env = [{name: '', value: ''}];
+                }
+            };
+            // $scope.envOfResource = [{name: '', valueFrom:{secretKeyRef:{name:'', key:''}},index:''}];
+
+            $scope.reloadEnv = function () {
+                $scope.env.slice(0,1);
+                $scope.env = [{name: '', value: ''}];
+            };
+
+            $scope.saveEnv = function () {
+                console.log('saveEnv',$scope.env);
             }
 
-        }])
-;
+        }]);
 
