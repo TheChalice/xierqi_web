@@ -2222,6 +2222,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     }
                     // token='g28V0xEsmPzBF_ALUZ99QDEl63Oz0lHkyA2sWPFvUNE'
                     //console.log(tokens,token, regions);
+                    //token='g28V0xEsmPzBF_ALUZ99QDEl63Oz0lHkyA2sWPFvUNE'
                     if (config.headers && token) {
                         //console.log('window.location.pathname', window.location);
                         config.headers["Authorization"] = "Bearer " + token;
