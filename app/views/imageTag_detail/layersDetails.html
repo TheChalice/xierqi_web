@@ -1,0 +1,14 @@
+<div>
+    <div class="row">
+        <div class="col-lg-12" style="border: 1px ">
+            <div style="height:180px; border: 1px solid #d1d1d1;overflow: auto;font-size: 19px">
+                <ul>
+                    <li ng-repeat="layer in imageTagsDetails.image.dockerImageLayers" style="list-style: none;font-size: 13px">
+                        <span style="display: block;float: right">{{layer.size}}</span>
+                        <p >{{layer.name}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -415,6 +415,9 @@ a {
     color: #A2B0C4;
 }
 
+.uex-icon-caret-bottom:before {
+    content: '\e906';
+}
 .fa-unspin {
     -webkit-animation: unset !important;
     -moz-animation: unset !important;

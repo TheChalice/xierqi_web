@@ -244,13 +244,13 @@ define([
                         }],
                     }
                 })
-                .state('console.image_detail', {
-                    url: '/:namespace/image/myimage/:bc/:name',
-                    templateUrl: 'views/image_detail/image_detail.html',
-                    controller: 'ImageDetailCtrl',
+                .state('console.imagestream_detail', {
+                    url: '/:namespace/imagestream/:bc/:name',
+                    templateUrl: 'views/imageStream_detail/imageStream_detail.html',
+                    controller: 'imageStreamDetailCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/image_detail/image_detail.js'])
+                            return $ocLazyLoad.load(['views/imageStream_detail/imageStream_detail.js'])
                         }]
                     }
                 })//ok
@@ -330,6 +330,16 @@ define([
                         ]
                     }
                 })//ok
+                .state('console.imagetag_detail', {
+                    url: '/:namespace/images/:name/:tag',
+                    templateUrl: 'views/imageTag_detail/imageTag_detail.html',
+                    controller: 'imageTagDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/imageTag_detail/imageTag_detail.js')
+                        }],
+                    }
+                })
                 //app
                 .state('console.deployments', {
                     url: '/:namespace/deployments',

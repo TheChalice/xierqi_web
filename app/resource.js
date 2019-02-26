@@ -208,6 +208,19 @@ define([
             });
             return ImageStream;
         }])
+        .factory('ImageTagDetail', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var ImageTagDetail = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name::tag', {
+                name: '@name',
+                namespace: '@namespace',
+                tag: '@tag',
+
+            }, {
+                create: { method: 'POST' },
+                delete: { method: 'DELETE' },
+                get: { method: 'GET' }
+            });
+            return ImageTagDetail;
+        }])
         .factory('ImageStreamImage', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ImageStreamImage = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamimages/:name?region=:region', {
                 name: '@name',

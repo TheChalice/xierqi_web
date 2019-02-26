@@ -1,0 +1,42 @@
+<div>
+    <div class="row">
+        <!--配置详情-->
+        <div class="col-lg-12">
+            <dl id="dl_conf">
+                <dt><span>Command:</span></dt>
+                <dd><code class="ng-binding">#{{imageTagsDetails.image.dockerImageMetadata.Config.Entrypoint[0] || 'Unknown'}}</code></dd>
+                <!--<dd ng-if="!imageTagsDetails.image.dockerImageMetadata.Config.Entrypoint"><span>Unknown</span></dd>-->
+                <dt><span>Run as:</span></dt>
+                <dd><span>{{imageTagsDetails.metadata.creationTimestamp||'Unknown' | timescon }}</span></dd>
+
+                <dt><span>Directory:</span></dt>
+                <dd><span>{{imageTagsDetails.image.dockerImageMetadata.Config.Labels['io.openshift.build.source-context-dir'] || 'Unknown'}}</span></dd>
+
+                <dt><span>Architecture:</span></dt>
+                <dd><span>{{imageTagsDetails.image.dockerImageMetadata.Architecture || 'Unknown'}}</span></dd>
+
+                <!--环境-->
+                <dt><span>Environment:</span></dt>
+                <dd ng-repeat="env in imageTagsDetails.image.dockerImageMetadata.Config.Env">
+                    <span>{{env || 'Unknown'}}</span>
+                </dd>
+                <!--端口-->
+                <dt><span>Ports:</span></dt>
+                <dd><span>{{port || 'Unknown'}}</span></dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<style>
+    #dl_conf dt {
+        float: left;
+    }
+
+    #dl_conf dd {
+        margin-left: 180px;
+    }
+    code{
+        color: #004368;
+        background-color: #def3ff;
+    }
+</style>
