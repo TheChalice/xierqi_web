@@ -1,0 +1,315 @@
+#imageTag_detail .contains-actions {
+    font-size: 24px;
+    font-weight: normal;
+    color: #333;
+}
+
+#imageTag_detail .tab-default li .nav-link {
+    font-size: 12px;
+    color: #333;
+}
+
+#imageTag_detail .tab-default li .nav-link:hover {
+    font-size: 12px;
+    color: #333;
+}
+
+#imageTag_detail .tab-default li.active a,
+#imageTag_detail .tab-default li.active a:focus,
+#imageTag_detail .tab-default li.active a:hover {
+    border: 0px;
+    border-bottom: 3px solid #47B2FB;
+    color: #47B2FB;
+    font-size: 12px;
+}
+
+#dt_set {
+    color: #47B2FB;
+}
+
+#dt_set:hover {
+    color: #98D4FD;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#imageTag_detail .nav-tabs > li > a {
+    color: #333;
+}
+
+#imageTag_detail .nav-tabs > li > a:hover {
+    background: none;
+    color: #F8A632;
+    border-color: #fff #fff #ddd;
+}
+
+#imageTag_detail .tab-default .nav-tabs {
+    border-bottom: 1px solid #E0E6ED;
+}
+
+#imageTag_detail .tab-default .tab-content {
+}
+
+#imageTag_detail .pd_name {
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
+#imageTag_detail .pd_dt {
+    font-size: 12px;
+    color: #9c9c9c;
+}
+
+#imageTag_detail .pod_term {
+    width: 100%;
+}
+
+#imageTag_detail .dl-horizontal dd {
+    margin-left: 0px;
+    color: #475669;
+    font-size: 12px;
+}
+
+#imageTag_detail .dl_right_tit {
+    color: #475669;
+    font-size: 12px;
+}
+
+#imageTag_detail .pd_tem_l {
+    float: left;
+    width: 160px;
+    font-size: 12px;
+    color: #475669;
+}
+
+#imageTag_detail .pd_tem_r {
+    color: #475669;
+    font-size: 12px;
+}
+
+#imageTag_detail .pod-template-key {
+    width: 160px;
+    display: inline-block;
+    font-size: 12px;
+    color: #475669;
+}
+
+#imageTag_detail code span {
+    display: inline-block;
+}
+
+#imageTag_detail .pod_list_mt {
+    margin-bottom: 0px;
+    overflow: hidden;
+    font-size: 12px;
+    color: #475669;
+    line-height: 20px;
+}
+
+.pod_term .btn {
+    color: #333;
+}
+
+#imageTag_detail .sec_href {
+    color: #F8A632;
+}
+
+/* detail 模块 */
+#detail .tit_f {
+    font-size: 12px;
+    color: #475669;
+    font-weight: normal;
+    margin: 0px;
+    /*margin-bottom: 10px;*/
+}
+
+#detail .dl-horizontal dt {
+    text-align: left;
+    font-weight: normal;
+    color: #475669;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+#detail .icon-wrap {
+    float: left;
+    margin-right: 6px;
+}
+
+#detail .tit_vol {
+    margin-top: 16px;
+}
+
+#detail .list_block {
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+#detail .list_block .list_b_l {
+    float: left;
+    width: 16%;
+}
+
+#detail .list_block .list_b_r {
+    float: left;
+    width: 84%;
+}
+
+#detail .list_block .list_n_l {
+    float: left;
+    width: 30%;
+}
+
+#detail .list_block .list_n_r {
+    float: left;
+    width: 70%;
+}
+
+#detail .list_b_l .tit {
+    font-size: 14px;
+    color: #666;
+}
+
+#detail .list_b_r .tit {
+    font-size: 14px;
+    color: #333;
+}
+
+#detail .h_tit {
+    font-size: 14px;
+    color: #666;
+}
+
+#detail .h_tit_sm {
+    font-size: 14px;
+    color: #666;
+}
+
+#detail .redy_tit {
+    font-size: 14px;
+    color: #9c9c9c;
+}
+
+#detail .pod-template {
+    padding-top: 4px;
+}
+
+/*kubernetes-container-terminal{width:100%;}*/
+/*kubernetes-container-terminal .terminal-wrapper{width:100%;}*/
+/*kubernetes-container-terminal .terminal-wrapper .terminal{width:100%;height:100%;}*/
+/*kubernetes-container-terminal .terminal-actions {position: absolute;}*/
+
+@font-face {
+    font-family: "PatternFlyIcons-webfont";
+    src: url("PatternFlyIcons-webfont.eot");
+    src: url("../imageTag_detail/fonts/PatternFlyIcons-webfont.eot?#iefix") format("embedded-opentype"), url("../imageTag_detail/fonts/PatternFlyIcons-webfont.ttf") format("truetype"), url("../imageTag_detail/fonts/PatternFlyIcons-webfont.woff") format("woff"), url("../imageTag_detail/fonts/PatternFlyIcons-webfont.svg#PatternFlyIcons-webfont") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="pficon-"],
+[class*=" pficon-"] {
+    display: inline-block;
+    font-family: "PatternFlyIcons-webfont";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    /* Better Font Rendering =========== */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* .fa-refresh:before{content:"\f021";}
+.pficon-image:before{content:"\e61f";} */
+
+/* Environment 模块 */
+#Environment h2 {
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+#Environment .form-control {
+    width: 100%;
+    height: 27px;
+    padding: 2px 6px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    border-radius: 1px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+}
+
+#Environment .form-control:-ms-input-placeholder {
+    color: #999;
+    font-style: italic
+}
+
+#Environment .form-control::-webkit-input-placeholder {
+    color: #999;
+    font-style: italic
+}
+
+#Environment .form-control:-moz-placeholder {
+    color: #999;
+    font-style: italic
+}
+
+#Environment .form-control::-moz-placeholder {
+    color: #999;
+    font-style: italic;
+    opacity: 1
+}
+
+#Environment .envi_main {
+    display: table;
+    position: relative;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#Environment .form_block {
+    width: 50%;
+    float: left;
+    padding-right: 5px;
+}
+
+#Environment .form-control[disabled], #Environment .form-control[readonly] {
+    background-color: #f5f5f5;
+    color: #8b8d8f;
+}
+
+#container-terminal-wrapper .fullscreenbutton {
+    background-color: #000000;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    display: block;
+    z-index: 2
+}
+
+/* Metrics  模块*/
+#Metrics h2 {
+    font-size: 14px;
+    color: #000;
+    font-weight: bold;
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+.dl-horizontal p {
+    margin: 0;
+}
+
+

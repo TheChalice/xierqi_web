@@ -410,7 +410,7 @@ define([
                             $rootScope.dataForTheTree[1].stateUrl = toState.name;
                         } else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage_detail') !== -1) {
                             $rootScope.imageChild[1].stateUrl = toState.name;
-                        } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1 || toState.name.indexOf('uploadimage') !== -1) {
+                        } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('imagestream_detail') !== -1 || toState.name.indexOf('imagetag_detail') !== -1||toState.name.indexOf('uploadimage') !== -1) {
                             $rootScope.imageChild[0].stateUrl = toState.name;
                         } else if (toState.name.indexOf('pipeline') != -1) {
                             $rootScope.dataForTheTree[3].stateUrl = toState.name;
