@@ -491,8 +491,10 @@ angular.module("console.header", [{
                 return "构建详情";
             case "console.image":
                 return "镜像仓库";
-            case "console.image_detail":
+            case "console.imagestream_detail":
                 return "镜像详情";
+            case "console.imagetag_detail":
+                return "镜像列表详情";
             case "console.image_Public":
                 return "镜像详情";
             case "console.image_regstry":
