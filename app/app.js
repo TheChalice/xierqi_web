@@ -3198,13 +3198,15 @@ define([
                             img: 'icon25 icon25-build',
                             url: 'console.build@' + namespace,
                             stateUrl: null,
+                            type:'build',
                             children: []
                         },
                         {
                             name: '镜像仓库',
                             img: 'icon25 icon25-repository',
                             url: null,
-                            stateUrl: null,
+                            stateUrl: 'image',
+                            type:'image',
                             children: $rootScope.imageChild
                         },
                         // { name: '流水线', img: 'icon25 icon25-pipeline', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
@@ -3213,6 +3215,7 @@ define([
                             img: 'icon25 icon25-deployment',
                             url: null,
                             stateUrl: null,
+                            type:'dc',
                             children: $rootScope.app
                         },
                         //{ name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
@@ -3221,48 +3224,63 @@ define([
                             img: 'icon25 icon25-resource',
                             url: null,
                             stateUrl: null,
+                            type:'resource',
                             children: $rootScope.resources
                         }
                     ];
                     if (toState && toState.name) {
-                        // console.log('toState----', toState);
+                        // console.log('toState.name----', toState.name);
                         $rootScope.console.state = toState.name;
+                        //$rootScope.console.class = toState.name;
+
                         // if (toState.name.indexOf('dashboard') !== -1) {
                         //     $rootScope.dataForTheTree[0].stateUrl = toState.name
                         // } else
                         if (toState.name.indexOf('build') !== -1) {
                             $rootScope.dataForTheTree[0].stateUrl = toState.name;
+                            $rootScope.console.class='build'
                         } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
                             $rootScope.imageChild[0].stateUrl = toState.name;
+                            $rootScope.console.class='image'
                         }
                         else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage') !== -1) {
                             $rootScope.imageChild[1].stateUrl = toState.name;
+                            $rootScope.console.class='image'
                         }
                         // else if (toState.name.indexOf('pipeline') !== -1) {
                         //     $rootScope.dataForTheTree[3].stateUrl = toState.name;
                         // }
-                        else if (toState.name.indexOf('deployment') !== -1 || toState.name.indexOf('quick_deploy') !== -1 || toState.name.indexOf('service_create') !== -1) {
+                        else if (toState.name.indexOf('deployment') !== -1 || toState.name.indexOf('quick_deploy') !== -1 || toState.name.indexOf('service_create') !== -1 || toState.name.indexOf('console.rc') !== -1 || toState.name.indexOf('console.rs') !== -1) {
                             $rootScope.app[0].stateUrl = toState.name;
+                            $rootScope.console.class='dc';
                         } else if (toState.name.indexOf('stateful-sets') !== -1) {
                             $rootScope.app[4].stateUrl = toState.name;
+                            $rootScope.console.class='dc';
                         } else if (toState.name.indexOf('pods') !== -1) {
                             $rootScope.app[1].stateUrl = toState.name;
+                            $rootScope.console.class='dc';
+
                         } else if (toState.name.indexOf('services') !== -1 || toState.name.indexOf('service_details') !== -1) {
                             $rootScope.app[2].stateUrl = toState.name;
+                            $rootScope.console.class='dc';
                         } else if (toState.name.indexOf('route') !== -1) {
                             $rootScope.app[3].stateUrl = toState.name;
+                            $rootScope.console.class='dc';
                         }
                         // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
                         //     $rootScope.dataForTheTree[4].stateUrl = toState.name;
                         // }
                         else if (toState.name.indexOf('_persistentVolume') !== -1) {
                             $rootScope.resources[0].stateUrl = toState.name;
+                            $rootScope.console.class='resource';
                         } else if (toState.name.indexOf('_configMap') !== -1) {
                             $rootScope.resources[1].stateUrl = toState.name;
+                            $rootScope.console.class='resource';
                         } else if (toState.name.indexOf('_secret') !== -1) {
                             $rootScope.resources[2].stateUrl = toState.name;
+                            $rootScope.console.class='resource';
                         }
-
+                        //console.log('$rootScope.console.class', $rootScope.console.class);
 
                         $rootScope.transfering = false;
                     }
