@@ -24,8 +24,10 @@ angular.module('home.blank', [])
                     oldurl='console.build'
                 }
 
-
-                sessiontoken.get(function (data) {
+                var data={
+                    access_token:'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImNtLWNsdXN0ZXItYWRtaW4tdG9rZW4tdHFxYmwiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiY20tY2x1c3Rlci1hZG1pbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjUxMGMxNDBmLTcwNmEtMTFlOC1iNWYxLWZhMTYzZWYxMzRkZSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmNtLWNsdXN0ZXItYWRtaW4ifQ.PvAKpeLmCICQXNWYB-3-okkmEaQEGgroaBw0RTFKedPqPItnnXRRFgQ0CnNsWs3dcmR_BnMJg2o6wqQr-HkbKFQOo6rwtCpH9CWua6tfs6nlkv2rWovdjgUS-b8j_SnRnoXqDCovb5XMrAQwZ4C8qSBU-9WgLv8qyfdFEXcgefQYPTudlV1GDhz9fFKQThTB27vDjkTmvcxuMMyR3PPvvS4-1WvaC_pB1qadhpW3Nl_X35NCbuKElnLGzGisOjeuW_RxUa3-pgSGIe_3d7TEP0mRut7ls9TSTi7vxwSJuo3KfGGIqH3dH64XAlzM27HAUeBCesn8GiQq8OdqNhmbjw'
+                }
+                //sessiontoken.get(function (data) {
                     console.log('data.access_token', data.access_token);
                     Cookie.set('df_access_token', data.access_token+','+data.access_token, 23 * 3600 * 1000);
                     Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
@@ -84,7 +86,7 @@ angular.module('home.blank', [])
 
                     })
 
-                })
+                //})
 
             }else {
                 $state.go("login")
