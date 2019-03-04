@@ -4,15 +4,15 @@ angular.module('console.build.detail', [
     {
         files: [
             'components/checkbox/checkbox.js',
-            'views/build_detail/build_detail.css'
+            'views/build_detail/build_detail.css',
+            'components/deploymentsevent/deploymentsevent.js'
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr', '$base64'
-        , function ($sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr, $base64) {
+    .controller('BuildDetailCtrl', ['Cookie','$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr', '$base64'
+        , function (Cookie,$sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr, $base64) {
             $scope.grid = {};
 
-            //console.log('路由',$state);
             $scope.grid.checked = false;
             $scope.grid.pedding = false;
 
@@ -35,6 +35,9 @@ angular.module('console.build.detail', [
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
                     $scope.myurl = data.spec.source.git.uri;
                     $scope.data = data;
+                    var dockerStrategy = $scope.data.spec.strategy.dockerStrategy || {};
+                    // $scope.env  = dockerStrategy.env || [{name: '', value: ''}];
+                    $scope.env  = dockerStrategy.env || [{name: '', value: ''}];
                     var host = $scope.data.spec.source.git.uri;
                     if (data.metadata.annotations.user) {
                         $scope.showwebhook = true;
@@ -804,7 +807,6 @@ angular.module('console.build.detail', [
             });
 
             $scope.valueOfResource = false;
-            $scope.env = [{name: '', value: ''}];
             $scope.addValue = function () {
                 $scope.env.push({name: '', value: ''});
             } ;
@@ -817,15 +819,27 @@ angular.module('console.build.detail', [
                 }
             };
             // $scope.envOfResource = [{name: '', valueFrom:{secretKeyRef:{name:'', key:''}},index:''}];
-
             $scope.reloadEnv = function () {
-                $scope.env.slice(0,1);
-                $scope.env = [{name: '', value: ''}];
+                loadBuildConfig();
             };
 
             $scope.saveEnv = function () {
-                console.log('saveEnv',$scope.env);
-            }
-
+                $scope.data.spec.strategy.dockerStrategy = {};
+                $scope.data.spec.strategy.dockerStrategy.env = $scope.env;
+                BuildConfig.put({
+                    namespace: $rootScope.namespace,
+                    region: $rootScope.region,
+                    name:$scope.data.metadata.name
+                },$scope.data,function (res) {
+                    toastr.success('修改成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                    console.log('saveEnv',res);
+                });
+            };
+            $scope.editYaml = function () {
+                $state.go('console.edit_yaml_file',{namespace: $rootScope.namespace, name: $scope.data.metadata.name,kind: $scope.data.kind});
+            };
         }]);
 

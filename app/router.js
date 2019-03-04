@@ -183,7 +183,7 @@ define([
                         }]
                     }
                 })//ok
-                .state('console.build_detail', {
+                .state('console.buildconfig_detail', {
                     url: '/:namespace/build/:name',
                     params: {
                         from: null

@@ -487,7 +487,7 @@ angular.module("console.header", [{
                 return "新建构建";
             case "console.uploadimage":
                 return "镜像上传详情";
-            case "console.build_detail":
+            case "console.buildconfig_detail":
                 return "构建详情";
             case "console.image":
                 return "镜像仓库";
