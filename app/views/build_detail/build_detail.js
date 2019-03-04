@@ -822,20 +822,29 @@ angular.module('console.build.detail', [
             $scope.reloadEnv = function () {
                 loadBuildConfig();
             };
-
+            $scope.invalidName = false;
             $scope.saveEnv = function () {
                 $scope.data.spec.strategy.dockerStrategy = {};
                 $scope.data.spec.strategy.dockerStrategy.env = $scope.env;
+                var arr = $scope.data.spec.strategy.dockerStrategy.env;
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].name === '') {
+                        $scope.invalidName = true;
+                        break;
+                    }
+                }
                 BuildConfig.put({
                     namespace: $rootScope.namespace,
                     region: $rootScope.region,
-                    name:$scope.data.metadata.name
-                },$scope.data,function (res) {
+                    name: $scope.data.metadata.name
+                }, $scope.data, function (res) {
                     toastr.success('修改成功', {
                         timeOut: 2000,
                         closeButton: true
                     });
-                    console.log('saveEnv',res);
+                    $scope.invalidName = false;
+                    console.log('saveEnv', res);
+
                 });
             };
             $scope.editYaml = function () {

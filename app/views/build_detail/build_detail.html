@@ -380,12 +380,20 @@
                                    type="text"
                                    ng-model="item.value"
                                    style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;width: 100%;">
-
                         </div>
                         <div class="col-md-1 col-xs-2" style="float: right;line-height: 30px;">
                             <i class="glyphicon glyphicon-align-justify"></i>
                             <i class="glyphicon glyphicon-minus minus-hover" ng-click="deleteEnv($index)"></i>
                         </div>
+                    </div>
+                    <div class="row pairs-list__row">
+                        <div class="col-md-5 col-xs-5">
+                            <small ng-if="invalidName" class="err-tip ng-scope">
+                                <i class="fa fa-info-circle"></i>&nbsp;name值为空
+                            </small>
+                        </div>
+                        <div class="col-md-6 col-xs-5"></div>
+                        <div class="col-md-1 col-xs-2"></div>
                     </div>
                     <!--config secret-->
                     <div class="row pairs-list__row" ng-if="valueOfResource">
