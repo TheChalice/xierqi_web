@@ -116,7 +116,7 @@
                                     <div class="col-sm-2">
                                         <span class="detail_tit">名称：</span>
                                         <label class="build_name">
-                                            <a class="href-orange" >{{item.metadata.name}}</a>
+                                            <a class="href-orange" ui-sref="console.buildtag_detail({namespace:namespace,name: item.metadata.name})">{{item.metadata.name}}</a>
                                         </label>
                                     </div>
                                     <div class="col-sm-2">
@@ -193,8 +193,6 @@
                                     <pre class="sa_color" style="" id='sa' ng-bind-html=item.buildLog></pre>
                                 </div>
                             </div>
-
-
                         </li>
                         <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope">
                             <p class="blank_block">
@@ -362,61 +360,100 @@
                 <uib-tab-heading>
                     环境变量
                 </uib-tab-heading>
-                <div id="Environment">
-                    <div class="detail_set">
-                        <div class="envi_main">
-                            <div class="form_block">Name</div>
-                            <div class="form_block">Value</div>
-                            <div class="form_block">
-                                <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty"
-                                       value='example' type="text" ng-disabled="true"
-                                       ng-model="item.name"
-                                       style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;"
-                                       disabled="disabled">
+                <div id="build_detail_env">
+                    <div class="row pairs-list__row">
+                        <div class="col-md-5 col-xs-5">Name</div>
+                        <div class="col-md-6 col-xs-5">Value</div>
+                        <div class="col-md-1 col-xs-2"></div>
+                    </div>
+                    <div class="row pairs-list__row" ng-repeat="item in env">
+                        <div class="col-md-5 col-xs-5">
+                            <input class=""
+                                   placeholder="name"
+                                   type="text"
+                                   ng-model="item.name"
+                                   style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;width: 100%;">
+                        </div>
+                        <div class="col-md-6 col-xs-5">
+                            <input class=""
+                                   placeholder="value"
+                                   type="text"
+                                   ng-model="item.value"
+                                   style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;width: 100%;">
+                        </div>
+                        <div class="col-md-1 col-xs-2" style="float: right;line-height: 30px;">
+                            <i class="glyphicon glyphicon-align-justify"></i>
+                            <i class="glyphicon glyphicon-minus minus-hover" ng-click="deleteEnv($index)"></i>
+                        </div>
+                    </div>
+                    <div class="row pairs-list__row">
+                        <div class="col-md-5 col-xs-5">
+                            <small ng-if="invalidName" class="err-tip ng-scope">
+                                <i class="fa fa-info-circle"></i>&nbsp;name值为空
+                            </small>
+                        </div>
+                        <div class="col-md-6 col-xs-5"></div>
+                        <div class="col-md-1 col-xs-2"></div>
+                    </div>
+                    <!--config secret-->
+                    <div class="row pairs-list__row" ng-if="valueOfResource">
+                        <div class="col-md-5 col-xs-5">
+                            <input class=""
+                                   value='example' type="text"
+                                   style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;width: 100%;">
+                        </div>
+                        <div class="col-md-6 col-xs-5 pairs-list__value-pair-field">
+                            <div class="value-from">
+                                <div class="dropdown dropdown_select" style="width: 100%;">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <span>aaa</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li style="font-size: 12px;">
+                                            <span class="dropdown-menu-span" style="overflow-y: auto;">aaa</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="form_block">
-                                <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty"
-                                       value='app' type="text" ng-disabled="true"
-                                       ng-model="item.value"
-                                       style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;"
-                                       disabled="disabled" ng-if="SatusOfValue">
-                                <!--<div class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" ng-if="!SatusOfValue"-->
-                                     <!--style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;font-size:12px;">-->
-                                    <!--<div class="col-md-6" style="border-right:solid 1px #c9c9c9;">-->
-                                        <!--<div class="dropdown" style="width: 100%;">-->
-                                            <!--<button class="btn dropdown-toggle" data-toggle="dropdown">-->
-                                                <!--<span>choose</span>-->
-                                                <!--<span class="caret"></span>-->
-                                            <!--</button>-->
-                                            <!--<ul class="dropdown-menu">-->
-                                                <!--<li style="font-size: 12px;">-->
-                                                    <!--<span class="dropdown-menu-span" style="overflow-y: auto;">12121</span>-->
-                                                <!--</li>-->
-                                            <!--</ul>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="col-md-5">2222</div>-->
-                                <!--</div>-->
-                                <div style="float: right;line-height: 30px;">
-                                    <i class="glyphicon glyphicon-align-justify"></i>
-                                    <i class="glyphicon glyphicon-minus minus-hover"></i>
+                            <div class="value-from" style="float: left;">
+                                <div class="dropdown dropdown_select" style="width: 100%;">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <span>111</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li style="font-size: 12px;">
+                                            <span class="dropdown-menu-span" style="overflow-y: auto;">1111</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12">
-                                <span class="btn-link pairs-list__btn" ng-click="addValue()">
-                                    <i aria-hidden="true" class="fa fa-plus-circle pairs-list__add-icon"></i>Add Value</span>
-                                <span aria-hidden="true" class="pairs-list__action-divider">|</span>
-                                <span class="btn-link pairs-list__btn" ng-click="addValueOfResource()">
-                                    <i aria-hidden="true" class="fa fa-plus-circle pairs-list__add-icon"></i>
-                                    Add Value from Config Map or Secret
-                                </span>
-                            </div>
+                        <div class="col-md-1 col-xs-2" style="float: right;line-height: 30px;">
+                            <i class="glyphicon glyphicon-align-justify"></i>
+                            <i class="glyphicon glyphicon-minus minus-hover"></i>
                         </div>
                     </div>
-
+                    <div class="row pairs-list__row">
+                        <div class="col-md-12 col-xs-12">
+                                <span class="btn-link pairs-list__btn" ng-click="addValue()">
+                                    <i aria-hidden="true" class="fa fa-plus-circle pairs-list__add-icon"></i>新增数据</span>
+                            <!--<span aria-hidden="true" class="pairs-list__action-divider">|</span>-->
+                            <!--<span class="btn-link pairs-list__btn" ng-click="addValueOfResource()">-->
+                                    <!--<i aria-hidden="true" class="fa fa-plus-circle pairs-list__add-icon"></i>-->
+                                    <!--从配置映射或秘密添加值-->
+                                <!--</span>-->
+                        </div>
+                    </div>
                 </div>
+                <div class="co-m-pane__body-group">
+                    <div class="environment-buttons">
+                        <button type="submit" class="btn btn-orange df_build" ng-click="saveEnv()">保存修改</button>
+                        <button type="button" class="btn btn-orange df_build" ng-click="reloadEnv()">重新加载</button>
+                    </div>
+                </div>
+
             </uib-tab>
             <uib-tab index="4">
                 <uib-tab-heading>
