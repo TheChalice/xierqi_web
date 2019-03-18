@@ -10,7 +10,7 @@ angular.module('console.edit_yaml_file', [
             //根据url地址获取数值
             function getData() {
                 var kind = ($stateParams.kind).toLowerCase() + 's';
-                if ($stateParams.kind == 'DeploymentConfig' || $stateParams.kind == 'Route') {
+                if ($stateParams.kind == 'DeploymentConfig' || $stateParams.kind == 'Route' || $stateParams.kind == 'BuildConfig') {
                     typeOfData(EditYamlOfDcAndRoute, kind);
                 } else if ($stateParams.kind == 'Deployment') {
                     typeOfData(EditYamlDeployment, kind);

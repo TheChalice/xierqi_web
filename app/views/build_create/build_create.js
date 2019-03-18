@@ -537,7 +537,7 @@ angular.module('console.build_create_new', [
                     region: $rootScope.region
                 }, buildRequest, function () {
                     $log.info("build instantiate success");
-                    $state.go('console.build_detail', {namespace: $rootScope.namespace, name: name, from: 'create/new'})
+                    $state.go('console.buildconfig_detail', {namespace: $rootScope.namespace, name: name, from: 'create/new'})
                 }, function (res) {
                     //console.log("uildConfig.instantiate.create",res);
                     //todo 错误处理

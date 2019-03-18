@@ -364,7 +364,7 @@ angular.module('console.build', [
                     region: $rootScope.region
                 }, buildRequest, function () {
                     $log.info("build instantiate success");
-                    $state.go('console.build_detail', {namespace: $rootScope.namespace, name: name, from: 'create'})
+                    $state.go('console.buildconfig_detail', {namespace: $rootScope.namespace, name: name, from: 'create'})
                 }, function (res) {
                     //todo 错误处理
                 });
