@@ -47,7 +47,7 @@ angular.module('home.uploadimage', [{
                     $scope.grid.clickbtn = 'dontclick';
                 }
             }, true);
-            //console.log('browserMD5File', browserMD5File);
+            console.log('browserMD5File', browserMD5File);
             $scope.submit = function (file) {
                 //console.log('file', $scope.form);
                 console.log('file', $scope.file.data);
