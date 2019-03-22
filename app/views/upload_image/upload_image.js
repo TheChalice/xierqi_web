@@ -47,6 +47,7 @@ angular.module('home.uploadimage', [{
                     $scope.grid.clickbtn = 'dontclick';
                 }
             }, true);
+            //console.log('browserMD5File', browserMD5File);
             $scope.submit = function (file) {
                 //console.log('file', $scope.form);
                 console.log('file', $scope.file.data);
@@ -60,6 +61,7 @@ angular.module('home.uploadimage', [{
                 }
 
                 $scope.grid.clickbtn = 'inhand';
+
                 browserMD5File($scope.file.data, function (err, md5) {
                     $scope.grid.clickbtn = 'dontclick';
                     $('#myModalBtn').click();
