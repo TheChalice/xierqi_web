@@ -1,4 +1,4 @@
-FROM registry.new.dataos.io/datafoundry/web-base:lot-cluster
+FROM registry.new.dataos.io/datafoundry/web-base:little-cluster
 
 # Copy code
 COPY . /datafoundry
