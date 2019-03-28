@@ -32,6 +32,8 @@ sed -i 's/<api_aipaas_addr>/'$API_AIPAAS_ADDR'/g' /usr/local/openresty/nginx/con
 
 
 sed -i 's/<api_server_addr>/'$API_SERVER_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
+sed -i 's/<api_sbnanji_addr>/'$API_SBNANJI_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
+
 sed -i 's/<api_proxy_addr>/'$API_PROXY_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<api_uploadimage_addr>/'$API_UPLOADIMAGE_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 # sed -i 's/<api_oauth_addr>/'$API_OAUTH_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf

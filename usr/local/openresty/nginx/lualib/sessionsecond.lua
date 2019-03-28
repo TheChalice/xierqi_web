@@ -3,6 +3,9 @@ package.path = package.path .. ";/usr/local/openresty/nginx/lualib/?.lua"
 
 local authorize = require "comm.authorize"
 local json = require "cjson"
+local api_sbnanji = os.getenv("API_SBNANJI_ADDR")
+
+
 
 local function sessionToken(username)
     local tokentool = authorize.new()
@@ -12,7 +15,7 @@ local function sessionToken(username)
 
         local token = {}
 
-        token = tokentool:auth(username)
+        token = tokentool:auth(username,api_sbnanji)
         if token == ngx.null then
             ngx.log(ngx.ERR, "can not authorize by openshift.")
             ngx.status = 401
