@@ -4,7 +4,6 @@ package.path = package.path .. ";/usr/local/openresty/nginx/lualib/?.lua"
 local authorize = require "comm.authorize"
 local json = require "cjson"
 local api_server = os.getenv("API_SERVER_ADDR")
-local api_sbnanji = os.getenv("API_SBNANJI_ADDR")
 
 local redis_host = os.getenv("REDIS_HOST")
 local redis_port = strutil.atoi(os.getenv("REDIS_PORT"))
