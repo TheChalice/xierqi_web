@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module("console.header", [{
-    files: ['components/header/header.css']
-}])
+        files: ['components/header/header.css']
+    }])
 
     .directive('cHeader', [function () {
         return {
@@ -12,8 +12,8 @@ angular.module("console.header", [{
                 showAbout: '=',
             },
             templateUrl: 'components/header/header.html',
-            controller: ['User','allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams','ssologout','userNum',
-                function (User,allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams,ssologout,userNum) {
+            controller: ['User','allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams','ssologout','userNum','sessiontoken','hucentersessiontoken',
+                function (User,allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams,ssologout,userNum,sessiontoken,hucentersessiontoken) {
                     //console.log($state.current.name);
                     if ($state.current.name === 'overview') {
                         $scope.isActive=false
@@ -29,6 +29,28 @@ angular.module("console.header", [{
                         );
                     })
 
+                    $scope.clusterlist=[{name:'呼和浩特中心'},{name:'哈尔滨中心'}];
+
+                    if (Cookie.get('checkedcluster')) {
+                        $scope.checkedcluster=Cookie.get('checkedcluster')
+                    }else {
+                        $scope.checkedcluster='哈尔滨中心';
+                        Cookie.set('checkedcluster', $scope.checkedcluster, 10 * 365 * 24 * 3600 * 1000);
+                    }
+                    $scope.changeCluster= function (name) {
+                        $scope.checkedcluster=name;
+                        Cookie.set('checkedcluster', name, 10 * 365 * 24 * 3600 * 1000);
+                        if (name === '哈尔滨中心') {
+                            sessiontoken.get(function (token) {
+                                console.log('hatoken', token);
+                            })
+                        }else {
+                            hucentersessiontoken.get(function (token) {
+                                console.log('hutoken', token);
+                            })
+                        }
+
+                    }
                     $scope.mouHoverOne = function(that){
                         $(that.currentTarget).children('ul').show();
                     }
@@ -284,7 +306,7 @@ angular.module("console.header", [{
                     //     $('.colony-nav').css( 'background','#303643');
                     // }
                     // 2018/08/23 能力视图去掉 end
-                //////获取租户数据
+                    //////获取租户数据
                     allTenants.query({name: "admin"}, function(data){
                         createTree(data);
                         console.log('createTree(data)',$scope.tenantsTree);
@@ -589,31 +611,31 @@ angular.module("console.header", [{
 
                     $scope.logout = function () {
 
-                            Cookie.clear('df_access_token');
-                            Cookie.clear('namespace');
-                            Cookie.clear('region');
-                            $rootScope.region = '';
-                            $scope.checked = '';
-                            $rootScope.user = null;
-                            $rootScope.namespace = "";
-                            //clearInterval($scope.timer);
-                            $state.go('login');
+                        Cookie.clear('df_access_token');
+                        Cookie.clear('namespace');
+                        Cookie.clear('region');
+                        $rootScope.region = '';
+                        $scope.checked = '';
+                        $rootScope.user = null;
+                        $rootScope.namespace = "";
+                        //clearInterval($scope.timer);
+                        $state.go('login');
 
-                        
-                        
+
+
 
                     };
                     $scope.logoutsso = function () {
 
-                            Cookie.clear('df_access_token');
-                            Cookie.clear('namespace');
-                            Cookie.clear('region');
-                            $rootScope.region = '';
-                            $scope.checked = '';
-                            $rootScope.user = null;
-                            $rootScope.namespace = "";
-                            ////clearInterval($scope.timer);
-                            //$state.go('login');
+                        Cookie.clear('df_access_token');
+                        Cookie.clear('namespace');
+                        Cookie.clear('region');
+                        $rootScope.region = '';
+                        $scope.checked = '';
+                        $rootScope.user = null;
+                        $rootScope.namespace = "";
+                        ////clearInterval($scope.timer);
+                        //$state.go('login');
 
 
 
