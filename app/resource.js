@@ -139,6 +139,11 @@ define([
             var sessiontoken = $resource('/sessiontoken', {}, {});
             return sessiontoken;
         }])
+        .factory('hucentersessiontoken', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            //console.log('q11');
+            var hucentersessiontoken = $resource('/hucentersessiontoken', {}, {});
+            return hucentersessiontoken;
+        }])
         .factory('ssologout', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             //console.log('q11');
             var ssologout = $resource('/sso/logout', {}, {});
