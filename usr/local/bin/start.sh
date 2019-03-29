@@ -27,11 +27,17 @@ sed -i 's/<redis_host>/'$REDIS_HOST'/g' /usr/local/openresty/nginx/conf/nginx.co
 sed -i 's/<redis_port>/'$REDIS_PORT'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<redis_password>/'$REDIS_PASSWORD'/g' /usr/local/openresty/nginx/conf/nginx.conf
 
+sed -i 's/<redis_hu_host>/'$REDIS_HU_HOST'/g' /usr/local/openresty/nginx/conf/nginx.conf
+sed -i 's/<redis_hu_port>/'$REDIS_HU_PORT'/g' /usr/local/openresty/nginx/conf/nginx.conf
+sed -i 's/<redis_hu_password>/'$REDIS_HU_PASSWORD'/g' /usr/local/openresty/nginx/conf/nginx.conf
+
 sed -i 's/<api_restapi_addr>/'$API_RESTAPI_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<api_aipaas_addr>/'$API_AIPAAS_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 
 
 sed -i 's/<api_server_addr>/'$API_SERVER_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
+sed -i 's/<api_sbnanji_addr>/'$API_SBNANJI_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
+
 sed -i 's/<api_proxy_addr>/'$API_PROXY_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<api_uploadimage_addr>/'$API_UPLOADIMAGE_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 # sed -i 's/<api_oauth_addr>/'$API_OAUTH_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
