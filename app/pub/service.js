@@ -2241,7 +2241,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     }else if (cluster && cluster === 'cn-north-2'){
                         clusterip=GLOBAL.api_sbnanji_addr
                     }else {
-                        clusterip='111.111.111.111:111'
+                        clusterip=GLOBAL.api_server_addr
                     }
                     console.log('clusterip', clusterip);
                     if (tokens && regions) {
