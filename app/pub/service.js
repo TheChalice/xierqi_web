@@ -2267,13 +2267,13 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     if (config.headers && token) {
                         //console.log('window.location.pathname', window.location);
                         config.headers["Authorization"] = "Bearer " + token;
-                        config.headers["cluster"] = clusterip;
-                        console.log('config', config);
+
                         //config.headers["Sso"] = window.location.href;
                     }
-                    if (config.headers && cluster) {
+                    if (config.headers) {
                         //console.log('window.location.pathname', window.location);
                         config.headers["cluster"] = clusterip;
+                        console.log('config', config);
                         //config.headers["Sso"] = window.location.href;
                     }
                     if (/^\.\/hawkular/.test(config.url)) {
