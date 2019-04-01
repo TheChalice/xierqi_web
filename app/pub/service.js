@@ -2235,7 +2235,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     var token = '';
                     var clusterip = '';
 
-                    console.log(GLOBAL);
+                    //console.log(GLOBAL);
                     if (cluster && cluster === 'cn-north-1') {
                         clusterip=GLOBAL.api_server_addr
                     }else if (cluster && cluster === 'cn-north-2'){
@@ -2268,9 +2268,14 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         //console.log('window.location.pathname', window.location);
                         config.headers["Authorization"] = "Bearer " + token;
                         config.headers["cluster"] = clusterip;
+                        console.log('config', config);
                         //config.headers["Sso"] = window.location.href;
                     }
-
+                    if (config.headers && cluster) {
+                        //console.log('window.location.pathname', window.location);
+                        config.headers["cluster"] = clusterip;
+                        //config.headers["Sso"] = window.location.href;
+                    }
                     if (/^\.\/hawkular/.test(config.url)) {
                         //console.log('config.url', config.url);
                         config.headers["Content-Type"] = "application/json";
