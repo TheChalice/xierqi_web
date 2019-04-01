@@ -115,7 +115,11 @@ define([
             //service_url:'.cloud.new.dataos.io',
             common_url: '<REGISTRY_PUBLIC_ADDR>',
             //common_url:'registry.dataos.io',
-            private_url: '<REGISTRY_PRIVATE_ADDR>'
+            private_url: '<REGISTRY_PRIVATE_ADDR>',
+            //private_url: 'aaaabbb'
+            api_restapi_addr: '<API_RESTAPI_ADDR>',
+            //common_url:'registry.dataos.io',
+            api_sbnanji_addr: '<API_SBNANJI_ADDR>'
             //private_url: 'aaaabbb'
 
         })

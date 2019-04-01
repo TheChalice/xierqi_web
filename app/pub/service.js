@@ -2205,7 +2205,8 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 }).result;
             };
         }])
-        .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
+        .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', 'GLOBAL',
+            function ($rootScope, $q, AUTH_EVENTS, Cookie,GLOBAL) {
             var CODE_MAPPING = {
                 401: AUTH_EVENTS.loginNeeded,
                 403: AUTH_EVENTS.httpForbidden,
@@ -2230,9 +2231,18 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     //$rootScope.region=
                     var tokens = Cookie.get('df_access_token');
                     var regions = Cookie.get('region');
+                    var cluster = Cookie.get('cluster');
                     var token = '';
-                    //console.log(tokens);
+                    var clusterip = '';
 
+                    //console.log(tokens);
+                    if (cluster && cluster === 'cn-north-1') {
+                        clusterip=GLOBAL.api_restapi_addr
+                    }else if (cluster && cluster === 'cn-north-2'){
+                        clusterip=GLOBAL.api_sbnanji_addr
+                    }else {
+                        clusterip='111.111.111.111:111'
+                    }
                     if (tokens && regions) {
                         var tokenarr = tokens.split(',');
                         var region = regions.split('-')[2];
@@ -2256,6 +2266,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     if (config.headers && token) {
                         //console.log('window.location.pathname', window.location);
                         config.headers["Authorization"] = "Bearer " + token;
+                        config.headers["cluster"] = clusterip;
                         //config.headers["Sso"] = window.location.href;
                     }
 

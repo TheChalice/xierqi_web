@@ -26,9 +26,10 @@ angular.module('home.blank', [])
 
 
                 sessiontoken.get(function (data) {
-                    console.log('data.access_token', data.access_token);
+                    //console.log('data.access_token', data.access_token);
                     Cookie.set('df_access_token', data.access_token+','+data.access_token, 23 * 3600 * 1000);
                     Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
+                    Cookie.set('cluster', 'cn-north-1', 24 * 3600 * 1000);
                     $rootScope.region = Cookie.get('region');
 
                     User.get({name: '~'}, function (res) {
