@@ -117,7 +117,7 @@ define([
             //common_url:'registry.dataos.io',
             private_url: '<REGISTRY_PRIVATE_ADDR>',
             //private_url: 'aaaabbb'
-            api_restapi_addr: '<API_RESTAPI_ADDR>',
+            api_server_addr: '<API_SERVER_ADDR>',
             //common_url:'registry.dataos.io',
             api_sbnanji_addr: '<API_SBNANJI_ADDR>'
             //private_url: 'aaaabbb'

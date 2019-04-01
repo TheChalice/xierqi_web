@@ -2235,14 +2235,15 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     var token = '';
                     var clusterip = '';
 
-                    //console.log(tokens);
+                    console.log(GLOBAL);
                     if (cluster && cluster === 'cn-north-1') {
-                        clusterip=GLOBAL.api_restapi_addr
+                        clusterip=GLOBAL.api_server_addr
                     }else if (cluster && cluster === 'cn-north-2'){
                         clusterip=GLOBAL.api_sbnanji_addr
                     }else {
                         clusterip='111.111.111.111:111'
                     }
+                    console.log('clusterip', clusterip);
                     if (tokens && regions) {
                         var tokenarr = tokens.split(',');
                         var region = regions.split('-')[2];
