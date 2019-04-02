@@ -2243,7 +2243,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     }else {
                         clusterip=GLOBAL.api_server_addr
                     }
-                    console.log('clusterip', clusterip);
+                    //console.log('clusterip', clusterip);
                     if (tokens && regions) {
                         var tokenarr = tokens.split(',');
                         var region = regions.split('-')[2];

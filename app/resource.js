@@ -56,8 +56,19 @@ define([
                 var regions = Cookie.get('region');
                 var tokenarr = tokens.split(',');
                 var region = regions.split('-')[2];
-                var token = tokenarr[region - 1];
 
+                var cluster = Cookie.get('cluster');
+                var token = tokenarr[region - 1];
+                var clusterip = '';
+
+                //console.log(GLOBAL);
+                if (cluster && cluster === 'cn-north-1') {
+                    clusterip=GLOBAL.api_server_addr
+                }else if (cluster && cluster === 'cn-north-2'){
+                    clusterip=GLOBAL.api_sbnanji_addr
+                }else {
+                    clusterip=GLOBAL.api_server_addr
+                }
                 params.name = params.name ? '/' + params.name : '';
                 if (params.pod) {
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
@@ -65,14 +76,14 @@ define([
                         '&tailLines=1000' +
                         '&limitBytes=10485760' +
                         '&container=' + params.pod +
-                        '&region=' + $rootScope.region +
+                        '&cluster=' + clusterip +
                         '&access_token=' + token;
                 } else if (params.app) {
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
                         '?watch=true' +
                         '&resourceVersion=' + params.resourceVersion +
                         '&labelSelector=' + params.app +
-                        '&region=' + $rootScope.region +
+                        '&cluster=' + clusterip +
                         '&access_token=' + token;
                 } else {
 
@@ -88,7 +99,7 @@ define([
                     if (params.resourceVersion) {
                         url = url + '&resourceVersion=' + params.resourceVersion
                     }
-                    url = url + '&access_token=' + token;
+                    url = url+'&cluster=' + clusterip + '&access_token=' + token;
 
                 }
                 if (params.tailLines) {
