@@ -36,7 +36,7 @@
     "ng-jsyaml": "^0.0.2",
     "js-yaml": "^3.10.0",
     "angular-ui-ace": "^0.2.3",
-    "browser-md5-file": "^1.0.0",
+    "browser-md5-file": "1.0.0",
     "js-base64": "^2.4.9"
   },
   "description": "angular seed",
