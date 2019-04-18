@@ -17,7 +17,7 @@
         </div> -->
         <!-- 2018/08/23 能力视图去掉 end-->
         <a id="header-brand" ng-click="backindex()">
-            <img src="components/header/img/logo_sm.png" alt="logo" class="header_logo">
+            <img src="components/header/img/logo_sm_df_back1.png" alt="logo" class="header_logo">
         </a>
         <style>
 
@@ -358,14 +358,14 @@
                     <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu"
                         style="width: 120px;max-height: 338px;top:48px;left:-52px;background: #f7fafc;border-radius:0;border:0px;">
                         <!--personal account-->
-                        <li ng-if="projects" class='personal'>
-                            <a href="{{urllist.usercenter_url}}" target="_blank">
-                                <!--<label>{{user.metadata.name}}</label>-->
-                                <!--<i class="uex_set uex-icon-user"></i>-->
-                                <i class="uex_set uex-icon-host-user"></i>
-                                <span>用户中心</span>
-                            </a>
-                        </li>
+                        <!--<li ng-if="projects" class='personal'>-->
+                            <!--<a href="{{urllist.usercenter_url}}" target="_blank">-->
+                                <!--&lt;!&ndash;<label>{{user.metadata.name}}</label>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<i class="uex_set uex-icon-user"></i>&ndash;&gt;-->
+                                <!--<i class="uex_set uex-icon-host-user"></i>-->
+                                <!--<span>用户中心</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
 
                         <!--<li>-->
                         <!--&lt;!&ndash;<a href="javascript:;" ng-click="createOrg()"><i class="df_h_com df_q_active"></i>创建项目</a>&ndash;&gt;-->
@@ -463,22 +463,22 @@
 
         <div id="tenants-box" class="tenants-box" style="display: inline-block;height: 55px;">
 
-            <div class="header-name-list" ng-if="showAbout">
-                <a  class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
-                   <span class="neirong">概览</span>
-                </a>
-                <a  class="header-name-list-span" ui-sref="console.build({namespace:namespace})"
-                   ng-class="{'overSelect':isActive}">
-                    <span class="neirong">应用控制台</span>
-                </a>
-            </div>
-            <div class="header-name-list" ng-if="!showAbout">
+            <!--<div class="header-name-list" ng-if="showAbout">-->
+                <!--<a  class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">-->
+                   <!--<span class="neirong">概览</span>-->
+                <!--</a>-->
+                <!--<a  class="header-name-list-span" ui-sref="console.build({namespace:namespace})"-->
+                   <!--ng-class="{'overSelect':isActive}">-->
+                    <!--<span class="neirong">应用控制台</span>-->
+                <!--</a>-->
+            <!--</div>-->
+            <!--<div class="header-name-list" ng-if="!showAbout">-->
 
-                <a  class="header-name-list-span"
-                   ng-class="{'overSelect':isActive}">
-                    <span class="neirong">应用控制台</span>
-                </a>
-            </div>
+                <!--<a  class="header-name-list-span"-->
+                   <!--ng-class="{'overSelect':isActive}">-->
+                    <!--<span class="neirong">应用控制台</span>-->
+                <!--</a>-->
+            <!--</div>-->
 
 
         </div>
