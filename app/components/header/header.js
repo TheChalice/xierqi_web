@@ -42,15 +42,18 @@ angular.module("console.header", [{
                         Cookie.set('checkedcluster', name, 10 * 365 * 24 * 3600 * 1000);
                         if (name === '哈尔滨中心') {
                             sessiontoken.get(function (token) {
-                                console.log('hatoken', token);
+                                //console.log('hatoken', token);
                                 Cookie.set('cluster', 'cn-north-1', 24 * 3600 * 1000);
                                 Cookie.set('df_access_token', token.access_token+','+token.access_token, 23 * 3600 * 1000);
+                                $state.reload()
                             })
                         }else {
                             hucentersessiontoken.get(function (token) {
-                                console.log('hutoken', token);
+                                //console.log('hutoken', token);
                                 Cookie.set('cluster', 'cn-north-2', 24 * 3600 * 1000);
                                 Cookie.set('df_access_token', token.access_token+','+token.access_token, 23 * 3600 * 1000);
+                                $state.reload()
+
                             })
                         }
 
