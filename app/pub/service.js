@@ -5,14 +5,14 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
         .factory('yaml', [function () {
             return jsyaml;
         }])
-        .factory("FullscreenService",['IS_SAFARI',function(IS_SAFARI) {
+        .factory("FullscreenService", ['IS_SAFARI', function (IS_SAFARI) {
             var requestFullscreen =
                 document.documentElement.requestFullScreen ||
                 document.documentElement.webkitRequestFullScreen ||
                 document.documentElement.mozRequestFullScreen ||
                 document.documentElement.msRequestFullscreen;
 
-            var findElement = function(element) {
+            var findElement = function (element) {
                 if (!element || !_.isString(element)) {
                     return element;
                 }
@@ -26,7 +26,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             };
 
             return {
-                hasFullscreen: function(needsKeyboard) {
+                hasFullscreen: function (needsKeyboard) {
                     // Safari blocks keyboard input in fullscreen mode. Unfortunately
                     // there's no feature detection for this, so fall back to user agent
                     // sniffing.
@@ -37,7 +37,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 },
 
                 // `element` is a DOM element or selector
-                requestFullscreen: function(element) {
+                requestFullscreen: function (element) {
                     if (!requestFullscreen) {
                         return;
                     }
@@ -50,12 +50,12 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     requestFullscreen.call(element);
                 },
 
-                exitFullscreen: function() {
-                    if(document.exitFullscreen) {
+                exitFullscreen: function () {
+                    if (document.exitFullscreen) {
                         document.exitFullscreen();
-                    } else if(document.mozCancelFullScreen) {
+                    } else if (document.mozCancelFullScreen) {
                         document.mozCancelFullScreen();
-                    } else if(document.webkitExitFullscreen) {
+                    } else if (document.webkitExitFullscreen) {
                         document.webkitExitFullscreen();
                     } else if (document.msExitFullscreen) {
                         document.msExitFullscreen();
@@ -168,10 +168,10 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             var ansi_up,
                 VERSION = "1.3.0",
 
-                // check for nodeJS
+            // check for nodeJS
                 hasModule = (typeof module !== 'undefined'),
 
-                // Normal and then Bright
+            // Normal and then Bright
                 ANSI_COLORS = [
                     [
                         {color: "0, 0, 0", 'class': "ansi-black"},
@@ -195,7 +195,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     ]
                 ],
 
-                // 256 Colors Palette
+            // 256 Colors Palette
                 PALETTE_COLORS;
 
             function Ansi_Up() {
@@ -857,9 +857,9 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 }
                                 $scope.strport = $scope.strport.replace(/\,$/, "");
                                 $scope.firstPort = '';
-                                if($scope.strport.split(',').length>1){
+                                if ($scope.strport.split(',').length > 1) {
                                     $scope.firstPort = $scope.strport.split(',')[0];
-                                }else{
+                                } else {
                                     $scope.firstPort = $scope.strport
                                 }
 
@@ -2012,7 +2012,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             Cookie.set('df_access_token', arrstr, 23 * 3600 * 1000);
 
                             Cookie.set('loginuser', credentials.username, 10 * 365 * 24 * 3600 * 1000);
-                           
+
                             //console.log(Cookie.get('df_access_token'));
 
                             Cookie.set('region', credentials.region, 24 * 3600 * 1000);
@@ -2190,7 +2190,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             }
         }])
         .service('quotaInfo', ['$uibModal', function ($uibModal) {
-            this.open = function (name,quota) {
+            this.open = function (name, quota) {
                 return $uibModal.open({
                     backdrop: 'static',
                     templateUrl: 'pub/tpl/quotaInfo.html',
@@ -2206,116 +2206,131 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             };
         }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', 'GLOBAL',
-            function ($rootScope, $q, AUTH_EVENTS, Cookie,GLOBAL) {
-            var CODE_MAPPING = {
-                401: AUTH_EVENTS.loginNeeded,
-                403: AUTH_EVENTS.httpForbidden,
-                419: AUTH_EVENTS.loginNeeded,
-                440: AUTH_EVENTS.loginNeeded
-            };
-            return {
-                request: function (config) {
-                    //console.log('config', config);
-                    //console.log('/^\.\/signin/.test(config.url)', /^\.\/signin/.test(config.url));
+            function ($rootScope, $q, AUTH_EVENTS, Cookie, GLOBAL) {
+                var CODE_MAPPING = {
+                    401: AUTH_EVENTS.loginNeeded,
+                    403: AUTH_EVENTS.httpForbidden,
+                    419: AUTH_EVENTS.loginNeeded,
+                    440: AUTH_EVENTS.loginNeeded
+                };
 
-                    if (/^\/login/.test(config.url)) {
-                        return config;
+                function checkToken(res) {
+                    // console.log(res,res.headers(),res.config.method,res.config.url)
+                    /**
+                     * token 失效302重定向
+                     * 拦截返回体中是pass门户首页的情况，重新发起token校验
+                     */
+                    if (res && res.headers()['content-type'] && res.data) {
+                        if (res.headers()['content-type'].indexOf('text/html') != -1 && res.data.indexOf('<title>中国移动集中化大数据平台-登陆</title>') != -1) {
+                            location.reload(true);
+                        }
                     }
-                    if (/^\/signin/.test(config.url)) {
-                        return config;
-                    }
-                    if (/^\.\/signin/.test(config.url)) {
-                        return config;
-                    }
-                    //console.log('config.url', config);
-                    //$rootScope.region=
-                    var tokens = Cookie.get('df_access_token');
-                    var regions = Cookie.get('region');
-                    var cluster = Cookie.get('cluster');
-                    var token = '';
-                    var clusterip = '';
+                }
 
-                    //console.log(GLOBAL);
-                    if (cluster && cluster === 'cn-north-1') {
-                        clusterip=GLOBAL.api_server_addr
-                    }else if (cluster && cluster === 'cn-north-2'){
-                        clusterip=GLOBAL.api_sbnanji_addr
-                    }else {
-                        clusterip=GLOBAL.api_server_addr
-                    }
-                    //console.log('clusterip', clusterip);
-                    if (tokens && regions) {
-                        var tokenarr = tokens.split(',');
-                        var region = regions.split('-')[2];
-                        //if (/^\/lapi\/v1\/orgs/.test(config.url)) {
-                        //    console.log(config.url);
-                        //}
+                return {
+                    request: function (config) {
+                        //console.log('config', config);
+                        //console.log('/^\.\/signin/.test(config.url)', /^\.\/signin/.test(config.url));
 
-                        if (/^\/lapi\/v1\/orgs/.test(config.url) || /^\/oapi/.test(config.url) || /^\/api/.test(config.url) || /^\/payment/.test(config.url) || /^\/v1\/repos/.test(config.url)) {
+                        if (/^\/login/.test(config.url)) {
+                            return config;
+                        }
+                        if (/^\/signin/.test(config.url)) {
+                            return config;
+                        }
+                        if (/^\.\/signin/.test(config.url)) {
+                            return config;
+                        }
+                        //console.log('config.url', config);
+                        //$rootScope.region=
+                        var tokens = Cookie.get('df_access_token');
+                        var regions = Cookie.get('region');
+                        var cluster = Cookie.get('cluster');
+                        var token = '';
+                        var clusterip = '';
 
-                            token = tokenarr[region - 1];
+                        //console.log(GLOBAL);
+                        if (cluster && cluster === 'cn-north-1') {
+                            clusterip = GLOBAL.api_server_addr
+                        } else if (cluster && cluster === 'cn-north-2') {
+                            clusterip = GLOBAL.api_sbnanji_addr
                         } else {
-                            token = tokenarr[0];
+                            clusterip = GLOBAL.api_server_addr
+                        }
+                        //console.log('clusterip', clusterip);
+                        if (tokens && regions) {
+                            var tokenarr = tokens.split(',');
+                            var region = regions.split('-')[2];
+                            //if (/^\/lapi\/v1\/orgs/.test(config.url)) {
+                            //    console.log(config.url);
+                            //}
+
+                            if (/^\/lapi\/v1\/orgs/.test(config.url) || /^\/oapi/.test(config.url) || /^\/api/.test(config.url) || /^\/payment/.test(config.url) || /^\/v1\/repos/.test(config.url)) {
+
+                                token = tokenarr[region - 1];
+                            } else {
+                                token = tokenarr[0];
+                            }
+
+                            //console.log('tokenarr', tokenarr[region-1]);
+                        } else {
+                            //console.log('token错误');
+                        }
+                        //console.log(tokens,token, regions);
+                        // token='DdDo_PP3zwq4X4EUyv0bTQ9CntljNkP3laQ1efp4K8Y'
+                        if (config.headers && token) {
+                            //console.log('window.location.pathname', window.location);
+                            config.headers["Authorization"] = "Bearer " + token;
+
+                            //config.headers["Sso"] = window.location.href;
+                        }
+                        if (config.headers) {
+                            //console.log('window.location.pathname', window.location);
+                            config.headers["cluster"] = clusterip;
+                            console.log('config', config);
+                            //config.headers["Sso"] = window.location.href;
+                        }
+                        if (/^\.\/hawkular/.test(config.url)) {
+                            //console.log('config.url', config.url);
+                            config.headers["Content-Type"] = "application/json";
+                            config.headers["Hawkular-Tenant"] = $rootScope.namespace;
+                        }
+                        if (/^\/hawkular/.test(config.url)) {
+                            //console.log('config.url', config.url);
+                            config.headers["Content-Type"] = "application/json";
+                            config.headers["Hawkular-Tenant"] = $rootScope.namespace;
+                        }
+                        if (/^\/registry/.test(config.url)) {
+                            var Auth = localStorage.getItem("Auth");
+                            config.headers["Authorization"] = "Basic " + Auth;
+                        }
+                        if (config.method == 'PATCH') {
+                            config.headers["Content-Type"] = "application/merge-patch+json";
                         }
 
-                        //console.log('tokenarr', tokenarr[region-1]);
-                    } else {
-                        //console.log('token错误');
+                        $rootScope.loading = true;
+                        return config
+                    },
+                    requestError: function (rejection) {
+                        $rootScope.loading = false;
+                        return $q.reject(rejection);
+                    },
+                    response: function (res) {
+                        checkToken(res)
+                        //$rootScope.loading = false;
+                        return res;
+                    },
+                    responseError: function (response) {
+                        //alert(11)
+                        $rootScope.loading = false;
+                        var val = CODE_MAPPING[response.status];
+                        if (val) {
+                            $rootScope.$broadcast(val, response);
+                        }
+                        return $q.reject(response);
                     }
-                    //console.log(tokens,token, regions);
-                    // token='DdDo_PP3zwq4X4EUyv0bTQ9CntljNkP3laQ1efp4K8Y'
-                    if (config.headers && token) {
-                        //console.log('window.location.pathname', window.location);
-                        config.headers["Authorization"] = "Bearer " + token;
-
-                        //config.headers["Sso"] = window.location.href;
-                    }
-                    if (config.headers) {
-                        //console.log('window.location.pathname', window.location);
-                        config.headers["cluster"] = clusterip;
-                        console.log('config', config);
-                        //config.headers["Sso"] = window.location.href;
-                    }
-                    if (/^\.\/hawkular/.test(config.url)) {
-                        //console.log('config.url', config.url);
-                        config.headers["Content-Type"] = "application/json";
-                        config.headers["Hawkular-Tenant"] = $rootScope.namespace;
-                    }
-                    if (/^\/hawkular/.test(config.url)) {
-                        //console.log('config.url', config.url);
-                        config.headers["Content-Type"] = "application/json";
-                        config.headers["Hawkular-Tenant"] = $rootScope.namespace;
-                    }
-                    if (/^\/registry/.test(config.url)) {
-                        var Auth = localStorage.getItem("Auth");
-                        config.headers["Authorization"] = "Basic " + Auth;
-                    }
-                    if (config.method == 'PATCH') {
-                        config.headers["Content-Type"] = "application/merge-patch+json";
-                    }
-
-                    $rootScope.loading = true;
-                    return config
-                },
-                requestError: function (rejection) {
-                    $rootScope.loading = false;
-                    return $q.reject(rejection);
-                },
-                response: function (res) {
-                    $rootScope.loading = false;
-                    return res;
-                },
-                responseError: function (response) {
-                    //alert(11)
-                    $rootScope.loading = false;
-                    var val = CODE_MAPPING[response.status];
-                    if (val) {
-                        $rootScope.$broadcast(val, response);
-                    }
-                    return $q.reject(response);
-                }
-            };
-        }])
+                };
+            }])
         .factory("ConversionService", function () {
             var bytesToMiB = function (value) {
                 if (!value) {
