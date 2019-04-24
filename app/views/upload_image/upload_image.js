@@ -9,6 +9,17 @@ angular.module('home.uploadimage', [{
             var host = '';
             var tokens = Cookie.get('df_access_token');
             var tokenarr = tokens.split(',');
+            var cluster = Cookie.get('cluster');
+            var uploadip =''
+            if (cluster && cluster === 'cn-north-1') {
+                uploadip = GLOBAL.uploadimageHaIp;
+
+            } else if (cluster && cluster === 'cn-north-2') {
+                uploadip = GLOBAL.uploadimageHuIp
+
+            } else {
+                uploadip = GLOBAL.uploadimageHaIp
+            }
             $scope.file = {
                 data: ''
             };
@@ -79,7 +90,7 @@ angular.module('home.uploadimage', [{
                 Upload.upload({
                     url: host + '/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag+'?secret='+md5+ '&total=' + file.size+'&uuid=' + uuid,
                     data: {file: file, 'total': file.size},
-                    headers: {'Authorization': "Bearer " + tokenarr[0]},
+                    headers: {'Authorization': "Bearer " + tokenarr[0],'ImageAddress':uploadip},
                     resumeSizeUrl: host + '/uploadimage/' + $rootScope.namespace + '/uuid?secret=' + md5,
                     resumeSizeResponseReader: function (data) {
                         //console.log('data', data);
