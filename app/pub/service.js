@@ -2238,9 +2238,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         if (/^\/signin/.test(config.url)) {
                             return config;
                         }
-                        if (/^\.\/signin/.test(config.url)) {
-                            return config;
-                        }
+
                         //console.log('config.url', config);
                         //$rootScope.region=
                         var tokens = Cookie.get('df_access_token');
@@ -2248,13 +2246,17 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         var cluster = Cookie.get('cluster');
                         var token = '';
                         var clusterip = '';
+                        var hawkularIp = '';
 
                         //console.log(GLOBAL);
                         if (cluster && cluster === 'cn-north-1') {
-                            clusterip = GLOBAL.api_server_addr
+                            clusterip = GLOBAL.api_server_addr;
+                            hawkularIp=GLOBAL.hawkularHaIp
                         } else if (cluster && cluster === 'cn-north-2') {
                             clusterip = GLOBAL.api_sbnanji_addr
+                            hawkularIp=GLOBAL.hawkularHuIp
                         } else {
+                            hawkularIp=GLOBAL.hawkularHaIp
                             clusterip = GLOBAL.api_server_addr
                         }
                         //console.log('clusterip', clusterip);
@@ -2287,19 +2289,17 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         if (config.headers) {
                             //console.log('window.location.pathname', window.location);
                             config.headers["cluster"] = clusterip;
-                            console.log('config', config);
+                            //console.log('config', config);
                             //config.headers["Sso"] = window.location.href;
-                        }
-                        if (/^\.\/hawkular/.test(config.url)) {
-                            //console.log('config.url', config.url);
-                            config.headers["Content-Type"] = "application/json";
-                            config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                         }
                         if (/^\/hawkular/.test(config.url)) {
                             //console.log('config.url', config.url);
                             config.headers["Content-Type"] = "application/json";
                             config.headers["Hawkular-Tenant"] = $rootScope.namespace;
+
+                            config.headers["Hawkularurl"] = hawkularIp;
                         }
+
                         if (/^\/registry/.test(config.url)) {
                             var Auth = localStorage.getItem("Auth");
                             config.headers["Authorization"] = "Basic " + Auth;

@@ -17,6 +17,10 @@ sed -i 's/<REGISTRY_PUBLIC_ADDR>/'$REGISTRY_PUBLIC_ADDR'/g'  /datafoundry/dist/a
 sed -i 's/<REGISTRY_PRIVATE_ADDR>/'$REGISTRY_PRIVATE_ADDR'/g'  /datafoundry/dist/app.js
 sed -i 's/<INTERNAL_REGISTRY_ADDR>/'$INTERNAL_REGISTRY_ADDR'/g'  /datafoundry/dist/app.js
 
+
+sed -i 's/<HAWKULAR-HA-ADDR>/'$HAWKULAR-HA-ADDR'/g'  /datafoundry/dist/app.js
+sed -i 's/<HAWKULAR-HU-ADDR>/'$HAWKULAR-HU-ADDR'/g'  /datafoundry/dist/app.js
+
 sed -i 's/<API_SERVER_ADDR>/'$API_SERVER_ADDR'/g'  /datafoundry/dist/app.js
 sed -i 's/<API_SBNANJI_ADDR>/'$API_SBNANJI_ADDR'/g'  /datafoundry/dist/app.js
 

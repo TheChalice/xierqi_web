@@ -106,8 +106,7 @@ define([
             usercenter_url: '<USER_CENTER_URL>',
 
             smallbell_url: '<SMALL_BELL_URL>',
-
-            //service_url: '.lo.dataos.io',
+        //service_url: '.lo.dataos.io',
             service_url: '<ROUTER_DOMAIN_SUFFIX>',
 
             //internal_registry:'docker-registry.default.svc:5000',
@@ -116,6 +115,15 @@ define([
             common_url: '<REGISTRY_PUBLIC_ADDR>',
             //common_url:'registry.dataos.io',
             private_url: '<REGISTRY_PRIVATE_ADDR>',
+
+            hawkularHaIp: 'hawkular-metrics.lo.dataos.io',
+            //hawkularHaIp: '<HAWKULAR-HA-ADDR>',
+            hawkularHuIp: 'hawkular-metrics.lo.dataos.io',
+            //hawkularHuIp: '<HAWKULAR-HU-ADDR>',
+            uploadimageHaIp: 'docker-registry-default.lo.dataos.io',
+            //uploadimageHaIp: '<UPLOAD-HA-ADDR>',
+            uploadimageHuIp: 'docker-registry-default.lo.dataos.io',
+            //uploadimageHuIp: '<UPLOAD-HU-ADDR>',
             //private_url: 'aaaabbb'
             api_server_addr: '<API_SERVER_ADDR>',
             //common_url:'registry.dataos.io',

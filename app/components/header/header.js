@@ -29,7 +29,13 @@ angular.module("console.header", [{
                         );
                     })
 
-                    $scope.clusterlist=[{name:'呼和浩特中心'},{name:'哈尔滨中心'}];
+                    $scope.clusterlist=[{
+                        name:'呼和浩特中心',
+
+                    },{
+                        name:'哈尔滨中心',
+                        
+                    }];
 
                     if (Cookie.get('checkedcluster')) {
                         $scope.checkedcluster=Cookie.get('checkedcluster')
