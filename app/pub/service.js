@@ -2234,6 +2234,10 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         config.headers["Content-Type"] = "application/json";
                         config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                     }
+                    if (/^\/ssoapi/.test(config.url)) {
+                        //console.log('config.url', config.url);
+                        config.headers["ssotoken"] = Cookie.get('ssotoken');
+                    }
                     if (/^\/registry/.test(config.url)) {
                         var Auth = localStorage.getItem("Auth");
                         config.headers["Authorization"] = "Basic " + Auth;

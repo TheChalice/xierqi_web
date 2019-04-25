@@ -1,7 +1,7 @@
 'use strict';
 angular.module('home.blank', [])
-    .controller('blankCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','creatproject',
-        function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,creatproject) {
+    .controller('blankCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','creatproject','$location','ssotokenwap',
+        function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,creatproject,$location,ssotokenwap) {
             console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
             function loadProject(name, callback) {
                 // $log.info("load project");
@@ -14,9 +14,14 @@ angular.module('home.blank', [])
                 });
             };
             console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
+            console.log('$location', $location.search().token);
+            var token = $location.search().token;
+            Cookie.set('ssotoken', token, 23 * 3600 * 1000);
+
+
             if (GLOBAL.sso_switch === 'true') {
 
-                sessiontoken.get(function (data) {
+                ssotokenwap.get(function (data) {
                     //console.log('data.access_token', data.access_token+','+data.access_token);
                     Cookie.set('df_access_token', data.access_token+','+data.access_token, 23 * 3600 * 1000);
                     Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);

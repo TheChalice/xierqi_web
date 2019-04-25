@@ -86,6 +86,7 @@ define([
         host_hawkular: '/hawkular/metrics',
         host_wss: '/ws/oapi/v1',
         host_wss_k8s: '/ws/api/v1',
+        sso_api: '/ssoapi/v1',
         login_uri: '/login',
         signin_uri: '/signin',
         //host_webhooks: 'https://lab.new.dataos.io',
@@ -96,6 +97,7 @@ define([
         internal_registry: '<INTERNAL_REGISTRY_ADDR>',
         //service_url:'.cloud.new.dataos.io',
         common_url: '<REGISTRY_PUBLIC_ADDR>',
+        sso_switch:'true',
         private_url: '<REGISTRY_PRIVATE_ADDR>'
            // common_url:'registry.dataos.io',
            // private_url:'registry.dataos.io'

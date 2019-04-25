@@ -1083,4 +1083,15 @@ define([
             }, { create: { method: 'POST' }});
             return tempipline;
         }])
+        .factory('ssotokenwap', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var ssotokenwap = $resource(GLOBAL.sso_api + '/tokenswap', {
+            }, { create: { method: 'POST' }});
+            return ssotokenwap;
+        }])
+        .factory('processedtemplates', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var tempipline = $resource(GLOBAL.host + '/namespaces/:namespace/processedtemplates', {
+                namespaces: '@namespace'
+            }, { create: { method: 'POST' }});
+            return tempipline;
+        }])
 });

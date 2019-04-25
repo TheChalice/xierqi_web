@@ -117,6 +117,16 @@ define([
                         }]
                     }
                 })
+                .state('blank', {
+                    url: '/blank',
+                    templateUrl: 'views/blank/blank.html',
+                    controller: 'blankCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/blank/blank.js')
+                        }]
+                    }
+                })
                 .state('regist', {
                     url: '/regist',
                     templateUrl: 'views/regist/regist.html',
