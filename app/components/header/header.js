@@ -9,8 +9,8 @@ angular.module("console.header", [{
         restrict: 'EA',
         replace: true,
         templateUrl: 'components/header/header.html',
-        controller: ['GLOBAL','$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-            function(GLOBAL,$timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+        controller: ['GLOBAL','$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams','ssotokenlogout',
+            function(GLOBAL,$timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams,ssotokenlogout) {
                 ///////分区
                 if (navigator.userAgent.indexOf("Firefox") > 0) {
                     $('#testjt').unbind('DOMMouseScroll');
@@ -22,30 +22,12 @@ angular.module("console.header", [{
                         }
                     })
                 }
-                //$scope.curregion = $rootScope.region;
-                //console.log('$rootScope.user',$rootScope.user);
-                //console.log('$rootScope.namespace',$rootScope.namespace);
-                //if ($rootScope.user.metadata.name) {
-                //
-                //}
-                //$scope.checkregion = function (res, id) {
-                //    $scope.curregion = res;
-                //    $rootScope.namespace=$rootScope.user.metadata.name
-                //    Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
-                //    $rootScope.region = id
-                //    Cookie.set('region', id, 10 * 365 * 24 * 3600 * 1000);
+
                 $scope.nolohout=false;
-                if (GLOBAL.sso_switch === 'true') {
-                    $scope.nolohout=true;
-                }
-                //   // console.log($state.current.name);
-                //    if ($state.current.name === 'console.dashboard') {
-                //        $state.reload();
-                //    } else {
-                //        $state.go("console.dashboard", { namespace: $rootScope.namespace });
-                //    }
-                //    //$state.reload();
+                //if (GLOBAL.sso_switch === 'true') {
+                //    $scope.nolohout=true;
                 //}
+
                 $scope.$watch('namespace', function(n, o) {
                     if (n === o) {
                         return
@@ -117,17 +99,7 @@ angular.module("console.header", [{
 
                 loadProject()
 
-                //regions.query({}, function (data) {
-                //    //console.log('regions', data);
-                //    $scope.regions = data;
-                //    $scope.copyregions = angular.copy(data);
-                //    angular.forEach(data, function (region, i) {
-                //        if (region.identification === $rootScope.region) {
-                //            $scope.curregion = region.region_describe;
-                //        }
-                //
-                //    })
-                //})
+
 
                 $scope.$watch('curregion', function(n, o) {
                         if (n === o) {
@@ -147,137 +119,10 @@ angular.module("console.header", [{
                             $scope.regions = arr;
                         }
                     })
-                    //$scope.regionlist = [
-                    //    {regionname : '一区一区'},
-                    //    {regionname : '二区二区'}
-                    //]
 
 
-                //if ($state.params.useorg) {
-                //    $http({
-                //        url: '/lapi/orgs/' + $state.params.useorg,
-                //        method: 'GET'
-                //    }).success(function (data, header, config, status, orgid) {
-                //        //alert(data.name)
-                //        $scope.checked = data.name;
-                //    }).error(function (data, header, config, status) {
-                //    });
-                //
-                //}
-
-                //$scope.checked = '';
-
-                //if($rootScope.delOrgs){
-                //    $http({
-                //        url:'/lapi/orgs/'+$state.params.useorg,
-                //        method:'GET'
-                //    }).success(function(data,header,config,status,orgid){
-                //        $scope.checked = data.name;
-                //    }).error(function(data,header,config,status){
-                //    });
-                //}
-
-                //$scope.$watch('delOrgs', function (n, o) {
-                //    if (n == o) {
-                //        return;
-                //    }
-                //    if (n) {
-                //        //alert()
-                //        $scope.checked = $rootScope.user.metadata.name;
-                //        $http({
-                //            url: '/lapi/orgs',
-                //            method: 'GET'
-                //        }).success(function (data, header, config, status, orgid) {
-                //            $scope.userorgs = data.orgnazitions;
-                //            $rootScope.delOrgs = false;
-                //        }).error(function (data, header, config, status) {
-                //        });
-                //    } else {
-                //        //$rootScope.isorg = false;
-                //    }
-                //})
-                //$scope.$watch('$state.params.useorg', function (n, o) {
-                //    if (n == o) {
-                //        return;
-                //    }
-                //    if ($state.params.useorg) {
-                //        //$rootScope.isorg = true;
-                //        $scope.neworgid = $state.params.useorg
-                //    } else {
-                //        //$rootScope.isorg = false;
-                //    }
-                //})
-                //$rootScope.isorg = false;
-                //$scope.$watch('namespace', function (n, o) {
-                //    //console.log('new', n);
-                //    if (n == o) {
-                //        return
-                //    }
-                //    if (n.indexOf('org') == -1) {
-                //        $rootScope.isorg = false;
-                //        $http({
-                //            url: '/lapi/inbox_stat',
-                //            method: 'GET',
-                //        }).success(function (res) {
-                //            //console.log("test the inbox stat", res);
-                //            if (res.data == null) {
-                //                res.data = {};
-                //            }
-                //            if (res.data.sitenotify || res.data.accountms || res.data.alert) {
-                //                $scope.isshow = true;
-                //            } else {
-                //                $scope.isshow = false;
-                //            }
-                //            ;
-                //        }).error(function (data) {
-                //            //console.log("Couldn't get inbox message", data)
-                //        });
-                //        $scope.timer = setInterval(function () {
-                //            $http({
-                //                url: '/lapi/inbox_stat',
-                //                method: 'GET',
-                //            }).success(function (res) {
-                //                //console.log("test the inbox stat", res);
-                //                if (res.data == null) {
-                //                    res.data = {};
-                //                }
-                //                if (res.data.sitenotify || res.data.accountms || res.data.alert) {
-                //                    $scope.isshow = true;
-                //                } else {
-                //                    $scope.isshow = false;
-                //                }
-                //                ;
-                //            }).error(function (data) {
-                //                //console.log("Couldn't get inbox message", data)
-                //            });
-                //        }, 1000000)
-                //    } else {
-                //        clearInterval($scope.timer);
-                //        $rootScope.isorg = true;
-                //    }
-                //
-                //
-                //});
-                //$scope.$on('$destroy', function () {
-                //    clearInterval($scope.timer);
-                //});
-
-
-                //account.get({
-                //    namespace: $rootScope.namespace,
-                //    region: $rootScope.region,
-                //    status: "consuming"
-                //}, function (data) {
-                //    //console.log('套餐', data);
-                //    //$rootScope.payment=data;
-                //    if (data.purchased) {
                 $scope.cancreatorg = true
-                    //跳转dashboard
-                    //    } else {
-                    //        $scope.cancreatorg = false
-                    //        //跳转购买套餐
-                    //    }
-                    //})
+
 
                 $scope.createOrg = function() {
                     Addmodal.open('创建组织', '组织名称', '', '', 'org').then(function(res) {
@@ -418,15 +263,32 @@ angular.module("console.header", [{
                 $rootScope.huancun = {}
 
                 $scope.logout = function() {
-                    Cookie.clear('df_access_token');
-                    Cookie.clear('namespace');
-                    Cookie.clear('region');
-                    $rootScope.region = '';
-                    $scope.checked = '';
-                    $rootScope.user = null;
-                    $rootScope.namespace = "";
-                    //clearInterval($scope.timer);
-                    $state.go('login');
+                    if (GLOBAL.sso_switch === 'true') {
+                        //$scope.nolohout=true;
+                        ssotokenlogout.get(function (data) {
+                            Cookie.clear('df_access_token');
+                            Cookie.clear('Ssotoken');
+                            Cookie.clear('namespace');
+                            Cookie.clear('region');
+                            $rootScope.region = '';
+                            $scope.checked = '';
+                            $rootScope.user = null;
+                            window.location.href= GLOBAL.logout_url;
+                        })
+                    }else {
+                        Cookie.clear('df_access_token');
+                        Cookie.clear('Ssotoken');
+                        Cookie.clear('namespace');
+                        Cookie.clear('region');
+                        $rootScope.region = '';
+                        $scope.checked = '';
+                        $rootScope.user = null;
+
+                        $rootScope.namespace = "";
+                        //clearInterval($scope.timer);
+                        $state.go('login');
+                    }
+
 
                 };
                 $scope.change = false;

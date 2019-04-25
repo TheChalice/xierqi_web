@@ -97,8 +97,11 @@ define([
         internal_registry: '<INTERNAL_REGISTRY_ADDR>',
         //service_url:'.cloud.new.dataos.io',
         common_url: '<REGISTRY_PUBLIC_ADDR>',
-        sso_switch:'true',
-        private_url: '<REGISTRY_PRIVATE_ADDR>'
+        sso_switch:'<SSO_SWITCH>',
+        //sso_switch:'true',
+        private_url: '<REGISTRY_PRIVATE_ADDR>',
+        //logout_url: 'http://192.168.11.136:3011/portal/login/'
+        logout_url: '<LOGOUT_URL>'
            // common_url:'registry.dataos.io',
            // private_url:'registry.dataos.io'
 

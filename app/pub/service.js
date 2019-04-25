@@ -2236,7 +2236,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     }
                     if (/^\/ssoapi/.test(config.url)) {
                         //console.log('config.url', config.url);
-                        config.headers["ssotoken"] = Cookie.get('ssotoken');
+                        config.headers["Ssotoken"] = Cookie.get('ssotoken');
                     }
                     if (/^\/registry/.test(config.url)) {
                         var Auth = localStorage.getItem("Auth");

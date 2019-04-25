@@ -22,6 +22,8 @@ sed -i 's/<INTERNAL_REGISTRY_ADDR>/'$INTERNAL_REGISTRY_ADDR'/g'  /datafoundry/di
 sed -i 's~<WEBHOOK_PREFIX>~'$WEBHOOK_PREFIX'~g'  /datafoundry/dist/app.js
 sed -i 's~<SSO_SWITCH>~'$SSO_SWITCH'~g'  /datafoundry/dist/app.js
 
+sed -i 's~<LOGOUT_URL>~'$LOGOUT_URL'~g'  /datafoundry/dist/app.js
+
 
 sed -i 's/<redis_host>/'$REDIS_HOST'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<redis_port>/'$REDIS_PORT'/g' /usr/local/openresty/nginx/conf/nginx.conf

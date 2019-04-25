@@ -1088,6 +1088,11 @@ define([
             }, { create: { method: 'POST' }});
             return ssotokenwap;
         }])
+        .factory('ssotokenlogout', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var ssotokenlogout = $resource(GLOBAL.sso_api + '/logout', {
+            }, { create: { method: 'POST' }});
+            return ssotokenlogout;
+        }])
         .factory('processedtemplates', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var tempipline = $resource(GLOBAL.host + '/namespaces/:namespace/processedtemplates', {
                 namespaces: '@namespace'
