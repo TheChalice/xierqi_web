@@ -3053,45 +3053,21 @@ define([
                 };
                 $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                     $rootScope.transfering = true;
-                    //console.log('toState.name', toState.name);
-
-
                 });
 
                 $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams) {
                     $rootScope.transfering = true;
-                    //console.log('toState.nameerr', toState.name);
                     if (!Cookie.get('newState')) {
                         Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
                         $rootScope.newState = toState.name
                     }
-
-                    //console.log("Cookie.get('newState')err", Cookie.get('newState'))
-
                     if (Cookie.get('newState') !== toState.name) {
                         Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
                         $rootScope.newState = toState.name
                     }
-                    //console.log("Cookie.get('newState')err", Cookie.get('newState'))
                 });
 
                 $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                    //更新header标题
-                    //if (!Cookie.get('newState')) {
-                    //    Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
-                    //    $rootScope.newState = toState.name
-                    //}
-                    //
-                    //console.log("Cookie.get('newState')app", Cookie.get('newState'));
-                    //console.log("$rootScope.newState", $rootScope.newState);
-                    //
-                    //if (Cookie.get('newState') !== toState.name) {
-                    //    Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
-                    //    $rootScope.newState = toState.name
-                    //}
-                    //console.log("Cookie.get('newState')app", Cookie.get('newState'));
-                    //$rootScope.newState = toState.name
-                    //Cookie.get('newState')!==
                     if (navigator.userAgent.indexOf("Firefox") > 0) {
                         // console.log('dasd');
                         $(document).unbind('DOMMouseScroll');
@@ -3124,7 +3100,6 @@ define([
                     }else {
                         $rootScope.isActive=false
                     }
-
                     if (toState.name !== "home.index") {
                         $('html').css('overflow', 'auto');
                         $('.foot_main').css('display', 'block');
@@ -3179,7 +3154,6 @@ define([
 
 
                     }
-                    //console.log("Cookie.get('namespace')",Cookie.get('namespace'));
                     var namespace = Cookie.get('namespace')
                     $rootScope.app = [
                         {name: '部署镜像', url: 'console.deployments@' + namespace, stateUrl: null, children: []},
@@ -3202,7 +3176,6 @@ define([
                         {name: '配置卷', url: 'console.resource_configMap@' + namespace, stateUrl: null, children: []},
                         {name: '密钥卷', url: 'console.resource_secret@' + namespace, stateUrl: null, children: []}
                     ];
-
                     $rootScope.dataForTheTree = [
                         // { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard@'+namespace, stateUrl: null, children: [] },
                         {
@@ -3241,13 +3214,7 @@ define([
                         }
                     ];
                     if (toState && toState.name) {
-                        // console.log('toState.name----', toState.name);
                         $rootScope.console.state = toState.name;
-                        //$rootScope.console.class = toState.name;
-
-                        // if (toState.name.indexOf('dashboard') !== -1) {
-                        //     $rootScope.dataForTheTree[0].stateUrl = toState.name
-                        // } else
                         if (toState.name.indexOf('build') !== -1) {
                             $rootScope.dataForTheTree[0].stateUrl = toState.name;
                             $rootScope.console.class='build'
@@ -3259,9 +3226,7 @@ define([
                             $rootScope.imageChild[1].stateUrl = toState.name;
                             $rootScope.console.class='image'
                         }
-                        // else if (toState.name.indexOf('pipeline') !== -1) {
-                        //     $rootScope.dataForTheTree[3].stateUrl = toState.name;
-                        // }
+
                         else if (toState.name.indexOf('deployment') !== -1 || toState.name.indexOf('quick_deploy') !== -1 || toState.name.indexOf('service_create') !== -1 || toState.name.indexOf('console.rc') !== -1 || toState.name.indexOf('console.rs') !== -1) {
                             $rootScope.app[0].stateUrl = toState.name;
                             $rootScope.console.class='dc';
@@ -3279,9 +3244,7 @@ define([
                             $rootScope.app[3].stateUrl = toState.name;
                             $rootScope.console.class='dc';
                         }
-                        // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
-                        //     $rootScope.dataForTheTree[4].stateUrl = toState.name;
-                        // }
+
                         else if (toState.name.indexOf('_persistentVolume') !== -1) {
                             $rootScope.resources[0].stateUrl = toState.name;
                             $rootScope.console.class='resource';
@@ -3292,18 +3255,9 @@ define([
                             $rootScope.resources[2].stateUrl = toState.name;
                             $rootScope.console.class='resource';
                         }
-                        //console.log('$rootScope.console.class', $rootScope.console.class);
 
                         $rootScope.transfering = false;
                     }
-                    //console.log($("#sidebar-container").hasClass('sider_zx'));
-                    //if ($("#sidebar-container").hasClass("sider_zx")) {
-                    //    alert(1)
-                    //    $(".nav_top_li").addClass("nav_top_toggle");
-                    //}else {
-                    //    $(".nav_top_li").removeClass("nav_top_toggle");
-                    //}
-
                 });
             }
         ]);//api分类
