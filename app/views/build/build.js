@@ -31,8 +31,11 @@ angular.module('console.build', [
                 var skip = (page - 1) * $scope.grid.size;
                 $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
             };
+
             $scope.text = '您还没有代码构建';
+
             $scope.begin_blank=true;
+
             $scope.buildsearch = function (event) {
                 //if (event.keyCode === 13 || event === 'search') {
                 //console.log($scope.grid.txt);
@@ -72,12 +75,14 @@ angular.module('console.build', [
                 }
                 //}
             }
+
             var loadbuildslist= function () {
                 Build.get({ namespace: $rootScope.namespace, region: $rootScope.region }, function (data) {
                     $log.info("builds", data);
                     watchBuilds(data.metadata.resourceVersion);
                 });
             }
+
             function watchBuilds(resourceVersion){
                 Ws.watch({
                     resourceVersion: resourceVersion,
@@ -98,6 +103,7 @@ angular.module('console.build', [
                     //watchBuilds($scope.resourceVersion);
                 });
             }
+
             var updateBuilds = function (data) {
                 //console.log('ws状态', data);
                 if (data.type == 'ERROR') {
@@ -141,6 +147,7 @@ angular.module('console.build', [
 
                 }
             };
+
             loadbuildslist()
             //获取buildConfig列表
             var loadBuildConfigs = function ()  {
@@ -316,7 +323,6 @@ angular.module('console.build', [
                 $state.reload();
             };
 
-
             //开始构建
             $scope.startBuild = function (idx) {
                 var name = $scope.items[idx].metadata.name;
@@ -355,5 +361,6 @@ angular.module('console.build', [
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
+
         }]);
 
