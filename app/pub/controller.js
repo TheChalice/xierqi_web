@@ -8,30 +8,30 @@ define(['angular'], function (angular) {
             $rootScope.console = {};
 
             $rootScope.$on(AUTH_EVENTS.loginNeeded, function () {
-                $log.info(AUTH_EVENTS.loginNeeded);
-                Cookie.clear('namespace');
-                Cookie.clear('df_access_token');
-                Cookie.clear('region');
-                $rootScope.region = '';
-                $rootScope.user = '';
-                $rootScope.namespace = "";
-                console.log("Cookie.get('newState')", Cookie.get('newState'));
-                $state.go('blank',{oldurl:Cookie.get('newState')});
+                //$log.info(AUTH_EVENTS.loginNeeded);
+                //Cookie.clear('namespace');
+                //Cookie.clear('df_access_token');
+                //Cookie.clear('region');
+                //$rootScope.region = '';
+                //$rootScope.user = '';
+                //$rootScope.namespace = "";
+                //console.log("Cookie.get('newState')", Cookie.get('newState'));
+                //$state.go('blank',{oldurl:Cookie.get('newState')});
             });
             $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
                 $log.info(AUTH_EVENTS.loginSuccess);
             });
             $rootScope.$on(AUTH_EVENTS.httpForbidden, function () {
-                $log.info(AUTH_EVENTS.httpForbidden,"to do san.");
-
-                Cookie.clear('namespace');
-                Cookie.clear('df_access_token');
-                Cookie.clear('region');
-                $rootScope.region = '';
-                $rootScope.user = '';
-                $rootScope.namespace = "";
-                console.log("Cookie.get('newState')", Cookie.get('newState'));
-                $state.go('blank',{oldurl:Cookie.get('newState')});
+                //$log.info(AUTH_EVENTS.httpForbidden,"to do san.");
+                //
+                //Cookie.clear('namespace');
+                //Cookie.clear('df_access_token');
+                //Cookie.clear('region');
+                //$rootScope.region = '';
+                //$rootScope.user = '';
+                //$rootScope.namespace = "";
+                //console.log("Cookie.get('newState')", Cookie.get('newState'));
+                //$state.go('blank',{oldurl:Cookie.get('newState')});
             });
         }]);
 });

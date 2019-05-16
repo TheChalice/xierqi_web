@@ -1973,13 +1973,15 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
                         }
                     };
+                    var projectslist=null
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password));
 
                     var loadProject = function (name, callback) {
                         // $log.info("load project");
                         Project.get({region: credentials.region}, function (data) {
+                            projectslist=data
                             callback(name, data);
-                            //console.log("load project success", data);
+                            console.log("load project success", data);
 
                         }, function (res) {
                             $log.info("find project err", res);
@@ -1993,9 +1995,10 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     //    localStorage.setItem('cade',0)
                     //}
                     //localStorage.setItem('codenum','0')
-                    console.log('req', req);
-                    function denglu() {
+                    //console.log('req', req);
 
+                    function denglu() {
+                        console.log('演示测试', req);
                         $http(req).success(function (data) {
                             //var arrstr = data.join(',');
                             var arr = [];
@@ -2023,6 +2026,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
                                 loadProject(credentials.username, function (name, data) {
+                                    console.log('data.items', data.items);
                                     for (var i = 0; i < data.items.length; i++) {
                                         if (data.items[i].metadata.name == name) {
                                             $rootScope.namespace = name;
@@ -2044,6 +2048,11 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                             $rootScope.projects = data.items;
                                         }
                                     }
+                                    if (data.items[0].metadata.name) {
+                                        $rootScope.namespace = data.items[0].metadata.name
+                                    }
+                                    console.log('$rootScope.namespace', $rootScope.namespace);
+                                    Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                                     localStorage.setItem("code", 1);
                                     $rootScope.loginyanzheng = false;
                                     //获取套餐
