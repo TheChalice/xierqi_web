@@ -117,13 +117,13 @@ define([
             private_url: '<REGISTRY_PRIVATE_ADDR>',
 
             //hawkularHaIp: 'hawkular-metrics.lo.dataos.io',
-            hawkularHaIp: '<HAWKULAR-HA-ADDR>',
+            hawkularHaIp: '<HAWKULAR_HA_ADDR>',
             //hawkularHuIp: 'hawkular-metrics.lo.dataos.io',
-            hawkularHuIp: '<HAWKULAR-HU-ADDR>',
+            hawkularHuIp: '<HAWKULAR_HU_ADDR>',
             //uploadimageHaIp: 'docker-registry-default.lo.dataos.io',
-            uploadimageHaIp: '<UPLOAD-HA-ADDR>',
+            uploadimageHaIp: '<UPLOAD_HA_ADDR>',
             //uploadimageHuIp: 'docker-registry-default.lo.dataos.io',
-            uploadimageHuIp: '<UPLOAD-HU-ADDR>',
+            uploadimageHuIp: '<UPLOAD_HU_ADDR>',
             //private_url: 'aaaabbb'
             api_server_addr: '<API_SERVER_ADDR>',
             //common_url:'registry.dataos.io',
