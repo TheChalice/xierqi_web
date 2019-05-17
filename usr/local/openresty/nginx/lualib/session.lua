@@ -10,7 +10,7 @@ local api_server = os.getenv("API_SERVER_ADDR")
 local function sessionToken(username)
     local tokentool = authorize.new()
     local tokencache = tokentool:has_token(username)
-    ngx.log("api_server.",api_server)
+
     if tokencache == ngx.null then
 
         local token = {}
