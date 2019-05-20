@@ -43,23 +43,30 @@ angular.module("console.header", [{
                         $scope.checkedcluster='哈尔滨中心';
                         Cookie.set('checkedcluster', $scope.checkedcluster, 10 * 365 * 24 * 3600 * 1000);
                     }
+
                     $scope.changeCluster= function (name) {
-                        $scope.checkedcluster=name;
-                        Cookie.set('checkedcluster', name, 10 * 365 * 24 * 3600 * 1000);
+
                         if (name === '哈尔滨中心') {
                             sessiontoken.get(function (token) {
                                 //console.log('hatoken', token);
+                                $scope.checkedcluster=name;
+                                Cookie.set('checkedcluster', name, 10 * 365 * 24 * 3600 * 1000);
                                 Cookie.set('cluster', 'cn-north-1', 24 * 3600 * 1000);
                                 Cookie.set('df_access_token', token.access_token+','+token.access_token, 23 * 3600 * 1000);
                                 $state.reload()
+                            }, function (err) {
+                                Toast.open('切换失败，请联系管理员在集群是添加该租户');
                             })
                         }else {
                             hucentersessiontoken.get(function (token) {
                                 //console.log('hutoken', token);
+                                $scope.checkedcluster=name;
+                                Cookie.set('checkedcluster', name, 10 * 365 * 24 * 3600 * 1000);
                                 Cookie.set('cluster', 'cn-north-2', 24 * 3600 * 1000);
                                 Cookie.set('df_access_token', token.access_token+','+token.access_token, 23 * 3600 * 1000);
                                 $state.reload()
-
+                            }, function (err) {
+                                Toast.open('切换失败，请联系管理员在集群是添加该租户');
                             })
                         }
 
