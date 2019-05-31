@@ -76,14 +76,14 @@ define([
                         '&tailLines=1000' +
                         '&limitBytes=10485760' +
                         '&container=' + params.pod +
-                        '&cluster=' + clusterip +
+                        '&Cluster=' + clusterip +
                         '&access_token=' + token;
                 } else if (params.app) {
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
                         '?watch=true' +
                         '&resourceVersion=' + params.resourceVersion +
                         '&labelSelector=' + params.app +
-                        '&cluster=' + clusterip +
+                        '&Cluster=' + clusterip +
                         '&access_token=' + token;
                 } else {
 
@@ -99,7 +99,7 @@ define([
                     if (params.resourceVersion) {
                         url = url + '&resourceVersion=' + params.resourceVersion
                     }
-                    url = url+'&cluster=' + clusterip + '&access_token=' + token;
+                    url = url+'&Cluster=' + clusterip + '&access_token=' + token;
 
                 }
                 if (params.tailLines) {

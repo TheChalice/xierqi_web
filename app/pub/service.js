@@ -2288,7 +2288,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         }
                         if (config.headers) {
                             //console.log('window.location.pathname', window.location);
-                            config.headers["cluster"] = clusterip;
+                            config.headers["Cluster"] = clusterip;
                             //console.log('config', config);
                             //config.headers["Sso"] = window.location.href;
                         }
