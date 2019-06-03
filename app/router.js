@@ -26,6 +26,18 @@ define([
                     },
                     abstract: true
                 })
+                .state('permission', {
+                    url: '/permission',
+                    templateUrl: 'views/permission/permission.html',
+                    controller: 'permissionCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/permission/permission.js')
+                        }],
+                    }
+
+
+                })
                 .state('home.recharge', {
                     url: '/recharge',
                     templateUrl: 'views/home/recharge/recharge.html',

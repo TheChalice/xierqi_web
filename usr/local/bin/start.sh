@@ -26,6 +26,7 @@ sed -i 's/<UPLOAD_HU_ADDR>/'$UPLOAD_HU_ADDR'/g'  /datafoundry/dist/app.js
 
 sed -i 's/<API_SERVER_ADDR>/'$API_SERVER_ADDR'/g'  /datafoundry/dist/app.js
 sed -i 's/<API_SBNANJI_ADDR>/'$API_SBNANJI_ADDR'/g'  /datafoundry/dist/app.js
+sed -i 's/<API_AIPAAS_ADDR>/'$API_AIPAAS_ADDR'/g' /datafoundry/dist/app.js
 
 #prefix includes scheme. / should be instead.
 
@@ -42,6 +43,7 @@ sed -i 's/<redis_hu_port>/'$REDIS_HU_PORT'/g' /usr/local/openresty/nginx/conf/ng
 sed -i 's/<redis_hu_password>/'$REDIS_HU_PASSWORD'/g' /usr/local/openresty/nginx/conf/nginx.conf
 
 sed -i 's/<api_restapi_addr>/'$API_RESTAPI_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
+
 sed -i 's/<api_aipaas_addr>/'$API_AIPAAS_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 
 

@@ -115,7 +115,6 @@ define([
             common_url: '<REGISTRY_PUBLIC_ADDR>',
             //common_url:'registry.dataos.io',
             private_url: '<REGISTRY_PRIVATE_ADDR>',
-
             //hawkularHaIp: 'hawkular-metrics.lo.dataos.io',
             hawkularHaIp: '<HAWKULAR_HA_ADDR>',
             //hawkularHuIp: 'hawkular-metrics.lo.dataos.io',
@@ -127,8 +126,9 @@ define([
             //private_url: 'aaaabbb'
             api_server_addr: '<API_SERVER_ADDR>',
             //common_url:'registry.dataos.io',
-            api_sbnanji_addr: '<API_SBNANJI_ADDR>'
+            api_sbnanji_addr: '<API_SBNANJI_ADDR>',
             //private_url: 'aaaabbb'
+            ai_paas_addr: '<API_AIPAAS_ADDR>'
 
         })
         .constant('AUTH_EVENTS', {
