@@ -55,7 +55,7 @@ angular.module("console.header", [{
                                 Cookie.set('df_access_token', token.access_token+','+token.access_token, 23 * 3600 * 1000);
                                 $state.reload()
                             }, function (err) {
-                                Toast.open('切换失败，请联系管理员在集群是添加该租户');
+                                $state.go('permission')
                             })
                         }else {
                             hucentersessiontoken.get(function (token) {
@@ -66,7 +66,8 @@ angular.module("console.header", [{
                                 Cookie.set('df_access_token', token.access_token+','+token.access_token, 23 * 3600 * 1000);
                                 $state.reload()
                             }, function (err) {
-                                Toast.open('切换失败，请联系管理员在集群是添加该租户');
+
+                                $state.go('permission')
                             })
                         }
 

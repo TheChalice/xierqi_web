@@ -13,8 +13,8 @@ angular.module('home.blank', [])
                     $log.info("find project err", res);
                 });
             };
-            function noAuthorization(name) {
-
+            function noAuthorization() {
+                $state.go('permission')
 
             };
             //console.log('GLOBAL.sso_switch', GLOBAL.sso_switchCookie.get('newState'));
@@ -84,13 +84,19 @@ angular.module('home.blank', [])
                                 //    })
                                 //})
                             }
+                        }, function (err) {
+                            noAuthorization()
                         });
 
 
+                    }, function (err) {
+                        noAuthorization()
                     })
 
                 }, function (err) {
                     
+                }, function (err) {
+                    noAuthorization()
                 })
 
             }else {
